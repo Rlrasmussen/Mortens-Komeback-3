@@ -58,16 +58,22 @@ namespace Mortens_Komeback_3
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+
+            LoadSprites();
+            LoadSoundEffects();
+            LoadMusic();
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            foreach (GameObject gameObject in gameObjects)
+                gameObject.Load();
+
         }
 
 
