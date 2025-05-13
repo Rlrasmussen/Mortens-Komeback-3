@@ -74,7 +74,10 @@ namespace Mortens_Komeback_3
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                gameRunning = false;
                 Exit();
+            }
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -97,6 +100,8 @@ namespace Mortens_Komeback_3
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Draw(_spriteBatch);
+
+            InputHandler.Instance.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
@@ -150,5 +155,29 @@ namespace Mortens_Komeback_3
             }
 
         }
+
+        private void LoadSprites()
+        {
+
+
+
+        }
+
+
+        private void LoadSoundEffects()
+        {
+
+
+
+        }
+
+
+        private void LoadMusic()
+        {
+
+
+
+        }
+
     }
 }
