@@ -20,7 +20,7 @@ namespace Mortens_Komeback_3
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
-        public Dictionary<Sounds, SoundEffect> Sounds = new Dictionary<Sounds, SoundEffect>();
+        public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
         public SpriteFont GameFont;
         private float deltaTime;
@@ -165,7 +165,32 @@ namespace Mortens_Komeback_3
         private void LoadSprites()
         {
 
+            #region Rooms
+            Texture2D[] room1 = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") };
+            Sprites.Add(Roomtype.Single, room1);
 
+            #endregion
+            #region Player
+
+            #endregion
+            #region Enemy
+
+            #endregion
+            #region Items
+
+            #endregion
+            #region Menu
+
+            #endregion
+            #region NPC
+
+            #endregion
+            #region Overlay
+
+            #endregion
+            #region Environment
+
+            #endregion
 
         }
 
@@ -173,7 +198,25 @@ namespace Mortens_Komeback_3
         private void LoadSoundEffects()
         {
 
+            #region Enemy
 
+            Sounds.Add(Sound.GooseSound, Content.Load<SoundEffect>("Sounds\\Enemy\\gooseSound_Short"));
+
+            #endregion
+            #region Environment
+
+            Sounds.Add(Sound.EggSmash, Content.Load<SoundEffect>("Sounds\\Environment\\eggSmashSound"));
+
+            #endregion
+            #region Player
+
+            Sounds.Add(Sound.PlayerDamage, Content.Load<SoundEffect>("Sounds\\Player\\morten_Av"));
+            Sounds.Add(Sound.PlayerHeal, Content.Load<SoundEffect>("Sounds\\Player\\playerHeal"));
+            Sounds.Add(Sound.PlayerShoot, Content.Load<SoundEffect>("Sounds\\Player\\shootSound"));
+            Sounds.Add(Sound.PlayerWalk1, Content.Load<SoundEffect>("Sounds\\Player\\walkSound"));
+            Sounds.Add(Sound.PlayerWalk2, Content.Load<SoundEffect>("Sounds\\Player\\walkSound2"));
+
+            #endregion
 
         }
 
@@ -181,7 +224,9 @@ namespace Mortens_Komeback_3
         private void LoadMusic()
         {
 
+            Music.Add(MusicTrack.Battle, Content.Load<Song>("Music\\battleMusic"));
 
+            Music.Add(MusicTrack.Background, Content.Load<Song>("Music\\bgMusic"));
 
         }
 

@@ -44,12 +44,21 @@ namespace Mortens_Komeback_3
         Cursor
     }
 
-    public enum Sounds
+    public enum Sound
     {
+        GooseSound,
+        EggSmash,
+        PlayerDamage,
+        PlayerHeal,
+        PlayerShoot,
+        PlayerWalk1,
+        PlayerWalk2
     }
 
     public enum MusicTrack
     {
+        Battle,
+        Background
     }
 
     public enum ItemType
@@ -58,6 +67,7 @@ namespace Mortens_Komeback_3
 
     public enum Roomtype
     {
+        Single
     }
 
     public enum NPCType
