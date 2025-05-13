@@ -6,8 +6,22 @@ namespace Mortens_Komeback_3
 {
     public class GameWorld : Game
     {
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private static GameWorld instance;
+
+
+        public static GameWorld Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new GameWorld();
+
+                return instance;
+            }
+        }
 
         public GameWorld()
         {
