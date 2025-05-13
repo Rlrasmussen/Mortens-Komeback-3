@@ -6,7 +6,17 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.State
 {
-    public interface IState <T>
+    public interface IState<T>
     {
+
+
+        public void Enter(T parent);
+
+
+        public void Execute();
+
+
+        public void Exit();
+
     }
 }

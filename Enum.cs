@@ -43,11 +43,11 @@ namespace Mortens_Komeback_3
         Inventory
     }
 
-    public enum SoundType
+    public enum Sounds
     {
     }
 
-    public enum Music
+    public enum MusicTrack
     {
     }
 

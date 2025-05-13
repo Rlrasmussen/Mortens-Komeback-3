@@ -31,7 +31,7 @@ namespace Mortens_Komeback_3
         /// <summary>
         /// Bruges til automatisk fjernelse af objektet
         /// </summary>
-        public bool IsAlive
+        public virtual bool IsAlive
         {
 
             get => isAlive;
@@ -46,16 +46,16 @@ namespace Mortens_Komeback_3
         }
 
 
-        public Texture2D Sprite { get => sprite; protected set => sprite = value; }
+        public virtual Texture2D Sprite { get => sprite; protected set => sprite = value; }
 
 
-        public Vector2 Position { get => position; set => position = value; }
+        public virtual Vector2 Position { get => position; set => position = value; }
 
 
-        public float Rotation { get => rotation; set => rotation = value; }
+        public virtual float Rotation { get => rotation; set => rotation = value; }
 
 
-        public Enum Type { get => type; }
+        public virtual Enum Type { get => type; }
 
 
         public virtual Rectangle CollisionBox

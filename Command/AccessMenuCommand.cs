@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mortens_Komeback_3.Environment
+namespace Mortens_Komeback_3.Command
 {
-    public class Decaration
+    class AccessMenuCommand
     {
     }
 }

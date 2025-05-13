@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.Environment
 {
-    public class Tile
+    public class Decoration
     {
     }
 }

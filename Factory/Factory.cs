@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MortensKomeback3.Factory
+namespace Mortens_Komeback_3.Factory
 {
     public abstract class Factory
     {

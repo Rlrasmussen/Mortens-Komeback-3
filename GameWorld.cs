@@ -16,13 +16,15 @@ namespace Mortens_Komeback_3
         private static GameWorld instance;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Random random;
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
-        public Dictionary<Enum, SoundEffect> Sounds = new Dictionary<Enum, SoundEffect>();
-        public Dictionary<Enum, Song> Music = new Dictionary<Enum, Song>();
+        public Dictionary<Sounds, SoundEffect> Sounds = new Dictionary<Sounds, SoundEffect>();
+        public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
         public SpriteFont GameFont;
         private float deltaTime;
+        private bool gamePaused = false;
 
 
         public static GameWorld Instance
@@ -38,6 +40,9 @@ namespace Mortens_Komeback_3
 
 
         public float DeltaTime { get => deltaTime; }
+
+
+        public Random Random { get => random; }
 
 
         public GameWorld()
@@ -61,10 +66,13 @@ namespace Mortens_Komeback_3
             // TODO: use this.Content to load your game content here
         }
 
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             foreach (GameObject gameObject in gameObjects)
             {
@@ -75,6 +83,7 @@ namespace Mortens_Komeback_3
 
             base.Update(gameTime);
         }
+
 
         protected override void Draw(GameTime gameTime)
         {
