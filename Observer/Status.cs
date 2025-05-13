@@ -8,5 +8,20 @@ namespace Mortens_Komeback_3.Observer
 {
     public class Status
     {
+        #region Fields
+
+        #endregion
+
+        #region Properties
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Method
+
+        #endregion
     }
 }

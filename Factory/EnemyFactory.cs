@@ -8,5 +8,20 @@ namespace Mortens_Komeback_3.Factory
 {
     internal class EnemyFactory
     {
+        #region Fields
+
+        #endregion
+
+        #region Properties
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Method
+
+        #endregion
     }
 }

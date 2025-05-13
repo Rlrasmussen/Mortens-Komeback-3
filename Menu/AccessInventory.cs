@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mortens_Komeback_3
+namespace Mortens_Komeback_3.Menu
 {
-    public class NPC
+    class AccessInventory
     {
         #region Fields
 
