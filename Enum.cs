@@ -8,7 +8,15 @@ namespace Mortens_Komeback_3
 {
     public enum PlayerType
     {
-        Morten
+        Morten,
+        MortenAngriber
+    }
+
+    public enum EnemyType
+    {
+        WalkingGoose,
+        AggroGoose,
+        Goosifer
     }
 
     public enum DoorType
@@ -41,7 +49,14 @@ namespace Mortens_Komeback_3
         GameOver,
         Pause,
         Inventory,
+        Win,
         Cursor
+    }
+
+    public enum OverlayObjects
+    {
+        Heart,
+        Dialog
     }
 
     public enum Sound
@@ -63,6 +78,11 @@ namespace Mortens_Komeback_3
 
     public enum ItemType
     {
+        Key,
+        GeesusBlood,
+        Sling,
+        Sword,
+        WallTurkey
     }
 
     public enum Roomtype
@@ -75,7 +95,8 @@ namespace Mortens_Komeback_3
         CanadaGoose,
         GreyGoose,
         Pope,
-        Monk
+        Monk,
+        Nun
     }
 
     public enum PuzzleType

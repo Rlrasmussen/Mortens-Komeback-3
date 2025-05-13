@@ -166,29 +166,86 @@ namespace Mortens_Komeback_3
         {
 
             #region Rooms
-            Texture2D[] room1 = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") };
-            Sprites.Add(Roomtype.Single, room1);
+
+            Sprites.Add(Roomtype.Single, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
 
             #endregion
             #region Player
 
+            Texture2D[] crusaderWalk = new Texture2D[5];
+            for (int i = 0; i < crusaderWalk.Length; i++)
+            {
+                crusaderWalk[i] = Content.Load<Texture2D>($"Sprites\\Player\\mortenCrusader{i}");
+            }
+            Sprites.Add(PlayerType.Morten, crusaderWalk);
+
+            Texture2D[] crusaderAttack = new Texture2D[11];
+            for (int i = 0; i < crusaderAttack.Length; i++)
+            {
+                crusaderAttack[i] = Content.Load<Texture2D>($"Sprites\\Player\\attack{i}");
+            }
+            Sprites.Add(PlayerType.MortenAngriber, crusaderAttack);
+
             #endregion
             #region Enemy
+
+            Texture2D[] walkingGoose = new Texture2D[8];
+            for (int i = 0; i < walkingGoose.Length; i++)
+            {
+                walkingGoose[i] = Content.Load<Texture2D>($"Sprites\\Enemy\\gooseWalk{i}");
+            }
+            Sprites.Add(EnemyType.WalkingGoose, walkingGoose);
+
+            Texture2D[] aggroGoose = new Texture2D[8];
+            for (int i = 0; i < aggroGoose.Length; i++)
+            {
+                aggroGoose[i] = Content.Load<Texture2D>($"Sprites\\Enemy\\aggro{i}");
+            }
+            Sprites.Add(EnemyType.AggroGoose, aggroGoose);
+
+            Texture2D[] goosifer = new Texture2D[3];
+            for (int i = 0;i < goosifer.Length; i++)
+            {
+                goosifer[i] = Content.Load<Texture2D>($"Sprites\\Enemy\\goosifer{i}");
+            }
+            Sprites.Add(EnemyType.Goosifer, goosifer);
 
             #endregion
             #region Items
 
+            Sprites.Add(AttackType.Egg, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\egg1") });
+            Sprites.Add(ItemType.Key, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\key") });
+            Sprites.Add(ItemType.Sling, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sling") });
+            Sprites.Add(ItemType.WallTurkey, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\wallTurkey") });
+
+            Texture2D[] sword = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sword") };
+            Sprites.Add(MenuType.Cursor, sword);
+            Sprites.Add(ItemType.Sword, sword);
+
             #endregion
             #region Menu
+
+            Sprites.Add(MenuType.Win, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\winScreen") });
+            Sprites.Add(MenuType.GameOver, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\looseScreen") });
 
             #endregion
             #region NPC
 
+            Sprites.Add(NPCType.Monk, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\monkNPCbible") });
+            Sprites.Add(NPCType.Nun, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary") });
+
             #endregion
             #region Overlay
 
+            Sprites.Add(OverlayObjects.Heart, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\heartSprite") });
+            Sprites.Add(OverlayObjects.Dialog, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\talk") });
+
             #endregion
             #region Environment
+
+            Sprites.Add(DoorType.Open, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\doorOpen_shadow") });
+            Sprites.Add(DoorType.Locked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\doorLocked") });
+            Sprites.Add(DoorType.Closed, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\doorClosed_shadow") });
 
             #endregion
 
