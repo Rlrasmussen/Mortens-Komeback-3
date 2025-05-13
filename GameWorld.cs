@@ -62,6 +62,7 @@ namespace Mortens_Komeback_3
             LoadSprites();
             LoadSoundEffects();
             LoadMusic();
+            GameFont = Content.Load<SpriteFont>("mortalKombatFont");
 
             base.Initialize();
         }
