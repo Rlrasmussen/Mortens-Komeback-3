@@ -25,6 +25,7 @@ namespace Mortens_Komeback_3
         public SpriteFont GameFont;
         private float deltaTime;
         private bool gamePaused = false;
+        private bool gameRunning = true;
 
 
         public static GameWorld Instance
@@ -43,6 +44,9 @@ namespace Mortens_Komeback_3
 
 
         public Random Random { get => random; }
+
+
+        public bool GameRunning { get => gameRunning; }
 
 
         public GameWorld()

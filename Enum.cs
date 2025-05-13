@@ -40,7 +40,8 @@ namespace Mortens_Komeback_3
         Start,
         GameOver,
         Pause,
-        Inventory
+        Inventory,
+        Cursor
     }
 
     public enum Sounds
