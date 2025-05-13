@@ -49,7 +49,7 @@ namespace Mortens_Komeback_3
         public bool GameRunning { get => gameRunning; }
 
 
-        public GameWorld()
+        private GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
