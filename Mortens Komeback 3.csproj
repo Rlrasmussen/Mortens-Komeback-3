@@ -24,6 +24,7 @@
     <Folder Include="Content\Sprites\Menu\" />
     <Folder Include="Content\Sprites\Items\" />
     <Folder Include="Content\Sprites\Environment\" />
+    <Folder Include="Content\Sprites\NPC\" />
     <Folder Include="Content\Sprites\Overlay\" />
     <Folder Include="Content\Sprites\Rooms\" />
     <Folder Include="Content\Sprites\Player\" />
