@@ -8,5 +8,20 @@ namespace Mortens_Komeback_3.Collider
 {
     public interface ICollidable
     {
+        #region Fields
+
+        #endregion
+
+        #region Properties
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Method
+
+        #endregion
     }
 }

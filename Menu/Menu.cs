@@ -8,5 +8,20 @@ namespace Mortens_Komeback_3.Menu
 {
     public class Menu
     {
+        #region Fields
+
+        #endregion
+
+        #region Properties
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Method
+
+        #endregion
     }
 }

@@ -8,5 +8,20 @@ namespace Mortens_Komeback_3.Command
 {
     public interface ICommand
     {
+        #region Fields
+
+        #endregion
+
+        #region Properties
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Method
+
+        #endregion
     }
 }
