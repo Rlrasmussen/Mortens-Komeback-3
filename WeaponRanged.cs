@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,9 @@ namespace Mortens_Komeback_3
         #endregion
 
         #region Constructor
+        public WeaponRanged(Enum type, Vector2 spawnPos) : base(type, spawnPos)
+        {
+        }
 
         #endregion
 
