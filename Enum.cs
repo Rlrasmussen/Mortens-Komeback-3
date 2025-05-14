@@ -16,7 +16,7 @@ namespace Mortens_Komeback_3
     {
         WalkingGoose,
         AggroGoose,
-        Goosifer
+        Goosifer //Goosifer needs to be last
     }
 
     public enum DoorType

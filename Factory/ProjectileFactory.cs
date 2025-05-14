@@ -29,7 +29,6 @@ namespace Mortens_Komeback_3.Factory
         }
         #endregion
 
-
         #region Fields
 
         #endregion
@@ -43,6 +42,11 @@ namespace Mortens_Komeback_3.Factory
         #endregion
 
         #region Method
+        /// <summary>
+        /// Creating a projectile at the Players position
+        /// Rikke
+        /// </summary>
+        /// <returns></returns>
         public override Projectile Create()
         {
             return new Projectile(AttackType.Egg, Player.Instance.Position);
