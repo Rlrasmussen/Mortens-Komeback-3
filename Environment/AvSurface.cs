@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.Environment
 {
-    public class AvSurface
+    public class AvSurface : GameObject
     {
         #region Fields
 
@@ -17,6 +18,9 @@ namespace Mortens_Komeback_3.Environment
         #endregion
 
         #region Constructor
+        public AvSurface(Enum type, Vector2 spawnPos) : base(type, spawnPos)
+        {
+        }
 
         #endregion
 
