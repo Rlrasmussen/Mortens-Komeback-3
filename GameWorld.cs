@@ -72,6 +72,11 @@ namespace Mortens_Komeback_3
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            gameObjects.Add(new Environment.Room(Roomtype.PopeRoom, Vector2.Zero));
+            gameObjects.Add(new Environment.Room(Roomtype.Stairs, new Vector2(0, 1000)));
+            gameObjects.Add(new Player(PlayerType.Morten, Vector2.Zero));
+            gameObjects.Add(new Environment.Door(DoorType.Closed, new Vector2(1190,0), DoorDirection.Right));
+
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
 
@@ -101,7 +106,7 @@ namespace Mortens_Komeback_3
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Green);
+            GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(transformMatrix: Camera.Instance.GetTransformation(), samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
 
@@ -168,8 +173,9 @@ namespace Mortens_Komeback_3
 
             #region Rooms
 
-            Sprites.Add(Roomtype.Single, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
-            Sprites.Add(Roomtype.Square, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\square") });
+            Sprites.Add(Roomtype.PopeRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(Roomtype.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\square") });
+            
 
             #endregion
             #region Player

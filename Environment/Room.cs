@@ -20,11 +20,13 @@ namespace Mortens_Komeback_3.Environment
         #region Constructor
         public Room(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
+            scale = 1.5F;
         }
 
         #endregion
 
         #region Method
+
 
         #endregion
     }

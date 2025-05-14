@@ -20,6 +20,7 @@ namespace Mortens_Komeback_3
         #region Constructor
         public Player(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
+            
         }
 
         #endregion

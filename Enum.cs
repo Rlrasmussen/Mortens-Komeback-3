@@ -27,6 +27,15 @@ namespace Mortens_Komeback_3
         Unlocked
     }
 
+    public enum DoorDirection
+    { 
+        Top,
+        Right,
+        Bottom,
+        Left
+
+    }
+
     public enum WeaponType
     {
         Melee,
@@ -87,8 +96,8 @@ namespace Mortens_Komeback_3
 
     public enum Roomtype
     {
-        Single,
-        Square
+        PopeRoom,
+        Stairs
     }
 
     public enum NPCType
