@@ -26,6 +26,8 @@ namespace Mortens_Komeback_3
 
         #region Method
 
+        public abstract void Attack();
+
         #endregion
     }
 }
