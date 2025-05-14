@@ -21,6 +21,8 @@ namespace Mortens_Komeback_3
         private Random random = new Random();
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
+        private HashSet<(GameObject, GameObject)> collisions = new HashSet<(GameObject, GameObject)>();
+        public Dictionary<Location, Vector2> Locations = new Dictionary<Location, Vector2>();
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
@@ -68,6 +70,7 @@ namespace Mortens_Komeback_3
             LoadSoundEffects();
             LoadMusic();
             GameFont = Content.Load<SpriteFont>("mortalKombatFont");
+            AddLocations();
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
 
@@ -170,6 +173,9 @@ namespace Mortens_Komeback_3
                 newGameObjects.Clear();
 
             }
+
+            if (collisions.Count > 0)
+                collisions.Clear();
 
         }
 
@@ -283,6 +289,7 @@ namespace Mortens_Komeback_3
             Sounds.Add(Sound.PlayerShoot, Content.Load<SoundEffect>("Sounds\\Player\\shootSound"));
             Sounds.Add(Sound.PlayerWalk1, Content.Load<SoundEffect>("Sounds\\Player\\walkSound"));
             Sounds.Add(Sound.PlayerWalk2, Content.Load<SoundEffect>("Sounds\\Player\\walkSound2"));
+            Sounds.Add(Sound.PlayerSwordAttack, Content.Load<SoundEffect>("Sounds\\Player\\playerSwordAttack"));
 
             #endregion
 
@@ -298,6 +305,14 @@ namespace Mortens_Komeback_3
 
         }
 
+
+        private void AddLocations()
+        {
+
+            Locations.Add(Location.Spawn, new Vector2(-250, 250));
+
+        }
+
         /// <summary>
         /// Sørger for at tjekke om det primære objekt har en kollision med øvrige objekter
         /// </summary>
@@ -305,12 +320,11 @@ namespace Mortens_Komeback_3
         private void DoCollisionCheck(GameObject gameObject)
         {
 
-            HashSet<(GameObject, GameObject)> collisions = new HashSet<(GameObject, GameObject)>();
 
             foreach (GameObject other in gameObjects)
             {
 
-                if (gameObject == other || collisions.Contains((gameObject, other)) || (gameObject.Type.Equals(typeof(EnemyType)) && other.Type.Equals(typeof(EnemyType))))
+                if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type == other.Type)
                     continue;
 
                 if (gameObject.Type.Equals(typeof(PlayerType)) && other.Type.Equals(typeof(PuzzleType)))

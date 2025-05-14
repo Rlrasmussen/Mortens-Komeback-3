@@ -67,7 +67,8 @@ namespace Mortens_Komeback_3
         PlayerHeal,
         PlayerShoot,
         PlayerWalk1,
-        PlayerWalk2
+        PlayerWalk2,
+        PlayerSwordAttack
     }
 
     public enum MusicTrack
@@ -112,6 +113,11 @@ namespace Mortens_Komeback_3
         Chest,
         Candles,
         Coffin
+    }
+
+    public enum Location
+    {
+        Spawn
     }
 
 }

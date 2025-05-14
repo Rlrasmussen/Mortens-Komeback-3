@@ -38,7 +38,7 @@ namespace Mortens_Komeback_3
             get
             {
                 if (instance == null)
-                    instance = new Player(PlayerType.Morten, Vector2.Zero);
+                    instance = new Player(PlayerType.Morten, GameWorld.Instance.Locations[Location.Spawn]);
 
                 return instance;
             }
@@ -203,6 +203,7 @@ namespace Mortens_Komeback_3
                 CurrentIndex = 0;
                 ElapsedTime = 0;
                 FPS = 30;
+                GameWorld.Instance.Sounds[Sound.PlayerSwordAttack].Play();
             }
 
         }
