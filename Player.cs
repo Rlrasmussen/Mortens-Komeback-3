@@ -18,16 +18,17 @@ namespace Mortens_Komeback_3
         #region Fields
 
         private static Player instance;
-        private Vector2 velocity;
-        private float speed = 300f;
+        private SoundEffect currentWalkSound;
         private Weapon equippedWeapon;
         private List<Weapon> availableWeapons = new List<Weapon>();
-        private float walkTimer;
-        private SoundEffect currentWalkSound;
+        private Vector2 velocity;
+        private float speed = 300f;
+        private float walkTimer = 0.5f;
 
         #endregion
 
         #region Properties
+
 
         public static Player Instance
         {
@@ -40,12 +41,22 @@ namespace Mortens_Komeback_3
             }
         }
 
+
         public Vector2 Velocity { get => velocity; set => velocity = value; }
 
+
         public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
-        public float FPS { get; set; } = 6;
+
+
+        public float FPS { get; set; } = 8;
+
+
         public Texture2D[] Sprites { get; set; }
+
+
         public float ElapsedTime { get; set; }
+
+
         public int CurrentIndex { get; set; }
 
         #endregion
@@ -79,7 +90,7 @@ namespace Mortens_Komeback_3
 
             walkTimer += GameWorld.Instance.DeltaTime;
 
-            if (InputHandler.Instance.Position.X < Position.X)
+            if (InputHandler.Instance.MousePosition.X < Position.X)
                 spriteEffect = SpriteEffects.FlipHorizontally;
             else
                 spriteEffect = SpriteEffects.None;

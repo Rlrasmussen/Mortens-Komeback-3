@@ -67,7 +67,7 @@ namespace Mortens_Komeback_3.Command
         /// <summary>
         /// Used externally for mouse position referrencing
         /// </summary>
-        public Vector2 Position { get => position; }
+        public Vector2 MousePosition { get => position; }
 
         /// <summary>
         /// Handles mouse left-click event and external detection thereof
