@@ -14,7 +14,7 @@ namespace Mortens_Komeback_3
     public class Puzzle : GameObject, ICollidable
     {
         #region Fields
-        private Dictionary<string, Puzzle> puzzlePlaques;
+        private Dictionary<string, Puzzle> puzzlePieces;
         private int spriteIndex;
         private bool solved = false;
 
@@ -33,18 +33,30 @@ namespace Mortens_Komeback_3
         /// <param name="spawnPos"></param>
         public Puzzle(PuzzleType type, Vector2 spawnPos) : base(type, spawnPos)
         {
-            if (type == PuzzleType.OrderPuzzle)
+            switch (type)
             {
-                puzzlePlaques = new Dictionary<string, Puzzle>();
-                puzzlePlaques.Add("plaque1", new Puzzle(PuzzleType.OrderPuzzlePlaque, new Vector2(Position.X - (Sprite.Width / 2) - (GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0].Width / 2), Position.Y)));
-                puzzlePlaques.Add("plaque2", new Puzzle(PuzzleType.OrderPuzzlePlaque, new Vector2((puzzlePlaques["plaque1"].Position.X - GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0].Width), Position.Y)));
-                puzzlePlaques.Add("plaque3", new Puzzle(PuzzleType.OrderPuzzlePlaque, new Vector2((puzzlePlaques["plaque2"].Position.X - GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0].Width), Position.Y)));
-                foreach (var item in puzzlePlaques)
-                {
-                    GameWorld.Instance.SpawnObject(item.Value);
-                    GameWorld.Instance.gamePuzzles.Add(item.Value);
-                }
-                spriteIndex = 0;
+                case PuzzleType.OrderPuzzle:
+                    {
+                        puzzlePieces = new Dictionary<string, Puzzle>();
+                        puzzlePieces.Add("plaque1", new Puzzle(PuzzleType.OrderPuzzlePlaque, new Vector2(Position.X - (Sprite.Width / 2) - (GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0].Width / 2), Position.Y)));
+                        puzzlePieces.Add("plaque2", new Puzzle(PuzzleType.OrderPuzzlePlaque, new Vector2((puzzlePieces["plaque1"].Position.X - GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0].Width), Position.Y)));
+                        puzzlePieces.Add("plaque3", new Puzzle(PuzzleType.OrderPuzzlePlaque, new Vector2((puzzlePieces["plaque2"].Position.X - GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0].Width), Position.Y)));
+                        foreach (var item in puzzlePieces)
+                        {
+                            GameWorld.Instance.SpawnObject(item.Value);
+                            GameWorld.Instance.gamePuzzles.Add(item.Value);
+                        }
+                        spriteIndex = 0;
+                        break;
+                    }
+                case PuzzleType.ShootPuzzle:
+                    {
+                        puzzlePieces = new Dictionary<string, Puzzle>();
+                        break;
+                    }
+                default:
+                    break;
+                    
             }
         }
 
@@ -74,9 +86,9 @@ namespace Mortens_Komeback_3
             if ((PuzzleType)type == PuzzleType.OrderPuzzle)
             {
                 if (
-                puzzlePlaques["plaque1"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0] &&
-                puzzlePlaques["plaque2"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][2] &&
-                puzzlePlaques["plaque3"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][1]
+                puzzlePieces["plaque1"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0] &&
+                puzzlePieces["plaque2"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][2] &&
+                puzzlePieces["plaque3"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][1]
                     )
                 {
                     Solved = true;
@@ -89,7 +101,15 @@ namespace Mortens_Komeback_3
 
         public void OnCollision(ICollidable other)
         {
+            /* 
+             * if(other is Projectile && (PuzzleType)type == PuzzleType.ShootPuzzle)
+             * {
+             * Solved = true;
+             * }
+             * 
 
+
+            */
         }
 
         #endregion
