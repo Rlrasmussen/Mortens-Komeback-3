@@ -333,7 +333,7 @@ namespace Mortens_Komeback_3
                     ) && (
                     other.Type.GetType() == typeof(EnemyType) ||
                     other.Type.GetType() == typeof(PuzzleType)
-                    ))
+                    ) && gameObject is ICollidable && other is ICollidable)
                 {
                     if ((gameObject as ICollidable).CheckCollision(other as ICollidable))
                     {
