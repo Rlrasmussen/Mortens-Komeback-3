@@ -24,6 +24,9 @@ namespace Mortens_Komeback_3
         private Vector2 velocity;
         private float speed = 300f;
         private float walkTimer = 0.5f;
+        private int health;
+        private int maxHealth = 100;
+        private bool attacking = false;
 
         #endregion
 
@@ -39,6 +42,26 @@ namespace Mortens_Komeback_3
 
                 return instance;
             }
+        }
+
+
+        public int Health
+        {
+            get => health;
+            set
+            {
+                if (value <= 0)
+                    IsAlive = false;
+
+                health = value;
+            }
+        }
+
+
+        public override bool IsAlive
+        {
+            get => base.IsAlive;
+            set => base.IsAlive = value;
         }
 
 
@@ -72,17 +95,24 @@ namespace Mortens_Komeback_3
             else
                 Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
 
-            InputHandler.Instance.LeftClickEventHandler += Attack;
-            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(this, new Vector2(-1, 0)));
-            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(this, new Vector2(1, 0)));
-            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(this, new Vector2(0, -1)));
-            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(this, new Vector2(0, 1)));
+            layer = 0.6f;
+
+            AddCommands();
 
         }
 
         #endregion
 
         #region Method
+
+        public override void Load()
+        {
+
+            base.Load();
+
+            health = maxHealth;
+
+        }
 
 
         public override void Update(GameTime gameTime)
@@ -97,11 +127,13 @@ namespace Mortens_Komeback_3
 
             if (velocity != Vector2.Zero)
             {
-                Move();
                 (this as IAnimate).Animate();
+                Move();
                 (this as IPPCollidable).UpdateRectangles();
                 PlayWalkSound();
             }
+            else if (attacking)
+                (this as IAnimate).Animate();
 
             base.Update(gameTime);
 
@@ -123,10 +155,22 @@ namespace Mortens_Komeback_3
         public override void Draw(SpriteBatch spriteBatch)
         {
 
+            Vector2 correction = Vector2.Zero;
+            if (attacking)
+                correction = new Vector2(0, 40);
+
             if (Sprites != null)
-                spriteBatch.Draw(Sprites[CurrentIndex], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+                spriteBatch.Draw(Sprites[CurrentIndex], Position - correction, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             else
                 base.Draw(spriteBatch);
+
+            if (attacking && CurrentIndex >= Sprites.Length - 1 && GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var sprites))
+            {
+                Sprites = sprites;
+                attacking = false;
+                CurrentIndex = 0;
+                ElapsedTime = 0;
+            }
 
         }
 
@@ -136,7 +180,6 @@ namespace Mortens_Komeback_3
 
             switch (other.Type)
             {
-
                 default:
                     break;
             }
@@ -147,13 +190,23 @@ namespace Mortens_Komeback_3
         private void Attack()
         {
 
-            if (!GameWorld.Instance.GamePaused && equippedWeapon != null)
+            if (!GameWorld.Instance.GamePaused && equippedWeapon != null && !attacking)
+            {
                 equippedWeapon.Attack();
+            }
+
+            if (GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) //Skal rykkes ind i samme loop som equippedWeapon.Attack();
+            {
+                Sprites = sprites;
+                attacking = true;
+                CurrentIndex = 0;
+                ElapsedTime = 0;
+            }
 
         }
 
 
-        private void ChangeWeapon(WeaponType weapon)
+        public void ChangeWeapon(WeaponType weapon)
         {
 
             equippedWeapon = availableWeapons.Find(x => (WeaponType)x.Type == weapon);
@@ -177,6 +230,20 @@ namespace Mortens_Komeback_3
                     currentWalkSound = GameWorld.Instance.Sounds[Sound.PlayerWalk2];
                 }
             }
+        }
+
+
+        private void AddCommands()
+        {
+
+            InputHandler.Instance.LeftClickEventHandler += Attack;
+            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(this, new Vector2(-1, 0)));
+            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(this, new Vector2(1, 0)));
+            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(this, new Vector2(0, -1)));
+            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(this, new Vector2(0, 1)));
+            InputHandler.Instance.AddButtonDownCommand(Keys.D1, new ChangeWeaponCommand(this, WeaponType.Melee));
+            InputHandler.Instance.AddButtonDownCommand(Keys.D2, new ChangeWeaponCommand(this, WeaponType.Ranged));
+
         }
 
         #endregion
