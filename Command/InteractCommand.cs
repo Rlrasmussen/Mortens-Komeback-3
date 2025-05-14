@@ -31,7 +31,8 @@ namespace Mortens_Komeback_3.Command
             foreach (Puzzle puzzle in GameWorld.Instance.gamePuzzles)
             {
                 if ((puzzle as ICollidable).CheckCollision(Player.Instance))
-                    Player.Instance.Interact(puzzle);
+                    if ((Player.Instance as IPPCollidable).DoHybridCheck(puzzle.CollisionBox))
+                        Player.Instance.Interact(puzzle);
             }
         }
     }
