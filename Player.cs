@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Mortens_Komeback_3
 {
@@ -18,7 +19,11 @@ namespace Mortens_Komeback_3
 
         private static Player instance;
         private Vector2 velocity;
-        private float speed = 200f;
+        private float speed = 300f;
+        private Weapon equippedWeapon;
+        private List<Weapon> availableWeapons = new List<Weapon>();
+        private float walkTimer;
+        private SoundEffect currentWalkSound;
 
         #endregion
 
@@ -56,7 +61,7 @@ namespace Mortens_Komeback_3
             else
                 Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
 
-            InputHandler.Instance.LeftClickEventHandler += Shoot;
+            InputHandler.Instance.LeftClickEventHandler += Attack;
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(this, new Vector2(-1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(this, new Vector2(1, 0)));
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(this, new Vector2(0, -1)));
@@ -72,6 +77,8 @@ namespace Mortens_Komeback_3
         public override void Update(GameTime gameTime)
         {
 
+            walkTimer += GameWorld.Instance.DeltaTime;
+
             if (InputHandler.Instance.Position.X < Position.X)
                 spriteEffect = SpriteEffects.FlipHorizontally;
             else
@@ -82,6 +89,7 @@ namespace Mortens_Komeback_3
                 Move();
                 (this as IAnimate).Animate();
                 (this as IPPCollidable).UpdateRectangles();
+                PlayWalkSound();
             }
 
             base.Update(gameTime);
@@ -125,16 +133,39 @@ namespace Mortens_Komeback_3
         }
 
 
-        private void Shoot()
+        private void Attack()
         {
 
-            if (!GameWorld.Instance.GamePaused)
+            if (!GameWorld.Instance.GamePaused && equippedWeapon != null)
+                equippedWeapon.Attack();
+
+        }
+
+
+        private void ChangeWeapon(WeaponType weapon)
+        {
+
+            equippedWeapon = availableWeapons.Find(x => (WeaponType)x.Type == weapon);
+
+        }
+
+
+        private void PlayWalkSound()
+        {
+            if (walkTimer > 0.4f)
             {
-
-
-
+                walkTimer = 0;
+                if (currentWalkSound == GameWorld.Instance.Sounds[Sound.PlayerWalk2])
+                {
+                    GameWorld.Instance.Sounds[Sound.PlayerWalk1].Play();
+                    currentWalkSound = GameWorld.Instance.Sounds[Sound.PlayerWalk1];
+                }
+                else
+                {
+                    GameWorld.Instance.Sounds[Sound.PlayerWalk2].Play();
+                    currentWalkSound = GameWorld.Instance.Sounds[Sound.PlayerWalk2];
+                }
             }
-
         }
 
         #endregion

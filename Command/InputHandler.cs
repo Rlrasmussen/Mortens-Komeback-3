@@ -27,6 +27,7 @@ namespace Mortens_Komeback_3.Command
         private Dictionary<Keys, ICommand> keybindsUpdate = new Dictionary<Keys, ICommand>();
         private Dictionary<Keys, ICommand> keybindsButtonDown = new Dictionary<Keys, ICommand>();
         private KeyboardState previousKeyState;
+        private readonly object syncLock = new object();
 
         /// <summary>
         /// Left click eventhandler
@@ -227,20 +228,21 @@ namespace Mortens_Komeback_3.Command
 
             KeyboardState keyboardState = Keyboard.GetState();
 
-            foreach (var pressedKey in keyboardState.GetPressedKeys())
-            {
-                if (keybindsUpdate.TryGetValue(pressedKey, out ICommand command))
+            lock (syncLock)
+                foreach (var pressedKey in keyboardState.GetPressedKeys())
                 {
-                    command.Execute();
-                }
-                if (!previousKeyState.IsKeyDown(pressedKey) && keyboardState.IsKeyDown(pressedKey))
-                {
-                    if (keybindsButtonDown.TryGetValue(pressedKey, out ICommand commandButtonDown))
+                    if (keybindsUpdate.TryGetValue(pressedKey, out ICommand command))
                     {
-                        commandButtonDown.Execute();
+                        command.Execute();
+                    }
+                    if (!previousKeyState.IsKeyDown(pressedKey) && keyboardState.IsKeyDown(pressedKey))
+                    {
+                        if (keybindsButtonDown.TryGetValue(pressedKey, out ICommand commandButtonDown))
+                        {
+                            commandButtonDown.Execute();
+                        }
                     }
                 }
-            }
 
             previousKeyState = keyboardState;
 
