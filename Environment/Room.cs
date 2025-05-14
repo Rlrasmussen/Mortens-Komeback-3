@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using SharpDX.Direct2D1;
 
 namespace Mortens_Komeback_3.Environment
 {
@@ -13,6 +14,20 @@ namespace Mortens_Komeback_3.Environment
         #region Fields
         bool currentRoom = false;
         private RoomType roomType;
+        private static readonly Dictionary<RoomType, Vector2> spawnPoints = new()
+        {
+        {RoomType.PopeRoom, new Vector2(500, 500)},
+        {RoomType.Stairs, new Vector2(1000, 1000)},
+        {RoomType.CatacombesA, new Vector2(600, 400)},
+        {RoomType.CatacombesB, new Vector2(600, 400)},
+        {RoomType.CatacombesC, new Vector2(600, 400)},
+        {RoomType.CatacombesD, new Vector2(600, 400)},
+        {RoomType.CatacombesE, new Vector2(600, 400)},
+        {RoomType.CatacombesF, new Vector2(600, 400)},
+        {RoomType.CatacombesG, new Vector2(600, 400)},
+        {RoomType.CatacombesH, new Vector2(600, 400)},
+        {RoomType.TrapRoom, new Vector2(600, 400)},
+        };
         #endregion
 
         #region Properties
@@ -28,6 +43,7 @@ namespace Mortens_Komeback_3.Environment
         {
             scale = 1.5F;
             roomType = (RoomType)type;
+            layer = 0f;
         }
 
         #endregion
@@ -40,49 +56,51 @@ namespace Mortens_Komeback_3.Environment
             switch (room)
             {
                 case RoomType.PopeRoom:
-                    Player.Instance.Position = new Vector2(500, 500);
+                    Player.Instance.Position = spawnPoints[roomType];
+                    Camera.Instance.Position = spawnPoints[roomType];
                     Debug.WriteLine("Entered: PopeRoom");
                     break;
 
                 case RoomType.Stairs:
-                    Player.Instance.Position = new Vector2(1000, 1000);
+                    Player.Instance.Position = spawnPoints[roomType];
+                    Camera.Instance.Position = spawnPoints[roomType];
                     Debug.WriteLine("Entered: Stairs");
                     break;
 
                 case RoomType.CatacombesA:
-                    Player.Instance.Position = new Vector2(600, 400);
+                    Player.Instance.Position = spawnPoints[roomType];
                     break;
 
                 case RoomType.CatacombesB:
-                    Player.Instance.Position = new Vector2(650, 420);
+                    Player.Instance.Position = spawnPoints[roomType];
                     break;
 
                 case RoomType.CatacombesC:
-                    Player.Instance.Position = new Vector2(700, 440);
+                    Player.Instance.Position = spawnPoints[roomType];
                     break;
 
                 case RoomType.CatacombesD:
-                    Player.Instance.Position = new Vector2(750, 460);
+                    Player.Instance.Position = spawnPoints[roomType];
                     break;
 
                 case RoomType.CatacombesE:
-                    Player.Instance.Position = new Vector2(800, 480);
+                    Player.Instance.Position = spawnPoints[roomType];
                     break;
 
                 case RoomType.CatacombesF:
-                    Player.Instance.Position = new Vector2(850, 500);
+                    Player.Instance.Position = spawnPoints[roomType];
                     break;
 
                 case RoomType.CatacombesG:
-                    Player.Instance.Position = new Vector2(900, 520);
+                    Player.Instance.Position = spawnPoints[roomType];
                     break;
 
                 case RoomType.CatacombesH:
-                    Player.Instance.Position = new Vector2(950, 540);
+                    Player.Instance.Position = spawnPoints[roomType];
                     break;
 
                 case RoomType.TrapRoom:
-                    Player.Instance.Position = new Vector2(1000, 560);
+                    Player.Instance.Position = spawnPoints[roomType];
                     break;
 
                 default:
