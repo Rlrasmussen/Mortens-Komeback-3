@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.Factory
 {
-    public class ProjectilePool
+    public class ProjectilePool : ObjectPool
     {
         #region Fields
 

@@ -67,8 +67,7 @@ namespace Mortens_Komeback_3
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
 
-            gameObjects.Add(EnemyFactory.Instance.CreateGoosifer());
-            //gameObjects.Add(Player.Instance);
+            gameObjects.Add(Player.Instance);
 
             base.Initialize();
         }
