@@ -125,7 +125,7 @@ namespace Mortens_Komeback_3
             else
                 spriteEffect = SpriteEffects.None;
 
-            if (velocity != Vector2.Zero)
+            if (velocity != Vector2.Zero && !attacking)
             {
                 (this as IAnimate).Animate();
                 Move();
@@ -170,6 +170,7 @@ namespace Mortens_Komeback_3
                 attacking = false;
                 CurrentIndex = 0;
                 ElapsedTime = 0;
+                FPS = 8;
             }
 
         }
@@ -201,6 +202,7 @@ namespace Mortens_Komeback_3
                 attacking = true;
                 CurrentIndex = 0;
                 ElapsedTime = 0;
+                FPS = 30;
             }
 
         }
