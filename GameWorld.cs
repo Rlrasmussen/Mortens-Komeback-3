@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System;
 using System.Diagnostics;
 using Mortens_Komeback_3.Command;
+using Mortens_Komeback_3.Factory;
 
 namespace Mortens_Komeback_3
 {
@@ -66,13 +67,15 @@ namespace Mortens_Komeback_3
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
 
+            gameObjects.Add(EnemyFactory.Instance.CreateGoosifer());
+            //gameObjects.Add(Player.Instance);
+
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
 
-            gameObjects.Add(Player.Instance);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 

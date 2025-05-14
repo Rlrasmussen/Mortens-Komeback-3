@@ -69,7 +69,9 @@ namespace Mortens_Komeback_3.Factory
             }
 
             //Can spawn any other goose than Goosifer
-            int goose = GameWorld.Instance.Random.Next(0, Enum.GetNames(typeof(EnemyType)).Length);
+            int goose = GameWorld.Instance.Random.Next(0, Enum.GetNames(typeof(EnemyType)).Length - 1);
+
+            //this.position = Vector2.Zero;
 
             //Returning a enemy
             return new Enemy((EnemyType)goose, position);
@@ -82,7 +84,8 @@ namespace Mortens_Komeback_3.Factory
         /// <returns></returns>
         public Enemy CreateGoosifer()
         {
-            //this.position = 
+            //Goosifers spawnposition
+            //this.position = Vector2.Zero;
             
             return new Enemy(EnemyType.Goosifer, position);
         }
