@@ -74,6 +74,9 @@ namespace Mortens_Komeback_3
 
             gameObjects.Add(Player.Instance);
 
+            gameObjects.Add(new Puzzle(PuzzleType.OrderPuzzle, new Vector2(100, 300)));
+
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             foreach (GameObject gameObject in gameObjects)
@@ -97,6 +100,7 @@ namespace Mortens_Komeback_3
                 gameObject.Update(gameTime);
             }
 
+
             CleanUp();
 
             base.Update(gameTime);
@@ -110,7 +114,22 @@ namespace Mortens_Komeback_3
             _spriteBatch.Begin(transformMatrix: Camera.Instance.GetTransformation(), samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
 
             foreach (GameObject gameObject in gameObjects)
+            {
                 gameObject.Draw(_spriteBatch);
+
+#if DEBUG
+                Color color = Color.Red;
+                Rectangle collisionBox = gameObject.CollisionBox;
+                Rectangle topLine = new Rectangle(collisionBox.X, collisionBox.Y, collisionBox.Width, 1);
+                Rectangle bottomLine = new Rectangle(collisionBox.X, collisionBox.Y + collisionBox.Height, collisionBox.Width, 1);
+                Rectangle rightLine = new Rectangle(collisionBox.X + collisionBox.Width, collisionBox.Y, 1, collisionBox.Height);
+                Rectangle leftLine = new Rectangle(collisionBox.X, collisionBox.Y, 1, collisionBox.Height);
+                _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], topLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+                _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], bottomLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+                _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], rightLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+                _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], leftLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+#endif
+            }
 
             InputHandler.Instance.Draw(_spriteBatch);
 
@@ -209,7 +228,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(EnemyType.AggroGoose, aggroGoose);
 
             Texture2D[] goosifer = new Texture2D[3];
-            for (int i = 0;i < goosifer.Length; i++)
+            for (int i = 0; i < goosifer.Length; i++)
             {
                 goosifer[i] = Content.Load<Texture2D>($"Sprites\\Enemy\\goosifer{i}");
             }
@@ -254,7 +273,19 @@ namespace Mortens_Komeback_3
 
             #endregion
             #region Puzzle
+            Sprites.Add(PuzzleType.OrderPuzzle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\doorLocked") });
+            Sprites.Add(PuzzleType.OrderPuzzlePlaque, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Items\\wallTurkey"), Content.Load<Texture2D>("Sprites\\Items\\sling"), Content.Load<Texture2D>("Sprites\\Items\\key") });
 
+
+            #endregion
+
+            #region Decorations
+
+
+            #endregion
+
+            #region Debug
+            Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
             #endregion
 
         }

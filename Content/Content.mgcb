@@ -74,6 +74,18 @@
 /processorParam:Quality=Best
 /build:Sounds/Player/walkSound2.wav
 
+#begin Sprites/Debug/pixel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Debug/pixel.png
+
 #begin Sprites/Enemy/aggro0.png
 /importer:TextureImporter
 /processor:TextureProcessor

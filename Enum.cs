@@ -102,6 +102,7 @@ namespace Mortens_Komeback_3
     public enum PuzzleType
     {
         OrderPuzzle,
+        OrderPuzzlePlaque,
         PathfindingPuzzle,
         ShootPuzzle,
     }
@@ -114,7 +115,12 @@ namespace Mortens_Komeback_3
         Stairs,
         Chest,
         Candles,
-        Coffin
+        Coffin,
+    }
+
+    public enum DebugEnum
+    {
+        Pixel
     }
 
 }
