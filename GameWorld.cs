@@ -336,17 +336,17 @@ namespace Mortens_Komeback_3
                             if ((gameObject as IPPCollidable).PPCheckCollision(other as IPPCollidable))
                                 handledCollision = true;
                             else
-                                return;
+                                continue;
                         else if (gameObject is IPPCollidable && other is ICollidable)
                             if ((gameObject as IPPCollidable).DoHybridCheck((other as ICollidable).CollisionBox))
                                 handledCollision = true;
                             else
-                                return;
+                                continue;
                         else if (other is IPPCollidable && gameObject is ICollidable)
                             if ((other as IPPCollidable).DoHybridCheck((gameObject as ICollidable).CollisionBox))
                                 handledCollision = true;
                             else
-                                return;
+                                continue;
                         else
                             handledCollision = true;
                         
