@@ -61,7 +61,7 @@ namespace Mortens_Komeback_3.Factory
             //Pushing to the inactive
             inactive.Push(gameObject);
 
-            CleanUp(gameObject);
+            //CleanUp(gameObject);
         }
 
         protected abstract GameObject Create();
