@@ -16,7 +16,7 @@ namespace Mortens_Komeback_3
         private static GameWorld instance;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Random random;
+        private Random random = new Random();
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();

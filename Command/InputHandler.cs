@@ -136,7 +136,7 @@ namespace Mortens_Komeback_3.Command
         {
 
             if (sprite != null)
-                spriteBatch.Draw(sprite, position, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+                spriteBatch.Draw(sprite, position, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.FlipHorizontally, 1f);
 
         }
 
@@ -169,7 +169,7 @@ namespace Mortens_Komeback_3.Command
             while (GameWorld.Instance.GameRunning)
             {
                 MouseState mouseState = Mouse.GetState();
-                position = mouseState.Position.ToVector2();
+                position = Camera.Instance.RefactorPosition(mouseState.Position.ToVector2());
                 LeftClick = mouseState.LeftButton == ButtonState.Pressed;
                 RightClick = mouseState.RightButton == ButtonState.Pressed;
                 Update();
