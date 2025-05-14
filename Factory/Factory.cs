@@ -8,6 +8,7 @@ namespace Mortens_Komeback_3.Factory
 {
     public abstract class Factory
     {
+
         #region Fields
 
         #endregion
@@ -21,6 +22,7 @@ namespace Mortens_Komeback_3.Factory
         #endregion
 
         #region Method
+        public abstract GameObject Create();
 
         #endregion
     }
