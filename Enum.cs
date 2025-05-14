@@ -67,7 +67,8 @@ namespace Mortens_Komeback_3
         PlayerHeal,
         PlayerShoot,
         PlayerWalk1,
-        PlayerWalk2
+        PlayerWalk2,
+        PlayerSwordAttack
     }
 
     public enum MusicTrack
@@ -121,6 +122,11 @@ namespace Mortens_Komeback_3
     public enum DebugEnum
     {
         Pixel
+    }
+
+    public enum Location
+    {
+        Spawn
     }
 
 }

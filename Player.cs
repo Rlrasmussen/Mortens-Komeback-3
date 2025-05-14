@@ -38,7 +38,7 @@ namespace Mortens_Komeback_3
             get
             {
                 if (instance == null)
-                    instance = new Player(PlayerType.Morten, Vector2.Zero);
+                    instance = new Player(PlayerType.Morten, GameWorld.Instance.Locations[Location.Spawn]);
 
                 return instance;
             }
@@ -125,7 +125,7 @@ namespace Mortens_Komeback_3
             else
                 spriteEffect = SpriteEffects.None;
 
-            if (velocity != Vector2.Zero)
+            if (velocity != Vector2.Zero && !attacking)
             {
                 (this as IAnimate).Animate();
                 Move();
@@ -170,6 +170,7 @@ namespace Mortens_Komeback_3
                 attacking = false;
                 CurrentIndex = 0;
                 ElapsedTime = 0;
+                FPS = 8;
             }
 
         }
@@ -201,6 +202,8 @@ namespace Mortens_Komeback_3
                 attacking = true;
                 CurrentIndex = 0;
                 ElapsedTime = 0;
+                FPS = 30;
+                GameWorld.Instance.Sounds[Sound.PlayerSwordAttack].Play();
             }
 
         }
