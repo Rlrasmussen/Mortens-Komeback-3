@@ -221,7 +221,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(EnemyType.AggroGoose, aggroGoose);
 
             Texture2D[] goosifer = new Texture2D[3];
-            for (int i = 0;i < goosifer.Length; i++)
+            for (int i = 0; i < goosifer.Length; i++)
             {
                 goosifer[i] = Content.Load<Texture2D>($"Sprites\\Enemy\\goosifer{i}");
             }
@@ -324,10 +324,16 @@ namespace Mortens_Komeback_3
             foreach (GameObject other in gameObjects)
             {
 
-                if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type == other.Type)
+                if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type.GetType() == other.Type.GetType())
                     continue;
 
-                if (gameObject.Type.GetType() == typeof(PlayerType) && other.Type.GetType() == typeof(PuzzleType))
+                if ((
+                    gameObject.Type.GetType() == typeof(PlayerType) ||
+                    gameObject.Type.GetType() == typeof(AttackType)
+                    ) && (
+                    other.Type.GetType() == typeof(EnemyType) ||
+                    other.Type.GetType() == typeof(PuzzleType)
+                    ))
                 {
                     if ((gameObject as ICollidable).CheckCollision(other as ICollidable))
                     {
@@ -349,7 +355,7 @@ namespace Mortens_Komeback_3
                                 continue;
                         else
                             handledCollision = true;
-                        
+
 
                         if (handledCollision)
                         {
