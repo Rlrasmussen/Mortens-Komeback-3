@@ -22,9 +22,16 @@ namespace Mortens_Komeback_3
         {
         }
 
+
         #endregion
 
         #region Method
+
+
+        public override void Attack()
+        {
+            
+        }
 
         #endregion
     }
