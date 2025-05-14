@@ -178,7 +178,6 @@ namespace Mortens_Komeback_3
 
         public void OnCollision(ICollidable other)
         {
-
             switch (other.Type)
             {
                 default:
@@ -246,7 +245,24 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(this, new Vector2(0, 1)));
             InputHandler.Instance.AddButtonDownCommand(Keys.D1, new ChangeWeaponCommand(this, WeaponType.Melee));
             InputHandler.Instance.AddButtonDownCommand(Keys.D2, new ChangeWeaponCommand(this, WeaponType.Ranged));
+            InputHandler.Instance.AddButtonDownCommand(Keys.E, new InteractCommand());
 
+        }
+
+        public void Interact(GameObject gameObject)
+        {
+            switch(gameObject.Type)
+            {
+                case PuzzleType.OrderPuzzlePlaque:
+                    (gameObject as Puzzle).ChangePlaque();
+                    break;
+                case PuzzleType.OrderPuzzle:
+                    (gameObject as Puzzle).TrySolve();
+                    break;
+                default:
+                    break;
+            }
+             
         }
 
         #endregion

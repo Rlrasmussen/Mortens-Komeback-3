@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mortens_Komeback_3.Environment;
+using Mortens_Komeback_3.Collider;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct3D9;
 
 namespace Mortens_Komeback_3
 {
-    public class Puzzle : GameObject
+    public class Puzzle : GameObject, ICollidable
     {
         #region Fields
         private Dictionary<string, Puzzle> puzzlePlaques;
@@ -39,7 +40,10 @@ namespace Mortens_Komeback_3
                 puzzlePlaques.Add("plaque2", new Puzzle(PuzzleType.OrderPuzzlePlaque, new Vector2((puzzlePlaques["plaque1"].Position.X - GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0].Width), Position.Y)));
                 puzzlePlaques.Add("plaque3", new Puzzle(PuzzleType.OrderPuzzlePlaque, new Vector2((puzzlePlaques["plaque2"].Position.X - GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0].Width), Position.Y)));
                 foreach (var item in puzzlePlaques)
-                { GameWorld.Instance.SpawnObject(item.Value); }
+                {
+                    GameWorld.Instance.SpawnObject(item.Value);
+                    GameWorld.Instance.gamePuzzles.Add(item.Value);
+                }
                 spriteIndex = 0;
             }
         }
@@ -70,9 +74,9 @@ namespace Mortens_Komeback_3
             if ((PuzzleType)type == PuzzleType.OrderPuzzle)
             {
                 if (
-                puzzlePlaques["plague1"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0] &&
-                puzzlePlaques["plague1"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][2] &&
-                puzzlePlaques["plague1"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][1]
+                puzzlePlaques["plaque1"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0] &&
+                puzzlePlaques["plaque2"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][2] &&
+                puzzlePlaques["plaque3"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][1]
                     )
                 {
                     Solved = true;
@@ -80,6 +84,11 @@ namespace Mortens_Komeback_3
                 }
 
             }
+
+        }
+
+        public void OnCollision(ICollidable other)
+        {
 
         }
 

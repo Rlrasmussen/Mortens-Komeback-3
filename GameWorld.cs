@@ -30,6 +30,7 @@ namespace Mortens_Komeback_3
         private float deltaTime;
         private bool gamePaused = false;
         private bool gameRunning = true;
+        public List<Puzzle> gamePuzzles = new List<Puzzle>();
 
 
         public static GameWorld Instance
@@ -82,7 +83,9 @@ namespace Mortens_Komeback_3
 
             gameObjects.Add(Player.Instance);
 
-            gameObjects.Add(new Puzzle(PuzzleType.OrderPuzzle, new Vector2(100, 300)));
+            Puzzle orderPuzzle = new Puzzle(PuzzleType.OrderPuzzle, new Vector2(100, 300));
+            gameObjects.Add(orderPuzzle);
+            gamePuzzles.Add(orderPuzzle);
 
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
