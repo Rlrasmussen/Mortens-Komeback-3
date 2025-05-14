@@ -71,7 +71,7 @@ namespace Mortens_Komeback_3.Collider
         {
 
             if (Rectangles == null || Rectangles.Count == 0)
-                CreateRectangles();
+                Rectangles = CreateRectangles();
 
             if (Rectangles != null)
                 foreach (RectangleData rectangle in Rectangles)
