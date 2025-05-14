@@ -64,6 +64,8 @@ namespace Mortens_Komeback_3
             LoadMusic();
             GameFont = Content.Load<SpriteFont>("mortalKombatFont");
 
+            SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
+
             base.Initialize();
         }
 
