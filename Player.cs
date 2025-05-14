@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Collider;
 using System;
@@ -55,6 +56,12 @@ namespace Mortens_Komeback_3
             else
                 Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
 
+            InputHandler.Instance.LeftClickEventHandler += Shoot;
+            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(this, new Vector2(-1, 0)));
+            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(this, new Vector2(1, 0)));
+            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(this, new Vector2(0, -1)));
+            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(this, new Vector2(0, 1)));
+
         }
 
         #endregion
@@ -79,8 +86,6 @@ namespace Mortens_Komeback_3
 
             base.Update(gameTime);
 
-            velocity = Vector2.Zero;
-
         }
 
 
@@ -90,6 +95,8 @@ namespace Mortens_Komeback_3
             velocity.Normalize();
 
             Position += velocity * speed * GameWorld.Instance.DeltaTime;
+
+            velocity = Vector2.Zero;
 
         }
 
@@ -114,6 +121,14 @@ namespace Mortens_Komeback_3
                 default:
                     break;
             }
+
+        }
+
+
+        private void Shoot()
+        {
+
+
 
         }
 

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using SharpDX.Direct3D9;
 using System.Diagnostics;
 
 namespace Mortens_Komeback_3.Command
@@ -25,6 +24,9 @@ namespace Mortens_Komeback_3.Command
         private bool rightClick;
         private bool ranLeftClick = false;                                      //Blocks more than one run of event
         private bool ranRightClick = false;                                     //Blocks more than one run of event
+        private Dictionary<Keys, ICommand> keybindsUpdate = new Dictionary<Keys, ICommand>();
+        private Dictionary<Keys, ICommand> keybindsButtonDown = new Dictionary<Keys, ICommand>();
+        private KeyboardState previousKeyState;
 
         /// <summary>
         /// Left click eventhandler
@@ -132,6 +134,29 @@ namespace Mortens_Komeback_3.Command
 
         #region Method
 
+
+        public void AddUpdateCommand(Keys key, ICommand command)
+        {
+
+            if (keybindsUpdate.ContainsKey(key) && keybindsUpdate[key].Equals(command))
+                return;
+            else
+                keybindsUpdate.Add(key, command);
+
+        }
+
+
+        public void AddButtonDownCommand(Keys key, ICommand command)
+        {
+
+            if (keybindsButtonDown.ContainsKey(key) && keybindsButtonDown[key].Equals(command))
+                return;
+            else
+                keybindsButtonDown.Add(key, command);
+
+        }
+
+
         public void Draw(SpriteBatch spriteBatch)
         {
 
@@ -200,7 +225,24 @@ namespace Mortens_Komeback_3.Command
         private void Update()
         {
 
-            
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            foreach (var pressedKey in keyboardState.GetPressedKeys())
+            {
+                if (keybindsUpdate.TryGetValue(pressedKey, out ICommand command))
+                {
+                    command.Execute();
+                }
+                if (!previousKeyState.IsKeyDown(pressedKey) && keyboardState.IsKeyDown(pressedKey))
+                {
+                    if (keybindsButtonDown.TryGetValue(pressedKey, out ICommand commandButtonDown))
+                    {
+                        commandButtonDown.Execute();
+                    }
+                }
+            }
+
+            previousKeyState = keyboardState;
 
         }
 
