@@ -83,7 +83,14 @@ namespace Mortens_Komeback_3
 
         public void OnCollision(ICollidable other)
         {
-            //Effect on collision
+            
+            switch(other.Type)
+            {
+
+                default:
+                    break;
+            }
+
         }
 
         #endregion
