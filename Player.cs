@@ -128,7 +128,12 @@ namespace Mortens_Komeback_3
         private void Shoot()
         {
 
+            if (!GameWorld.Instance.GamePaused)
+            {
 
+
+
+            }
 
         }
 

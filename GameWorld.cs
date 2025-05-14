@@ -49,6 +49,9 @@ namespace Mortens_Komeback_3
         public bool GameRunning { get => gameRunning; }
 
 
+        public bool GamePaused { get => gamePaused; set => gamePaused = value; }
+
+
         private GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
