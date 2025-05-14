@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
+using System.Diagnostics;
+using Mortens_Komeback_3.Command;
 
 namespace Mortens_Komeback_3.Factory
 {
@@ -39,14 +43,36 @@ namespace Mortens_Komeback_3.Factory
         #endregion
 
         #region Method
-        protected override void CleanUp(GameObject gameObject)
+        /// <summary>
+        /// Creating an enemy with EnemyFacory (not Goosifer) for the Goosifer figth
+        /// Rikke
+        /// </summary>
+        /// <returns></returns>
+        protected override Enemy Create()
         {
-            throw new NotImplementedException();
+            return EnemyFactory.Instance.Create();
         }
 
-        protected override GameObject Create()
+        /// <summary>
+        /// Creating Goosifer with EnemyFactory
+        /// Rikke
+        /// </summary>
+        /// <returns></returns>
+        protected Enemy CreateGoosifer()
         {
-            throw new NotImplementedException();
+            return EnemyFactory.Instance.CreateGoosifer();
+        }
+
+        /// <summary>
+        /// Creating a specific goose at spawnposition
+        /// Rikke
+        /// </summary>
+        /// <param name="type">Enemytype</param>
+        /// <param name="spawnposition">Spawnposition</param>
+        /// <returns></returns>
+        protected Enemy CreateSpecificGoose(EnemyType type, Vector2 spawnposition)
+        {
+            return EnemyFactory.Instance.CreateSpecificGoose(type, spawnposition);
         }
         #endregion
     }

@@ -66,7 +66,7 @@ namespace Mortens_Komeback_3.Factory
 
         protected abstract GameObject Create();
 
-        protected abstract void CleanUp(GameObject gameObject);
+        //protected abstract void CleanUp(GameObject gameObject);
         #endregion
     }
 }

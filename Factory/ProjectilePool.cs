@@ -8,6 +8,24 @@ namespace Mortens_Komeback_3.Factory
 {
     public class ProjectilePool : ObjectPool
     {
+        #region Singelton
+        private static ProjectilePool instance;
+
+        public static ProjectilePool Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ProjectilePool();
+                }
+
+                return instance;
+            }
+        }
+
+        #endregion
+
         #region Fields
 
         #endregion
@@ -21,6 +39,15 @@ namespace Mortens_Komeback_3.Factory
         #endregion
 
         #region Method
+        /// <summary>
+        /// Creating a new Projectile with ProjectileFactory
+        /// Rikke
+        /// </summary>
+        /// <returns></returns>
+        protected override GameObject Create()
+        {
+            return ProjectileFactory.Instance.Create();
+        }
 
         #endregion
     }
