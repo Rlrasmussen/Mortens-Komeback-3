@@ -76,6 +76,7 @@ namespace Mortens_Komeback_3
                     )
                 {
                     Solved = true;
+                    Sprite = GameWorld.Instance.Sprites[PuzzleType.OrderPuzzle][1];
                 }
 
             }
