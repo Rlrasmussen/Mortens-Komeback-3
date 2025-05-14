@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3
 {
-    public class GameObject
+    public abstract class GameObject
     {
         #region Fields
 

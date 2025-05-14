@@ -70,6 +70,8 @@ namespace Mortens_Komeback_3
         protected override void LoadContent()
         {
 
+            gameObjects.Add(Player.Instance);
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             foreach (GameObject gameObject in gameObjects)
