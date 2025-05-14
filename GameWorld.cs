@@ -249,6 +249,9 @@ namespace Mortens_Komeback_3
             Sprites.Add(DoorType.Closed, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\doorClosed_shadow") });
 
             #endregion
+            #region Puzzle
+
+            #endregion
 
         }
 

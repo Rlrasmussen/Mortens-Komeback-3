@@ -101,6 +101,9 @@ namespace Mortens_Komeback_3
 
     public enum PuzzleType
     {
+        OrderPuzzle,
+        PathfindingPuzzle,
+        ShootPuzzle,
     }
 
     public enum DecorationType
