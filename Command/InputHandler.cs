@@ -197,7 +197,7 @@ namespace Mortens_Komeback_3.Command
                 position = Camera.Instance.RefactorPosition(mouseState.Position.ToVector2());
                 LeftClick = mouseState.LeftButton == ButtonState.Pressed;
                 RightClick = mouseState.RightButton == ButtonState.Pressed;
-                Update();
+                Execute();
             }
 
         }
@@ -222,7 +222,7 @@ namespace Mortens_Komeback_3.Command
 
 
 
-        private void Update()
+        private void Execute()
         {
 
             KeyboardState keyboardState = Keyboard.GetState();
