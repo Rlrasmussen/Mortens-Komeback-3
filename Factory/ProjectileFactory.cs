@@ -31,8 +31,6 @@ namespace Mortens_Komeback_3.Factory
 
 
         #region Fields
-        private Projectile projectileGO;
-        private Vector2 position;
 
         #endregion
 
@@ -47,8 +45,7 @@ namespace Mortens_Komeback_3.Factory
         #region Method
         public override Projectile Create()
         {
-            //this.position =
-            throw new NotImplementedException();
+            return new Projectile(AttackType.Egg, Player.Instance.Position);
         }
         #endregion
     }
