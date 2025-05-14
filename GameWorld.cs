@@ -320,54 +320,54 @@ namespace Mortens_Komeback_3
         private void DoCollisionCheck(GameObject gameObject)
         {
 
-
-            foreach (GameObject other in gameObjects)
-            {
-
-                if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type.GetType() == other.Type.GetType())
-                    continue;
-
-                if (gameObject is ICollidable && other is ICollidable && (
-                    gameObject.Type.GetType() == typeof(PlayerType) ||
-                    gameObject.Type.GetType() == typeof(AttackType)
-                    ) && (
-                    other.Type.GetType() == typeof(EnemyType) ||
-                    other.Type.GetType() == typeof(PuzzleType)
-                    ))
+            if (gameObject is ICollidable)
+                foreach (GameObject other in gameObjects)
                 {
-                    if ((gameObject as ICollidable).CheckCollision(other as ICollidable))
+
+                    if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type.GetType() == other.Type.GetType() || !(other is ICollidable))
+                        continue;
+
+                    if ((
+                        gameObject.Type.GetType() == typeof(PlayerType) ||
+                        gameObject.Type.GetType() == typeof(AttackType)
+                        ) && (
+                        other.Type.GetType() == typeof(EnemyType) ||
+                        other.Type.GetType() == typeof(PuzzleType)
+                        ))
                     {
-                        bool handledCollision = false;
-                        if ((gameObject is IPPCollidable && other is IPPCollidable))
-                            if ((gameObject as IPPCollidable).PPCheckCollision(other as IPPCollidable))
-                                handledCollision = true;
-                            else
-                                continue;
-                        else if (gameObject is IPPCollidable && other is ICollidable)
-                            if ((gameObject as IPPCollidable).DoHybridCheck((other as ICollidable).CollisionBox))
-                                handledCollision = true;
-                            else
-                                continue;
-                        else if (other is IPPCollidable && gameObject is ICollidable)
-                            if ((other as IPPCollidable).DoHybridCheck((gameObject as ICollidable).CollisionBox))
-                                handledCollision = true;
-                            else
-                                continue;
-                        else
-                            handledCollision = true;
-
-
-                        if (handledCollision)
+                        if ((gameObject as ICollidable).CheckCollision(other as ICollidable))
                         {
-                            (gameObject as ICollidable).OnCollision(other as ICollidable);
-                            (other as ICollidable).OnCollision(gameObject as ICollidable);
-                            collisions.Add((gameObject, other));
+                            bool handledCollision = false;
+                            if ((gameObject is IPPCollidable && other is IPPCollidable))
+                                if ((gameObject as IPPCollidable).PPCheckCollision(other as IPPCollidable))
+                                    handledCollision = true;
+                                else
+                                    continue;
+                            else if (gameObject is IPPCollidable && other is ICollidable)
+                                if ((gameObject as IPPCollidable).DoHybridCheck((other as ICollidable).CollisionBox))
+                                    handledCollision = true;
+                                else
+                                    continue;
+                            else if (other is IPPCollidable && gameObject is ICollidable)
+                                if ((other as IPPCollidable).DoHybridCheck((gameObject as ICollidable).CollisionBox))
+                                    handledCollision = true;
+                                else
+                                    continue;
+                            else
+                                handledCollision = true;
+
+
+                            if (handledCollision)
+                            {
+                                (gameObject as ICollidable).OnCollision(other as ICollidable);
+                                (other as ICollidable).OnCollision(gameObject as ICollidable);
+                                collisions.Add((gameObject, other));
+                            }
+
                         }
-
                     }
-                }
 
-            }
+                }
 
         }
 
