@@ -44,7 +44,7 @@ namespace Mortens_Komeback_3.Factory
         /// Rikke
         /// </summary>
         /// <returns></returns>
-        protected override GameObject Create()
+        public override GameObject Create()
         {
             return ProjectileFactory.Instance.Create();
         }

@@ -48,7 +48,7 @@ namespace Mortens_Komeback_3.Factory
         /// Rikke
         /// </summary>
         /// <returns></returns>
-        protected override Enemy Create()
+        public override Enemy Create()
         {
             return EnemyFactory.Instance.Create();
         }
@@ -58,7 +58,7 @@ namespace Mortens_Komeback_3.Factory
         /// Rikke
         /// </summary>
         /// <returns></returns>
-        protected Enemy CreateGoosifer()
+        public Enemy CreateGoosifer()
         {
             return EnemyFactory.Instance.CreateGoosifer();
         }
@@ -70,7 +70,7 @@ namespace Mortens_Komeback_3.Factory
         /// <param name="type">Enemytype</param>
         /// <param name="spawnposition">Spawnposition</param>
         /// <returns></returns>
-        protected Enemy CreateSpecificGoose(EnemyType type, Vector2 spawnposition)
+        public Enemy CreateSpecificGoose(EnemyType type, Vector2 spawnposition)
         {
             return EnemyFactory.Instance.CreateSpecificGoose(type, spawnposition);
         }
