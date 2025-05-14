@@ -16,6 +16,8 @@ namespace Mortens_Komeback_3
         #region Fields
 
         private static Player instance;
+        private Vector2 velocity;
+        private float speed = 200f;
 
         #endregion
 
@@ -31,6 +33,8 @@ namespace Mortens_Komeback_3
                 return instance;
             }
         }
+
+        public Vector2 Velocity { get => velocity; set => velocity = value; }
 
         public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
         public float FPS { get; set; } = 6;
@@ -61,13 +65,33 @@ namespace Mortens_Komeback_3
         public override void Update(GameTime gameTime)
         {
 
-            (this as IAnimate).Animate();
-            (this as IPPCollidable).UpdateRectangles();
+            if (InputHandler.Instance.Position.X < Position.X)
+                spriteEffect = SpriteEffects.FlipHorizontally;
+            else
+                spriteEffect = SpriteEffects.None;
+
+            if (velocity != Vector2.Zero)
+            {
+                Move();
+                (this as IAnimate).Animate();
+                (this as IPPCollidable).UpdateRectangles();
+            }
 
             base.Update(gameTime);
 
+            velocity = Vector2.Zero;
+
         }
 
+
+        private void Move()
+        {
+
+            velocity.Normalize();
+
+            Position += velocity * speed * GameWorld.Instance.DeltaTime;
+
+        }
 
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -83,8 +107,8 @@ namespace Mortens_Komeback_3
 
         public void OnCollision(ICollidable other)
         {
-            
-            switch(other.Type)
+
+            switch (other.Type)
             {
 
                 default:
