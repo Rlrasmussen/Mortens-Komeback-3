@@ -87,7 +87,8 @@ namespace Mortens_Komeback_3
 
     public enum Roomtype
     {
-        Single
+        Single,
+        Square
     }
 
     public enum NPCType

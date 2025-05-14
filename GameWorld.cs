@@ -169,6 +169,7 @@ namespace Mortens_Komeback_3
             #region Rooms
 
             Sprites.Add(Roomtype.Single, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(Roomtype.Square, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\square") });
 
             #endregion
             #region Player
