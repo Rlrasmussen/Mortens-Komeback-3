@@ -76,9 +76,8 @@ namespace Mortens_Komeback_3
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gameObjects.Add(new Environment.Room(Roomtype.PopeRoom, Vector2.Zero));
-            gameObjects.Add(new Environment.Room(Roomtype.Stairs, new Vector2(0, 1000)));
-            gameObjects.Add(new Player(PlayerType.Morten, Vector2.Zero));
+            gameObjects.Add(new Environment.Room(RoomType.PopeRoom, Vector2.Zero));
+            gameObjects.Add(new Environment.Room(RoomType.Stairs, new Vector2(0, 1000)));
             gameObjects.Add(new Environment.Door(DoorType.Closed, new Vector2(1190,0), DoorDirection.Right));
 
             foreach (GameObject gameObject in gameObjects)
@@ -177,8 +176,8 @@ namespace Mortens_Komeback_3
 
             #region Rooms
 
-            Sprites.Add(Roomtype.PopeRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
-            Sprites.Add(Roomtype.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\square") });
+            Sprites.Add(RoomType.PopeRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\square") });
             
 
             #endregion

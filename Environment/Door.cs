@@ -58,13 +58,21 @@ namespace Mortens_Komeback_3.Environment
 
         public void OnCollision(ICollidable other)
         {
-            //if (other == GameWorld.Instance.)
+            //if (other == Player.Instance)
             //{
-
+            //    TeleportPlayer();
             //}
             //throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// When player collides with door, players position is moved to next room
+        /// </summary>
+        /// <param name="room"></param>
+        //public void TeleportPlayer(RoomType room)
+        //{
+        //    Player.Instance.Position = RoomType;
+        //}
       
         #endregion
     }

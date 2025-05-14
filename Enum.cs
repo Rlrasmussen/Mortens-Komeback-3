@@ -94,10 +94,20 @@ namespace Mortens_Komeback_3
         WallTurkey
     }
 
-    public enum Roomtype
+    public enum RoomType
     {
         PopeRoom,
-        Stairs
+        Stairs,
+        CatacombesA,
+        CatacombesB,
+        CatacombesC,
+        CatacombesD,
+        CatacombesE,
+        CatacombesF,
+        CatacombesG,
+        CatacombesH,
+        TrapRoom
+
     }
 
     public enum NPCType
