@@ -82,6 +82,7 @@ namespace Mortens_Komeback_3
         protected override void LoadContent()
         {
 
+            gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -238,7 +239,7 @@ namespace Mortens_Komeback_3
 
             Texture2D[] sword = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sword") };
             Sprites.Add(MenuType.Cursor, sword);
-            Sprites.Add(ItemType.Sword, sword);
+            Sprites.Add(WeaponType.Melee, sword);
 
             #endregion
             #region Menu
@@ -333,7 +334,8 @@ namespace Mortens_Komeback_3
                         gameObject.Type.GetType() == typeof(AttackType)
                         ) && (
                         other.Type.GetType() == typeof(EnemyType) ||
-                        other.Type.GetType() == typeof(PuzzleType)
+                        other.Type.GetType() == typeof(PuzzleType) ||
+                        other.Type.GetType() == typeof(WeaponType)
                         ))
                     {
                         if ((gameObject as ICollidable).CheckCollision(other as ICollidable))
@@ -372,6 +374,18 @@ namespace Mortens_Komeback_3
 
         }
 
+
+        public HashSet<Enemy> EnemiesNearPlayer()
+        {
+
+            HashSet<Enemy> nearbyEnemies = new HashSet<Enemy>();
+
+            foreach (GameObject gameObject in gameObjects)
+                if (gameObject is Enemy && Vector2.Distance(Player.Instance.Position, gameObject.Position) <= 300)
+                    nearbyEnemies.Add((Enemy)gameObject);
+
+            return nearbyEnemies;
+        }
 
     }
 }

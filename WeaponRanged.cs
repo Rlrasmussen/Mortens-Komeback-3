@@ -18,7 +18,7 @@ namespace Mortens_Komeback_3
         #endregion
 
         #region Constructor
-        public WeaponRanged(Enum type, Vector2 spawnPos) : base(type, spawnPos)
+        public WeaponRanged(WeaponType type, Vector2 spawnPos) : base(type, spawnPos)
         {
         }
 
