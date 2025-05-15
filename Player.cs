@@ -99,6 +99,8 @@ namespace Mortens_Komeback_3
 
             AddCommands();
 
+            this.Damage = 1;
+
         }
 
         #endregion

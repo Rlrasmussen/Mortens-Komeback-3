@@ -56,36 +56,52 @@ namespace Mortens_Komeback_3
                 base.Draw(spriteBatch);
         }
 
+        /// <summary>
+        /// Reset Health with switch case by EnemyType
+        /// Rikke
+        /// </summary>
         public override void Load()
         {
-            Health = 1;
-            
+            //Health switch case
+            switch (this.type)
+            {
+                case EnemyType.WalkingGoose:
+                    Health = 1;
+                    break;
+                case EnemyType.AggroGoose:
+                    Health = 1;
+                    break;
+                case EnemyType.Goosifer:
+                    Health = 1;
+                    break;
+            }
+
             base.Load();
         }
 
         /// <summary>
-        /// 
+        /// Collision with Enemy
         /// </summary>
-        /// <param name="other"></param>
+        /// <param name="other">IColliable</param>
         public void OnCollision(ICollidable other)
         {
-            if (other is Player)
+            //Take damage by collision
+            if (other is Projectile)
             {
-                Health--;
-
-                if (Health == 0)
-                {
-                    IsAlive = false;
-
-                    EnemyPool.Instance.ReleaseObject(this);
-                }
+                TakeDamage((GameObject)other);
             }
         }
 
-        public void TakeDamage()
+        /// <summary>
+        /// Enemy takes damage which makes the Health reduce. When Health is 0 en Enemy dies and will be released fra EnemyPool
+        /// Rikke
+        /// </summary>
+        /// <param name="other">GameObject which give damage to the Enemy</param>
+        public void TakeDamage(GameObject other)
         {
-            Health--;
+            Health -= other.Damage;
 
+            //Enemy dies is Health is 0
             if (Health == 0)
             {
                 IsAlive = false;
