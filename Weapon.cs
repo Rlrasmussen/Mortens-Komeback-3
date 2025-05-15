@@ -13,8 +13,6 @@ namespace Mortens_Komeback_3
 
         #region Fields
 
-        protected int damage;
-
         #endregion
 
         #region Properties

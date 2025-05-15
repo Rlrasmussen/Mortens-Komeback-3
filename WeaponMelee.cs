@@ -50,7 +50,7 @@ namespace Mortens_Komeback_3
             foreach (Enemy enemy in GameWorld.Instance.EnemiesNearPlayer(range))
             {
                 if (IsInCone(Player.Instance.Position, InputHandler.Instance.MousePosition, enemy.Position, 30f))
-                    enemy.IsAlive = false;
+                    enemy.TakeDamage(this);
             }
 
         }

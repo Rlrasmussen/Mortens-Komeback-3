@@ -60,7 +60,7 @@ namespace Mortens_Komeback_3.Factory
         {
             if (other.Type.GetType() == typeof(EnemyType))
             {
-                (other as Enemy).IsAlive = false;
+                IsAlive = false;
             }
             else
                 switch (other.Type)
