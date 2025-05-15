@@ -54,7 +54,7 @@ namespace Mortens_Komeback_3
 
         public void OnCollision(ICollidable other)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
         #endregion
     }
