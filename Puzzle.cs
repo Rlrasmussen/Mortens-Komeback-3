@@ -74,6 +74,7 @@ namespace Mortens_Komeback_3
         /// </summary> Philip
         /// <param name="type">The type of puzzle</param>
         /// <param name="spawnPos">THe position the main element of thee puzzle will be spawned at.</param>
+        /// <param name="doorPos">The position of the door of the puzzle</param>
         public Puzzle(PuzzleType type, Vector2 spawnPos, Vector2 doorPos) : base(type, spawnPos)
         {
             switch (type)
