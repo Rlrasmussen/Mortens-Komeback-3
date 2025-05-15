@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System;
 using System.Diagnostics;
 using Mortens_Komeback_3.Command;
+using Mortens_Komeback_3.Collider;
+using Mortens_Komeback_3.Factory;
 
 namespace Mortens_Komeback_3
 {
@@ -19,6 +21,8 @@ namespace Mortens_Komeback_3
         private Random random = new Random();
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
+        private HashSet<(GameObject, GameObject)> collisions = new HashSet<(GameObject, GameObject)>();
+        public Dictionary<Location, Vector2> Locations = new Dictionary<Location, Vector2>();
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
@@ -26,7 +30,6 @@ namespace Mortens_Komeback_3
         private float deltaTime;
         private bool gamePaused = false;
         private bool gameRunning = true;
-
 
         public static GameWorld Instance
         {
@@ -66,8 +69,12 @@ namespace Mortens_Komeback_3
             LoadSoundEffects();
             LoadMusic();
             GameFont = Content.Load<SpriteFont>("mortalKombatFont");
+            AddLocations();
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
+
+            gameObjects.Add(Player.Instance);
+            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
 
             base.Initialize();
         }
@@ -75,7 +82,6 @@ namespace Mortens_Komeback_3
         protected override void LoadContent()
         {
 
-            gameObjects.Add(Player.Instance);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -117,6 +123,7 @@ namespace Mortens_Komeback_3
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.Update(gameTime);
+                DoCollisionCheck(gameObject);
             }
 
             CleanUp();
@@ -187,6 +194,9 @@ namespace Mortens_Komeback_3
 
             }
 
+            if (collisions.Count > 0)
+                collisions.Clear();
+
         }
 
         private void LoadSprites()
@@ -242,7 +252,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(EnemyType.AggroGoose, aggroGoose);
 
             Texture2D[] goosifer = new Texture2D[3];
-            for (int i = 0;i < goosifer.Length; i++)
+            for (int i = 0; i < goosifer.Length; i++)
             {
                 goosifer[i] = Content.Load<Texture2D>($"Sprites\\Enemy\\goosifer{i}");
             }
@@ -310,6 +320,7 @@ namespace Mortens_Komeback_3
             Sounds.Add(Sound.PlayerShoot, Content.Load<SoundEffect>("Sounds\\Player\\shootSound"));
             Sounds.Add(Sound.PlayerWalk1, Content.Load<SoundEffect>("Sounds\\Player\\walkSound"));
             Sounds.Add(Sound.PlayerWalk2, Content.Load<SoundEffect>("Sounds\\Player\\walkSound2"));
+            Sounds.Add(Sound.PlayerSwordAttack, Content.Load<SoundEffect>("Sounds\\Player\\playerSwordAttack"));
 
             #endregion
 
@@ -324,6 +335,73 @@ namespace Mortens_Komeback_3
             Music.Add(MusicTrack.Background, Content.Load<Song>("Music\\bgMusic"));
 
         }
+
+
+        private void AddLocations()
+        {
+
+            Locations.Add(Location.Spawn, new Vector2(-250, 250));
+
+        }
+
+        /// <summary>
+        /// Sørger for at tjekke om det primære objekt har en kollision med øvrige objekter
+        /// </summary>
+        /// <param name="gameObject">Primære objekt der skal tjekkes op mod</param>
+        private void DoCollisionCheck(GameObject gameObject)
+        {
+
+            if (gameObject is ICollidable)
+                foreach (GameObject other in gameObjects)
+                {
+
+                    if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type.GetType() == other.Type.GetType() || !(other is ICollidable))
+                        continue;
+
+                    if ((
+                        gameObject.Type.GetType() == typeof(PlayerType) ||
+                        gameObject.Type.GetType() == typeof(AttackType)
+                        ) && (
+                        other.Type.GetType() == typeof(EnemyType) ||
+                        other.Type.GetType() == typeof(PuzzleType)
+                        ))
+                    {
+                        if ((gameObject as ICollidable).CheckCollision(other as ICollidable))
+                        {
+                            bool handledCollision = false;
+                            if ((gameObject is IPPCollidable && other is IPPCollidable))
+                                if ((gameObject as IPPCollidable).PPCheckCollision(other as IPPCollidable))
+                                    handledCollision = true;
+                                else
+                                    continue;
+                            else if (gameObject is IPPCollidable && other is ICollidable)
+                                if ((gameObject as IPPCollidable).DoHybridCheck((other as ICollidable).CollisionBox))
+                                    handledCollision = true;
+                                else
+                                    continue;
+                            else if (other is IPPCollidable && gameObject is ICollidable)
+                                if ((other as IPPCollidable).DoHybridCheck((gameObject as ICollidable).CollisionBox))
+                                    handledCollision = true;
+                                else
+                                    continue;
+                            else
+                                handledCollision = true;
+
+
+                            if (handledCollision)
+                            {
+                                (gameObject as ICollidable).OnCollision(other as ICollidable);
+                                (other as ICollidable).OnCollision(gameObject as ICollidable);
+                                collisions.Add((gameObject, other));
+                            }
+
+                        }
+                    }
+
+                }
+
+        }
+
 
     }
 }
