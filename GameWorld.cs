@@ -336,6 +336,16 @@ namespace Mortens_Komeback_3
 
 
             #endregion
+            #region VFX
+
+            Texture2D[] swordSwoosh = new Texture2D[11];
+            for (int i = 0; i < swordSwoosh.Length; i++)
+            {
+                swordSwoosh[i] = Content.Load<Texture2D>($"Sprites\\VFX\\swing{i}");
+            }
+            Sprites.Add(AttackType.Swing, swordSwoosh);
+
+            #endregion
             #region Debug
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
             #endregion

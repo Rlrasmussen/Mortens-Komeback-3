@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,13 @@ namespace Mortens_Komeback_3
         #region Constructor
         public WeaponMelee(WeaponType type, Vector2 spawnPos) : base(type, spawnPos)
         {
+            if (GameWorld.Instance.Sprites.TryGetValue(AttackType.Swing, out Texture2D[] sprites))
+                vfx = sprites;
+            else
+                Debug.WriteLine("Kunne ikke sætte VFX");
+
+            damage = 10;
+            range = 250f;
         }
 
 

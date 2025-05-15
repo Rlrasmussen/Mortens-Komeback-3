@@ -22,7 +22,8 @@ namespace Mortens_Komeback_3
         private Weapon equippedWeapon;
         private List<Weapon> availableWeapons = new List<Weapon>();
         private Vector2 velocity;
-        private float speed = 500f;
+        private Vector2 meleeAttackDirection;
+        private float speed = 300f;
         private float walkTimer = 0.5f;
         private int health;
         private int maxHealth = 100;
@@ -160,11 +161,18 @@ namespace Mortens_Komeback_3
             Vector2 correction = Vector2.Zero;
             if (attacking && equippedWeapon != null && (WeaponType)equippedWeapon.Type == WeaponType.Melee)
             {
-                correction = new Vector2(0, 40);
-                if (equippedWeapon is WeaponMelee && (equippedWeapon as WeaponMelee).VFX != null)
-                {
-                    spriteBatch.Draw((equippedWeapon as WeaponMelee).VFX[CurrentIndex], Position, null, drawColor, Rotation, origin, scale, SpriteEffects.None, layer);
-                }
+                // 1. Calculate angle of attack
+                float angle = (float)Math.Atan2(meleeAttackDirection.Y, meleeAttackDirection.X);
+
+                // 2. Set VFX origin (center-bottom or custom based on your sprite)
+                Texture2D vfxTexture = (equippedWeapon as WeaponMelee).VFX[CurrentIndex];
+                Vector2 vfxOrigin = new Vector2(0, vfxTexture.Height / 2f); // left center
+
+                // 3. Set offset from character Position in the direction of attack
+                Vector2 vfxOffset = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * Sprite.Width / 2f;
+
+                // 4. Draw at Position + offset
+                spriteBatch.Draw(vfxTexture, new Vector2(Position.X, Position.Y - (Sprite.Height / 4f)) + vfxOffset, null, drawColor, angle, vfxOrigin, scale, SpriteEffects.None, layer + 0.01f);
             }
 
             if (Sprites != null)
@@ -226,6 +234,7 @@ namespace Mortens_Komeback_3
                     ElapsedTime = 0;
                     FPS = 30;
                     GameWorld.Instance.Sounds[Sound.PlayerSwordAttack].Play();
+                    meleeAttackDirection = InputHandler.Instance.MousePosition - Position;
                 }
             }
 
