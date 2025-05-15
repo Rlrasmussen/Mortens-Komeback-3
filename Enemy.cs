@@ -14,6 +14,8 @@ namespace Mortens_Komeback_3
     public class Enemy : GameObject, IAnimate, ICollidable, IPPCollidable
     {
         #region Fields
+        private float damageTimer;
+        private float damageGracePeriode = 2f;
 
         #endregion
 
@@ -47,6 +49,8 @@ namespace Mortens_Komeback_3
             (this as IAnimate).Animate();
             (this as IPPCollidable).UpdateRectangles();
 
+            //DamageTimer for OnCollision
+            damageTimer += GameWorld.Instance.DeltaTime;
 
             base.Update(gameTime);
         }
@@ -96,9 +100,11 @@ namespace Mortens_Komeback_3
             {
                 TakeDamage((GameObject)other);
             }
-            else if (other is Player)
+            else if (other is Player && damageTimer > damageGracePeriode)
             {
                 Attack();
+
+                damageTimer = 0f;
             }
         }
 
@@ -122,12 +128,13 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Enemy is attacking a GameObject
-        /// Enemy can only attack Player
+        /// Enemy can only attack Player + PlayerDamage soundEffect
         /// Rikke
         /// </summary>
         public void Attack()
         {
             Player.Instance.Health -= Damage;
+            GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
         }
         #endregion
     }
