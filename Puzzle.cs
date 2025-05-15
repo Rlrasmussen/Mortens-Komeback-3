@@ -8,6 +8,7 @@ using Mortens_Komeback_3.Environment;
 using Mortens_Komeback_3.Collider;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct3D9;
+using Mortens_Komeback_3.Factory;
 
 namespace Mortens_Komeback_3
 {
@@ -18,6 +19,8 @@ namespace Mortens_Komeback_3
         private int spriteIndex;
         private bool solved = false;
         private Door puzzleDoor;
+        private bool showTextBubble = false;
+        private Texture2D textBubble;
 
         #endregion
 
@@ -54,7 +57,8 @@ namespace Mortens_Komeback_3
                     }
                 case PuzzleType.ShootPuzzle:
                     {
-                        puzzlePieces = new Dictionary<string, Puzzle>();
+                        puzzleDoor = new Door(new Vector2(Position.X + 700, Position.Y), DoorDirection.Top, DoorType.Locked);
+                        GameWorld.Instance.SpawnObject(puzzleDoor);
                         break;
                     }
                 default:
@@ -111,15 +115,15 @@ namespace Mortens_Komeback_3
         /// <param name="other">The ICollidable object, that the puzzle is colliding with. </param>
         public void OnCollision(ICollidable other)
         {
-            /* 
-             * if(other is Projectile && (PuzzleType)type == PuzzleType.ShootPuzzle)
-             * {
-             * Solved = true;
-             * }
-             * 
+
+            if (other is Projectile && (PuzzleType)type == PuzzleType.ShootPuzzle)
+            {
+                Solved = true;
+            }
 
 
-            */
+
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)

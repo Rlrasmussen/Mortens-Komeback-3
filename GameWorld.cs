@@ -94,6 +94,9 @@ namespace Mortens_Komeback_3
             Puzzle orderPuzzle = new Puzzle(PuzzleType.OrderPuzzle, new Vector2(100, 300));
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
+            Puzzle shootPuzzle = new Puzzle(PuzzleType.ShootPuzzle, new Vector2(0, -200));
+            gameObjects.Add(shootPuzzle);
+            gamePuzzles.Add(shootPuzzle);
 
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -324,7 +327,7 @@ namespace Mortens_Komeback_3
             #region Puzzle
             Sprites.Add(PuzzleType.OrderPuzzle, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\Environment\\doorLocked"), Content.Load<Texture2D>("Sprites\\Environment\\doorOpen_Shadow") });
             Sprites.Add(PuzzleType.OrderPuzzlePlaque, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Items\\wallTurkey"), Content.Load<Texture2D>("Sprites\\Items\\sling"), Content.Load<Texture2D>("Sprites\\Items\\key") });
-
+            Sprites.Add(PuzzleType.ShootPuzzle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\heartSprite") });
 
             #endregion
             #region Decorations
