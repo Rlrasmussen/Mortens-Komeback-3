@@ -35,10 +35,6 @@ namespace Mortens_Komeback_3.Factory
         #endregion
 
         #region Method
-        public void OnCollision(ICollidable other)
-        {
-            throw new NotImplementedException();
-        }
 
 
         public override void Load()
@@ -55,6 +51,7 @@ namespace Mortens_Komeback_3.Factory
             base.Load();
 
         }
+
 
         public void OnCollision(ICollidable other)
         {
