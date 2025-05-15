@@ -385,13 +385,13 @@ namespace Mortens_Komeback_3
         }
 
 
-        public HashSet<Enemy> EnemiesNearPlayer()
+        public HashSet<Enemy> EnemiesNearPlayer(float range)
         {
 
             HashSet<Enemy> nearbyEnemies = new HashSet<Enemy>();
 
             foreach (GameObject gameObject in gameObjects)
-                if (gameObject is Enemy && Vector2.Distance(Player.Instance.Position, gameObject.Position) <= 300)
+                if (gameObject is Enemy && Vector2.Distance(Player.Instance.Position, gameObject.Position) <= range)
                     nearbyEnemies.Add((Enemy)gameObject);
 
             return nearbyEnemies;
