@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Mortens_Komeback_3.Command;
+using Mortens_Komeback_3.Collider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +9,13 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.Factory
 {
-    public class Projectile : GameObject
+    public class Projectile : GameObject, ICollidable
     {
         #region Fields
+
+        private Vector2 direction;
+        private float speed = 1000f;
+        private float rotateDirection;
 
         #endregion
 
@@ -20,11 +26,50 @@ namespace Mortens_Komeback_3.Factory
         #region Constructor
         public Projectile(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
+            
         }
 
         #endregion
 
         #region Method
+
+
+        public override void Load()
+        {
+
+            direction = InputHandler.Instance.MousePosition - Player.Instance.Position;
+            direction.Normalize();
+
+            if (Player.Instance.Position.X < InputHandler.Instance.MousePosition.X)
+                rotateDirection = 0.15f;
+            else
+                rotateDirection = -0.15f;
+
+            base.Load();
+
+        }
+
+        public void OnCollision(ICollidable other)
+        {
+            if (other.Type.GetType() == typeof(EnemyType))
+            {
+                (other as Enemy).IsAlive = false;
+            }
+            else
+                switch (other.Type)
+                {
+                    default:
+                        break;
+                }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+
+            Position += direction * speed * GameWorld.Instance.DeltaTime;
+            Rotation += rotateDirection;
+
+        }
 
         #endregion
     }

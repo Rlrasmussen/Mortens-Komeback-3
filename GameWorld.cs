@@ -83,6 +83,7 @@ namespace Mortens_Komeback_3
         {
 
             gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
+            gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -234,9 +235,10 @@ namespace Mortens_Komeback_3
 
             Sprites.Add(AttackType.Egg, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\egg1") });
             Sprites.Add(ItemType.Key, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\key") });
-            Sprites.Add(ItemType.Sling, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sling") });
             Sprites.Add(ItemType.WallTurkey, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\wallTurkey") });
-
+            Texture2D[] sling = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sling") };
+            Sprites.Add(WeaponType.Ranged, sling);
+            Sprites.Add(ItemType.Sling, sling);
             Texture2D[] sword = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sword") };
             Sprites.Add(MenuType.Cursor, sword);
             Sprites.Add(WeaponType.Melee, sword);
