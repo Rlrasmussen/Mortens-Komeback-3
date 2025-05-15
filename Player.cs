@@ -99,6 +99,8 @@ namespace Mortens_Komeback_3
 
             AddCommands();
 
+            this.Damage = 1;
+
         }
 
         #endregion
@@ -179,10 +181,10 @@ namespace Mortens_Komeback_3
         public void OnCollision(ICollidable other)
         {
             switch (other.Type)
-            {
-                default:
-                    break;
-            }
+                {
+                    default:
+                        break;
+                }
 
         }
 
