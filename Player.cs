@@ -96,11 +96,8 @@ namespace Mortens_Komeback_3
                 Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
 
             layer = 0.6f;
-            speed = 1000;
 
             AddCommands();
-
-            this.Damage = 1;
 
         }
 
@@ -161,8 +158,14 @@ namespace Mortens_Komeback_3
         {
 
             Vector2 correction = Vector2.Zero;
-            if (attacking)
+            if (attacking && equippedWeapon != null && (WeaponType)equippedWeapon.Type == WeaponType.Melee)
+            {
                 correction = new Vector2(0, 40);
+                if (equippedWeapon is WeaponMelee && (equippedWeapon as WeaponMelee).VFX != null)
+                {
+                    spriteBatch.Draw((equippedWeapon as WeaponMelee).VFX[CurrentIndex], Position, null, drawColor, Rotation, origin, scale, SpriteEffects.None, layer);
+                }
+            }
 
             if (Sprites != null)
                 spriteBatch.Draw(Sprites[CurrentIndex], Position - correction, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
@@ -183,8 +186,25 @@ namespace Mortens_Komeback_3
 
         public void OnCollision(ICollidable other)
         {
-            switch (other.Type)
+            if (other.Type.GetType() == typeof(EnemyType))
+            {
+                //(other as GameObject).IsAlive = false;
+            }
+            else
+                switch (other.Type)
                 {
+                    case WeaponType.Melee:
+                        if (other is Weapon)
+                            availableWeapons.Add(other as Weapon);
+                        (other as Weapon).IsAlive = false;
+                        if (equippedWeapon == null)
+                            equippedWeapon = (other as Weapon);
+                        break;
+                    case WeaponType.Ranged:
+                        if (other is Weapon)
+                            availableWeapons.Add(other as Weapon);
+                        (other as Weapon).IsAlive = false;
+                        break;
                     default:
                         break;
                 }
@@ -198,17 +218,17 @@ namespace Mortens_Komeback_3
             if (!GameWorld.Instance.GamePaused && equippedWeapon != null && !attacking)
             {
                 equippedWeapon.Attack();
+                if ((WeaponType)equippedWeapon.Type == WeaponType.Melee && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) //Skal rykkes ind i samme loop som equippedWeapon.Attack();
+                {
+                    Sprites = sprites;
+                    attacking = true;
+                    CurrentIndex = 0;
+                    ElapsedTime = 0;
+                    FPS = 30;
+                    GameWorld.Instance.Sounds[Sound.PlayerSwordAttack].Play();
+                }
             }
 
-            if (GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) //Skal rykkes ind i samme loop som equippedWeapon.Attack();
-            {
-                Sprites = sprites;
-                attacking = true;
-                CurrentIndex = 0;
-                ElapsedTime = 0;
-                FPS = 30;
-                GameWorld.Instance.Sounds[Sound.PlayerSwordAttack].Play();
-            }
 
         }
 
@@ -216,7 +236,8 @@ namespace Mortens_Komeback_3
         public void ChangeWeapon(WeaponType weapon)
         {
 
-            equippedWeapon = availableWeapons.Find(x => (WeaponType)x.Type == weapon);
+            if (!attacking)
+                equippedWeapon = availableWeapons.Find(x => (WeaponType)x.Type == weapon);
 
         }
 
