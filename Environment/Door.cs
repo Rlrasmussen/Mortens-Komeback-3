@@ -19,7 +19,8 @@ namespace Mortens_Komeback_3.Environment
         #endregion
 
         #region Properties
-        public DoorType DoorType { get; private set; }
+        public DoorType DoorStatus { get; private set; }
+        public Room room { get; set; }
 
         public Room DestinationRoom { get; set; }
         public Door DestinationDoor { get; set; }
@@ -28,7 +29,7 @@ namespace Mortens_Komeback_3.Environment
         #region Constructor
         public Door(Vector2 spawnPos, DoorDirection direction, DoorType initialType = DoorType.Closed) : base(initialType, spawnPos)
         {
-            DoorType = initialType;
+            DoorStatus = initialType;
             Rotation = GetDoorDirection(direction);
             layer = 0.11f;
 
@@ -39,18 +40,18 @@ namespace Mortens_Komeback_3.Environment
         #region Method
         public void UnlockDoor()
         {
-            if(DoorType == DoorType.Locked)
+            if(DoorStatus == DoorType.Locked)
             {
-                DoorType = DoorType.Closed;
+                DoorStatus = DoorType.Closed;
                 Debug.WriteLine("room unlocked");
             }
         }
 
         public void OpenDoor()
         {
-            if (DoorType == DoorType.Closed)
+            if (DoorStatus == DoorType.Closed)
             {
-                DoorType = DoorType.Open;
+                DoorStatus = DoorType.Open;
                 Debug.WriteLine("room open");
             }
         }
@@ -86,22 +87,34 @@ namespace Mortens_Komeback_3.Environment
 
         public void OnCollision(ICollidable other)
         {
-            if (other == Player.Instance)
+            if(DoorStatus == DoorType.Open && DestinationRoom != null && DestinationDoor != null)
             {
-                TeleportPlayer();
+                //Teleport
+                Player.Instance.Position = DestinationDoor.Position;
+                GameWorld.Instance.CurrentRoom = DestinationRoom;
+                Debug.WriteLine("player teleported");
             }
-            throw new NotImplementedException();
+            else 
+            {
+                Debug.WriteLine("can't teleport");
+            }
+
+            //if (other == Player.Instance)
+            //{
+            //    TeleportPlayer();
+            //}
+            //throw new NotImplementedException();
         }
 
         /// <summary>
         /// When player collides with door, players position is moved to next room
         /// </summary>
         /// <param name = "room" ></ param >
-        public void TeleportPlayer()
-        {
-            Player.Instance.Position = teleportPosition;
-            //    Debug.WriteLine("teleport");
-        }
+        //public void TeleportPlayer()
+        //{
+        //    Player.Instance.Position = teleportPosition;
+        //    //    Debug.WriteLine("teleport");
+        //}
 
         #endregion
     }

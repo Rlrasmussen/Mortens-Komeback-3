@@ -21,6 +21,7 @@ namespace Mortens_Komeback_3
         private Random random = new Random();
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
+        private List<Environment.Room> Rooms = new List<Environment.Room>();
         private HashSet<(GameObject, GameObject)> collisions = new HashSet<(GameObject, GameObject)>();
         public Dictionary<Location, Vector2> Locations = new Dictionary<Location, Vector2>();
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
@@ -53,6 +54,8 @@ namespace Mortens_Komeback_3
 
 
         public bool GamePaused { get => gamePaused; set => gamePaused = value; }
+
+        public Environment.Room CurrentRoom { get; set; }
 
 
         private GameWorld()

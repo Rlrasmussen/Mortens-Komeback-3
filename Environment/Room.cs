@@ -14,20 +14,20 @@ namespace Mortens_Komeback_3.Environment
         #region Fields
         private Room currentRoom;
         private RoomType roomType;
-        private static readonly Dictionary<RoomType, Vector2> spawnPoints = new()
-        {
-        {RoomType.PopeRoom, new Vector2(500, 500)},
-        {RoomType.Stairs, new Vector2(1000, 1000)},
-        {RoomType.CatacombesA, new Vector2(600, 400)},
-        {RoomType.CatacombesB, new Vector2(600, 400)},
-        {RoomType.CatacombesC, new Vector2(600, 400)},
-        {RoomType.CatacombesD, new Vector2(600, 400)},
-        {RoomType.CatacombesE, new Vector2(600, 400)},
-        {RoomType.CatacombesF, new Vector2(600, 400)},
-        {RoomType.CatacombesG, new Vector2(600, 400)},
-        {RoomType.CatacombesH, new Vector2(600, 400)},
-        {RoomType.TrapRoom, new Vector2(600, 400)},
-        };
+        //private static readonly Dictionary<RoomType, Vector2> spawnPoints = new()
+        //{
+        //{RoomType.PopeRoom, new Vector2(500, 500)},
+        //{RoomType.Stairs, new Vector2(1000, 1000)},
+        //{RoomType.CatacombesA, new Vector2(600, 400)},
+        //{RoomType.CatacombesB, new Vector2(600, 400)},
+        //{RoomType.CatacombesC, new Vector2(600, 400)},
+        //{RoomType.CatacombesD, new Vector2(600, 400)},
+        //{RoomType.CatacombesE, new Vector2(600, 400)},
+        //{RoomType.CatacombesF, new Vector2(600, 400)},
+        //{RoomType.CatacombesG, new Vector2(600, 400)},
+        //{RoomType.CatacombesH, new Vector2(600, 400)},
+        //{RoomType.TrapRoom, new Vector2(600, 400)},
+        //};
         #endregion
 
         #region Properties
@@ -48,6 +48,21 @@ namespace Mortens_Komeback_3.Environment
 
             scale = 1.5F;
             layer = 0.1f;
+
+            //Room roomA = new Room(RoomType.CatacombesA, Vector2.Zero);
+            //Room roomB = new Room(RoomType.CatacombesB, new Vector2(0,-1000));
+
+            //Door doorA = new Door(new Vector2(100, 100), DoorDirection.Right);
+            //Door doorB = new Door(new Vector2(200, 200), DoorDirection.Left);
+
+            //doorA.DestinationRoom = roomB;
+            //doorA.DestinationDoor = doorB;
+
+            //doorB.DestinationRoom = roomA;
+            //doorB.DestinationDoor = doorA;
+
+            //roomA.Doors.Add(doorA);
+            //roomB.Doors.Add(doorB);
         }
 
         #endregion
@@ -57,6 +72,8 @@ namespace Mortens_Komeback_3.Environment
         {
             Doors.Add(door);   
         }
+
+       
 
         //public void ActiveRoom(RoomType room)
         //{
