@@ -31,6 +31,9 @@ namespace Mortens_Komeback_3
         private bool gamePaused = false;
         private bool gameRunning = true;
 
+        private float spawnEnemyTime = 5f;
+        private float lastSpawnEnemy = 0f;
+
         public static GameWorld Instance
         {
             get
@@ -74,7 +77,7 @@ namespace Mortens_Komeback_3
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
 
             gameObjects.Add(Player.Instance);
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
+            gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
 
             base.Initialize();
         }
@@ -106,6 +109,8 @@ namespace Mortens_Komeback_3
                 gameObject.Update(gameTime);
                 DoCollisionCheck(gameObject);
             }
+
+            SpawnEnemies();
 
             CleanUp();
 
@@ -372,6 +377,16 @@ namespace Mortens_Komeback_3
 
         }
 
+        private void SpawnEnemies()
+        {
+            lastSpawnEnemy += DeltaTime;
 
+            if (lastSpawnEnemy > spawnEnemyTime)
+            {
+                SpawnObject(EnemyPool.Instance.GetObject());
+
+                lastSpawnEnemy = 0f;
+            }
+        }
     }
 }
