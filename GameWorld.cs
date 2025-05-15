@@ -31,7 +31,6 @@ namespace Mortens_Komeback_3
         private bool gamePaused = false;
         private bool gameRunning = true;
 
-
         public static GameWorld Instance
         {
             get
@@ -75,7 +74,7 @@ namespace Mortens_Komeback_3
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
 
             gameObjects.Add(Player.Instance);
-            gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
+            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
 
             base.Initialize();
         }
@@ -372,6 +371,7 @@ namespace Mortens_Komeback_3
                 }
 
         }
+
 
     }
 }

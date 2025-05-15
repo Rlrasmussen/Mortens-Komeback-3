@@ -6,10 +6,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mortens_Komeback_3.Collider;
 
 namespace Mortens_Komeback_3
 {
-    public class Enemy : GameObject, IAnimate
+    public class Enemy : GameObject, IAnimate, ICollidable
     {
         #region Fields
 
@@ -49,6 +50,11 @@ namespace Mortens_Komeback_3
                 spriteBatch.Draw(Sprites[CurrentIndex], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             else
                 base.Draw(spriteBatch);
+        }
+
+        public void OnCollision(ICollidable other)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
