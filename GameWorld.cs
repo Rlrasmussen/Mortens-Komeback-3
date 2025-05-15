@@ -459,6 +459,17 @@ namespace Mortens_Komeback_3
         }
 
 
+        private void SpawnEnemies()
+        {
+            lastSpawnEnemy += DeltaTime;
+
+            if (lastSpawnEnemy > spawnEnemyTime)
+            {
+                SpawnObject(EnemyPool.Instance.GetObject());
+                lastSpawnEnemy = 0f;
+            }
+        }
+
         public HashSet<Enemy> EnemiesNearPlayer(float range)
         {
 
@@ -470,16 +481,6 @@ namespace Mortens_Komeback_3
 
             return nearbyEnemies;
         }
-        private void SpawnEnemies()
-        {
-            lastSpawnEnemy += DeltaTime;
 
-            if (lastSpawnEnemy > spawnEnemyTime)
-            {
-                SpawnObject(EnemyPool.Instance.GetObject());
-
-                lastSpawnEnemy = 0f;
-            }
-        }
     }
 }
