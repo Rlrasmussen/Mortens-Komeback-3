@@ -86,7 +86,7 @@ namespace Mortens_Komeback_3
         public void OnCollision(ICollidable other)
         {
             //Take damage by collision
-            if (other is Projectile)
+            if (other is Projectile /*|| other is Player*/) //Player is going to go
             {
                 TakeDamage((GameObject)other);
             }
