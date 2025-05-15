@@ -102,12 +102,17 @@ namespace Mortens_Komeback_3
                 puzzlePieces["plaque3"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][1]
                     )
                 {
-                    Solved = true;
-                    puzzleDoor.UnlockDoor();
+                    SolvePuzzle();
                 }
 
             }
 
+        }
+
+        public void SolvePuzzle()
+        {
+            Solved = true;
+            puzzleDoor.UnlockDoor();
         }
         /// <summary>
         /// The funcitoning happening when the puzzle is colliding with an other object, 
@@ -118,7 +123,7 @@ namespace Mortens_Komeback_3
 
             if (other is Projectile && (PuzzleType)type == PuzzleType.ShootPuzzle)
             {
-                Solved = true;
+                SolvePuzzle();
             }
 
 
