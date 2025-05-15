@@ -46,7 +46,7 @@ namespace Mortens_Komeback_3
         /// <summary>
         /// Used to set the zoomlevel of the viewport (scaled float)
         /// </summary>
-        public float Zoom { get; set; } = 0.3f;
+        public float Zoom { get; set; } = 1f;
 
         /// <summary>
         /// Used to rotate the camera

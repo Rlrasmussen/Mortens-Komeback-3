@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mortens_Komeback_3.Collider;
+using System.Diagnostics;
 
 
 namespace Mortens_Komeback_3.Environment
@@ -13,23 +14,50 @@ namespace Mortens_Komeback_3.Environment
     public class Door : GameObject, ICollidable
     {
         #region Fields
+        private Vector2 teleportPosition = new Vector2(500,500);
 
         #endregion
 
         #region Properties
+        public DoorType DoorType { get; private set; }
 
+        public Room DestinationRoom { get; set; }
+        public Door DestinationDoor { get; set; }
         #endregion
 
         #region Constructor
-        public Door(Enum type, Vector2 spawnPos, DoorDirection direction) : base(type, spawnPos)
+        public Door(Vector2 spawnPos, DoorDirection direction, DoorType initialType = DoorType.Closed) : base(initialType, spawnPos)
         {
+            DoorType = initialType;
             Rotation = GetDoorDirection(direction);
+            layer = 0.11f;
+
         }
 
         #endregion
 
         #region Method
+        public void UnlockDoor()
+        {
+            if(DoorType == DoorType.Locked)
+            {
+                DoorType = DoorType.Closed;
+                Debug.WriteLine("room unlocked");
+            }
+        }
 
+        public void OpenDoor()
+        {
+            if (DoorType == DoorType.Closed)
+            {
+                DoorType = DoorType.Open;
+                Debug.WriteLine("room open");
+            }
+        }
+
+        
+
+       
 
         /// <summary>
         /// Roterer dørene
@@ -58,22 +86,23 @@ namespace Mortens_Komeback_3.Environment
 
         public void OnCollision(ICollidable other)
         {
-            //if (other == Player.Instance)
-            //{
-            //    TeleportPlayer();
-            //}
-            //throw new NotImplementedException();
+            if (other == Player.Instance)
+            {
+                TeleportPlayer();
+            }
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// When player collides with door, players position is moved to next room
         /// </summary>
-        /// <param name="room"></param>
-        //public void TeleportPlayer(RoomType room)
-        //{
-        //    Player.Instance.Position = RoomType;
-        //}
-      
+        /// <param name = "room" ></ param >
+        public void TeleportPlayer()
+        {
+            Player.Instance.Position = teleportPosition;
+            //    Debug.WriteLine("teleport");
+        }
+
         #endregion
     }
 }
