@@ -68,6 +68,47 @@ namespace Mortens_Komeback_3
             textBubble = GameWorld.Instance.Sprites[OverlayObjects.InteractBubble][0];
         }
 
+        /// <summary>
+        /// Overload to Constructor for Puzzle, where doorplacement is given as argument.
+        /// Beware that if puzzle is OrderPuzzle, the puzzle will be placed at same place as door, so Spawnposition is irellevant. 
+        /// </summary> Philip
+        /// <param name="type">The type of puzzle</param>
+        /// <param name="spawnPos">THe position the main element of thee puzzle will be spawned at.</param>
+        public Puzzle(PuzzleType type, Vector2 spawnPos, Vector2 doorPos) : base(type, spawnPos)
+        {
+            switch (type)
+            {
+                case PuzzleType.OrderPuzzle:
+                    {
+                        Position = doorPos;
+                        puzzlePieces = new Dictionary<string, Puzzle>();
+                        puzzlePieces.Add("plaque1", new Puzzle(PuzzleType.OrderPuzzlePlaque, new Vector2(Position.X - (Sprite.Width / 2) - (GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0].Width / 2), Position.Y)));
+                        puzzlePieces.Add("plaque2", new Puzzle(PuzzleType.OrderPuzzlePlaque, new Vector2((puzzlePieces["plaque1"].Position.X - GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0].Width), Position.Y)));
+                        puzzlePieces.Add("plaque3", new Puzzle(PuzzleType.OrderPuzzlePlaque, new Vector2((puzzlePieces["plaque2"].Position.X - GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0].Width), Position.Y)));
+                        foreach (var item in puzzlePieces)
+                        {
+                            GameWorld.Instance.SpawnObject(item.Value);
+                            GameWorld.Instance.gamePuzzles.Add(item.Value);
+                        }
+                        puzzleDoor = new Door(Position, DoorDirection.Top, DoorType.Locked);
+                        GameWorld.Instance.SpawnObject(puzzleDoor);
+                        spriteIndex = 0;
+                        break;
+                    }
+                case PuzzleType.ShootPuzzle:
+                    {
+                        puzzleDoor = new Door(doorPos, DoorDirection.Top, DoorType.Locked);
+                        GameWorld.Instance.SpawnObject(puzzleDoor);
+                        break;
+                    }
+                default:
+                    break;
+
+            }
+            textBubble = GameWorld.Instance.Sprites[OverlayObjects.InteractBubble][0];
+        }
+
+
         #endregion
 
         #region Method
