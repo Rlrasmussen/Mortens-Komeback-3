@@ -27,6 +27,15 @@ namespace Mortens_Komeback_3
         Unlocked
     }
 
+    public enum DoorDirection
+    { 
+        Top,
+        Right,
+        Bottom,
+        Left
+
+    }
+
     public enum WeaponType
     {
         Melee,
@@ -86,9 +95,20 @@ namespace Mortens_Komeback_3
         WallTurkey
     }
 
-    public enum Roomtype
+    public enum RoomType
     {
-        Single
+        PopeRoom,
+        Stairs,
+        CatacombesA,
+        CatacombesB,
+        CatacombesC,
+        CatacombesD,
+        CatacombesE,
+        CatacombesF,
+        CatacombesG,
+        CatacombesH,
+        TrapRoom
+
     }
 
     public enum NPCType

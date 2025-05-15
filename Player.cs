@@ -22,7 +22,7 @@ namespace Mortens_Komeback_3
         private Weapon equippedWeapon;
         private List<Weapon> availableWeapons = new List<Weapon>();
         private Vector2 velocity;
-        private float speed = 300f;
+        private float speed = 500f;
         private float walkTimer = 0.5f;
         private int health;
         private int maxHealth = 100;
@@ -96,6 +96,7 @@ namespace Mortens_Komeback_3
                 Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
 
             layer = 0.6f;
+            speed = 1000;
 
             AddCommands();
 
@@ -136,6 +137,8 @@ namespace Mortens_Komeback_3
             }
             else if (attacking)
                 (this as IAnimate).Animate();
+
+            Camera.Instance.Position = Position;
 
             base.Update(gameTime);
 

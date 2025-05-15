@@ -21,6 +21,7 @@ namespace Mortens_Komeback_3
         private Random random = new Random();
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
+        private List<Environment.Room> Rooms = new List<Environment.Room>();
         private HashSet<(GameObject, GameObject)> collisions = new HashSet<(GameObject, GameObject)>();
         public Dictionary<Location, Vector2> Locations = new Dictionary<Location, Vector2>();
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
@@ -57,6 +58,8 @@ namespace Mortens_Komeback_3
 
 
         public bool GamePaused { get => gamePaused; set => gamePaused = value; }
+
+        public Environment.Room CurrentRoom { get; set; }
 
 
         private GameWorld()
@@ -95,6 +98,25 @@ namespace Mortens_Komeback_3
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            #region Rooms
+            gameObjects.Add(new Environment.Room(RoomType.PopeRoom, new Vector2(0, 0)));
+            gameObjects.Add(new Environment.Room(RoomType.Stairs, new Vector2(0, 2000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesA, new Vector2(0, 4000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesA, new Vector2(2650, 4000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesB, new Vector2(0, 6000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesC, new Vector2(0, 8000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesD, new Vector2(0, 10000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesD, new Vector2(0, 11500)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesE, new Vector2(0, 18000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesF, new Vector2(0, 20000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesG, new Vector2(0, 22000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesH, new Vector2(0, 24000)));
+            gameObjects.Add(new Environment.Room(RoomType.TrapRoom, new Vector2(0, 26000)));
+            #endregion
+            #region Doors
+            gameObjects.Add(new Environment.Door(new Vector2(1190, 0), DoorDirection.Right));
+            #endregion
+
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
 
@@ -122,7 +144,7 @@ namespace Mortens_Komeback_3
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Green);
+            GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(transformMatrix: Camera.Instance.GetTransformation(), samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
 
@@ -207,7 +229,18 @@ namespace Mortens_Komeback_3
 
             #region Rooms
 
-            Sprites.Add(Roomtype.Single, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.PopeRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesA, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesB, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesC, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesD, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesE, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesF, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesG, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesH, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.TrapRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+
 
             #endregion
             #region Player
