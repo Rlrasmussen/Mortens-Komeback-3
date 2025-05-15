@@ -180,11 +180,7 @@ namespace Mortens_Komeback_3
 
         public void OnCollision(ICollidable other)
         {
-            if (other.Type.GetType() == typeof(EnemyType))
-            {
-                (other as GameObject).IsAlive = false;
-            }
-            else
+
                 switch (other.Type)
                 {
                     default:
