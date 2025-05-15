@@ -410,7 +410,7 @@ namespace Mortens_Komeback_3
                 foreach (GameObject other in gameObjects)
                 {
 
-                    if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type.GetType() == other.Type.GetType() || !(other is ICollidable))
+                    if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type.GetType() == other.Type.GetType() || !(other is ICollidable) || !gameObject.IsAlive || !other.IsAlive)
                         continue;
 
                     if ((
