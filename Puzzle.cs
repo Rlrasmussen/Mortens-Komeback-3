@@ -27,10 +27,10 @@ namespace Mortens_Komeback_3
 
         #region Constructor
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="spawnPos"></param>
+        /// Constructor for Puzzle. The type given, determnines which kind of puzzle it is.
+        /// </summary> Philip
+        /// <param name="type">The type of puzzle</param>
+        /// <param name="spawnPos">THe position the main element of thee puzzle will be spawned at.</param>
         public Puzzle(PuzzleType type, Vector2 spawnPos) : base(type, spawnPos)
         {
             switch (type)
@@ -64,7 +64,9 @@ namespace Mortens_Komeback_3
 
         #region Method
 
-
+        /// <summary>
+        /// Changes the picture on the puzzle plaque, if the puzzle has the type OrderPuzzlePlaque.
+        /// </summary>
         public void ChangePlaque()
         {
             if ((PuzzleType)type == PuzzleType.OrderPuzzlePlaque)
@@ -80,7 +82,9 @@ namespace Mortens_Komeback_3
                 Sprite = GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][spriteIndex];
             }
         }
-
+        /// <summary>
+        /// Tries solving the puzzle, i.e. check if all requoremnts ofr solving is met, and if so changes the puzzle to solved. Requirements depends on type of puzzle. 
+        /// </summary> Philip
         public void TrySolve()
         {
             if ((PuzzleType)type == PuzzleType.OrderPuzzle)
@@ -98,7 +102,10 @@ namespace Mortens_Komeback_3
             }
 
         }
-
+        /// <summary>
+        /// The funcitoning happening when the puzzle is colliding with an other object, 
+        /// </summary>
+        /// <param name="other">The ICollidable object, that the puzzle is colliding with. </param>
         public void OnCollision(ICollidable other)
         {
             /* 
