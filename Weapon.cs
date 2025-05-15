@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mortens_Komeback_3.Collider;
 
 namespace Mortens_Komeback_3
 {
-    public abstract class Weapon : GameObject
+    public abstract class Weapon : GameObject, ICollidable
     {
+
         #region Fields
 
         #endregion
@@ -18,7 +20,7 @@ namespace Mortens_Komeback_3
         #endregion
 
         #region Constructor
-        protected Weapon(Enum type, Vector2 spawnPos) : base(type, spawnPos)
+        protected Weapon(WeaponType type, Vector2 spawnPos) : base(type, spawnPos)
         {
         }
 
@@ -27,6 +29,11 @@ namespace Mortens_Komeback_3
         #region Method
 
         public abstract void Attack();
+
+        public void OnCollision(ICollidable other)
+        {
+            
+        }
 
         #endregion
     }

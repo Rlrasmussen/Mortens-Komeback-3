@@ -90,6 +90,8 @@ namespace Mortens_Komeback_3
         protected override void LoadContent()
         {
 
+            gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
+            gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
 
             Puzzle orderPuzzle = new Puzzle(PuzzleType.OrderPuzzle, new Vector2(100, 300));
             gameObjects.Add(orderPuzzle);
@@ -291,12 +293,13 @@ namespace Mortens_Komeback_3
 
             Sprites.Add(AttackType.Egg, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\egg1") });
             Sprites.Add(ItemType.Key, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\key") });
-            Sprites.Add(ItemType.Sling, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sling") });
             Sprites.Add(ItemType.WallTurkey, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\wallTurkey") });
-
+            Texture2D[] sling = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sling") };
+            Sprites.Add(WeaponType.Ranged, sling);
+            Sprites.Add(ItemType.Sling, sling);
             Texture2D[] sword = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sword") };
             Sprites.Add(MenuType.Cursor, sword);
-            Sprites.Add(ItemType.Sword, sword);
+            Sprites.Add(WeaponType.Melee, sword);
 
             #endregion
             #region Menu
@@ -333,6 +336,16 @@ namespace Mortens_Komeback_3
             #endregion
             #region Decorations
 
+
+            #endregion
+            #region VFX
+
+            Texture2D[] swordSwoosh = new Texture2D[11];
+            for (int i = 0; i < swordSwoosh.Length; i++)
+            {
+                swordSwoosh[i] = Content.Load<Texture2D>($"Sprites\\VFX\\swing{i}");
+            }
+            Sprites.Add(AttackType.Swing, swordSwoosh);
 
             #endregion
             #region Debug
@@ -397,7 +410,7 @@ namespace Mortens_Komeback_3
                 foreach (GameObject other in gameObjects)
                 {
 
-                    if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type.GetType() == other.Type.GetType() || !(other is ICollidable))
+                    if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type.GetType() == other.Type.GetType() || !(other is ICollidable) || !gameObject.IsAlive || !other.IsAlive)
                         continue;
 
                     if ((
@@ -405,7 +418,8 @@ namespace Mortens_Komeback_3
                         gameObject.Type.GetType() == typeof(AttackType)
                         ) && (
                         other.Type.GetType() == typeof(EnemyType) ||
-                        other.Type.GetType() == typeof(PuzzleType)
+                        other.Type.GetType() == typeof(PuzzleType) ||
+                        other.Type.GetType() == typeof(WeaponType)
                         ))
                     {
                         if ((gameObject as ICollidable).CheckCollision(other as ICollidable))
@@ -444,6 +458,7 @@ namespace Mortens_Komeback_3
 
         }
 
+
         private void SpawnEnemies()
         {
             lastSpawnEnemy += DeltaTime;
@@ -451,9 +466,21 @@ namespace Mortens_Komeback_3
             if (lastSpawnEnemy > spawnEnemyTime)
             {
                 SpawnObject(EnemyPool.Instance.GetObject());
-
                 lastSpawnEnemy = 0f;
             }
         }
+
+        public HashSet<Enemy> EnemiesNearPlayer(float range)
+        {
+
+            HashSet<Enemy> nearbyEnemies = new HashSet<Enemy>();
+
+            foreach (GameObject gameObject in gameObjects)
+                if (gameObject is Enemy && Vector2.Distance(Player.Instance.Position, gameObject.Position) <= range)
+                    nearbyEnemies.Add((Enemy)gameObject);
+
+            return nearbyEnemies;
+        }
+
     }
 }

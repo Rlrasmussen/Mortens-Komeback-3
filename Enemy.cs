@@ -102,7 +102,7 @@ namespace Mortens_Komeback_3
             Health -= other.Damage;
 
             //Enemy dies is Health is 0
-            if (Health == 0)
+            if (Health <= 0)
             {
                 IsAlive = false;
 
