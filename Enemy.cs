@@ -11,7 +11,7 @@ using Mortens_Komeback_3.Factory;
 
 namespace Mortens_Komeback_3
 {
-    public class Enemy : GameObject, IAnimate, ICollidable
+    public class Enemy : GameObject, IAnimate, ICollidable, IPPCollidable
     {
         #region Fields
 
@@ -23,6 +23,7 @@ namespace Mortens_Komeback_3
         public float ElapsedTime { get; set; }
         public int CurrentIndex { get; set; }
         public int Health { get; set; }
+        public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
 
 
         #endregion
@@ -44,6 +45,8 @@ namespace Mortens_Komeback_3
         public override void Update(GameTime gameTime)
         {
             (this as IAnimate).Animate();
+            (this as IPPCollidable).UpdateRectangles();
+
 
             base.Update(gameTime);
         }
@@ -67,12 +70,15 @@ namespace Mortens_Komeback_3
             {
                 case EnemyType.WalkingGoose:
                     Health = 1;
+                    this.Damage = 2;
                     break;
                 case EnemyType.AggroGoose:
                     Health = 1;
+                    this.Damage = 2;
                     break;
                 case EnemyType.Goosifer:
                     Health = 1;
+                    this.Damage = 2;
                     break;
             }
 
@@ -86,9 +92,13 @@ namespace Mortens_Komeback_3
         public void OnCollision(ICollidable other)
         {
             //Take damage by collision
-            if (other is Projectile /*|| other is Player*/) //Player is going to go
+            if (other is Projectile)
             {
                 TakeDamage((GameObject)other);
+            }
+            else if (other is Player)
+            {
+                Attack();
             }
         }
 
@@ -96,10 +106,10 @@ namespace Mortens_Komeback_3
         /// Enemy takes damage which makes the Health reduce. When Health is 0 en Enemy dies and will be released fra EnemyPool
         /// Rikke
         /// </summary>
-        /// <param name="other">GameObject which give damage to the Enemy</param>
-        public void TakeDamage(GameObject other)
+        /// <param name="gameObject">GameObject which give damage to the Enemy</param>
+        public void TakeDamage(GameObject gameObject)
         {
-            Health -= other.Damage;
+            Health -= gameObject.Damage;
 
             //Enemy dies is Health is 0
             if (Health == 0)
@@ -108,6 +118,16 @@ namespace Mortens_Komeback_3
 
                 EnemyPool.Instance.ReleaseObject(this);
             }
+        }
+
+        /// <summary>
+        /// Enemy is attacking a GameObject
+        /// Enemy can only attack Player
+        /// Rikke
+        /// </summary>
+        public void Attack()
+        {
+            Player.Instance.Health -= Damage;
         }
         #endregion
     }
