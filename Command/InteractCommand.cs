@@ -32,7 +32,10 @@ namespace Mortens_Komeback_3.Command
             {
                 if ((puzzle as ICollidable).CheckCollision(Player.Instance))
                     if ((Player.Instance as IPPCollidable).DoHybridCheck(puzzle.CollisionBox))
+                    {
                         Player.Instance.Interact(puzzle);
+                        break;
+                    }
             }
         }
     }

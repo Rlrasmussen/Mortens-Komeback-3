@@ -51,7 +51,7 @@ namespace Mortens_Komeback_3
         public Random Random { get => random; }
 
 
-        public bool GameRunning { get => gameRunning; }
+        public bool GameRunning { get => gameRunning; set => gameRunning = value; }
 
 
         public bool GamePaused { get => gamePaused; set => gamePaused = value; }
@@ -74,6 +74,7 @@ namespace Mortens_Komeback_3
             AddLocations();
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
+            InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
 
             base.Initialize();
         }
@@ -98,11 +99,6 @@ namespace Mortens_Komeback_3
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                gameRunning = false;
-                Exit();
-            }
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
