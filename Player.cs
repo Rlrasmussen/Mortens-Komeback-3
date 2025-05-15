@@ -136,6 +136,9 @@ namespace Mortens_Komeback_3
             else if (attacking)
                 (this as IAnimate).Animate();
 
+            foreach (Weapon weapon in availableWeapons)
+                weapon.Update(gameTime);
+
             Camera.Instance.Position = Position;
 
             base.Update(gameTime);
@@ -161,6 +164,7 @@ namespace Mortens_Komeback_3
             Vector2 correction = Vector2.Zero;
             if (attacking && equippedWeapon != null && (WeaponType)equippedWeapon.Type == WeaponType.Melee)
             {
+                correction.Y = 40;
                 // 1. Calculate angle of attack
                 float angle = (float)Math.Atan2(meleeAttackDirection.Y, meleeAttackDirection.X);
 
@@ -172,7 +176,7 @@ namespace Mortens_Komeback_3
                 Vector2 vfxOffset = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * Sprite.Width / 2f;
 
                 // 4. Draw at Position + offset
-                spriteBatch.Draw(vfxTexture, new Vector2(Position.X, Position.Y - (Sprite.Height / 4f)) + vfxOffset, null, drawColor, angle, vfxOrigin, scale, SpriteEffects.None, layer + 0.01f);
+                spriteBatch.Draw(vfxTexture, Position + vfxOffset, null, drawColor, angle, vfxOrigin, scale, SpriteEffects.None, layer + 0.01f);
             }
 
             if (Sprites != null)
@@ -232,7 +236,7 @@ namespace Mortens_Komeback_3
                     attacking = true;
                     CurrentIndex = 0;
                     ElapsedTime = 0;
-                    FPS = 30;
+                    FPS = 22;
                     GameWorld.Instance.Sounds[Sound.PlayerSwordAttack].Play();
                     meleeAttackDirection = InputHandler.Instance.MousePosition - Position;
                 }
