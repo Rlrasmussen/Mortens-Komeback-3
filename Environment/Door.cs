@@ -44,6 +44,7 @@ namespace Mortens_Komeback_3.Environment
             {
                 DoorStatus = DoorType.Closed;
                 Debug.WriteLine("room unlocked");
+                Sprite = GameWorld.Instance.Sprites[DoorStatus][0];
             }
         }
 

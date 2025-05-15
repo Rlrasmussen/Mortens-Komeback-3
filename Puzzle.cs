@@ -17,6 +17,7 @@ namespace Mortens_Komeback_3
         private Dictionary<string, Puzzle> puzzlePieces;
         private int spriteIndex;
         private bool solved = false;
+        private Door puzzleDoor;
 
         #endregion
 
@@ -46,6 +47,8 @@ namespace Mortens_Komeback_3
                             GameWorld.Instance.SpawnObject(item.Value);
                             GameWorld.Instance.gamePuzzles.Add(item.Value);
                         }
+                        puzzleDoor = new Door(Position, DoorDirection.Top, DoorType.Locked);
+                        GameWorld.Instance.SpawnObject(puzzleDoor);
                         spriteIndex = 0;
                         break;
                     }
@@ -56,7 +59,7 @@ namespace Mortens_Komeback_3
                     }
                 default:
                     break;
-                    
+
             }
         }
 
@@ -96,7 +99,7 @@ namespace Mortens_Komeback_3
                     )
                 {
                     Solved = true;
-                    Sprite = GameWorld.Instance.Sprites[PuzzleType.OrderPuzzle][1];
+                    puzzleDoor.UnlockDoor();
                 }
 
             }
@@ -119,6 +122,13 @@ namespace Mortens_Komeback_3
             */
         }
 
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (!((PuzzleType)type == PuzzleType.OrderPuzzle))
+            {
+                base.Draw(spriteBatch);
+            }
+        }
         #endregion
     }
 }
