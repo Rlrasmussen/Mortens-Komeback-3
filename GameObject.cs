@@ -25,7 +25,7 @@ namespace Mortens_Komeback_3
         private Texture2D sprite;
         private Vector2 position;
 
-        private int damage; //The damage the object 
+        protected int damage; //The damage the object 
 
         #endregion
         #region Propertitties

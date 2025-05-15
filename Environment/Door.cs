@@ -1,30 +1,121 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mortens_Komeback_3.Collider;
+using System.Diagnostics;
+
 
 namespace Mortens_Komeback_3.Environment
 {
-    public class Door : GameObject
+    public class Door : GameObject, ICollidable
     {
         #region Fields
+        private Vector2 teleportPosition = new Vector2(500,500);
 
         #endregion
 
         #region Properties
+        public DoorType DoorStatus { get; private set; }
+        public Room room { get; set; }
 
+        public Room DestinationRoom { get; set; }
+        public Door DestinationDoor { get; set; }
         #endregion
 
         #region Constructor
-        public Door(Enum type, Vector2 spawnPos) : base(type, spawnPos)
+        public Door(Vector2 spawnPos, DoorDirection direction, DoorType initialType = DoorType.Closed) : base(initialType, spawnPos)
         {
+            DoorStatus = initialType;
+            Rotation = GetDoorDirection(direction);
+            layer = 0.11f;
+
         }
 
         #endregion
 
         #region Method
+        public void UnlockDoor()
+        {
+            if(DoorStatus == DoorType.Locked)
+            {
+                DoorStatus = DoorType.Closed;
+                Debug.WriteLine("room unlocked");
+                Sprite = GameWorld.Instance.Sprites[DoorStatus][0];
+            }
+        }
+
+        public void OpenDoor()
+        {
+            if (DoorStatus == DoorType.Closed)
+            {
+                DoorStatus = DoorType.Open;
+                Debug.WriteLine("room open");
+            }
+        }
+
+        
+
+       
+
+        /// <summary>
+        /// Roterer dørene
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public float GetDoorDirection(DoorDirection direction)
+        {
+
+            switch (direction)
+            {
+                case DoorDirection.Top:
+                    return 0f;
+                case DoorDirection.Right:
+                    return (float)(Math.PI / 2); // 90 grader
+                case DoorDirection.Bottom:
+                    return (float)(Math.PI); // 180 grader
+                case DoorDirection.Left:
+                    return (float)(-Math.PI / 2); // -90 grader
+                default:
+                    return 0f;
+
+            }
+
+        }
+
+        public void OnCollision(ICollidable other)
+        {
+            if(DoorStatus == DoorType.Open && DestinationRoom != null && DestinationDoor != null)
+            {
+                //Teleport
+                Player.Instance.Position = DestinationDoor.Position;
+                GameWorld.Instance.CurrentRoom = DestinationRoom;
+                Debug.WriteLine("player teleported");
+            }
+            else 
+            {
+                Debug.WriteLine("can't teleport");
+            }
+
+            //if (other == Player.Instance)
+            //{
+            //    TeleportPlayer();
+            //}
+            //throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// When player collides with door, players position is moved to next room
+        /// </summary>
+        /// <param name = "room" ></ param >
+        //public void TeleportPlayer()
+        //{
+        //    Player.Instance.Position = teleportPosition;
+        //    //    Debug.WriteLine("teleport");
+        //}
 
         #endregion
     }

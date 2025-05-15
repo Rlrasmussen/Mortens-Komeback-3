@@ -21,6 +21,7 @@ namespace Mortens_Komeback_3
         private Random random = new Random();
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
+        private List<Environment.Room> Rooms = new List<Environment.Room>();
         private HashSet<(GameObject, GameObject)> collisions = new HashSet<(GameObject, GameObject)>();
         public Dictionary<Location, Vector2> Locations = new Dictionary<Location, Vector2>();
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
@@ -30,6 +31,7 @@ namespace Mortens_Komeback_3
         private float deltaTime;
         private bool gamePaused = false;
         private bool gameRunning = true;
+        public List<Puzzle> gamePuzzles = new List<Puzzle>();
 
         private float spawnEnemyTime = 5f;
         private float lastSpawnEnemy = 0f;
@@ -52,10 +54,12 @@ namespace Mortens_Komeback_3
         public Random Random { get => random; }
 
 
-        public bool GameRunning { get => gameRunning; }
+        public bool GameRunning { get => gameRunning; set => gameRunning = value; }
 
 
         public bool GamePaused { get => gamePaused; set => gamePaused = value; }
+
+        public Environment.Room CurrentRoom { get; set; }
 
 
         private GameWorld()
@@ -75,6 +79,7 @@ namespace Mortens_Komeback_3
             AddLocations();
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
+            InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
 
             gameObjects.Add(Player.Instance);
             gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
@@ -85,8 +90,37 @@ namespace Mortens_Komeback_3
         protected override void LoadContent()
         {
 
+            gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
+            gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
+
+            Puzzle orderPuzzle = new Puzzle(PuzzleType.OrderPuzzle, new Vector2(100, 300));
+            gameObjects.Add(orderPuzzle);
+            gamePuzzles.Add(orderPuzzle);
+            Puzzle shootPuzzle = new Puzzle(PuzzleType.ShootPuzzle, new Vector2(0, -200));
+            gameObjects.Add(shootPuzzle);
+            gamePuzzles.Add(shootPuzzle);
+
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            #region Rooms
+            gameObjects.Add(new Environment.Room(RoomType.PopeRoom, new Vector2(0, 0)));
+            gameObjects.Add(new Environment.Room(RoomType.Stairs, new Vector2(0, 2000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesA, new Vector2(0, 4000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesA, new Vector2(2650, 4000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesB, new Vector2(0, 6000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesC, new Vector2(0, 8000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesD, new Vector2(0, 10000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesD, new Vector2(0, 11500)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesE, new Vector2(0, 18000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesF, new Vector2(0, 20000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesG, new Vector2(0, 22000)));
+            gameObjects.Add(new Environment.Room(RoomType.CatacombesH, new Vector2(0, 24000)));
+            gameObjects.Add(new Environment.Room(RoomType.TrapRoom, new Vector2(0, 26000)));
+            #endregion
+            #region Doors
+            gameObjects.Add(new Environment.Door(new Vector2(1190, 0), DoorDirection.Right));
+            #endregion
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
@@ -96,11 +130,6 @@ namespace Mortens_Komeback_3
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                gameRunning = false;
-                Exit();
-            }
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -120,12 +149,27 @@ namespace Mortens_Komeback_3
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Green);
+            GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(transformMatrix: Camera.Instance.GetTransformation(), samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
 
             foreach (GameObject gameObject in gameObjects)
+            {
                 gameObject.Draw(_spriteBatch);
+
+#if DEBUG
+                Color color = Color.Red;
+                Rectangle collisionBox = gameObject.CollisionBox;
+                Rectangle topLine = new Rectangle(collisionBox.X, collisionBox.Y, collisionBox.Width, 1);
+                Rectangle bottomLine = new Rectangle(collisionBox.X, collisionBox.Y + collisionBox.Height, collisionBox.Width, 1);
+                Rectangle rightLine = new Rectangle(collisionBox.X + collisionBox.Width, collisionBox.Y, 1, collisionBox.Height);
+                Rectangle leftLine = new Rectangle(collisionBox.X, collisionBox.Y, 1, collisionBox.Height);
+                _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], topLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+                _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], bottomLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+                _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], rightLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+                _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], leftLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+#endif
+            }
 
             InputHandler.Instance.Draw(_spriteBatch);
 
@@ -190,7 +234,18 @@ namespace Mortens_Komeback_3
 
             #region Rooms
 
-            Sprites.Add(Roomtype.Single, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.PopeRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesA, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesB, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesC, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesD, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesE, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesF, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesG, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesH, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.TrapRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+
 
             #endregion
             #region Player
@@ -238,12 +293,13 @@ namespace Mortens_Komeback_3
 
             Sprites.Add(AttackType.Egg, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\egg1") });
             Sprites.Add(ItemType.Key, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\key") });
-            Sprites.Add(ItemType.Sling, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sling") });
             Sprites.Add(ItemType.WallTurkey, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\wallTurkey") });
-
+            Texture2D[] sling = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sling") };
+            Sprites.Add(WeaponType.Ranged, sling);
+            Sprites.Add(ItemType.Sling, sling);
             Texture2D[] sword = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sword") };
             Sprites.Add(MenuType.Cursor, sword);
-            Sprites.Add(ItemType.Sword, sword);
+            Sprites.Add(WeaponType.Melee, sword);
 
             #endregion
             #region Menu
@@ -262,6 +318,7 @@ namespace Mortens_Komeback_3
 
             Sprites.Add(OverlayObjects.Heart, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\heartSprite") });
             Sprites.Add(OverlayObjects.Dialog, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\talk") });
+            Sprites.Add(OverlayObjects.InteractBubble, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\interact") });
 
             #endregion
             #region Environment
@@ -270,6 +327,29 @@ namespace Mortens_Komeback_3
             Sprites.Add(DoorType.Locked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\doorLocked") });
             Sprites.Add(DoorType.Closed, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\doorClosed_shadow") });
 
+            #endregion
+            #region Puzzle
+            Sprites.Add(PuzzleType.OrderPuzzle, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\Environment\\doorLocked"), Content.Load<Texture2D>("Sprites\\Environment\\doorOpen_Shadow") });
+            Sprites.Add(PuzzleType.OrderPuzzlePlaque, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Items\\wallTurkey"), Content.Load<Texture2D>("Sprites\\Items\\sling"), Content.Load<Texture2D>("Sprites\\Items\\key") });
+            Sprites.Add(PuzzleType.ShootPuzzle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\heartSprite") });
+
+            #endregion
+            #region Decorations
+
+
+            #endregion
+            #region VFX
+
+            Texture2D[] swordSwoosh = new Texture2D[11];
+            for (int i = 0; i < swordSwoosh.Length; i++)
+            {
+                swordSwoosh[i] = Content.Load<Texture2D>($"Sprites\\VFX\\swing{i}");
+            }
+            Sprites.Add(AttackType.Swing, swordSwoosh);
+
+            #endregion
+            #region Debug
+            Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
             #endregion
 
         }
@@ -330,7 +410,7 @@ namespace Mortens_Komeback_3
                 foreach (GameObject other in gameObjects)
                 {
 
-                    if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type.GetType() == other.Type.GetType() || !(other is ICollidable))
+                    if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type.GetType() == other.Type.GetType() || !(other is ICollidable) || !gameObject.IsAlive || !other.IsAlive)
                         continue;
 
                     if ((
@@ -338,7 +418,8 @@ namespace Mortens_Komeback_3
                         gameObject.Type.GetType() == typeof(AttackType)
                         ) && (
                         other.Type.GetType() == typeof(EnemyType) ||
-                        other.Type.GetType() == typeof(PuzzleType)
+                        other.Type.GetType() == typeof(PuzzleType) ||
+                        other.Type.GetType() == typeof(WeaponType)
                         ))
                     {
                         if ((gameObject as ICollidable).CheckCollision(other as ICollidable))
@@ -377,6 +458,7 @@ namespace Mortens_Komeback_3
 
         }
 
+
         private void SpawnEnemies()
         {
             lastSpawnEnemy += DeltaTime;
@@ -384,9 +466,21 @@ namespace Mortens_Komeback_3
             if (lastSpawnEnemy > spawnEnemyTime)
             {
                 SpawnObject(EnemyPool.Instance.GetObject());
-
                 lastSpawnEnemy = 0f;
             }
         }
+
+        public HashSet<Enemy> EnemiesNearPlayer(float range)
+        {
+
+            HashSet<Enemy> nearbyEnemies = new HashSet<Enemy>();
+
+            foreach (GameObject gameObject in gameObjects)
+                if (gameObject is Enemy && Vector2.Distance(Player.Instance.Position, gameObject.Position) <= range)
+                    nearbyEnemies.Add((Enemy)gameObject);
+
+            return nearbyEnemies;
+        }
+
     }
 }
