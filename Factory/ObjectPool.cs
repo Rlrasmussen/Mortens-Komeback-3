@@ -41,10 +41,12 @@ namespace Mortens_Komeback_3.Factory
             {
                 //Popping from the inactive stack
                 gameObject = inactive.Pop();
+                //CleanUp(gameObject);
             }
 
             //Adding the GameObject to the active List
             active.Add(gameObject);
+
             return gameObject;
         }
 
@@ -66,7 +68,11 @@ namespace Mortens_Komeback_3.Factory
 
         public abstract GameObject Create();
 
-        //protected abstract void CleanUp(GameObject gameObject);
+        public void CleanUp(GameObject gameObject)
+        {
+            
+
+        }
         #endregion
     }
 }

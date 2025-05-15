@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mortens_Komeback_3.Collider;
+using Mortens_Komeback_3.Factory;
 
 namespace Mortens_Komeback_3
 {
@@ -21,6 +22,8 @@ namespace Mortens_Komeback_3
         public Texture2D[] Sprites { get; set; }
         public float ElapsedTime { get; set; }
         public int CurrentIndex { get; set; }
+        public int Health { get; set; }
+
 
         #endregion
 
@@ -31,6 +34,7 @@ namespace Mortens_Komeback_3
                 Sprites = sprites;
             else
                 Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
+
         }
 
 
@@ -52,9 +56,58 @@ namespace Mortens_Komeback_3
                 base.Draw(spriteBatch);
         }
 
+        /// <summary>
+        /// Reset Health with switch case by EnemyType
+        /// Rikke
+        /// </summary>
+        public override void Load()
+        {
+            //Health switch case
+            switch (this.type)
+            {
+                case EnemyType.WalkingGoose:
+                    Health = 1;
+                    break;
+                case EnemyType.AggroGoose:
+                    Health = 1;
+                    break;
+                case EnemyType.Goosifer:
+                    Health = 1;
+                    break;
+            }
+
+            base.Load();
+        }
+
+        /// <summary>
+        /// Collision with Enemy
+        /// </summary>
+        /// <param name="other">IColliable</param>
         public void OnCollision(ICollidable other)
         {
-            //throw new NotImplementedException();
+            //Take damage by collision
+            if (other is Projectile /*|| other is Player*/) //Player is going to go
+            {
+                TakeDamage((GameObject)other);
+            }
+        }
+
+        /// <summary>
+        /// Enemy takes damage which makes the Health reduce. When Health is 0 en Enemy dies and will be released fra EnemyPool
+        /// Rikke
+        /// </summary>
+        /// <param name="other">GameObject which give damage to the Enemy</param>
+        public void TakeDamage(GameObject other)
+        {
+            Health -= other.Damage;
+
+            //Enemy dies is Health is 0
+            if (Health == 0)
+            {
+                IsAlive = false;
+
+                EnemyPool.Instance.ReleaseObject(this);
+            }
         }
         #endregion
     }

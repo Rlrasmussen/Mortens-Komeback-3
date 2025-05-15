@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mortens_Komeback_3.Collider;
 
 namespace Mortens_Komeback_3.Factory
 {
@@ -26,8 +27,10 @@ namespace Mortens_Komeback_3.Factory
         #region Constructor
         public Projectile(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
-            
+            this.Damage = 2;
         }
+
+
 
         #endregion
 

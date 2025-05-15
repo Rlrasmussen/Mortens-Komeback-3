@@ -97,8 +97,11 @@ namespace Mortens_Komeback_3
                 Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
 
             layer = 0.6f;
+            speed = 1000;
 
             AddCommands();
+
+            this.Damage = 1;
 
         }
 
@@ -138,6 +141,8 @@ namespace Mortens_Komeback_3
 
             foreach (Weapon weapon in availableWeapons)
                 weapon.Update(gameTime);
+
+            Camera.Instance.Position = Position;
 
             base.Update(gameTime);
 
@@ -282,7 +287,24 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(this, new Vector2(0, 1)));
             InputHandler.Instance.AddButtonDownCommand(Keys.D1, new ChangeWeaponCommand(this, WeaponType.Melee));
             InputHandler.Instance.AddButtonDownCommand(Keys.D2, new ChangeWeaponCommand(this, WeaponType.Ranged));
+            InputHandler.Instance.AddButtonDownCommand(Keys.E, new InteractCommand());
 
+        }
+
+        public void Interact(GameObject gameObject)
+        {
+            switch(gameObject.Type)
+            {
+                case PuzzleType.OrderPuzzlePlaque:
+                    (gameObject as Puzzle).ChangePlaque();
+                    break;
+                case PuzzleType.OrderPuzzle:
+                    (gameObject as Puzzle).TrySolve();
+                    break;
+                default:
+                    break;
+            }
+             
         }
 
         #endregion
