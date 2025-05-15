@@ -65,6 +65,7 @@ namespace Mortens_Komeback_3
                     break;
 
             }
+            textBubble = GameWorld.Instance.Sprites[OverlayObjects.InteractBubble][0];
         }
 
         #endregion
@@ -136,6 +137,10 @@ namespace Mortens_Komeback_3
             if (!((PuzzleType)type == PuzzleType.OrderPuzzle))
             {
                 base.Draw(spriteBatch);
+            }
+            if((PuzzleType)type == PuzzleType.OrderPuzzlePlaque && Vector2.Distance(Position, Player.Instance.Position)<150 )
+            {
+                spriteBatch.Draw(textBubble, new Vector2(Position.X, Position.Y-(Sprite.Height/2)-(textBubble.Height/2)), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             }
         }
         #endregion

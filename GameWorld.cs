@@ -315,6 +315,7 @@ namespace Mortens_Komeback_3
 
             Sprites.Add(OverlayObjects.Heart, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\heartSprite") });
             Sprites.Add(OverlayObjects.Dialog, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\talk") });
+            Sprites.Add(OverlayObjects.InteractBubble, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\interact") });
 
             #endregion
             #region Environment

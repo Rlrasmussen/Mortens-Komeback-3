@@ -65,7 +65,8 @@ namespace Mortens_Komeback_3
     public enum OverlayObjects
     {
         Heart,
-        Dialog
+        Dialog,
+        InteractBubble
     }
 
     public enum Sound
