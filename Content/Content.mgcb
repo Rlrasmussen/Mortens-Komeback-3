@@ -46,7 +46,7 @@
 
 #begin Sounds/Enemy/Canada's Most Famous Word ＂Sorry＂.mp3
 /importer:Mp3Importer
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Enemy/Canada's Most Famous Word ＂Sorry＂.mp3
 
@@ -58,7 +58,7 @@
 
 #begin Sounds/Enemy/goosifer.mp3
 /importer:Mp3Importer
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Enemy/goosifer.mp3
 
@@ -70,7 +70,7 @@
 
 #begin Sounds/Player/086123_slingshot-81843.mp3
 /importer:Mp3Importer
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Player/086123_slingshot-81843.mp3
 
