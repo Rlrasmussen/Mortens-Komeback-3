@@ -98,6 +98,8 @@ namespace Mortens_Komeback_3
     public enum Sound
     {
         GooseSound,
+        CanadaGoose,
+        Goosifer,
         EggSmash,
         PlayerDamage,
         PlayerHeal,
@@ -113,7 +115,9 @@ namespace Mortens_Komeback_3
     public enum MusicTrack
     {
         Battle,
-        Background
+        Background,
+        Death,
+        Pope
     }
 
     /// <summary>

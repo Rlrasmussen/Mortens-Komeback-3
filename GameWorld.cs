@@ -404,6 +404,9 @@ namespace Mortens_Komeback_3
             #region Enemy
 
             Sounds.Add(Sound.GooseSound, Content.Load<SoundEffect>("Sounds\\Enemy\\gooseSound_Short"));
+            Sounds.Add(Sound.CanadaGoose, Content.Load<SoundEffect>("Sounds\\Enemy\\Canada's Most Famous Word ＂Sorry＂"));
+            Sounds.Add(Sound.Goosifer, Content.Load<SoundEffect>("Sounds\\Enemy\\goosifer"));
+
 
             #endregion
             #region Environment
@@ -415,7 +418,7 @@ namespace Mortens_Komeback_3
 
             Sounds.Add(Sound.PlayerDamage, Content.Load<SoundEffect>("Sounds\\Player\\morten_Av"));
             Sounds.Add(Sound.PlayerHeal, Content.Load<SoundEffect>("Sounds\\Player\\playerHeal"));
-            Sounds.Add(Sound.PlayerShoot, Content.Load<SoundEffect>("Sounds\\Player\\shootSound"));
+            Sounds.Add(Sound.PlayerShoot, Content.Load<SoundEffect>("Sounds\\Player\\086123_slingshot-81843"));
             Sounds.Add(Sound.PlayerWalk1, Content.Load<SoundEffect>("Sounds\\Player\\walkSound"));
             Sounds.Add(Sound.PlayerWalk2, Content.Load<SoundEffect>("Sounds\\Player\\walkSound2"));
             Sounds.Add(Sound.PlayerSwordAttack, Content.Load<SoundEffect>("Sounds\\Player\\playerSwordAttack"));
@@ -434,6 +437,10 @@ namespace Mortens_Komeback_3
             Music.Add(MusicTrack.Battle, Content.Load<Song>("Music\\battleMusic"));
 
             Music.Add(MusicTrack.Background, Content.Load<Song>("Music\\bgMusic"));
+
+            Music.Add(MusicTrack.Death, Content.Load<Song>("Music\\Funeral March for Brass"));
+
+            Music.Add(MusicTrack.Pope, Content.Load<Song>("Music\\Virtutes Vocis"));
 
         }
 
