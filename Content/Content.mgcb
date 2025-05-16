@@ -38,11 +38,35 @@
 /processorParam:Quality=Best
 /build:Music/Funeral March for Brass.mp3
 
+#begin Music/intense-gritty-hard-rock-270016.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/intense-gritty-hard-rock-270016.mp3
+
+#begin Music/menu.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/menu.mp3
+
+#begin Music/Trap room.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Trap room.mp3
+
 #begin Music/Virtutes Vocis.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/Virtutes Vocis.mp3
+
+#begin Music/win.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/win.mp3
 
 #begin Sounds/Enemy/Canada's Most Famous Word ＂Sorry＂.mp3
 /importer:Mp3Importer
@@ -62,17 +86,41 @@
 /processorParam:Quality=Best
 /build:Sounds/Enemy/goosifer.mp3
 
+#begin Sounds/Environment/Catacomb door.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Environment/Catacomb door.mp3
+
+#begin Sounds/Environment/click.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Environment/click.mp3
+
 #begin Sounds/Environment/eggSmashSound.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Environment/eggSmashSound.wav
 
+#begin Sounds/Environment/fire-sound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Environment/fire-sound.mp3
+
 #begin Sounds/Player/086123_slingshot-81843.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Player/086123_slingshot-81843.mp3
+
+#begin Sounds/Player/metal-impact-247482.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Player/metal-impact-247482.mp3
 
 #begin Sounds/Player/morten_Av.wav
 /importer:WavImporter

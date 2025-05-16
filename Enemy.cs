@@ -64,7 +64,7 @@ namespace Mortens_Komeback_3
         /// </summary>
         public override void Load()
         {
-            //Health switch case
+            //Health and damage switch case
             switch (this.type)
             {
                 case EnemyType.WalkingGoose:

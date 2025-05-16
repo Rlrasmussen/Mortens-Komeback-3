@@ -372,6 +372,10 @@ namespace Mortens_Komeback_3
             #region Environment
 
             Sounds.Add(Sound.EggSmash, Content.Load<SoundEffect>("Sounds\\Environment\\eggSmashSound"));
+            Sounds.Add(Sound.Fire, Content.Load<SoundEffect>("Sounds\\Environment\\fire-sound"));
+            Sounds.Add(Sound.Click, Content.Load<SoundEffect>("Sounds\\Environment\\click"));
+            Sounds.Add(Sound.CatacombDoor, Content.Load<SoundEffect>("Sounds\\Environment\\Catacomb door"));
+
 
             #endregion
             #region Player
@@ -382,6 +386,7 @@ namespace Mortens_Komeback_3
             Sounds.Add(Sound.PlayerWalk1, Content.Load<SoundEffect>("Sounds\\Player\\walkSound"));
             Sounds.Add(Sound.PlayerWalk2, Content.Load<SoundEffect>("Sounds\\Player\\walkSound2"));
             Sounds.Add(Sound.PlayerSwordAttack, Content.Load<SoundEffect>("Sounds\\Player\\playerSwordAttack"));
+            Sounds.Add(Sound.PlayerChange, Content.Load<SoundEffect>("Sounds\\Player\\metal-impact-247482"));
 
             #endregion
 
@@ -398,6 +403,14 @@ namespace Mortens_Komeback_3
             Music.Add(MusicTrack.Death, Content.Load<Song>("Music\\Funeral March for Brass"));
 
             Music.Add(MusicTrack.Pope, Content.Load<Song>("Music\\Virtutes Vocis"));
+
+            Music.Add(MusicTrack.GoosiferFigth, Content.Load<Song>("Music\\intense-gritty-hard-rock-270016"));
+
+            Music.Add(MusicTrack.TrapRoom, Content.Load<Song>("Music\\Trap room"));
+
+            Music.Add(MusicTrack.Menu, Content.Load<Song>("Music\\menu"));
+
+            Music.Add(MusicTrack.Win, Content.Load<Song>("Music\\win"));
 
         }
 
