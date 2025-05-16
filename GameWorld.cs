@@ -125,10 +125,10 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
             gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
 
-            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(500,500), DoorDirection.Top, new Vector2(300, 500),new Vector2(100, 500),new Vector2(-100, 500));
+            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190,400), DoorDirection.Right, new Vector2(300, 500),new Vector2(100, 500),new Vector2(-100, 500));
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(0, -200), new Vector2(700, -200));
+            ShootPuzzle shootPuzzle = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, -400), new Vector2(1190, -200), DoorDirection.Right);
             gameObjects.Add(shootPuzzle);
             gamePuzzles.Add(shootPuzzle);
 
