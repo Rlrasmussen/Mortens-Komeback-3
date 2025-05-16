@@ -28,7 +28,7 @@ namespace Mortens_Komeback_3.Command
         #endregion
         public void Execute()
         {
-            foreach (Puzzle puzzle in GameWorld.Instance.gamePuzzles)
+            foreach (GameObject puzzle in GameWorld.Instance.gamePuzzles)
             {
                 if ((puzzle as ICollidable).CheckCollision(Player.Instance))
                     if ((Player.Instance as IPPCollidable).DoHybridCheck(puzzle.CollisionBox))

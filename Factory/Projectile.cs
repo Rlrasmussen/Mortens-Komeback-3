@@ -68,17 +68,9 @@ namespace Mortens_Komeback_3.Factory
         /// <param name="other">Other object that was collided with</param>
         public void OnCollision(ICollidable other)
         {
-            if (other.Type.GetType() == typeof(EnemyType))
-            {
                 ProjectilePool.Instance.ReleaseObject(this);
                 IsAlive = false;
-            }
-            else
-                switch (other.Type)
-                {
-                    default:
-                        break;
-                }
+ 
         }
 
         /// <summary>
