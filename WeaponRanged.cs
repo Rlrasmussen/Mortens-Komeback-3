@@ -44,11 +44,11 @@ namespace Mortens_Komeback_3
         public override void Attack()
         {
             
-            if (refireRate > 1)
+            if (refireRate >= 1f)
             {
                 refireRate = 0f;
                 GameWorld.Instance.Sounds[Sound.PlayerShoot].Play();
-                GameWorld.Instance.SpawnObject(ProjectilePool.Instance.Create());
+                GameWorld.Instance.SpawnObject(ProjectilePool.Instance.GetObject());
             }
 
         }

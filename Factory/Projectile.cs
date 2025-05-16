@@ -40,7 +40,8 @@ namespace Mortens_Komeback_3.Factory
         public override void Load()
         {
 
-            direction = InputHandler.Instance.MousePosition - Player.Instance.Position;
+            Position = Player.Instance.Position;
+            direction = InputHandler.Instance.MousePosition - Position;
             direction.Normalize();
 
             if (Player.Instance.Position.X < InputHandler.Instance.MousePosition.X)
@@ -57,6 +58,7 @@ namespace Mortens_Komeback_3.Factory
         {
             if (other.Type.GetType() == typeof(EnemyType))
             {
+                ProjectilePool.Instance.ReleaseObject(this);
                 IsAlive = false;
             }
             else
