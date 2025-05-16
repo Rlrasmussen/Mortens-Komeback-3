@@ -22,13 +22,25 @@ namespace Mortens_Komeback_3
 
         #region Properties
 
+        /// <summary>
+        /// Visual effect from attack (swoosh)
+        /// Simon
+        /// </summary>
         public Texture2D[] VFX { get => vfx; }
 
         #endregion
 
         #region Constructor
+
+        /// <summary>
+        /// Sets damage and effective range of the melee weapon, constructor also sets the visual effect sprites
+        /// Simon
+        /// </summary>
+        /// <param name="type">Basic sprite</param>
+        /// <param name="spawnPos">starting position of the weapon</param>
         public WeaponMelee(WeaponType type, Vector2 spawnPos) : base(type, spawnPos)
         {
+
             if (GameWorld.Instance.Sprites.TryGetValue(AttackType.Swing, out Texture2D[] sprites))
                 vfx = sprites;
             else
@@ -36,6 +48,7 @@ namespace Mortens_Komeback_3
 
             damage = 10;
             range = 250f;
+
         }
 
 
@@ -43,7 +56,10 @@ namespace Mortens_Komeback_3
 
         #region Method
 
-
+        /// <summary>
+        /// What happens when a "attack" is triggered from the Player
+        /// Simon
+        /// </summary>
         public override void Attack()
         {
 
@@ -55,7 +71,15 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Equation for checking if an object is within a given attack-cone
+        /// Simon (ChatGPT made the equation)
+        /// </summary>
+        /// <param name="coneOrigin">Starting position (Player)</param>
+        /// <param name="coneDirectionPoint">Direction that the cone is checked in</param>
+        /// <param name="targetPosition">Position of the object that's being queried</param>
+        /// <param name="coneAngleDegrees">The size of the cone in degrees</param>
+        /// <returns>True if within a cone</returns>
         private bool IsInCone(Vector2 coneOrigin, Vector2 coneDirectionPoint, Vector2 targetPosition, float coneAngleDegrees)
         {
             // Direction vector of the cone
