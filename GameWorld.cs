@@ -37,6 +37,9 @@ namespace Mortens_Komeback_3
         private float spawnEnemyTime = 5f;
         private float lastSpawnEnemy = 0f;
 
+        /// <summary>
+        /// Singleton for GameWorld
+        /// </summary>
         public static GameWorld Instance
         {
             get
@@ -48,21 +51,40 @@ namespace Mortens_Komeback_3
             }
         }
 
-
+        /// <summary>
+        /// DeltaTime for use by other classes
+        /// </summary>
         public float DeltaTime { get => deltaTime; }
 
-
+        /// <summary>
+        /// Random generator for general usage
+        /// </summary>
         public Random Random { get => random; }
 
-
+        /// <summary>
+        /// Bool to close threads when game is closed
+        /// </summary>
         public bool GameRunning { get => gameRunning; set => gameRunning = value; }
 
-
+        /// <summary>
+        /// Bool to trigger a pause-effect
+        /// </summary>
         public bool GamePaused { get => gamePaused; set => gamePaused = value; }
+
+
+#if DEBUG
+        /// <summary>
+        /// Bool to change if collisionboxes are draw or not
+        /// </summary>
+        public bool DrawCollision { get; set; } = false;
+#endif
+
 
         public Environment.Room CurrentRoom { get; set; }
 
-
+        /// <summary>
+        /// Constuctor used by Singleton
+        /// </summary>
         private GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -70,6 +92,10 @@ namespace Mortens_Komeback_3
             IsMouseVisible = true;
         }
 
+        /// <summary>
+        /// Handles loading of assets and basic functionality
+        /// All
+        /// </summary>
         protected override void Initialize()
         {
 
@@ -81,6 +107,7 @@ namespace Mortens_Komeback_3
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.Space, new DrawCommand());
 
             gameObjects.Add(Player.Instance);
             gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
@@ -88,6 +115,10 @@ namespace Mortens_Komeback_3
             base.Initialize();
         }
 
+        /// <summary>
+        /// Handles once-per start/restart logic
+        /// All
+        /// </summary>
         protected override void LoadContent()
         {
 
@@ -128,7 +159,11 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Handles update logic
+        /// Simon
+        /// </summary>
+        /// <param name="gameTime">DeltaTime</param>
         protected override void Update(GameTime gameTime)
         {
 
@@ -145,11 +180,17 @@ namespace Mortens_Komeback_3
             CleanUp();
 
             base.Update(gameTime);
+
         }
 
-
+        /// <summary>
+        /// Handles drawing of sprites
+        /// All
+        /// </summary>
+        /// <param name="gameTime">DeltaTime</param>
         protected override void Draw(GameTime gameTime)
         {
+
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(transformMatrix: Camera.Instance.GetTransformation(), samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
@@ -159,17 +200,14 @@ namespace Mortens_Komeback_3
                 gameObject.Draw(_spriteBatch);
 
 #if DEBUG
-                Color color = Color.Red;
-                Rectangle collisionBox = gameObject.CollisionBox;
-                Rectangle topLine = new Rectangle(collisionBox.X, collisionBox.Y, collisionBox.Width, 1);
-                Rectangle bottomLine = new Rectangle(collisionBox.X, collisionBox.Y + collisionBox.Height, collisionBox.Width, 1);
-                Rectangle rightLine = new Rectangle(collisionBox.X + collisionBox.Width, collisionBox.Y, 1, collisionBox.Height);
-                Rectangle leftLine = new Rectangle(collisionBox.X, collisionBox.Y, 1, collisionBox.Height);
-                _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], topLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
-                _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], bottomLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
-                _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], rightLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
-                _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], leftLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+                if (DrawCollision)
+                {
+                    DrawCollisionBox(gameObject.CollisionBox);
+                    if (gameObject is IPPCollidable)
+                        DrawIPPCollisionBoxes(gameObject as IPPCollidable);
+                }
 #endif
+
             }
 
             InputHandler.Instance.Draw(_spriteBatch);
@@ -181,6 +219,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Sætter skærmstørrelsen til at være de angivne dimensioner i vektor'en
+        /// Simon
         /// </summary>
         /// <param name="screenSize">Angiver skærmstørrelse i form af x- og y-akser</param>
         private void SetScreenSize(Vector2 screenSize)
@@ -205,6 +244,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Fjerner først objekter fra "gameobjects" hvor "IsAlive" er "false", skriver hvor mange der er det ud til Debug-konsollen, og tilføjer derefter alle objekter i "newGameObjects" efter at have kørt deres "Load" metode, og skriver hvor mange der er tilføjet i Debug-konsollen
+        /// Simon
         /// </summary>
         private void CleanUp()
         {
@@ -230,6 +270,10 @@ namespace Mortens_Komeback_3
 
         }
 
+        /// <summary>
+        /// Handles Loading of sprites
+        /// All
+        /// </summary>
         private void LoadSprites()
         {
 
@@ -355,13 +399,19 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Handles loading of soundeffects
+        /// All
+        /// </summary>
         private void LoadSoundEffects()
         {
 
             #region Enemy
 
             Sounds.Add(Sound.GooseSound, Content.Load<SoundEffect>("Sounds\\Enemy\\gooseSound_Short"));
+            Sounds.Add(Sound.CanadaGoose, Content.Load<SoundEffect>("Sounds\\Enemy\\Canada's Most Famous Word ＂Sorry＂"));
+            Sounds.Add(Sound.Goosifer, Content.Load<SoundEffect>("Sounds\\Enemy\\goosifer"));
+
 
             #endregion
             #region Environment
@@ -373,7 +423,7 @@ namespace Mortens_Komeback_3
 
             Sounds.Add(Sound.PlayerDamage, Content.Load<SoundEffect>("Sounds\\Player\\morten_Av"));
             Sounds.Add(Sound.PlayerHeal, Content.Load<SoundEffect>("Sounds\\Player\\playerHeal"));
-            Sounds.Add(Sound.PlayerShoot, Content.Load<SoundEffect>("Sounds\\Player\\shootSound"));
+            Sounds.Add(Sound.PlayerShoot, Content.Load<SoundEffect>("Sounds\\Player\\086123_slingshot-81843"));
             Sounds.Add(Sound.PlayerWalk1, Content.Load<SoundEffect>("Sounds\\Player\\walkSound"));
             Sounds.Add(Sound.PlayerWalk2, Content.Load<SoundEffect>("Sounds\\Player\\walkSound2"));
             Sounds.Add(Sound.PlayerSwordAttack, Content.Load<SoundEffect>("Sounds\\Player\\playerSwordAttack"));
@@ -382,7 +432,10 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Handles loading of music
+        /// All
+        /// </summary>
         private void LoadMusic()
         {
 
@@ -390,9 +443,16 @@ namespace Mortens_Komeback_3
 
             Music.Add(MusicTrack.Background, Content.Load<Song>("Music\\bgMusic"));
 
+            Music.Add(MusicTrack.Death, Content.Load<Song>("Music\\Funeral March for Brass"));
+
+            Music.Add(MusicTrack.Pope, Content.Load<Song>("Music\\Virtutes Vocis"));
+
         }
 
-
+        /// <summary>
+        /// Adds locations to a dictionary
+        /// Simon
+        /// </summary>
         private void AddLocations()
         {
 
@@ -402,6 +462,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Sørger for at tjekke om det primære objekt har en kollision med øvrige objekter
+        /// Simon
         /// </summary>
         /// <param name="gameObject">Primære objekt der skal tjekkes op mod</param>
         private void DoCollisionCheck(GameObject gameObject)
@@ -471,6 +532,12 @@ namespace Mortens_Komeback_3
             }
         }
 
+        /// <summary>
+        /// Method for returning a HashSet of enemies near Player
+        /// Simon
+        /// </summary>
+        /// <param name="range">Max distance for inclusion of Enemy</param>
+        /// <returns>HashSet of enemies that fulfilled condition</returns>
         public HashSet<Enemy> EnemiesNearPlayer(float range)
         {
 
@@ -482,6 +549,35 @@ namespace Mortens_Komeback_3
 
             return nearbyEnemies;
         }
+
+#if DEBUG
+
+        private void DrawCollisionBox(Rectangle gameObject)
+        {
+
+            Color color = Color.Red;
+            Rectangle collisionBox = gameObject;
+            Rectangle topLine = new Rectangle(collisionBox.X, collisionBox.Y, collisionBox.Width, 1);
+            Rectangle bottomLine = new Rectangle(collisionBox.X, collisionBox.Y + collisionBox.Height, collisionBox.Width, 1);
+            Rectangle rightLine = new Rectangle(collisionBox.X + collisionBox.Width, collisionBox.Y, 1, collisionBox.Height);
+            Rectangle leftLine = new Rectangle(collisionBox.X, collisionBox.Y, 1, collisionBox.Height);
+            _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], topLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], bottomLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], rightLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], leftLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+
+        }
+
+
+        private void DrawIPPCollisionBoxes(IPPCollidable obj)
+        {
+
+            foreach (RectangleData item in obj.Rectangles)
+                DrawCollisionBox(item.Rectangle);
+
+        }
+
+#endif
 
     }
 }

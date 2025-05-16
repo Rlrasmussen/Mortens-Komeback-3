@@ -34,7 +34,9 @@ namespace Mortens_Komeback_3
 
         #region Properties
 
-
+        /// <summary>
+        /// Singleton property
+        /// </summary>
         public static Player Instance
         {
             get
@@ -46,7 +48,9 @@ namespace Mortens_Komeback_3
             }
         }
 
-
+        /// <summary>
+        /// Used for handling logic when Player takes damage
+        /// </summary>
         public int Health
         {
             get => health;
@@ -59,36 +63,60 @@ namespace Mortens_Komeback_3
             }
         }
 
-
+        /// <summary>
+        /// Used for doing actions if the player spawns/dies
+        /// </summary>
         public override bool IsAlive
         {
             get => base.IsAlive;
             set => base.IsAlive = value;
         }
 
-
+        /// <summary>
+        /// Used for movement
+        /// Simon
+        /// </summary>
         public Vector2 Velocity { get => velocity; set => velocity = value; }
 
-
+        /// <summary>
+        /// Used for pixel-perfect collision
+        /// Simon
+        /// </summary>
         public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
 
-
+        /// <summary>
+        /// Used for animation
+        /// Simon
+        /// </summary>
         public float FPS { get; set; } = 8;
 
-
+        /// <summary>
+        /// Array of Sprites used for animation
+        /// Simon
+        /// </summary>
         public Texture2D[] Sprites { get; set; }
 
-
+        /// <summary>
+        /// Used for animation
+        /// Simon
+        /// </summary>
         public float ElapsedTime { get; set; }
 
-
+        /// <summary>
+        /// Used for animation
+        /// Simon
+        /// </summary>
         public int CurrentIndex { get; set; }
 
         #endregion
 
         #region Constructor
 
-
+        /// <summary>
+        /// Sets animation sprites for Player and other basic logic, most notably where commands are added
+        /// </summary>
+        /// <param name="type">The starting sprites</param>
+        /// <param name="spawnPos">Position the Player spawns</param>
         private Player(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
 
@@ -107,6 +135,9 @@ namespace Mortens_Komeback_3
 
         #region Method
 
+        /// <summary>
+        /// (Re)sets health and alive-status
+        /// </summary>
         public override void Load()
         {
 
@@ -116,7 +147,11 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Handles on-frame update logic for animations, timers, spriteeffects, pixel perfect collisionboxes position, camera movement and movement
+        /// Simon
+        /// </summary>
+        /// <param name="gameTime">DeltaTime, obsolete</param>
         public override void Update(GameTime gameTime)
         {
 
@@ -146,7 +181,10 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Handles Player movement logic
+        /// Simon
+        /// </summary>
         private void Move()
         {
 
@@ -158,11 +196,16 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Handles drawing of animation and swords "swoosh"-effect and resetting sprites to standard when attack-animation is done
+        /// Simon (ChatGPT made equation for the sword-swoosh effect)
+        /// </summary>
+        /// <param name="spriteBatch">Used for drawing sprites</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
 
-            Vector2 correction = Vector2.Zero;
+            Vector2 correction = Vector2.Zero; //Attack animation is 40'ish pixels higher than regular sprites
+
             if (attacking && equippedWeapon != null && (WeaponType)equippedWeapon.Type == WeaponType.Melee)
             {
                 correction.Y = 40;
@@ -196,12 +239,16 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Effect that happens when a collision is triggered in GameWorld
+        /// Simon
+        /// </summary>
+        /// <param name="other"></param>
         public void OnCollision(ICollidable other)
         {
             if (other.Type.GetType() == typeof(EnemyType))
             {
-                //(other as GameObject).IsAlive = false;
+                
             }
             else
                 switch (other.Type)
@@ -224,7 +271,10 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Handles attack logic and dependent on attack type triggers change of sprites
+        /// Simon
+        /// </summary>
         private void Attack()
         {
 
@@ -246,7 +296,10 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Used by InputHandler to change the type of weapon that's equipped
+        /// </summary>
+        /// <param name="weapon">Type of weapon to change to</param>
         public void ChangeWeapon(WeaponType weapon)
         {
 
@@ -255,7 +308,10 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Old solution from earlier game version to alternate walking-sound
+        /// Philip
+        /// </summary>
         private void PlayWalkSound()
         {
             if (walkTimer > 0.4f)
@@ -274,7 +330,10 @@ namespace Mortens_Komeback_3
             }
         }
 
-
+        /// <summary>
+        /// Adds all players input to InputHandler
+        /// Simon, Philip
+        /// </summary>
         private void AddCommands()
         {
 
@@ -288,6 +347,7 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddButtonDownCommand(Keys.E, new InteractCommand());
 
         }
+
 
         public void Interact(GameObject gameObject)
         {
