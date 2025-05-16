@@ -107,7 +107,11 @@ namespace Mortens_Komeback_3
         PlayerShoot,
         PlayerWalk1,
         PlayerWalk2,
-        PlayerSwordAttack
+        PlayerSwordAttack,
+        PlayerChange,
+        Fire,
+        Click,
+        CatacombDoor
     }
 
     /// <summary>
@@ -118,7 +122,11 @@ namespace Mortens_Komeback_3
         Battle,
         Background,
         Death,
-        Pope
+        Win,
+        Pope,
+        GoosiferFigth,
+        TrapRoom,
+        Menu
     }
 
     /// <summary>

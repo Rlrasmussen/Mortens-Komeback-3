@@ -14,8 +14,6 @@ namespace Mortens_Komeback_3
     public class Enemy : GameObject, IAnimate, ICollidable, IPPCollidable
     {
         #region Fields
-        private float damageTimer;
-        private float damageGracePeriode = 2f;
 
         #endregion
 
@@ -47,10 +45,7 @@ namespace Mortens_Komeback_3
         public override void Update(GameTime gameTime)
         {
             (this as IAnimate).Animate();
-            (this as IPPCollidable).UpdateRectangles();
-
-            //DamageTimer for OnCollision
-            damageTimer += GameWorld.Instance.DeltaTime;
+            (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
 
             base.Update(gameTime);
         }
@@ -69,7 +64,7 @@ namespace Mortens_Komeback_3
         /// </summary>
         public override void Load()
         {
-            //Health switch case
+            //Health and damage switch case
             switch (this.type)
             {
                 case EnemyType.WalkingGoose:
@@ -100,12 +95,7 @@ namespace Mortens_Komeback_3
             {
                 TakeDamage((GameObject)other);
             }
-            else if (other is Player && damageTimer > damageGracePeriode)
-            {
-                Attack();
 
-                damageTimer = 0f;
-            }
         }
 
         /// <summary>
@@ -126,16 +116,6 @@ namespace Mortens_Komeback_3
             }
         }
 
-        /// <summary>
-        /// Enemy is attacking a GameObject
-        /// Enemy can only attack Player + PlayerDamage soundEffect
-        /// Rikke
-        /// </summary>
-        public void Attack()
-        {
-            Player.Instance.Health -= Damage;
-            GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
-        }
         #endregion
     }
 }
