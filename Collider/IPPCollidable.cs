@@ -67,7 +67,8 @@ namespace Mortens_Komeback_3.Collider
         /// <summary>
         /// Updates position for collision rectangles, must be run regularly at minimum
         /// </summary>
-        public void UpdateRectangles()
+        /// <param name="flipHorizontally">Transmits if sprite is flipped or not</param>
+        public void UpdateRectangles(bool flipHorizontally = false)
         {
 
             if (Rectangles == null || Rectangles.Count == 0)
@@ -75,7 +76,7 @@ namespace Mortens_Komeback_3.Collider
 
             if (Rectangles != null)
                 foreach (RectangleData rectangle in Rectangles)
-                    rectangle.UpdatePosition(Position, Sprite.Width, Sprite.Height);
+                    rectangle.UpdatePosition(Position, Sprite.Width, Sprite.Height, flipHorizontally);
 
         }
 
@@ -164,12 +165,13 @@ namespace Mortens_Komeback_3.Collider
         /// <param name="position">Objects position</param>
         /// <param name="width">Sprite width</param>
         /// <param name="height">Sprite height</param>
-        public void UpdatePosition(Vector2 position, int width, int height)
+        /// <param name="flipHorizontally">Changes equation for changing position of rectangles dependant on true/false</param>
+        public void UpdatePosition(Vector2 position, int width, int height, bool flipHorizontally = false)
         {
-
-            Rectangle = new Rectangle((int)position.X + X - width / 2, (int)position.Y + Y - height / 2, 1, 1);
-
+            int adjustedX = flipHorizontally ? (width - 1 - X) : X;
+            Rectangle = new Rectangle((int)position.X + adjustedX - width / 2, (int)position.Y + Y - height / 2, 1, 1);
         }
+
 
     }
 }

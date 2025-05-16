@@ -165,7 +165,7 @@ namespace Mortens_Komeback_3
             {
                 (this as IAnimate).Animate();
                 Move();
-                (this as IPPCollidable).UpdateRectangles();
+                (this as IPPCollidable).UpdateRectangles(spriteEffect == SpriteEffects.FlipHorizontally);
                 PlayWalkSound();
             }
             else if (attacking)

@@ -47,7 +47,7 @@ namespace Mortens_Komeback_3
         public override void Update(GameTime gameTime)
         {
             (this as IAnimate).Animate();
-            (this as IPPCollidable).UpdateRectangles();
+            (this as IPPCollidable).UpdateRectangles(spriteEffect == SpriteEffects.None);
 
             //DamageTimer for OnCollision
             damageTimer += GameWorld.Instance.DeltaTime;
