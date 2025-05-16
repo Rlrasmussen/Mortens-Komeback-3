@@ -29,6 +29,9 @@ namespace Mortens_Komeback_3
         private int maxHealth = 100;
         private bool attacking = false;
 
+        private float damageTimer;
+        private float damageGracePeriode = 2f;
+
         #endregion
 
         #region Properties
@@ -141,6 +144,9 @@ namespace Mortens_Komeback_3
 
             Camera.Instance.Position = Position;
 
+            //Grace periode for attacks from Enemy
+            damageTimer += GameWorld.Instance.DeltaTime;
+
             base.Update(gameTime);
 
         }
@@ -198,11 +204,14 @@ namespace Mortens_Komeback_3
 
         public void OnCollision(ICollidable other)
         {
-            if (other.Type.GetType() == typeof(EnemyType))
+            if (other.Type.GetType() == typeof(EnemyType) && damageTimer > damageGracePeriode) //Rikke
             {
-                //(other as GameObject).IsAlive = false;
+                health -= (other as Enemy).Damage;
+                GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
+
+                damageTimer = 0f;
             }
-            else
+            else //Simon
                 switch (other.Type)
                 {
                     case WeaponType.Melee:
