@@ -166,7 +166,6 @@ namespace Mortens_Komeback_3
             {
                 (this as IAnimate).Animate();
                 Move();
-                (this as IPPCollidable).UpdateRectangles(spriteEffect == SpriteEffects.FlipHorizontally);
                 PlayWalkSound();
             }
             else if (attacking)
@@ -174,6 +173,8 @@ namespace Mortens_Komeback_3
 
             foreach (Weapon weapon in availableWeapons)
                 weapon.Update(gameTime);
+
+            (this as IPPCollidable).UpdateRectangles(spriteEffect == SpriteEffects.FlipHorizontally);
 
             Camera.Instance.Position = Position;
 
@@ -248,7 +249,7 @@ namespace Mortens_Komeback_3
         {
             if (other.Type.GetType() == typeof(EnemyType))
             {
-                
+
             }
             else
                 switch (other.Type)
@@ -351,7 +352,7 @@ namespace Mortens_Komeback_3
 
         public void Interact(GameObject gameObject)
         {
-            switch(gameObject.Type)
+            switch (gameObject.Type)
             {
                 case PuzzleType.OrderPuzzlePlaque:
                     (gameObject as OrderPuzzlePlaque).ChangePlaque();
@@ -362,7 +363,7 @@ namespace Mortens_Komeback_3
                 default:
                     break;
             }
-             
+
         }
 
         #endregion
