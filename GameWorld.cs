@@ -131,7 +131,9 @@ namespace Mortens_Komeback_3
             ShootPuzzle shootPuzzle = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, -400), new Vector2(1190, -200), DoorDirection.Right);
             gameObjects.Add(shootPuzzle);
             gamePuzzles.Add(shootPuzzle);
-
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 2300), new Vector2(1190, 2500), DoorDirection.Right, new Vector2(0, 2000), (float)Math.PI/2, new Vector2(0, 2700), 0);
+            gameObjects.Add(shootPuzzle2);
+            gamePuzzles.Add(shootPuzzle2);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -371,7 +373,10 @@ namespace Mortens_Komeback_3
             Sprites.Add(DoorType.Open, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\doorOpen_shadow") });
             Sprites.Add(DoorType.Locked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\doorLocked") });
             Sprites.Add(DoorType.Closed, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\doorClosed_shadow") });
-
+            Sprites.Add(SurfaceType.AvSurface, new Texture2D[4] { Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD1"),
+                Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD2"),
+                Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD3"),
+                Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD4") });
             #endregion
             #region Puzzle
             Sprites.Add(PuzzleType.OrderPuzzle, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\Environment\\doorLocked"), Content.Load<Texture2D>("Sprites\\Environment\\doorOpen_Shadow") });
