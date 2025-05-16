@@ -9,6 +9,7 @@ using System.Diagnostics;
 using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Collider;
 using Mortens_Komeback_3.Factory;
+using Mortens_Komeback_3.Puzzles;
 
 namespace Mortens_Komeback_3
 {
@@ -31,7 +32,7 @@ namespace Mortens_Komeback_3
         private float deltaTime;
         private bool gamePaused = false;
         private bool gameRunning = true;
-        public List<Puzzle> gamePuzzles = new List<Puzzle>();
+        public List<GameObject> gamePuzzles = new List<GameObject>();
 
         private float spawnEnemyTime = 5f;
         private float lastSpawnEnemy = 0f;
@@ -93,10 +94,10 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
             gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
 
-            Puzzle orderPuzzle = new Puzzle(PuzzleType.OrderPuzzle, new Vector2(100, 300));
+            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(500,500), DoorDirection.Top, new Vector2(300, 500),new Vector2(100, 500),new Vector2(-100, 500));
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            Puzzle shootPuzzle = new Puzzle(PuzzleType.ShootPuzzle, new Vector2(0, -200));
+            ShootPuzzle shootPuzzle = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(0, -200), new Vector2(700, -200));
             gameObjects.Add(shootPuzzle);
             gamePuzzles.Add(shootPuzzle);
 

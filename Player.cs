@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Audio;
+using Mortens_Komeback_3.Puzzles;
 
 namespace Mortens_Komeback_3
 {
@@ -293,10 +294,10 @@ namespace Mortens_Komeback_3
             switch(gameObject.Type)
             {
                 case PuzzleType.OrderPuzzlePlaque:
-                    (gameObject as Puzzle).ChangePlaque();
+                    (gameObject as OrderPuzzlePlaque).ChangePlaque();
                     break;
                 case PuzzleType.OrderPuzzle:
-                    (gameObject as Puzzle).TrySolve();
+                    (gameObject as OrderPuzzle).TrySolve();
                     break;
                 default:
                     break;
