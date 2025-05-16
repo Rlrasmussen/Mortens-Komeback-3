@@ -11,26 +11,31 @@ namespace Mortens_Komeback_3.Collider
 
         /// <summary>
         /// Used as Tag (Usable in OnCollision)
+        /// Simon
         /// </summary>
         public Enum Type { get; }
 
         /// <summary>
         /// Set to => position/Vector2 IPPCollidable.Position => Position if not using { get; set; }
+        /// Simon
         /// </summary>
         public Vector2 Position { get; set; }
 
         /// <summary>
         /// Set to => sprite/Texture2D IPPCollidable.Sprite => Sprite if not using { get; }
+        /// Simon
         /// </summary>
         public Texture2D Sprite { get; }
 
         /// <summary>
         /// Instantiate after setting sprite (can be done in constuctor if sprite is provided/provided in base constructor), by doing "CreateRectangels()"
+        /// Simon
         /// </summary>
         public List<RectangleData> Rectangles { get; set; }
 
         /// <summary>
         /// Used to check collision against object that doesn't use pixel perfect collision
+        /// Simon
         /// </summary>
         /// <param name="other">Rectangle/CollisionBox to perform check against</param>
         /// <returns>True if collision detected</returns>
@@ -47,7 +52,8 @@ namespace Mortens_Komeback_3.Collider
         }
 
         /// <summary>
-        /// Used to check collision against object that also uses pixel perfect collision 
+        /// Used to check collision against object that also uses pixel perfect collision
+        /// Simon
         /// </summary>
         /// <param name="other">Other object to check collisions against</param>
         /// <returns>True if collision detected</returns>
@@ -66,6 +72,7 @@ namespace Mortens_Komeback_3.Collider
 
         /// <summary>
         /// Updates position for collision rectangles, must be run regularly at minimum
+        /// Simon (code from teacher, expanded with help from ChatGPT)
         /// </summary>
         /// <param name="flipHorizontally">Transmits if sprite is flipped or not</param>
         public void UpdateRectangles(bool flipHorizontally = false)
@@ -82,6 +89,7 @@ namespace Mortens_Komeback_3.Collider
 
         /// <summary>
         /// Creates a List of Rectangles for collision checks (is automatically run on UpdateRectangles if Rectangles count is 0 or it's null)
+        /// Simon (code from teacher)
         /// </summary>
         /// <returns>List used to instantiate "Rectangles"</returns>
         /// <exception cref="Exception">Throws exception if no sprite was found</exception>
@@ -161,6 +169,7 @@ namespace Mortens_Komeback_3.Collider
 
         /// <summary>
         /// Used to update Rectangle(s)
+        /// Simon (code from teacher, expanded with help from ChatGPT to take a "flip" effect into account
         /// </summary>
         /// <param name="position">Objects position</param>
         /// <param name="width">Sprite width</param>
