@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Mortens_Komeback_3
 {
+
+    /// <summary>
+    /// Enum for identifying animations different of the player
+    /// </summary>
     public enum PlayerType
     {
         Morten,
         MortenAngriber
     }
 
+    /// <summary>
+    /// Enum for identifying different types of enemies
+    /// </summary>
     public enum EnemyType
     {
         WalkingGoose,
@@ -19,6 +21,9 @@ namespace Mortens_Komeback_3
         Goosifer //Goosifer needs to be last
     }
 
+    /// <summary>
+    /// Enum for identifying state of doors
+    /// </summary>
     public enum DoorType
     {
         Open,
@@ -27,6 +32,9 @@ namespace Mortens_Komeback_3
         Unlocked
     }
 
+    /// <summary>
+    /// Enum for identifying direction of doors
+    /// </summary>
     public enum DoorDirection
     { 
         Top,
@@ -36,22 +44,34 @@ namespace Mortens_Komeback_3
 
     }
 
+    /// <summary>
+    /// Enum for identifying weapons
+    /// </summary>
     public enum WeaponType
     {
         Melee,
         Ranged
     }
 
+    /// <summary>
+    /// Enum for identifying attacks
+    /// </summary>
     public enum AttackType
     {
         Swing,
         Egg
     }
 
+    /// <summary>
+    /// Enum for identifying surfaces
+    /// </summary>
     public enum SurfaceType
     {
     }
 
+    /// <summary>
+    /// Enum for identifying menu-items
+    /// </summary>
     public enum MenuType
     {
         Start,
@@ -62,6 +82,9 @@ namespace Mortens_Komeback_3
         Cursor
     }
 
+    /// <summary>
+    /// Enum for identifying objects on the overlay
+    /// </summary>
     public enum OverlayObjects
     {
         Heart,
@@ -69,6 +92,9 @@ namespace Mortens_Komeback_3
         InteractBubble
     }
 
+    /// <summary>
+    /// Enum for identifying sounds
+    /// </summary>
     public enum Sound
     {
         GooseSound,
@@ -87,6 +113,9 @@ namespace Mortens_Komeback_3
         CatacombDoor
     }
 
+    /// <summary>
+    /// Enum for identifying music
+    /// </summary>
     public enum MusicTrack
     {
         Battle,
@@ -99,6 +128,9 @@ namespace Mortens_Komeback_3
         Menu
     }
 
+    /// <summary>
+    /// Enum for identifying items
+    /// </summary>
     public enum ItemType
     {
         Key,
@@ -108,6 +140,9 @@ namespace Mortens_Komeback_3
         WallTurkey
     }
 
+    /// <summary>
+    /// Enum for identifying rooms
+    /// </summary>
     public enum RoomType
     {
         PopeRoom,
@@ -124,6 +159,9 @@ namespace Mortens_Komeback_3
 
     }
 
+    /// <summary>
+    /// Enum for identifying NPCs
+    /// </summary>
     public enum NPCType
     {
         CanadaGoose,
@@ -133,6 +171,9 @@ namespace Mortens_Komeback_3
         Nun
     }
 
+    /// <summary>
+    /// Enum for identifying puzzles
+    /// </summary>
     public enum PuzzleType
     {
         OrderPuzzle,
@@ -141,6 +182,9 @@ namespace Mortens_Komeback_3
         ShootPuzzle,
     }
 
+    /// <summary>
+    /// Enum for identifying decorations
+    /// </summary>
     public enum DecorationType
     {
         Torch,
@@ -152,11 +196,17 @@ namespace Mortens_Komeback_3
         Coffin,
     }
 
+    /// <summary>
+    /// Enum for identifying collisionpixel
+    /// </summary>
     public enum DebugEnum
     {
         Pixel
     }
 
+    /// <summary>
+    /// Enum for identifying Vector2 positions
+    /// </summary>
     public enum Location
     {
         Spawn

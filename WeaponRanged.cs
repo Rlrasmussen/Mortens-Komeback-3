@@ -10,6 +10,7 @@ namespace Mortens_Komeback_3
 {
     public class WeaponRanged : Weapon
     {
+
         #region Fields
 
         private float refireRate = 1f;
@@ -21,6 +22,13 @@ namespace Mortens_Komeback_3
         #endregion
 
         #region Constructor
+
+        /// <summary>
+        /// Sets damage of the projectile, sprite is set in base constructor
+        /// Simon
+        /// </summary>
+        /// <param name="type">The sprite of the weapon</param>
+        /// <param name="spawnPos">Spawning position of the weapon</param>
         public WeaponRanged(WeaponType type, Vector2 spawnPos) : base(type, spawnPos)
         {
             damage = 2;
@@ -30,7 +38,11 @@ namespace Mortens_Komeback_3
 
         #region Method
 
-
+        /// <summary>
+        /// Handles (re)fire-rate
+        /// Simon
+        /// </summary>
+        /// <param name="gameTime">DeltaTime, obsolete</param>
         public override void Update(GameTime gameTime)
         {
 
@@ -40,7 +52,10 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Attack logic when triggered by player
+        /// Simon
+        /// </summary>
         public override void Attack()
         {
             

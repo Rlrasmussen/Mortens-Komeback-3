@@ -32,6 +32,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Bruges til automatisk fjernelse af objektet
+        /// Simon
         /// </summary>
         public virtual bool IsAlive
         {
@@ -47,19 +48,34 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Property for setting sprite in the class itself, or get info about it
+        /// Simon
+        /// </summary>
         public virtual Texture2D Sprite { get => sprite; protected set => sprite = value; }
 
-
+        /// <summary>
+        /// Used to manipulate objects position
+        /// Simon
+        /// </summary>
         public virtual Vector2 Position { get => position; set => position = value; }
 
-
+        /// <summary>
+        /// Used to rotate objects
+        /// Simon
+        /// </summary>
         public virtual float Rotation { get => rotation; set => rotation = value; }
 
-
+        /// <summary>
+        /// ID-tag for objects
+        /// Simon
+        /// </summary>
         public virtual Enum Type { get => type; }
 
-
+        /// <summary>
+        /// CollisionBox for objects
+        /// Simon
+        /// </summary>
         public virtual Rectangle CollisionBox
         {
 
@@ -75,6 +91,9 @@ namespace Mortens_Komeback_3
 
         }
 
+        /// <summary>
+        /// Damage that the objects deal (if applicable)
+        /// </summary>
         public int Damage { get => damage; set => damage = value; }
 
         #endregion
@@ -82,6 +101,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Sætter automatisk sprite
+        /// Simon
         /// </summary>
         /// <param name="type">Bruges til at angive hvilke sprites der skal vises for objektet</param>
         /// <param name="spawnPos">Angiver startposition for objektet</param>
@@ -106,6 +126,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Står for at nulstille/klargøre objektets primære parametre
+        /// Simon
         /// </summary>
         public virtual void Load()
         {
@@ -119,6 +140,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Håndterer visning af sprite
+        /// Simon
         /// </summary>
         /// <param name="spriteBatch">Game-logic</param>
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -131,6 +153,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Kan bruges til at udskrive objektets type til string
+        /// Simon
         /// </summary>
         /// <returns>Type-enum'et som string</returns>
         public override string ToString()

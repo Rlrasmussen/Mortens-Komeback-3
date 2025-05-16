@@ -25,18 +25,26 @@ namespace Mortens_Komeback_3.Factory
         #endregion
 
         #region Constructor
+
+        /// <summary>
+        /// Projectiles constructor, sets damage the projectile does and handles sprite logic
+        /// Simon
+        /// </summary>
+        /// <param name="type">Enum that represents what the object is, also determines sprite</param>
+        /// <param name="spawnPos">Initial position of projectile (overrided by Load)</param>
         public Projectile(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
             damage = 2;
         }
 
-
-
         #endregion
 
         #region Method
 
-
+        /// <summary>
+        /// (Re)sets projectile, including movement and rotation directions and runs basic (re)set logic
+        /// Simon
+        /// </summary>
         public override void Load()
         {
 
@@ -53,22 +61,23 @@ namespace Mortens_Komeback_3.Factory
 
         }
 
-
+        /// <summary>
+        /// Effect that happens when a collision is triggered in GameWorld
+        /// Simon
+        /// </summary>
+        /// <param name="other">Other object that was collided with</param>
         public void OnCollision(ICollidable other)
         {
-            if (other.Type.GetType() == typeof(EnemyType))
-            {
                 ProjectilePool.Instance.ReleaseObject(this);
                 IsAlive = false;
-            }
-            else
-                switch (other.Type)
-                {
-                    default:
-                        break;
-                }
+ 
         }
 
+        /// <summary>
+        /// Moves projectile in the direction that was given in load and "rotates" it at the same time
+        /// Simon
+        /// </summary>
+        /// <param name="gameTime">DeltaTime, obsolete</param>
         public override void Update(GameTime gameTime)
         {
 
