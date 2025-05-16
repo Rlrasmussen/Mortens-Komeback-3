@@ -200,7 +200,11 @@ namespace Mortens_Komeback_3
 
 #if DEBUG
                 if (DrawCollision)
+                {
                     DrawCollisionBox(gameObject.CollisionBox);
+                    if (gameObject is IPPCollidable)
+                        DrawIPPCollisionBoxes(gameObject as IPPCollidable);
+                }
 #endif
 
             }
@@ -547,11 +551,11 @@ namespace Mortens_Komeback_3
 
 #if DEBUG
 
-        private void DrawCollisionBox(Rectangle gameObjectsCollisionBox)
+        private void DrawCollisionBox(Rectangle gameObject)
         {
 
             Color color = Color.Red;
-            Rectangle collisionBox = gameObjectsCollisionBox;
+            Rectangle collisionBox = gameObject;
             Rectangle topLine = new Rectangle(collisionBox.X, collisionBox.Y, collisionBox.Width, 1);
             Rectangle bottomLine = new Rectangle(collisionBox.X, collisionBox.Y + collisionBox.Height, collisionBox.Width, 1);
             Rectangle rightLine = new Rectangle(collisionBox.X + collisionBox.Width, collisionBox.Y, 1, collisionBox.Height);
@@ -560,6 +564,15 @@ namespace Mortens_Komeback_3
             _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], bottomLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
             _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], rightLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
             _spriteBatch.Draw(Sprites[DebugEnum.Pixel][0], leftLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+
+        }
+
+
+        private void DrawIPPCollisionBoxes(IPPCollidable obj)
+        {
+
+            foreach (RectangleData item in obj.Rectangles)
+                DrawCollisionBox(item.Rectangle);
 
         }
 
