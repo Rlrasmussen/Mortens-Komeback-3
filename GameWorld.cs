@@ -9,6 +9,7 @@ using System.Diagnostics;
 using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Collider;
 using Mortens_Komeback_3.Factory;
+using Mortens_Komeback_3.Environment;
 
 namespace Mortens_Komeback_3
 {
@@ -21,7 +22,7 @@ namespace Mortens_Komeback_3
         private Random random = new Random();
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
-        private List<Environment.Room> Rooms = new List<Environment.Room>();
+        public List<Environment.Room> Rooms = new List<Environment.Room>();
         private HashSet<(GameObject, GameObject)> collisions = new HashSet<(GameObject, GameObject)>();
         public Dictionary<Location, Vector2> Locations = new Dictionary<Location, Vector2>();
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
@@ -105,6 +106,7 @@ namespace Mortens_Komeback_3
             #endregion
             #region Doors
             gameObjects.Add(new Environment.Door(new Vector2(1190, 0), DoorDirection.Right));
+            gameObjects.Add(new Environment.Door(new Vector2(-1190, 2000), DoorDirection.Left));
             #endregion
 
             foreach (GameObject gameObject in gameObjects)

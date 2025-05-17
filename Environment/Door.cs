@@ -32,12 +32,14 @@ namespace Mortens_Komeback_3.Environment
             DoorStatus = initialType;
             Rotation = GetDoorDirection(direction);
             layer = 0.11f;
-
         }
 
         #endregion
 
         #region Method
+        /// <summary>
+        /// Irene
+        /// </summary>
         public void UnlockDoor()
         {
             if(DoorStatus == DoorType.Locked)
@@ -47,6 +49,9 @@ namespace Mortens_Komeback_3.Environment
             }
         }
 
+        /// <summary>
+        /// Irene
+        /// </summary>
         public void OpenDoor()
         {
             if (DoorStatus == DoorType.Closed)
@@ -62,6 +67,7 @@ namespace Mortens_Komeback_3.Environment
 
         /// <summary>
         /// Roterer dørene
+        /// Irene
         /// </summary>
         /// <param name="direction"></param>
         /// <returns></returns>
