@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,24 +16,42 @@ namespace Mortens_Komeback_3.Environment
 
         public void SetupRooms()
         {
+            //Room roomA = new Room(RoomType.CatacombesA, new Vector2(0, 0));
+            //Room roomB = new Room(RoomType.CatacombesB, new Vector2(0, -1000));
+
+            //Door doorA = new Door(new Vector2(200, 400), DoorDirection.Top);
+            //Door doorB = new Door(new Vector2(200, 50), DoorDirection.Bottom);
+
+            //doorA.DestinationRoom = roomB;
+            //doorA.DestinationDoor = doorB;
+
+            //doorB.DestinationRoom = roomA;
+            //doorB.DestinationDoor = doorA;
+
+
+            //roomA.AddDoor(doorA);
+            //roomB.AddDoor(doorB);
+
+            //GameWorld.Instance.Rooms.Add(roomA);
+            //GameWorld.Instance.Rooms.Add(roomB);
+            //GameWorld.Instance.CurrentRoom = roomA;
+
             Room roomA = new Room(RoomType.CatacombesA, new Vector2(0, 0));
-            Room roomB = new Room(RoomType.CatacombesB, new Vector2(0, -1000));
+            Room roomB = new Room(RoomType.CatacombesB, new Vector2(0, 2000));
 
-            Door doorA = new Door(new Vector2(200, 400), DoorDirection.Top);
-            Door doorB = new Door(new Vector2(200, 50), DoorDirection.Bottom);
+            Door doorA = new Door(new Vector2(100, 100), DoorDirection.Right);
+            Door doorB = new Door(new Vector2(100, 100), DoorDirection.Left);
 
-            doorA.DestinationRoom = roomB;
-            doorA.DestinationDoor = doorB;
+            // Fortæl dørene hvilket room de er i
+            doorA.room = roomA;
+            doorB.room = roomB;
 
-            doorB.DestinationRoom = roomA;
-            doorB.DestinationDoor = doorA;
+            // Link dørene sammen (teleportation)
+            doorA.LinkTo(doorB);
 
+            // Tilføj dørene til deres rooms
             roomA.AddDoor(doorA);
             roomB.AddDoor(doorB);
-
-            GameWorld.Instance.Rooms.Add(roomA);
-            GameWorld.Instance.Rooms.Add(roomB);
-            GameWorld.Instance.CurrentRoom = roomA;
         }
     }
 }

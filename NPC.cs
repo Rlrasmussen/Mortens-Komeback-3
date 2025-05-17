@@ -20,6 +20,7 @@ namespace Mortens_Komeback_3
         #region Constructor
         public NPC(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
+            layer = 0.6f;
         }
 
         #endregion

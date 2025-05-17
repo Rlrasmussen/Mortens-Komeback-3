@@ -94,24 +94,32 @@ namespace Mortens_Komeback_3.Environment
 
         public void OnCollision(ICollidable other)
         {
-            if(DoorStatus == DoorType.Open && DestinationRoom != null && DestinationDoor != null)
+            if (other != Player.Instance)
+                return;
+
+            if ((DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open)
+                && DestinationRoom != null && DestinationDoor != null)
             {
-                //Teleport
                 Player.Instance.Position = DestinationDoor.Position;
                 GameWorld.Instance.CurrentRoom = DestinationRoom;
                 Debug.WriteLine("player teleported");
             }
-            else 
+            else
             {
                 Debug.WriteLine("can't teleport");
             }
-
-            //if (other == Player.Instance)
-            //{
-            //    TeleportPlayer();
-            //}
-            //throw new NotImplementedException();
         }
+
+        public void LinkTo(Door otherDoor)
+        {
+            this.DestinationDoor = otherDoor;
+            this.DestinationRoom = otherDoor.room;
+
+            // Valgfrit: gør det til en tovejsteleport
+            otherDoor.DestinationDoor = this;
+            otherDoor.DestinationRoom = this.room;
+        }
+
 
         /// <summary>
         /// When player collides with door, players position is moved to next room

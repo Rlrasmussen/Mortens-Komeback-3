@@ -29,7 +29,8 @@ namespace Mortens_Komeback_3
         Open,
         Closed,
         Locked,
-        Unlocked
+        Unlocked,
+        Stairs
     }
 
     /// <summary>

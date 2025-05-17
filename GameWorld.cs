@@ -157,9 +157,13 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new Environment.Room(RoomType.TrapRoom, new Vector2(0, 26000)));
             #endregion
             #region Doors
-            gameObjects.Add(new Environment.Door(new Vector2(1190, 0), DoorDirection.Right));
-            gameObjects.Add(new Environment.Door(new Vector2(-1190, 2000), DoorDirection.Left));
+            gameObjects.Add(new Environment.Door(new Vector2(1190, 0), DoorDirection.Right, DoorType.Closed));
+            gameObjects.Add(new Environment.Door(new Vector2(-1190, 2000), DoorDirection.Left, DoorType.Closed));
+
+
             #endregion
+            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200,200))); //Used for testing - To be removed
+
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
@@ -364,6 +368,7 @@ namespace Mortens_Komeback_3
 
             Sprites.Add(NPCType.Monk, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\monkNPCbible") });
             Sprites.Add(NPCType.Nun, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary") });
+            Sprites.Add(NPCType.Pope, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\Testing Morten") });
 
             #endregion
             #region Overlay
