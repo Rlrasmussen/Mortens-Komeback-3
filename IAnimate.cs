@@ -27,6 +27,5 @@ namespace Mortens_Komeback_3
             CurrentIndex = (int)(ElapsedTime * FPS % Sprites.Length);
 
         }
-
     }
 }

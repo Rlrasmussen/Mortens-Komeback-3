@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mortens_Komeback_3.Collider;
+using Mortens_Komeback_3.Factory;
 
 namespace Mortens_Komeback_3
 {
-    public class Enemy : GameObject, IAnimate, ICollidable
+    public class Enemy : GameObject, IAnimate, ICollidable, IPPCollidable
     {
         #region Fields
 
@@ -21,6 +22,9 @@ namespace Mortens_Komeback_3
         public Texture2D[] Sprites { get; set; }
         public float ElapsedTime { get; set; }
         public int CurrentIndex { get; set; }
+        public int Health { get; set; }
+        public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
+
 
         #endregion
 
@@ -31,6 +35,7 @@ namespace Mortens_Komeback_3
                 Sprites = sprites;
             else
                 Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
+
         }
 
 
@@ -40,6 +45,7 @@ namespace Mortens_Komeback_3
         public override void Update(GameTime gameTime)
         {
             (this as IAnimate).Animate();
+            (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
 
             base.Update(gameTime);
         }
@@ -52,10 +58,64 @@ namespace Mortens_Komeback_3
                 base.Draw(spriteBatch);
         }
 
+        /// <summary>
+        /// Reset Health with switch case by EnemyType
+        /// Rikke
+        /// </summary>
+        public override void Load()
+        {
+            //Health and damage switch case
+            switch (this.type)
+            {
+                case EnemyType.WalkingGoose:
+                    Health = 1;
+                    this.Damage = 2;
+                    break;
+                case EnemyType.AggroGoose:
+                    Health = 1;
+                    this.Damage = 2;
+                    break;
+                case EnemyType.Goosifer:
+                    Health = 1;
+                    this.Damage = 2;
+                    break;
+            }
+
+            base.Load();
+        }
+
+        /// <summary>
+        /// Collision with Enemy
+        /// </summary>
+        /// <param name="other">IColliable</param>
         public void OnCollision(ICollidable other)
         {
-            //throw new NotImplementedException();
+            //Take damage by collision
+            if (other is Projectile)
+            {
+                TakeDamage((GameObject)other);
+            }
+
         }
+
+        /// <summary>
+        /// Enemy takes damage which makes the Health reduce. When Health is 0 en Enemy dies and will be released fra EnemyPool
+        /// Rikke
+        /// </summary>
+        /// <param name="gameObject">GameObject which give damage to the Enemy</param>
+        public void TakeDamage(GameObject gameObject)
+        {
+            Health -= gameObject.Damage;
+
+            //Enemy dies is Health is 0
+            if (Health <= 0)
+            {
+                IsAlive = false;
+
+                EnemyPool.Instance.ReleaseObject(this);
+            }
+        }
+
         #endregion
     }
 }

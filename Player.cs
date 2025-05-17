@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Audio;
+using Mortens_Komeback_3.Puzzles;
 
 namespace Mortens_Komeback_3
 {
@@ -22,17 +23,23 @@ namespace Mortens_Komeback_3
         private Weapon equippedWeapon;
         private List<Weapon> availableWeapons = new List<Weapon>();
         private Vector2 velocity;
+        private Vector2 meleeAttackDirection;
         private float speed = 500f;
         private float walkTimer = 0.5f;
         private int health;
         private int maxHealth = 100;
         private bool attacking = false;
 
+        private float damageTimer;
+        private float damageGracePeriode = 2f;
+
         #endregion
 
         #region Properties
 
-
+        /// <summary>
+        /// Singleton property
+        /// </summary>
         public static Player Instance
         {
             get
@@ -44,7 +51,9 @@ namespace Mortens_Komeback_3
             }
         }
 
-
+        /// <summary>
+        /// Used for handling logic when Player takes damage
+        /// </summary>
         public int Health
         {
             get => health;
@@ -57,36 +66,60 @@ namespace Mortens_Komeback_3
             }
         }
 
-
+        /// <summary>
+        /// Used for doing actions if the player spawns/dies
+        /// </summary>
         public override bool IsAlive
         {
             get => base.IsAlive;
             set => base.IsAlive = value;
         }
 
-
+        /// <summary>
+        /// Used for movement
+        /// Simon
+        /// </summary>
         public Vector2 Velocity { get => velocity; set => velocity = value; }
 
-
+        /// <summary>
+        /// Used for pixel-perfect collision
+        /// Simon
+        /// </summary>
         public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
 
-
+        /// <summary>
+        /// Used for animation
+        /// Simon
+        /// </summary>
         public float FPS { get; set; } = 8;
 
-
+        /// <summary>
+        /// Array of Sprites used for animation
+        /// Simon
+        /// </summary>
         public Texture2D[] Sprites { get; set; }
 
-
+        /// <summary>
+        /// Used for animation
+        /// Simon
+        /// </summary>
         public float ElapsedTime { get; set; }
 
-
+        /// <summary>
+        /// Used for animation
+        /// Simon
+        /// </summary>
         public int CurrentIndex { get; set; }
 
         #endregion
 
         #region Constructor
 
-
+        /// <summary>
+        /// Sets animation sprites for Player and other basic logic, most notably where commands are added
+        /// </summary>
+        /// <param name="type">The starting sprites</param>
+        /// <param name="spawnPos">Position the Player spawns</param>
         private Player(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
 
@@ -96,7 +129,6 @@ namespace Mortens_Komeback_3
                 Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
 
             layer = 0.6f;
-            speed = 1000;
 
             AddCommands();
 
@@ -106,6 +138,9 @@ namespace Mortens_Komeback_3
 
         #region Method
 
+        /// <summary>
+        /// (Re)sets health and alive-status
+        /// </summary>
         public override void Load()
         {
 
@@ -115,7 +150,11 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Handles on-frame update logic for animations, timers, spriteeffects, pixel perfect collisionboxes position, camera movement and movement
+        /// Simon
+        /// </summary>
+        /// <param name="gameTime">DeltaTime, obsolete</param>
         public override void Update(GameTime gameTime)
         {
 
@@ -130,19 +169,29 @@ namespace Mortens_Komeback_3
             {
                 (this as IAnimate).Animate();
                 Move();
-                (this as IPPCollidable).UpdateRectangles();
                 PlayWalkSound();
             }
             else if (attacking)
                 (this as IAnimate).Animate();
 
+            foreach (Weapon weapon in availableWeapons)
+                weapon.Update(gameTime);
+
+            (this as IPPCollidable).UpdateRectangles(spriteEffect == SpriteEffects.FlipHorizontally);
+
             Camera.Instance.Position = Position;
+
+            //Grace periode for attacks from Enemy
+            damageTimer += GameWorld.Instance.DeltaTime;
 
             base.Update(gameTime);
 
         }
 
-
+        /// <summary>
+        /// Handles Player movement logic
+        /// Simon
+        /// </summary>
         private void Move()
         {
 
@@ -154,13 +203,32 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Handles drawing of animation and swords "swoosh"-effect and resetting sprites to standard when attack-animation is done
+        /// Simon (ChatGPT made equation for the sword-swoosh effect)
+        /// </summary>
+        /// <param name="spriteBatch">Used for drawing sprites</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
 
-            Vector2 correction = Vector2.Zero;
-            if (attacking)
-                correction = new Vector2(0, 40);
+            Vector2 correction = Vector2.Zero; //Attack animation is 40'ish pixels higher than regular sprites
+
+            if (attacking && equippedWeapon != null && (WeaponType)equippedWeapon.Type == WeaponType.Melee)
+            {
+                correction.Y = 40;
+                // 1. Calculate angle of attack
+                float angle = (float)Math.Atan2(meleeAttackDirection.Y, meleeAttackDirection.X);
+
+                // 2. Set VFX origin (center-bottom or custom based on your sprite)
+                Texture2D vfxTexture = (equippedWeapon as WeaponMelee).VFX[CurrentIndex];
+                Vector2 vfxOrigin = new Vector2(0, vfxTexture.Height / 2f); // left center
+
+                // 3. Set offset from character Position in the direction of attack
+                Vector2 vfxOffset = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * Sprite.Width / 2f;
+
+                // 4. Draw at Position + offset
+                spriteBatch.Draw(vfxTexture, Position + vfxOffset, null, drawColor, angle, vfxOrigin, scale, SpriteEffects.None, layer + 0.01f);
+            }
 
             if (Sprites != null)
                 spriteBatch.Draw(Sprites[CurrentIndex], Position - correction, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
@@ -178,48 +246,82 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Effect that happens when a collision is triggered in GameWorld
+        /// Simon
+        /// </summary>
+        /// <param name="other"></param>
         public void OnCollision(ICollidable other)
         {
-
-            switch (other.Type)
+            if (other.Type.GetType() == typeof(EnemyType) && damageTimer > damageGracePeriode) //Rikke
             {
-                default:
-                    break;
+                health -= (other as Enemy).Damage;
+                GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
+
+                damageTimer = 0f;
             }
+            else //Simon
+                switch (other.Type)
+                {
+                    case WeaponType.Melee:
+                        if (other is Weapon)
+                            availableWeapons.Add(other as Weapon);
+                        (other as Weapon).IsAlive = false;
+                        if (equippedWeapon == null)
+                            equippedWeapon = (other as Weapon);
+                        break;
+                    case WeaponType.Ranged:
+                        if (other is Weapon)
+                            availableWeapons.Add(other as Weapon);
+                        (other as Weapon).IsAlive = false;
+                        break;
+                    default:
+                        break;
+                }
 
         }
 
-
+        /// <summary>
+        /// Handles attack logic and dependent on attack type triggers change of sprites
+        /// Simon
+        /// </summary>
         private void Attack()
         {
 
             if (!GameWorld.Instance.GamePaused && equippedWeapon != null && !attacking)
             {
                 equippedWeapon.Attack();
+                if ((WeaponType)equippedWeapon.Type == WeaponType.Melee && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) //Skal rykkes ind i samme loop som equippedWeapon.Attack();
+                {
+                    Sprites = sprites;
+                    attacking = true;
+                    CurrentIndex = 0;
+                    ElapsedTime = 0;
+                    FPS = 22;
+                    GameWorld.Instance.Sounds[Sound.PlayerSwordAttack].Play();
+                    meleeAttackDirection = InputHandler.Instance.MousePosition - Position;
+                }
             }
 
-            if (GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) //Skal rykkes ind i samme loop som equippedWeapon.Attack();
-            {
-                Sprites = sprites;
-                attacking = true;
-                CurrentIndex = 0;
-                ElapsedTime = 0;
-                FPS = 30;
-                GameWorld.Instance.Sounds[Sound.PlayerSwordAttack].Play();
-            }
 
         }
 
-
+        /// <summary>
+        /// Used by InputHandler to change the type of weapon that's equipped
+        /// </summary>
+        /// <param name="weapon">Type of weapon to change to</param>
         public void ChangeWeapon(WeaponType weapon)
         {
 
-            equippedWeapon = availableWeapons.Find(x => (WeaponType)x.Type == weapon);
+            if (!attacking)
+                equippedWeapon = availableWeapons.Find(x => (WeaponType)x.Type == weapon);
 
         }
 
-
+        /// <summary>
+        /// Old solution from earlier game version to alternate walking-sound
+        /// Philip
+        /// </summary>
         private void PlayWalkSound()
         {
             if (walkTimer > 0.4f)
@@ -238,7 +340,10 @@ namespace Mortens_Komeback_3
             }
         }
 
-
+        /// <summary>
+        /// Adds all players input to InputHandler
+        /// Simon, Philip
+        /// </summary>
         private void AddCommands()
         {
 
@@ -249,6 +354,24 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(this, new Vector2(0, 1)));
             InputHandler.Instance.AddButtonDownCommand(Keys.D1, new ChangeWeaponCommand(this, WeaponType.Melee));
             InputHandler.Instance.AddButtonDownCommand(Keys.D2, new ChangeWeaponCommand(this, WeaponType.Ranged));
+            InputHandler.Instance.AddButtonDownCommand(Keys.E, new InteractCommand());
+
+        }
+
+
+        public void Interact(GameObject gameObject)
+        {
+            switch (gameObject.Type)
+            {
+                case PuzzleType.OrderPuzzlePlaque:
+                    (gameObject as OrderPuzzlePlaque).ChangePlaque();
+                    break;
+                case PuzzleType.OrderPuzzle:
+                    (gameObject as OrderPuzzle).TrySolve();
+                    break;
+                default:
+                    break;
+            }
 
         }
 

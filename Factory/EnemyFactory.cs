@@ -31,8 +31,7 @@ namespace Mortens_Komeback_3.Factory
 
         #region Fields
         private Vector2 position;
-        private int nestNumbers = 4; 
-
+        private int nestNumbers = 4;
         #endregion
 
         #region Properties
@@ -49,7 +48,6 @@ namespace Mortens_Komeback_3.Factory
         /// Rikke
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public override Enemy Create()
         {
             //Spawn enemies in the Goosifer fight. Can spawn from choosen positions
@@ -73,8 +71,8 @@ namespace Mortens_Komeback_3.Factory
 
             this.position = Vector2.Zero;
 
-            //Returning a enemy
             return new Enemy((EnemyType)goose, position);
+
         }
 
         /// <summary>
@@ -86,7 +84,7 @@ namespace Mortens_Komeback_3.Factory
         {
             //Goosifers spawnposition
             //this.position = Vector2.Zero;
-            
+
             return new Enemy(EnemyType.Goosifer, position);
         }
 
@@ -107,6 +105,7 @@ namespace Mortens_Komeback_3.Factory
             {
                 return new Enemy(type, spawnposition);
             }
+
         }
 
         #endregion
