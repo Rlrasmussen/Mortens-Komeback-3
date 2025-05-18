@@ -20,6 +20,8 @@ namespace Mortens_Komeback_3.Environment
 
         #region Properties
         public DoorType DoorStatus { get; private set; }
+        public DoorDirection Direction { get; private set; }
+        public float DoorOffset { get; private set; }
         public Room room { get; set; }
 
         public Room DestinationRoom { get; set; }
@@ -29,8 +31,10 @@ namespace Mortens_Komeback_3.Environment
         #region Constructor
         public Door(Vector2 spawnPos, DoorDirection direction, DoorType initialType = DoorType.Closed) : base(initialType, spawnPos)
         {
+
             DoorStatus = initialType;
-            Rotation = GetDoorDirection(direction);
+            Rotation = GetDoorDirection(direction); //Sprite rotation
+            Direction = direction;
             layer = 0.11f;
         }
 
@@ -92,22 +96,28 @@ namespace Mortens_Komeback_3.Environment
 
         }
 
+       
+
         public void OnCollision(ICollidable other)
         {
-            if (other != Player.Instance)
-                return;
+            //if (other == Player.Instance &&
+            //    (DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open) &&
+            //    DestinationRoom != null && DestinationDoor != null)
+            //{
+            //    Player.Instance.Position = DestinationDoor.Position;
+            //    Player.Instance.Position = Vector2.Zero;
+            //    GameWorld.Instance.CurrentRoom = DestinationRoom;
+            //    //Debug.WriteLine("Player teleported to " + DestinationRoom.RoomType);
+            //}
 
-            if ((DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open)
-                && DestinationRoom != null && DestinationDoor != null)
+            if (other == Player.Instance && (DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open))
             {
-                Player.Instance.Position = DestinationDoor.Position;
+                Player.Instance.Position = new Vector2(DestinationDoor.Position.X + 180, DestinationDoor.Position.Y);
                 GameWorld.Instance.CurrentRoom = DestinationRoom;
-                Debug.WriteLine("player teleported");
+                //Debug.WriteLine("Player teleported to " + DestinationRoom.RoomType);
+                GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
             }
-            else
-            {
-                Debug.WriteLine("can't teleport");
-            }
+
         }
 
         public void LinkTo(Door otherDoor)
@@ -115,7 +125,6 @@ namespace Mortens_Komeback_3.Environment
             this.DestinationDoor = otherDoor;
             this.DestinationRoom = otherDoor.room;
 
-            // Valgfrit: gør det til en tovejsteleport
             otherDoor.DestinationDoor = this;
             otherDoor.DestinationRoom = this.room;
         }

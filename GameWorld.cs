@@ -113,6 +113,7 @@ namespace Mortens_Komeback_3
             gameObjects.Add(Player.Instance);
             gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
 
+
             //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
 
 
@@ -142,28 +143,36 @@ namespace Mortens_Komeback_3
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             #region Rooms
-            gameObjects.Add(new Environment.Room(RoomType.PopeRoom, new Vector2(0, 0)));
-            gameObjects.Add(new Environment.Room(RoomType.Stairs, new Vector2(0, 2000)));
-            gameObjects.Add(new Environment.Room(RoomType.CatacombesA, new Vector2(0, 4000)));
-            gameObjects.Add(new Environment.Room(RoomType.CatacombesA, new Vector2(2650, 4000)));
-            gameObjects.Add(new Environment.Room(RoomType.CatacombesB, new Vector2(0, 6000)));
-            gameObjects.Add(new Environment.Room(RoomType.CatacombesC, new Vector2(0, 8000)));
-            gameObjects.Add(new Environment.Room(RoomType.CatacombesD, new Vector2(0, 10000)));
-            gameObjects.Add(new Environment.Room(RoomType.CatacombesD, new Vector2(0, 11500)));
-            gameObjects.Add(new Environment.Room(RoomType.CatacombesE, new Vector2(0, 18000)));
-            gameObjects.Add(new Environment.Room(RoomType.CatacombesF, new Vector2(0, 20000)));
-            gameObjects.Add(new Environment.Room(RoomType.CatacombesG, new Vector2(0, 22000)));
-            gameObjects.Add(new Environment.Room(RoomType.CatacombesH, new Vector2(0, 24000)));
-            gameObjects.Add(new Environment.Room(RoomType.TrapRoom, new Vector2(0, 26000)));
+            //gameObjects.Add(new Environment.Room(RoomType.PopeRoom, new Vector2(0, 0)));
+            //gameObjects.Add(new Environment.Room(RoomType.Stairs, new Vector2(0, 2000)));
+            //gameObjects.Add(new Environment.Room(RoomType.CatacombesA, new Vector2(0, 4000)));
+            //gameObjects.Add(new Environment.Room(RoomType.CatacombesA, new Vector2(2650, 4000)));
+            //gameObjects.Add(new Environment.Room(RoomType.CatacombesB, new Vector2(0, 6000)));
+            //gameObjects.Add(new Environment.Room(RoomType.CatacombesC, new Vector2(0, 8000)));
+            //gameObjects.Add(new Environment.Room(RoomType.CatacombesD, new Vector2(0, 10000)));
+            //gameObjects.Add(new Environment.Room(RoomType.CatacombesD, new Vector2(0, 11500)));
+            //gameObjects.Add(new Environment.Room(RoomType.CatacombesE, new Vector2(0, 18000)));
+            //gameObjects.Add(new Environment.Room(RoomType.CatacombesF, new Vector2(0, 20000)));
+            //gameObjects.Add(new Environment.Room(RoomType.CatacombesG, new Vector2(0, 22000)));
+            //gameObjects.Add(new Environment.Room(RoomType.CatacombesH, new Vector2(0, 24000)));
+            //gameObjects.Add(new Environment.Room(RoomType.TrapRoom, new Vector2(0, 26000)));
             #endregion
             #region Doors
-            gameObjects.Add(new Environment.Door(new Vector2(1190, 0), DoorDirection.Right, DoorType.Closed));
-            gameObjects.Add(new Environment.Door(new Vector2(-1190, 2000), DoorDirection.Left, DoorType.Closed));
+            //gameObjects.Add(new Environment.Door(new Vector2(1190, 0), DoorDirection.Right, DoorType.Closed));
+            //gameObjects.Add(new Environment.Door(new Vector2(-1190, 2000), DoorDirection.Left, DoorType.Closed));
 
 
             #endregion
             gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200,200))); //Used for testing - To be removed
+            DoorManager.Initialize();
+            GameWorld.Instance.CurrentRoom = DoorManager.Rooms[0];
 
+            foreach (var room in DoorManager.Rooms)
+                gameObjects.Add(room);
+
+            foreach (var door in DoorManager.Doors)
+                gameObjects.Add(door);
+            CurrentRoom = DoorManager.Rooms[0]; // Start i første rum
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
@@ -509,7 +518,9 @@ namespace Mortens_Komeback_3
                         ) && (
                         other.Type.GetType() == typeof(EnemyType) ||
                         other.Type.GetType() == typeof(PuzzleType) ||
-                        other.Type.GetType() == typeof(WeaponType)
+                        other.Type.GetType() == typeof(WeaponType) ||
+                        other.Type.GetType() == typeof(DoorType) //test remove
+
                         ))
                     {
                         if ((gameObject as ICollidable).CheckCollision(other as ICollidable))

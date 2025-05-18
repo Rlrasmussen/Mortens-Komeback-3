@@ -24,7 +24,7 @@ namespace Mortens_Komeback_3
         private List<Weapon> availableWeapons = new List<Weapon>();
         private Vector2 velocity;
         private Vector2 meleeAttackDirection;
-        private float speed = 500f;
+        private float speed = 5000f;
         private float walkTimer = 0.5f;
         private int health;
         private int maxHealth = 100;
