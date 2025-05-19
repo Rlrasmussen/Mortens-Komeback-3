@@ -23,7 +23,7 @@ namespace Mortens_Komeback_3
         private Random random = new Random();
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
-        public List<Environment.Room> Rooms = new List<Environment.Room>();
+        public List<Room> Rooms = new List<Room>();
         private HashSet<(GameObject, GameObject)> collisions = new HashSet<(GameObject, GameObject)>();
         public Dictionary<Location, Vector2> Locations = new Dictionary<Location, Vector2>();
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
