@@ -45,7 +45,7 @@ namespace Mortens_Komeback_3
                     int equipped = playerReader.GetOrdinal("Equipped_Item");
 
                     if (!playerReader.IsDBNull(equipped))
-                        Player.Instance.DetermineItem(playerReader.GetInt32(equipped));
+                        Player.Instance.AcquireItem(playerReader.GetInt32(equipped));
 
                 }
                 else
@@ -69,7 +69,7 @@ namespace Mortens_Komeback_3
                     int amountIs = inventoryReader.GetInt32(amount);
                     if (amountIs > 0)
                         for (int i = 0; i < amountIs; i++)
-                            Player.Instance.DetermineItem(inventoryReader.GetInt32(type));
+                            Player.Instance.AcquireItem(inventoryReader.GetInt32(type));
 
                 }
 

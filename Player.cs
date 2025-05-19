@@ -382,7 +382,7 @@ namespace Mortens_Komeback_3
         }
 
 
-        private void AddItem(GameObject item)
+        private void AddItemToInventory(GameObject item)
         {
 
             if (item is Weapon && equippedWeapon == null)
@@ -393,7 +393,7 @@ namespace Mortens_Komeback_3
         }
 
 
-        public void DetermineItem(int id)
+        public void AcquireItem(int id)
         {
             GameObject item;
             switch (id)
@@ -403,20 +403,20 @@ namespace Mortens_Komeback_3
                     if (item != null)
                     {
                         item.IsAlive = false;
-                        Instance.AddItem(item);
+                        Instance.AddItemToInventory(item);
                     }
                     else
-                        Instance.AddItem(new WeaponMelee(WeaponType.Melee, Vector2.Zero));
+                        Instance.AddItemToInventory(new WeaponMelee(WeaponType.Melee, Vector2.Zero));
                     break;
                 case 1:
                     item = GameWorld.Instance.GameObjects.Find(x => x is WeaponRanged);
                     if (item != null)
                     {
                         item.IsAlive = false;
-                        Instance.AddItem(item);
+                        Instance.AddItemToInventory(item);
                     }
                     else
-                        Instance.AddItem(new WeaponRanged(WeaponType.Ranged, Vector2.Zero));
+                        Instance.AddItemToInventory(new WeaponRanged(WeaponType.Ranged, Vector2.Zero));
                     break;
                 default:
                     break;
