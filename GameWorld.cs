@@ -79,6 +79,9 @@ namespace Mortens_Komeback_3
         public bool GamePaused { get => gamePaused; set => gamePaused = value; }
 
 
+        public List<GameObject> GameObjects { get => gameObjects; }
+
+
 #if DEBUG
         /// <summary>
         /// Bool to change if collisionboxes are draw or not
@@ -170,7 +173,7 @@ namespace Mortens_Komeback_3
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
 
-            SafePoint.LoadSave(gameObjects);
+            SafePoint.LoadSave();
 
         }
 

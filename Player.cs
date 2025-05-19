@@ -393,13 +393,13 @@ namespace Mortens_Komeback_3
         }
 
 
-        public void DetermineItem(int id, List<GameObject> list)
+        public void DetermineItem(int id)
         {
             GameObject item;
             switch (id)
             {
                 case 0:
-                    item = list.Find(x => x is WeaponMelee);
+                    item = GameWorld.Instance.GameObjects.Find(x => x is WeaponMelee);
                     if (item != null)
                     {
                         item.IsAlive = false;
@@ -409,7 +409,7 @@ namespace Mortens_Komeback_3
                         Instance.AddItem(new WeaponMelee(WeaponType.Melee, Vector2.Zero));
                     break;
                 case 1:
-                    item = list.Find(x => x is WeaponRanged);
+                    item = GameWorld.Instance.GameObjects.Find(x => x is WeaponRanged);
                     if (item != null)
                     {
                         item.IsAlive = false;

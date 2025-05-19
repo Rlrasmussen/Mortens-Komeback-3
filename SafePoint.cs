@@ -24,7 +24,7 @@ namespace Mortens_Komeback_3
         #region Method
 
 
-        public static bool LoadSave(List<GameObject> list)
+        public static bool LoadSave()
         {
 
             using (GameWorld.Instance.Connection)
@@ -43,7 +43,7 @@ namespace Mortens_Komeback_3
                     Player.Instance.Position = GameWorld.Instance.Locations[(Location)playerReader.GetInt32(playerReader.GetOrdinal("RespawnPosition"))];
 
                     if (!playerReader.IsDBNull(playerReader.GetOrdinal("Equipped_Item")))
-                        Player.Instance.DetermineItem(playerReader.GetInt32(playerReader.GetOrdinal("Equipped_Item")), list);
+                        Player.Instance.DetermineItem(playerReader.GetInt32(playerReader.GetOrdinal("Equipped_Item")));
 
                 }
                 else
@@ -67,7 +67,7 @@ namespace Mortens_Komeback_3
                     int amountIs = inventoryReader.GetInt32(amount);
                     if (amountIs > 0)
                         for (int i = 0; i < amountIs; i++)
-                            Player.Instance.DetermineItem(inventoryReader.GetInt32(type), list);
+                            Player.Instance.DetermineItem(inventoryReader.GetInt32(type));
 
                 }
 
