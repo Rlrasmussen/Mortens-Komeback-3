@@ -13,8 +13,11 @@ namespace Mortens_Komeback_3.Environment
         public static List<Room> Rooms = new();
         public static List<Door> Doors = new();
 
+        public static Dictionary<string, Door> doorList = new Dictionary<string, Door>();
+
         public DoorManager(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
+            
         }
 
         public static void Initialize()
@@ -39,11 +42,11 @@ namespace Mortens_Komeback_3.Environment
             // Create Doors
             Door doorA1 = new Door(new Vector2(1190, 0), DoorDirection.Right);
             Door doorA2 = new Door(new Vector2(-1190, 2000), DoorDirection.Left);
-            Door doorB1 = new Door(new Vector2(1190, 2000), DoorDirection.Right);
+            Door doorB1 = new Door(new Vector2(1190, 2000), DoorDirection.Right); //match 3 puzzle
             Door doorB2 = new Door(new Vector2(-1190, 4000), DoorDirection.Left);
             Door doorC1 = new Door(new Vector2(1190 * 3 + 275, 4000), DoorDirection.Right); //catacombesA
             Door doorC2 = new Door(new Vector2(-1190, 6000), DoorDirection.Left);
-            Door doorD1 = new Door(new Vector2(1190, 6000), DoorDirection.Right);
+            Door doorD1 = new Door(new Vector2(1190, 6000), DoorDirection.Right); //shoot puzzle
             Door doorD2 = new Door(new Vector2(-1190, 8000), DoorDirection.Left);
             Door doorE1 = new Door(new Vector2(1190, 8000), DoorDirection.Right);
             Door doorE2 = new Door(new Vector2(-1190, 10000), DoorDirection.Left);
@@ -58,6 +61,29 @@ namespace Mortens_Komeback_3.Environment
             Door doorI2 = new Door(new Vector2(-1190, 20000), DoorDirection.Left);
             Door doorJ1 = new Door(new Vector2(1190, 20000), DoorDirection.Right);
             Door doorJ2 = new Door(new Vector2(-1190, 22000), DoorDirection.Left);
+
+            doorList.Add("doorA1", doorA1);
+            doorList.Add("doorA2", doorA2);
+            doorList.Add("doorB1", doorB1);
+            doorList.Add("doorB2", doorB2);
+            doorList.Add("doorC1", doorC1);
+            doorList.Add("doorC2", doorC2);
+            doorList.Add("doorD1", doorD1);
+            doorList.Add("doorD2", doorD2);
+            doorList.Add("doorE1", doorE1);
+            doorList.Add("doorE2", doorE2);
+            doorList.Add("doorF1", doorF1);
+            doorList.Add("doorF2", doorF2);
+            doorList.Add("doorG1", doorG1);
+            doorList.Add("doorG2", doorG2);
+            doorList.Add("doorG3", doorG3);
+            doorList.Add("doorH1", doorH1);
+            doorList.Add("doorH2", doorH2);
+            doorList.Add("doorI1", doorI1);
+            doorList.Add("door12", doorI2);
+            doorList.Add("doorJ1", doorJ1);
+            doorList.Add("doorJ2", doorJ2);
+
 
             // Assign doors to rooms
             popeRoom.AddDoor(doorA1);

@@ -19,9 +19,9 @@ namespace Mortens_Komeback_3.Environment
         #endregion
 
         #region Properties
-        public DoorType DoorStatus { get; private set; }
-        public DoorDirection Direction { get; private set; }
-        public float DoorOffset { get; private set; }
+        public DoorType DoorStatus { get; set; }
+        public DoorDirection Direction { get; set; }
+        public float DoorOffset { get; set; }
         public Room room { get; set; }
 
         public Room DestinationRoom { get; set; }
@@ -67,9 +67,6 @@ namespace Mortens_Komeback_3.Environment
         }
 
         
-
-       
-
         /// <summary>
         /// Roterer dørene
         /// Irene
@@ -100,15 +97,6 @@ namespace Mortens_Komeback_3.Environment
 
         public void OnCollision(ICollidable other)
         {
-            //if (other == Player.Instance &&
-            //    (DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open) &&
-            //    DestinationRoom != null && DestinationDoor != null)
-            //{
-            //    Player.Instance.Position = DestinationDoor.Position;
-            //    Player.Instance.Position = Vector2.Zero;
-            //    GameWorld.Instance.CurrentRoom = DestinationRoom;
-            //    //Debug.WriteLine("Player teleported to " + DestinationRoom.RoomType);
-            //}
 
             if (other == Player.Instance && (DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open))
             {
@@ -129,16 +117,6 @@ namespace Mortens_Komeback_3.Environment
             otherDoor.DestinationRoom = this.room;
         }
 
-
-        /// <summary>
-        /// When player collides with door, players position is moved to next room
-        /// </summary>
-        /// <param name = "room" ></ param >
-        //public void TeleportPlayer()
-        //{
-        //    Player.Instance.Position = teleportPosition;
-        //    //    Debug.WriteLine("teleport");
-        //}
 
         #endregion
     }

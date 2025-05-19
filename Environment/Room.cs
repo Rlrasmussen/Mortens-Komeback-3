@@ -42,69 +42,7 @@ namespace Mortens_Komeback_3.Environment
         {
             Doors.Add(door);   
         }
-        //public void ActiveRoom(RoomType room)
-        //{
-            
-        //    switch (room)
-        //    {
-        //        case RoomType.PopeRoom:
-        //            Player.Instance.Position = spawnPoints[roomType];
-        //            Camera.Instance.Position = spawnPoints[roomType];
-        //            Debug.WriteLine("Entered: PopeRoom");
-        //            break;
-
-        //        case RoomType.Stairs:
-        //            Player.Instance.Position = spawnPoints[roomType];
-        //            Camera.Instance.Position = spawnPoints[roomType];
-        //            Debug.WriteLine("Entered: Stairs");
-        //            break;
-
-        //        case RoomType.CatacombesA:
-        //            Player.Instance.Position = spawnPoints[roomType];
-        //            break;
-
-        //        case RoomType.CatacombesB:
-        //            Player.Instance.Position = spawnPoints[roomType];
-        //            break;
-
-        //        case RoomType.CatacombesC:
-        //            Player.Instance.Position = spawnPoints[roomType];
-        //            break;
-
-        //        case RoomType.CatacombesD:
-        //            Player.Instance.Position = spawnPoints[roomType];
-        //            break;
-
-        //        case RoomType.CatacombesE:
-        //            Player.Instance.Position = spawnPoints[roomType];
-        //            break;
-
-        //        case RoomType.CatacombesF:  
-        //            Player.Instance.Position = spawnPoints[roomType];
-        //            break;
-
-        //        case RoomType.CatacombesG:
-        //            Player.Instance.Position = spawnPoints[roomType];
-        //            break;
-
-        //        case RoomType.CatacombesH:
-        //            Player.Instance.Position = spawnPoints[roomType];
-        //            break;
-
-        //        case RoomType.TrapRoom:
-        //            Player.Instance.Position = spawnPoints[roomType];
-        //            break;
-
-        //        default:
-        //            Debug.WriteLine("Unknown room");
-        //            break;
-        //    }
-        //}
-
-        //public Roomlist(Roomtype room)
-        //{
-            
-        //}
+    
 
         #endregion
     }
