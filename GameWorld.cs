@@ -151,7 +151,7 @@ namespace Mortens_Komeback_3
 
 
             #region Puzzles
-            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 400), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 2000)), new Vector2(300, 500), new Vector2(100, 500), new Vector2(-100, 500));
+            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 2000), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 2000)), new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000));
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
             ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)),new Vector2(0, 5700), 0, new Vector2(0, 6300), 0);

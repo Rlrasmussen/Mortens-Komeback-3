@@ -37,8 +37,6 @@ namespace Mortens_Komeback_3.Environment
             Room catacombesH = new Room(RoomType.CatacombesG, new Vector2(0, 20000));
             Room trapRoom = new Room(RoomType.CatacombesH, new Vector2(0, 22000));
 
-            //*3 + 275
-
             // Create Doors
             Door doorA1 = new Door(new Vector2(1190, 0), DoorDirection.Right);
             Door doorA2 = new Door(new Vector2(-1190, 2000), DoorDirection.Left);
