@@ -53,9 +53,9 @@ namespace Mortens_Komeback_3.Environment
             Door doorF1 = new Door(new Vector2(0, 12100), DoorDirection.Bottom);
             Door doorF2 = new Door(new Vector2(-800, 13400), DoorDirection.Top);    //tilbage til catacombesD fra catacombesE
             Door doorG1 = new Door(new Vector2(600, 13400), DoorDirection.Top);     //catacombesE til traproom
-            Door doorG2 = new Door(new Vector2(1190, 14000), DoorDirection.Right);  //catacombesE til catacombesF
+            Door doorH1 = new Door(new Vector2(1190, 14000), DoorDirection.Right);  //catacombesE til catacombesF //////
             Door doorG3 = new Door(new Vector2(-800, 16600), DoorDirection.Bottom);  //videre
-            Door doorH1 = new Door(new Vector2(600, 16000), DoorDirection.Top);  //traproom
+            Door doorG2 = new Door(new Vector2(600, 16000), DoorDirection.Top);  //traproom
             Door doorH2 = new Door(new Vector2(-1190, 18000), DoorDirection.Left);  //traproom
             Door doorI1 = new Door(new Vector2(1190, 18000), DoorDirection.Right);
             Door doorI2 = new Door(new Vector2(-1190, 20000), DoorDirection.Left);
@@ -100,11 +100,11 @@ namespace Mortens_Komeback_3.Environment
             catacombesE.AddDoor(doorF2);
             catacombesE.AddDoor(doorG1);
             catacombesE.AddDoor(doorG2);
-            catacombesF.AddDoor(doorG3);
 
-            trapRoom.AddDoor(doorH2);
-            trapRoom.AddDoor(doorH1);
+            trapRoom.AddDoor(doorG2);
+            trapRoom.AddDoor(doorG3);
 
+            catacombesF.AddDoor(doorH2);
             catacombesF.AddDoor(doorI1);
             catacombesG.AddDoor(doorI2);
             catacombesG.AddDoor(doorJ1);
@@ -122,8 +122,8 @@ namespace Mortens_Komeback_3.Environment
             doorI2.LinkTo(doorJ1);
             doorJ2.LinkTo(doorH2);//
             doorH1.LinkTo(doorH2);
-            doorH1.LinkTo(doorH2);
-            doorH1.LinkTo(doorH2);
+            doorI1.LinkTo(doorI2);
+            doorJ1.LinkTo(doorJ2);
             doorH1.LinkTo(doorH2);
             //mangler stadig lidt links pga traproom
 

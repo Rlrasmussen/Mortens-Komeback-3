@@ -46,11 +46,16 @@ namespace Mortens_Komeback_3.Environment
         /// </summary>
         public void UnlockDoor()
         {
-            if(DoorStatus == DoorType.Locked)
+            if(DoorStatus == DoorType.Locked )
             {
                 DoorStatus = DoorType.Closed;
                 Debug.WriteLine("room unlocked");
                 Sprite = GameWorld.Instance.Sprites[DoorStatus][0];
+            }
+            else if (DoorStatus == DoorType.StairsLocked)
+            {
+                DoorStatus = DoorType.Stairs;
+                Sprite = GameWorld.Instance.Sprites[DoorType.Stairs][0];
             }
         }
 
