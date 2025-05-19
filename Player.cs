@@ -76,10 +76,10 @@ namespace Mortens_Komeback_3
         }
 
 
-        public List<GameObject> Inventory
-        {
-            get => inventory;
-        }
+        public List<GameObject> Inventory { get => inventory; }
+
+
+        public Weapon EquippedWeapon { get => equippedWeapon; }
 
         /// <summary>
         /// Used for movement
@@ -382,7 +382,7 @@ namespace Mortens_Komeback_3
         }
 
 
-        public void AddToInventory(GameObject item)
+        private void AddItem(GameObject item)
         {
 
             if (item is Weapon && equippedWeapon == null)
@@ -390,6 +390,37 @@ namespace Mortens_Komeback_3
 
             inventory.Add(item);
 
+        }
+
+
+        public void DetermineItem(int id, List<GameObject> list)
+        {
+            GameObject item;
+            switch (id)
+            {
+                case 0:
+                    item = list.Find(x => x is WeaponMelee);
+                    if (item != null)
+                    {
+                        item.IsAlive = false;
+                        Instance.AddItem(item);
+                    }
+                    else
+                        Instance.AddItem(new WeaponMelee(WeaponType.Melee, Vector2.Zero));
+                    break;
+                case 1:
+                    item = list.Find(x => x is WeaponRanged);
+                    if (item != null)
+                    {
+                        item.IsAlive = false;
+                        Instance.AddItem(item);
+                    }
+                    else
+                        Instance.AddItem(new WeaponRanged(WeaponType.Ranged, Vector2.Zero));
+                    break;
+                default:
+                    break;
+            }
         }
 
         #endregion

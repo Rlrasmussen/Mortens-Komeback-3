@@ -31,6 +31,7 @@ namespace Mortens_Komeback_3
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
+        public Dictionary<EnemyType, (int health, int damage, float speed)> EnemyStats = new Dictionary<EnemyType, (int health, int damage, float speed)>();
         public SpriteFont GameFont;
         private float deltaTime;
         private bool gamePaused = false;
@@ -104,6 +105,7 @@ namespace Mortens_Komeback_3
         /// </summary>
         protected override void Initialize()
         {
+
             string dbPath = Path.Combine(dbBasePath, "Database", "mk3db.db");
             Connection = new SqliteConnection($"Data Source={dbPath}");
 
@@ -112,14 +114,18 @@ namespace Mortens_Komeback_3
             LoadMusic();
             GameFont = Content.Load<SpriteFont>("mortalKombatFont");
             AddLocations();
+            GetEnemyStats();
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.Space, new DrawCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.M, new SaveCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.U, new ClearSaveCommand());
 
             gameObjects.Add(Player.Instance);
             gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
 
+            //SafePoint.SaveGame(Location.Spawn);
 
             //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
 
@@ -164,7 +170,7 @@ namespace Mortens_Komeback_3
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
 
-            LoadSave();
+            SafePoint.LoadSave(gameObjects);
 
         }
 
@@ -608,56 +614,26 @@ namespace Mortens_Komeback_3
 
 #endif
 
-        private void LoadSave()
+
+        private void GetEnemyStats()
         {
 
             using (Connection)
             {
+
                 Connection.Open();
 
-                string commandText = "SELECT * FROM Player";
-                SqliteCommand command = new SqliteCommand(commandText, Connection);
+                string commandText = "SELECT * FROM EnemyTypes";
+                SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
                 SqliteDataReader reader = command.ExecuteReader();
 
-                if (reader.Read())
-                {
-                    Player.Instance.Health = reader.GetInt32(reader.GetOrdinal("CurrentHP"));
-                    Player.Instance.Position = Locations[(Location)reader.GetInt32(reader.GetOrdinal("RespawnPosition"))];
-                    if (!reader.IsDBNull(reader.GetOrdinal("Equipped_Item")))
-                    {
-                        GameObject weapon;
-                        switch (reader.GetInt32(reader.GetOrdinal("Equipped_Item"))) //Skal findes på en inner join i stedet
-                        {
-                            case 0:
-                                weapon = gameObjects.Find(x => x is WeaponMelee);
-                                if (weapon != null)
-                                {
-                                    weapon.IsAlive = false;
-                                    Player.Instance.AddToInventory(weapon);
-                                }
-                                else
-                                    Player.Instance.AddToInventory(new WeaponMelee(WeaponType.Melee, Vector2.Zero));
-                                break;
-                            case 1:
-                                weapon = gameObjects.Find(x => x is WeaponRanged);
-                                if (weapon != null)
-                                {
-                                    weapon.IsAlive = false;
-                                    Player.Instance.AddToInventory(weapon);
-                                }
-                                else
-                                    Player.Instance.AddToInventory(new WeaponRanged(WeaponType.Ranged, Vector2.Zero));
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                int id = reader.GetOrdinal("ID");
+                int damage = reader.GetOrdinal("Damage");
+                int health = reader.GetOrdinal("Max_HP");
+                int speed = reader.GetOrdinal("Speed");
 
-                }
-                else
-                {
-                    //Giv spilleren besked om at der ikke kunne findes noget at loade
-                }
+                while (reader.Read())
+                    EnemyStats.Add((EnemyType)reader.GetInt32(id), (reader.GetInt32(health), reader.GetInt32(damage), reader.GetFloat(speed)));
 
             }
 
