@@ -121,9 +121,12 @@ namespace Mortens_Komeback_3
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
+
+#if DEBUG
             InputHandler.Instance.AddButtonDownCommand(Keys.Space, new DrawCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.M, new SaveCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new ClearSaveCommand());
+#endif
 
             gameObjects.Add(Player.Instance);
             gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
