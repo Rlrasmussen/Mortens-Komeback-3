@@ -21,7 +21,7 @@ namespace Mortens_Komeback_3
         private static Player instance;
         private SoundEffect currentWalkSound;
         private Weapon equippedWeapon;
-        private List<Weapon> availableWeapons = new List<Weapon>();
+        private List<GameObject> inventory = new List<GameObject>();
         private Vector2 velocity;
         private Vector2 meleeAttackDirection;
         private float speed = 500f;
@@ -73,6 +73,12 @@ namespace Mortens_Komeback_3
         {
             get => base.IsAlive;
             set => base.IsAlive = value;
+        }
+
+
+        public List<GameObject> Inventory
+        {
+            get => inventory;
         }
 
         /// <summary>
@@ -174,7 +180,7 @@ namespace Mortens_Komeback_3
             else if (attacking)
                 (this as IAnimate).Animate();
 
-            foreach (Weapon weapon in availableWeapons)
+            foreach (Weapon weapon in inventory)
                 weapon.Update(gameTime);
 
             (this as IPPCollidable).UpdateRectangles(spriteEffect == SpriteEffects.FlipHorizontally);
@@ -265,14 +271,14 @@ namespace Mortens_Komeback_3
                 {
                     case WeaponType.Melee:
                         if (other is Weapon)
-                            availableWeapons.Add(other as Weapon);
+                            inventory.Add(other as Weapon);
                         (other as Weapon).IsAlive = false;
                         if (equippedWeapon == null)
                             equippedWeapon = (other as Weapon);
                         break;
                     case WeaponType.Ranged:
                         if (other is Weapon)
-                            availableWeapons.Add(other as Weapon);
+                            inventory.Add(other as Weapon);
                         (other as Weapon).IsAlive = false;
                         break;
                     default:
@@ -314,7 +320,7 @@ namespace Mortens_Komeback_3
         {
 
             if (!attacking)
-                equippedWeapon = availableWeapons.Find(x => (WeaponType)x.Type == weapon);
+                equippedWeapon = (Weapon)inventory.Find(x => (WeaponType)x.Type == weapon);
 
         }
 
@@ -372,6 +378,17 @@ namespace Mortens_Komeback_3
                 default:
                     break;
             }
+
+        }
+
+
+        public void AddToInventory(GameObject item)
+        {
+
+            if (item is Weapon && equippedWeapon == null)
+                equippedWeapon = (Weapon)item;
+
+            inventory.Add(item);
 
         }
 

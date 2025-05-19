@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
+using System.IO;
 using System;
 using System.Diagnostics;
 using Mortens_Komeback_3.Command;
@@ -11,6 +12,7 @@ using Mortens_Komeback_3.Collider;
 using Mortens_Komeback_3.Factory;
 using Mortens_Komeback_3.Puzzles;
 using Mortens_Komeback_3.Environment;
+using Microsoft.Data.Sqlite;
 
 namespace Mortens_Komeback_3
 {
@@ -34,6 +36,9 @@ namespace Mortens_Komeback_3
         private bool gamePaused = false;
         private bool gameRunning = true;
         public List<GameObject> gamePuzzles = new List<GameObject>();
+
+        private string dbBasePath = AppDomain.CurrentDomain.BaseDirectory;
+        public SqliteConnection Connection;
 
         private float spawnEnemyTime = 5f;
         private float lastSpawnEnemy = 0f;
@@ -99,6 +104,8 @@ namespace Mortens_Komeback_3
         /// </summary>
         protected override void Initialize()
         {
+            string dbPath = Path.Combine(dbBasePath, "Database", "mk3db.db");
+            Connection = new SqliteConnection($"Data Source={dbPath}");
 
             LoadSprites();
             LoadSoundEffects();
@@ -130,20 +137,20 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
             gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
 
-            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190,400), DoorDirection.Right, new Vector2(300, 500),new Vector2(100, 500),new Vector2(-100, 500));
+            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 400), DoorDirection.Right, new Vector2(300, 500), new Vector2(100, 500), new Vector2(-100, 500));
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
             ShootPuzzle shootPuzzle = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, -400), new Vector2(1190, -200), DoorDirection.Right);
             gameObjects.Add(shootPuzzle);
             gamePuzzles.Add(shootPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 2300), new Vector2(1190, 2500), DoorDirection.Right, new Vector2(0, 2000), (float)Math.PI/2, new Vector2(0, 2700), 0);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 2300), new Vector2(1190, 2500), DoorDirection.Right, new Vector2(0, 2000), (float)Math.PI / 2, new Vector2(0, 2700), 0);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-          
-            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200,200))); //Used for testing - To be removed
+
+            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200, 200))); //Used for testing - To be removed
             DoorManager.Initialize();
             GameWorld.Instance.CurrentRoom = DoorManager.Rooms[0];
 
@@ -156,6 +163,8 @@ namespace Mortens_Komeback_3
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
+
+            LoadSave();
 
         }
 
@@ -175,7 +184,7 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
-            SpawnEnemies();
+            //SpawnEnemies();
 
             CleanUp();
 
@@ -474,6 +483,7 @@ namespace Mortens_Komeback_3
         {
 
             Locations.Add(Location.Spawn, new Vector2(-250, 250));
+            Locations.Add(Location.Test, new Vector2(500, 0));
 
         }
 
@@ -597,6 +607,61 @@ namespace Mortens_Komeback_3
         }
 
 #endif
+
+        private void LoadSave()
+        {
+
+            using (Connection)
+            {
+                Connection.Open();
+
+                string commandText = "SELECT * FROM Player";
+                SqliteCommand command = new SqliteCommand(commandText, Connection);
+                SqliteDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    Player.Instance.Health = reader.GetInt32(reader.GetOrdinal("CurrentHP"));
+                    Player.Instance.Position = Locations[(Location)reader.GetInt32(reader.GetOrdinal("RespawnPosition"))];
+                    if (!reader.IsDBNull(reader.GetOrdinal("Equipped_Item")))
+                    {
+                        GameObject weapon;
+                        switch (reader.GetInt32(reader.GetOrdinal("Equipped_Item"))) //Skal findes på en inner join i stedet
+                        {
+                            case 0:
+                                weapon = gameObjects.Find(x => x is WeaponMelee);
+                                if (weapon != null)
+                                {
+                                    weapon.IsAlive = false;
+                                    Player.Instance.AddToInventory(weapon);
+                                }
+                                else
+                                    Player.Instance.AddToInventory(new WeaponMelee(WeaponType.Melee, Vector2.Zero));
+                                break;
+                            case 1:
+                                weapon = gameObjects.Find(x => x is WeaponRanged);
+                                if (weapon != null)
+                                {
+                                    weapon.IsAlive = false;
+                                    Player.Instance.AddToInventory(weapon);
+                                }
+                                else
+                                    Player.Instance.AddToInventory(new WeaponRanged(WeaponType.Ranged, Vector2.Zero));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                }
+                else
+                {
+                    //Giv spilleren besked om at der ikke kunne findes noget at loade
+                }
+
+            }
+
+        }
 
     }
 }

@@ -211,7 +211,8 @@ namespace Mortens_Komeback_3
     /// </summary>
     public enum Location
     {
-        Spawn
+        Spawn,
+        Test
     }
 
 }
