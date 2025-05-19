@@ -17,9 +17,9 @@ namespace Mortens_Komeback_3
         }
 
 
-        //public static Dictionary<Vector2, Tile> Cells { get => cells; set => cells = value; }
+        //public static Dictionary<Vector2, Tile> Cells { get => tiles; set => tiles = value; }
 
-        public static List<Tile> AStarFindPath(Vector2 startVector, Vector2 endVector, Dictionary<Vector2, Tile> cells)
+        public static List<Tile> AStarFindPath(Vector2 startVector, Vector2 endVector, Dictionary<Vector2, Tile> tiles)
         {
 
             HashSet<Tile> openList = new HashSet<Tile>();
@@ -30,47 +30,47 @@ namespace Mortens_Komeback_3
 
 
             // Sikrer at punkterne findes i cellerne
-            if (!cells.ContainsKey(startVector) || !cells.ContainsKey(endVector))
+            if (!tiles.ContainsKey(startVector) || !tiles.ContainsKey(endVector))
             {
                 return null;
             }
 
-            Tile startTile = cells[startVector];
-            Tile endTile = cells[endVector];
-            openList.Add(cells[startVector]);
+            Tile startTile = tiles[startVector];
+            Tile endTile = tiles[endVector];
+            openList.Add(tiles[startVector]);
 
             while (openList.Count > 0)
             {
-                Tile curCell = openList.First();
+                Tile curTile = openList.First();
                 foreach (var t in openList)
                 {
-                    if (t.F < curCell.F || t.F == curCell.F && t.H < curCell.H)
+                    if (t.F < curTile.F || t.F == curTile.F && t.H < curTile.H)
                     {
-                        curCell = t;
+                        curTile = t;
                     }
                 }
-                openList.Remove(curCell);
-                closedList.Add(curCell);
+                openList.Remove(curTile);
+                closedList.Add(curTile);
 
-                if (curCell.Position.X == endVector.X && curCell.Position.Y == endVector.Y)
+                if (curTile.Position.X == endVector.X && curTile.Position.Y == endVector.Y)
                 {
-                    return AStarRetracePath(cells[startVector], cells[endVector]);
+                    return AStarRetracePath(tiles[startVector], tiles[endVector]);
                 }
 
-                List<Tile> neighbours = AStarGetNeighbours(curCell, cells);
+                List<Tile> neighbours = AStarGetNeighbours(curTile, tiles);
                 foreach (var neighbour in neighbours)
                 {
                     if (closedList.Contains(neighbour))
                         continue;
 
-                    int newMovementCostToNeighbour = curCell.G + AStarGetDistance(curCell.Position, neighbour.Position);
+                    int newMovementCostToNeighbour = curTile.G + AStarGetDistance(curTile.Position, neighbour.Position);
 
                     if (newMovementCostToNeighbour < neighbour.G || !openList.Contains(neighbour))
                     {
                         neighbour.G = newMovementCostToNeighbour;
                         //udregner H med manhatten princip
                         neighbour.H = (((int)Math.Abs(neighbour.Position.X - endVector.X) + (int)Math.Abs(endVector.Y - neighbour.Position.Y)) * 10);
-                        neighbour.Parent = curCell;
+                        neighbour.Parent = curTile;
 
                         if (!openList.Contains(neighbour))
                         {
@@ -114,7 +114,7 @@ namespace Mortens_Komeback_3
 
 
 
-        public static List<Tile> AStarGetNeighbours(Tile curCell, Dictionary<Vector2, Tile> cells)
+        public static List<Tile> AStarGetNeighbours(Tile curTile, Dictionary<Vector2, Tile> tiles)
         {
             List<Tile> neighbours = new List<Tile>(8);
             //var wallSprite = TileTypes.Stone;
@@ -128,7 +128,7 @@ namespace Mortens_Komeback_3
                     }
 
                     Tile curNeighbour;
-                    if (cells.TryGetValue(new Vector2((int)curCell.Position.X + (i * curCell.Sprite.Width), (int)curCell.Position.Y + (curCell.Sprite.Height * j)), out var cell))
+                    if (tiles.TryGetValue(new Vector2((int)curTile.Position.X + (i * curTile.Sprite.Width), (int)curTile.Position.Y + (curTile.Sprite.Height * j)), out var cell))
                     {
                         curNeighbour = cell;
                     }
