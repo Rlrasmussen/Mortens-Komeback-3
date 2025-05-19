@@ -12,7 +12,7 @@ namespace Mortens_Komeback_3
     {
         private bool walkable = true;
         private bool fencePath = false;
-        private HashSet<Edge> edges = new HashSet<Edge>();
+        //   private HashSet<Edge> edges = new HashSet<Edge>();
         private bool discovered = false;
         private Tile parent;
 
@@ -20,7 +20,7 @@ namespace Mortens_Komeback_3
         public int H { get; set; }
         public int F => G + H;
 
-        public HashSet<Edge> Edges { get => edges; }
+        //public HashSet<Edge> Edges { get => edges; }
         public bool Discovered { get => discovered; set => discovered = value; }
         public Tile Parent { get => parent; set => parent = value; }
         public bool Walkable
@@ -38,73 +38,73 @@ namespace Mortens_Komeback_3
 
         public Tile(Enum type, Vector2 spawnPos, bool fencePath) : base(type, spawnPos)
         {
-            
-        }
-
-
-        public void CreateEdges(List<Tile> list)
-        {
-            if (walkable)
-                foreach (Tile other in list)
-                {
-                    if (this != other && other.Walkable)
-                    {
-                        float distance = Vector2.Distance(Position, other.Position);
-                        if (distance < 91)
-                        {
-                            int weight;
-                            if (distance < 65)
-                                weight = 10;
-                            else
-                                weight = 14;
-                            Edges.Add(new Edge(weight, this, other));
-                        }
-                    }
-                }
 
         }
-
     }
 
-    public class Edge
-    {
+    //    public void CreateEdges(List<Tile> list)
+    //    {
+    //        if (walkable)
+    //            foreach (Tile other in list)
+    //            {
+    //                if (this != other && other.Walkable)
+    //                {
+    //                    float distance = Vector2.Distance(Position, other.Position);
+    //                    if (distance < 91)
+    //                    {
+    //                        int weight;
+    //                        if (distance < 65)
+    //                            weight = 10;
+    //                        else
+    //                            weight = 14;
+    //                        Edges.Add(new Edge(weight, this, other));
+    //                    }
+    //                }
+    //            }
 
-        #region Fields
+    //    }
 
-        private int weight;
-        private Tile from;
-        private Tile to;
+    //}
 
-        #endregion
-        #region Properties
+    //public class Edge
+    //{
 
-        public int Weight { get => weight; private set => weight = value; }
-        public Tile From { get => from; }
-        //public Tile To { get => to; }
-        public Tile To
-        {
-            get
-            {
-                if (to.Walkable)
-                    return to;
-                else
-                    return default;
-            }
-        }
+    //    #region Fields
 
-        #endregion
-        #region Constructor
+    //    private int weight;
+    //    private Tile from;
+    //    private Tile to;
 
-        public Edge(int weight, Tile from, Tile to)
-        {
-            this.weight = weight;
-            this.from = from;
-            this.to = to;
-        }
+    //    #endregion
+    //    #region Properties
 
-        #endregion
+    //    public int Weight { get => weight; private set => weight = value; }
+    //    public Tile From { get => from; }
+    //    //public Tile To { get => to; }
+    //    public Tile To
+    //    {
+    //        get
+    //        {
+    //            if (to.Walkable)
+    //                return to;
+    //            else
+    //                return default;
+    //        }
+    //    }
 
-    }
+    //#endregion
+    //#region Constructor
+
+    //public Edge(int weight, Tile from, Tile to)
+    //{
+    //    this.weight = weight;
+    //    this.from = from;
+    //    this.to = to;
+    //}
+
+    //#endregion
+
+
 
     internal class AStar
     {
