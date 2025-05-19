@@ -21,14 +21,15 @@ namespace Mortens_Komeback_3.Puzzles
         /// </summary>
         /// <param name="type">Type of puzzle </param>
         /// <param name="triggerPos">Position of the trigger</param>
-        /// <param name="doorPos">Position of the door</param>
-        /// <param name="doorDirection">The direction the door is facing</param>
-        public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Vector2 doorPos, DoorDirection doorDirection) : base(type, triggerPos)
+        /// <param name="puzzleDoor">The door that the puzzle will unlock</param>
+        public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Door puzzleDoor) : base(type, triggerPos, puzzleDoor)
         {
 
-            puzzleDoor = new Door(doorPos, doorDirection, DoorType.Locked);
-            GameWorld.Instance.SpawnObject(puzzleDoor);
-
+            this.puzzleDoor = puzzleDoor;
+            if (!(puzzleDoor.DoorStatus == DoorType.Locked))
+            {
+                puzzleDoor.DoorStatus = DoorType.Locked;
+            }
         }
         /// <summary>
         /// A Puzzle that consist of a trigger that needs to be hit by projectile, a door and fire surfaces that blocks the door. 
@@ -36,21 +37,23 @@ namespace Mortens_Komeback_3.Puzzles
         /// </summary>
         /// <param name="type">Type of puzzle</param>
         /// <param name="triggerPos">Position of the trigger</param>
-        /// <param name="doorPos">Position of the door</param>
-        /// <param name="doorDirection">The direction the door is facing</param>
+        /// <param name="puzzleDoor">The door that the puzzle will unlock</param>
         /// <param name="firstFirePos">Position of the first fire</param>
         /// <param name="firstFireRotation">The rotation of the first fire</param>
         /// <param name="secondFirePos">Position of the second fire</param>
         /// <param name="secondFireRotation">Rotation of the second fire</param>
-        public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Vector2 doorPos, DoorDirection doorDirection, Vector2 firstFirePos, float firstFireRotation, Vector2 secondFirePos, float secondFireRotation) : base(type, triggerPos)
+        public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Door puzzleDoor, Vector2 firstFirePos, float firstFireRotation, Vector2 secondFirePos, float secondFireRotation) : base(type, triggerPos, puzzleDoor)
         {
-            puzzleDoor = new Door(doorPos, doorDirection, DoorType.Locked);
-            GameWorld.Instance.SpawnObject(puzzleDoor);
+            this.puzzleDoor = puzzleDoor;
+            if (!(puzzleDoor.DoorStatus == DoorType.Locked))
+            {
+                puzzleDoor.DoorStatus = DoorType.Locked;
+            }
             fire1 = new AvSurface(SurfaceType.AvSurface, firstFirePos, firstFireRotation);
             fire2 = new AvSurface(SurfaceType.AvSurface, secondFirePos, secondFireRotation);
             GameWorld.Instance.SpawnObject(fire1);
             GameWorld.Instance.SpawnObject(fire2);
-
+            LockDoor();
         }
 
         public override void OnCollision(ICollidable other)

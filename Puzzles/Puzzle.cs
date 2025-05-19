@@ -34,7 +34,7 @@ namespace Mortens_Komeback_3.Puzzles
         /// </summary> 
         /// <param name="type">The type of puzzle</param>
         /// <param name="spawnPos">The position the main element of the puzzle will be spawned at.</param>
-        public Puzzle(PuzzleType type, Vector2 spawnPos) : base(type, spawnPos)
+        public Puzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor) : base(type, spawnPos)
         {
         }
 
@@ -54,6 +54,21 @@ namespace Mortens_Komeback_3.Puzzles
         /// <param name="other">The ICollidable object, that the puzzle is colliding with. </param>
         public virtual void OnCollision(ICollidable other)
         {
+        }
+        /// <summary>
+        /// If the puzzleDoor of the puzzle is not locked, its' status is set to locked, and the sprite changed to the locked version. 
+        /// Philip
+        /// </summary>
+        public virtual void LockDoor()
+        {
+            if (puzzleDoor.DoorStatus == DoorType.Open || puzzleDoor.DoorStatus == DoorType.Closed)
+            {
+                puzzleDoor.DoorStatus = DoorType.Locked;
+            }
+            else if (puzzleDoor.DoorStatus == DoorType.Stairs)
+            {
+                puzzleDoor.DoorStatus = DoorType.StairsLocked;
+            }
         }
 
         #endregion
