@@ -11,6 +11,7 @@ using Mortens_Komeback_3.Collider;
 using Mortens_Komeback_3.Factory;
 using Mortens_Komeback_3.Puzzles;
 using Mortens_Komeback_3.Environment;
+using Mortens_Komeback_3.Menu;
 
 namespace Mortens_Komeback_3
 {
@@ -34,6 +35,7 @@ namespace Mortens_Komeback_3
         private bool gamePaused = false;
         private bool gameRunning = true;
         public List<GameObject> gamePuzzles = new List<GameObject>();
+        public Menu.Menu menu;
 
         private float spawnEnemyTime = 5f;
         private float lastSpawnEnemy = 0f;
@@ -157,6 +159,11 @@ namespace Mortens_Komeback_3
             ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)),new Vector2(0, 5700), 0, new Vector2(0, 6300), 0);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
+            #endregion
+
+            #region buttons and menu
+            menu = new Menu.Menu();
+
             #endregion
 
         }
