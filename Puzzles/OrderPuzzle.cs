@@ -38,10 +38,7 @@ namespace Mortens_Komeback_3.Puzzles
             }
             this.puzzleDoor = puzzleDoor;
             puzzleDoor.Position = spawnPos;
-            if (!(puzzleDoor.DoorStatus == DoorType.Locked))
-            {
-                puzzleDoor.DoorStatus = DoorType.Locked;
-            }
+            LockDoor();
         }
 
 

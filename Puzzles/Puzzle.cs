@@ -55,6 +55,21 @@ namespace Mortens_Komeback_3.Puzzles
         public virtual void OnCollision(ICollidable other)
         {
         }
+        /// <summary>
+        /// If the puzzleDoor of the puzzle is not locked, its' status is set to locked, and the sprite changed to the locked version. 
+        /// Philip
+        /// </summary>
+        public virtual void LockDoor()
+        {
+            if (puzzleDoor.DoorStatus == DoorType.Open || puzzleDoor.DoorStatus == DoorType.Closed)
+            {
+                puzzleDoor.DoorStatus = DoorType.Locked;
+            }
+            else if (puzzleDoor.DoorStatus == DoorType.Stairs)
+            {
+                puzzleDoor.DoorStatus = DoorType.StairsLocked;
+            }
+        }
 
         #endregion
     }

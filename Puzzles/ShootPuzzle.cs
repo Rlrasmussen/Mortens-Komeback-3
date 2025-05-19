@@ -53,7 +53,7 @@ namespace Mortens_Komeback_3.Puzzles
             fire2 = new AvSurface(SurfaceType.AvSurface, secondFirePos, secondFireRotation);
             GameWorld.Instance.SpawnObject(fire1);
             GameWorld.Instance.SpawnObject(fire2);
-
+            LockDoor();
         }
 
         public override void OnCollision(ICollidable other)
