@@ -34,6 +34,7 @@ namespace Mortens_Komeback_3.Environment
             Room catacombesH = new Room(RoomType.CatacombesG, new Vector2(0, 20000));
             Room trapRoom = new Room(RoomType.CatacombesH, new Vector2(0, 22000));
 
+            popeRoom.AddTiles();
             //*3 + 275
 
             // Create Doors
@@ -137,7 +138,8 @@ namespace Mortens_Komeback_3.Environment
             Doors.Add(doorI2);       
             Doors.Add(doorJ1);
             Doors.Add(doorJ2);
-        }
 
+
+        }
     }
 }

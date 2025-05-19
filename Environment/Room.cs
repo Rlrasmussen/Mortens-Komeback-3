@@ -14,11 +14,14 @@ namespace Mortens_Komeback_3.Environment
         #region Fields
         private Room currentRoom;
         private RoomType roomType;
+        private Dictionary<Vector2, Tile> tiles = new Dictionary<Vector2, Tile>();
         #endregion
 
         #region Properties
         public RoomType RoomType { get; private set; }
-        public List <Door> Doors { get; private set; }
+        public List<Door> Doors { get; private set; }
+        public Dictionary<Vector2, Tile> Tiles { get => tiles; set => tiles = value; }
+
         #endregion
         #region Constructor
         /// <summary>
@@ -40,11 +43,11 @@ namespace Mortens_Komeback_3.Environment
         #region Method
         public void AddDoor(Door door)
         {
-            Doors.Add(door);   
+            Doors.Add(door);
         }
         //public void ActiveRoom(RoomType room)
         //{
-            
+
         //    switch (room)
         //    {
         //        case RoomType.PopeRoom:
@@ -103,8 +106,22 @@ namespace Mortens_Komeback_3.Environment
 
         //public Roomlist(Roomtype room)
         //{
-            
+
         //}
+
+        public void AddTiles()
+        {
+            int tilesX = CollisionBox.Width/150;
+            int tilesY = CollisionBox.Height/150;
+            for (int i = 1; i < tilesX-1; i++)
+            {
+                for (int j = 1; j < tilesY; j++)
+                {
+                    Tile t = new Tile(TileEnum.Tile, new Vector2(CollisionBox.Left + (i * 150), CollisionBox.Top + (j * 150)), false);
+                    Tiles.Add(t.Position, t);
+                }
+            }
+        }
 
         #endregion
     }

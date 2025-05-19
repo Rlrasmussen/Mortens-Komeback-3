@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,20 @@ namespace Mortens_Komeback_3
 
         public Tile(Enum type, Vector2 spawnPos, bool fencePath) : base(type, spawnPos)
         {
+
+        }
+
+
+        /// <summary>
+        /// CollisionBox for tile
+        /// Simon / Edited by Philip
+        /// </summary>
+        public override Rectangle CollisionBox
+        {
+            get
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, 150, 150);
+            }
 
         }
     }

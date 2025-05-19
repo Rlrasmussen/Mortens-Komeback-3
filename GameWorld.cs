@@ -177,7 +177,7 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
-            SpawnEnemies();
+            //SpawnEnemies();
 
             CleanUp();
 
@@ -210,6 +210,11 @@ namespace Mortens_Komeback_3
                 }
 #endif
 
+            }
+            
+            foreach(var GO in DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)
+            {
+                DrawCollisionBox(GO.Value.CollisionBox);
             }
 
             InputHandler.Instance.Draw(_spriteBatch);
