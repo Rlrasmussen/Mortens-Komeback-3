@@ -378,6 +378,8 @@ namespace Mortens_Komeback_3
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD2"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD3"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD4") });
+            Sprites.Add(DoorType.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stair1") });
+            Sprites.Add(DoorType.StairsLocked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stair0") });
             #endregion
             #region Puzzle
             Sprites.Add(PuzzleType.OrderPuzzle, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\Environment\\doorLocked"), Content.Load<Texture2D>("Sprites\\Environment\\doorOpen_Shadow") });

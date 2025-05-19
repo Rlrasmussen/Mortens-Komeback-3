@@ -30,6 +30,10 @@ namespace Mortens_Komeback_3.Environment
                 {
                     Sprite = GameWorld.Instance.Sprites[DoorType.Locked][0];
                 }
+                if(value == DoorType.StairsLocked)
+                {
+                    Sprite = GameWorld.Instance.Sprites[DoorType.StairsLocked][0];
+                }
             }
 
         }
