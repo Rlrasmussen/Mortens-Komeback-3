@@ -34,7 +34,7 @@ namespace Mortens_Komeback_3.Puzzles
         /// </summary> 
         /// <param name="type">The type of puzzle</param>
         /// <param name="spawnPos">The position the main element of the puzzle will be spawned at.</param>
-        public Puzzle(PuzzleType type, Vector2 spawnPos) : base(type, spawnPos)
+        public Puzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor) : base(type, spawnPos)
         {
         }
 

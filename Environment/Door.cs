@@ -14,12 +14,25 @@ namespace Mortens_Komeback_3.Environment
     public class Door : GameObject, ICollidable
     {
         #region Fields
-        private Vector2 teleportPosition = new Vector2(500,500);
+        private Vector2 teleportPosition = new Vector2(500, 500);
+        private DoorType doorStatus;
 
         #endregion
 
         #region Properties
-        public DoorType DoorStatus { get; private set; }
+        public DoorType DoorStatus
+        {
+            get => doorStatus;
+            set
+            {
+                doorStatus = value;
+                if (value == DoorType.Locked)
+                {
+                    Sprite = GameWorld.Instance.Sprites[DoorType.Locked][0];
+                }
+            }
+
+        }
         public DoorDirection Direction { get; private set; }
         public float DoorOffset { get; private set; }
         public Room room { get; set; }
@@ -46,7 +59,7 @@ namespace Mortens_Komeback_3.Environment
         /// </summary>
         public void UnlockDoor()
         {
-            if(DoorStatus == DoorType.Locked)
+            if (DoorStatus == DoorType.Locked)
             {
                 DoorStatus = DoorType.Closed;
                 Debug.WriteLine("room unlocked");
@@ -66,9 +79,9 @@ namespace Mortens_Komeback_3.Environment
             }
         }
 
-        
 
-       
+
+
 
         /// <summary>
         /// Roterer dørene
@@ -96,7 +109,7 @@ namespace Mortens_Komeback_3.Environment
 
         }
 
-       
+
 
         public void OnCollision(ICollidable other)
         {
