@@ -85,6 +85,12 @@ namespace Mortens_Komeback_3
         Cursor
     }
 
+    public enum ButtonType
+    {
+        Button,
+        ButtonPressed
+    }
+
     /// <summary>
     /// Enum for identifying objects on the overlay
     /// </summary>
