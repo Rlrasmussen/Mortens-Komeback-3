@@ -100,8 +100,7 @@ namespace Mortens_Komeback_3
 
                     switch (item)
                     {
-                        case WeaponMelee:
-                        case WeaponRanged:
+                        case Weapon:
                             command.Parameters.AddWithValue("@TYPE", item.Type);
                             break;
                         default:
