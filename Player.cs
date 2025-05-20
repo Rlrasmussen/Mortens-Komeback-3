@@ -29,6 +29,7 @@ namespace Mortens_Komeback_3
         private int health;
         private int maxHealth = 100;
         private bool attacking = false;
+        private float colorTimer = 2f;
 
         private float damageTimer;
         private float damageGracePeriode = 2f;
@@ -61,6 +62,8 @@ namespace Mortens_Komeback_3
             {
                 if (value <= 0)
                     IsAlive = false;
+
+                colorTimer = 0f;
 
                 health = value;
             }
@@ -165,6 +168,12 @@ namespace Mortens_Komeback_3
         {
 
             walkTimer += GameWorld.Instance.DeltaTime;
+            colorTimer += GameWorld.Instance.DeltaTime;
+
+            if (colorTimer >= 2f)
+                drawColor = Color.White;
+            else
+                drawColor = Color.Red;
 
             if (InputHandler.Instance.MousePosition.X < Position.X)
                 spriteEffect = SpriteEffects.FlipHorizontally;
@@ -261,7 +270,7 @@ namespace Mortens_Komeback_3
         {
             if (other.Type.GetType() == typeof(EnemyType) && damageTimer > damageGracePeriode) //Rikke
             {
-                health -= (other as Enemy).Damage;
+                Health -= (other as Enemy).Damage;
                 GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
 
                 damageTimer = 0f;
