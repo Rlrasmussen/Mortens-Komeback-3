@@ -88,11 +88,11 @@ namespace Mortens_Komeback_3
 
                 GameWorld.Instance.Connection.Open();
 
-                string commandText = "DELETE FROM Inventory";
+                string commandText = "DELETE FROM Inventory WHERE Type NOT IN (SELECT Equipped_Item FROM Player WHERE Equipped_Item IS NOT NULL)";
                 SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
                 command.ExecuteNonQuery();
 
-                commandText = "INSERT INTO Inventory (Type, Amount) VALUES (@TYPE, 1) ON CONFLICT(Type) DO UPDATE SET Amount = Amount + 1";
+                commandText = "INSERT INTO Inventory (Type, Amount) SELECT @TYPE, 1 WHERE @TYPE NOT IN (SELECT Equipped_Item FROM Player WHERE Equipped_Item IS NOT NULL) ON CONFLICT(Type) DO UPDATE SET Amount = Amount + 1;";
                 foreach (GameObject item in Player.Instance.Inventory)
                 {
 
@@ -139,7 +139,7 @@ namespace Mortens_Komeback_3
             {
 
                 GameWorld.Instance.Connection.Open();
-                string commandText = "DELETE FROM Player; DELETE FROM Inventory; DELETE FROM Puzzles";
+                string commandText = "DELETE FROM Player; DELETE FROM Inventory; UPDATE Puzzles SET Solved = 0 WHERE Solved = 1";
                 SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
                 var check = command.ExecuteScalar();
 
