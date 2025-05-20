@@ -149,15 +149,7 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
             gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
 
-            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 400), DoorDirection.Right, new Vector2(300, 500), new Vector2(100, 500), new Vector2(-100, 500), 0);
-            gameObjects.Add(orderPuzzle);
-            gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, -400), new Vector2(1190, -200), DoorDirection.Right, 1);
-            gameObjects.Add(shootPuzzle);
-            gamePuzzles.Add(shootPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 2300), new Vector2(1190, 2500), DoorDirection.Right, new Vector2(0, 2000), (float)Math.PI / 2, new Vector2(0, 2700), 0, 2);
-            gameObjects.Add(shootPuzzle2);
-            gamePuzzles.Add(shootPuzzle2);
+
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -175,6 +167,16 @@ namespace Mortens_Komeback_3
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
+
+
+            #region Puzzles
+            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 400), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 2000)), new Vector2(300, 500), new Vector2(100, 500), new Vector2(-100, 500));
+            gameObjects.Add(orderPuzzle);
+            gamePuzzles.Add(orderPuzzle);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)),new Vector2(0, 5700), 0, new Vector2(0, 6300), 0);
+            gameObjects.Add(shootPuzzle2);
+            gamePuzzles.Add(shootPuzzle2);
+            #endregion
 
             SafePoint.LoadSave();
 
@@ -397,6 +399,8 @@ namespace Mortens_Komeback_3
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD2"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD3"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD4") });
+            Sprites.Add(DoorType.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stair1") });
+            Sprites.Add(DoorType.StairsLocked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stair0") });
             #endregion
             #region Puzzle
             Sprites.Add(PuzzleType.OrderPuzzle, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\Environment\\doorLocked"), Content.Load<Texture2D>("Sprites\\Environment\\doorOpen_Shadow") });
