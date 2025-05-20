@@ -182,10 +182,6 @@ namespace Mortens_Komeback_3
                 gameObjects.Add(door);
             CurrentRoom = DoorManager.Rooms[0]; // Start i første rum
 
-            foreach (GameObject gameObject in gameObjects)
-                gameObject.Load();
-
-
             #region Puzzles
             OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 2000), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 2000)), new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
             gameObjects.Add(orderPuzzle);
@@ -194,6 +190,11 @@ namespace Mortens_Komeback_3
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             #endregion
+
+            foreach (GameObject gameObject in gameObjects)
+                gameObject.Load();
+
+
 
             #region buttons and menu
 
