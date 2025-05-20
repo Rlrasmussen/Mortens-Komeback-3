@@ -67,11 +67,12 @@ namespace Mortens_Komeback_3
         public override void Load()
         {
 
-            var stats = GameWorld.Instance.EnemyStats[(EnemyType)type];
-
-            Health = stats.health;
-            Damage = stats.damage;
-            speed = stats.speed;
+            if (GameWorld.Instance.EnemyStats.TryGetValue((EnemyType)type, out var stats))
+            {
+                Health = stats.health;
+                Damage = stats.damage;
+                speed = stats.speed;
+            }
 
             //Health and damage switch case
             //switch (this.type)
