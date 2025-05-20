@@ -25,7 +25,7 @@ namespace Mortens_Komeback_3.Puzzles
         /// <param name="plaque1Pos">Position of the first plaque</param>
         /// <param name="plaque2Pos">Position of the second plaque</param>
         /// <param name="plaque3Pos">Position of the third plaque</param>
-        public OrderPuzzle(PuzzleType type, Vector2 spawnPos, DoorDirection doorDirection, Vector2 plaque1Pos, Vector2 plaque2Pos, Vector2 plaque3Pos) : base(type, spawnPos)
+        public OrderPuzzle(PuzzleType type, Vector2 spawnPos, DoorDirection doorDirection, Vector2 plaque1Pos, Vector2 plaque2Pos, Vector2 plaque3Pos, int id) : base(type, spawnPos, id)
         {
             puzzlePieces = new Dictionary<string, GameObject>();
             puzzlePieces.Add("plaque1", new OrderPuzzlePlaque(PuzzleType.OrderPuzzlePlaque, plaque1Pos));

@@ -149,13 +149,13 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
             gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
 
-            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 400), DoorDirection.Right, new Vector2(300, 500), new Vector2(100, 500), new Vector2(-100, 500));
+            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 400), DoorDirection.Right, new Vector2(300, 500), new Vector2(100, 500), new Vector2(-100, 500), 0);
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, -400), new Vector2(1190, -200), DoorDirection.Right);
+            ShootPuzzle shootPuzzle = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, -400), new Vector2(1190, -200), DoorDirection.Right, 1);
             gameObjects.Add(shootPuzzle);
             gamePuzzles.Add(shootPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 2300), new Vector2(1190, 2500), DoorDirection.Right, new Vector2(0, 2000), (float)Math.PI / 2, new Vector2(0, 2700), 0);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 2300), new Vector2(1190, 2500), DoorDirection.Right, new Vector2(0, 2000), (float)Math.PI / 2, new Vector2(0, 2700), 0, 2);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
 

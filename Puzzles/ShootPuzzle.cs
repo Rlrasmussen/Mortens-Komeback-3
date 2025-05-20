@@ -23,7 +23,7 @@ namespace Mortens_Komeback_3.Puzzles
         /// <param name="triggerPos">Position of the trigger</param>
         /// <param name="doorPos">Position of the door</param>
         /// <param name="doorDirection">The direction the door is facing</param>
-        public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Vector2 doorPos, DoorDirection doorDirection) : base(type, triggerPos)
+        public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Vector2 doorPos, DoorDirection doorDirection, int id) : base(type, triggerPos, id)
         {
 
             puzzleDoor = new Door(doorPos, doorDirection, DoorType.Locked);
@@ -42,7 +42,7 @@ namespace Mortens_Komeback_3.Puzzles
         /// <param name="firstFireRotation">The rotation of the first fire</param>
         /// <param name="secondFirePos">Position of the second fire</param>
         /// <param name="secondFireRotation">Rotation of the second fire</param>
-        public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Vector2 doorPos, DoorDirection doorDirection, Vector2 firstFirePos, float firstFireRotation, Vector2 secondFirePos, float secondFireRotation) : base(type, triggerPos)
+        public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Vector2 doorPos, DoorDirection doorDirection, Vector2 firstFirePos, float firstFireRotation, Vector2 secondFirePos, float secondFireRotation, int id) : base(type, triggerPos, id)
         {
             puzzleDoor = new Door(doorPos, doorDirection, DoorType.Locked);
             GameWorld.Instance.SpawnObject(puzzleDoor);
