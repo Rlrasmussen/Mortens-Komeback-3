@@ -59,6 +59,7 @@ namespace Mortens_Komeback_3.Environment
 
         #region Method
         /// <summary>
+        /// Unlocks door/stairs - sprite changes to closed and is now collidable
         /// Irene
         /// </summary>
         public void UnlockDoor()
@@ -77,6 +78,7 @@ namespace Mortens_Komeback_3.Environment
         }
 
         /// <summary>
+        /// Changes sprite/enum to open
         /// Irene
         /// </summary>
         public void OpenDoor()
@@ -93,7 +95,7 @@ namespace Mortens_Komeback_3.Environment
 
 
         /// <summary>
-        /// Roterer dørene
+        /// Rotating door sprite
         /// Irene
         /// </summary>
         /// <param name="direction"></param>
@@ -119,7 +121,11 @@ namespace Mortens_Komeback_3.Environment
         }
 
 
-
+        /// <summary>
+        /// When Player collides with door, player is teleported to a new position
+        /// Irene
+        /// </summary>
+        /// <param name="other"></param>
         public void OnCollision(ICollidable other)
         {
 
@@ -133,6 +139,11 @@ namespace Mortens_Komeback_3.Environment
 
         }
 
+        /// <summary>
+        /// 
+        /// Irene
+        /// </summary>
+        /// <param name="otherDoor"></param>
         public void LinkTo(Door otherDoor)
         {
             this.DestinationDoor = otherDoor;

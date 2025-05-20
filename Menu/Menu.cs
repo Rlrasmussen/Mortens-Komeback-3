@@ -62,7 +62,7 @@ namespace Mortens_Komeback_3.Menu
                     if (button.IsEnabled)
                     {
                         button.Command?.Execute();
-                        button.OnClick?.Invoke();
+                        //button.OnClick?.Invoke();
                         break; // Klik kun én knap
                     }
                 }

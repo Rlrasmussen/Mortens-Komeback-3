@@ -88,7 +88,9 @@ namespace Mortens_Komeback_3
     public enum ButtonType
     {
         Button,
-        ButtonPressed
+        ButtonPressed,
+        ButtonSquare,
+        ButtonSquareChecked
     }
 
     /// <summary>
@@ -191,18 +193,31 @@ namespace Mortens_Komeback_3
         ShootPuzzle,
     }
 
+    public enum EnvironmentType
+    {
+        Lever,
+        Plaque,
+        Spikes,
+        Pillars,
+        Stairs,
+        Chest,
+        ChestOpen,
+        Coffin,
+
+    }
+
     /// <summary>
     /// Enum for identifying decorations
     /// </summary>
     public enum DecorationType
     {
         Torch,
-        Spikes,
-        Pillars,
-        Stairs,
-        Chest,
-        Candles,
-        Coffin,
+        Candle,
+        Cobweb,
+        Light,
+        Cross,
+        Painting,
+        Splash
     }
 
     /// <summary>

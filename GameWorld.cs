@@ -35,11 +35,18 @@ namespace Mortens_Komeback_3
         private bool gamePaused = false;
         private bool gameRunning = true;
         public List<GameObject> gamePuzzles = new List<GameObject>();
-        public Menu.Menu menu;
 
         private float spawnEnemyTime = 5f;
         private float lastSpawnEnemy = 0f;
 
+        //Rotation
+        private float rotationTop = 0;
+        private float rotationRight = (float)(Math.PI / 2);
+        private float rotationBottom = (float)(Math.PI);
+        private float rotationLeft = (float)(-Math.PI / 2);
+
+        private Button myButton;
+       
         /// <summary>
         /// Singleton for GameWorld
         /// </summary>
@@ -118,6 +125,8 @@ namespace Mortens_Komeback_3
 
             //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
 
+            myButton = new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 200), "Quit");
+
 
             base.Initialize();
         }
@@ -138,6 +147,12 @@ namespace Mortens_Komeback_3
 
           
             gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200,200))); //Used for testing - To be removed
+
+            #region Decorations
+            gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
+            #endregion
+
+
             DoorManager.Initialize();
             GameWorld.Instance.CurrentRoom = DoorManager.Rooms[0];
 
@@ -162,7 +177,6 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region buttons and menu
-            menu = new Menu.Menu();
 
             #endregion
 
@@ -183,6 +197,8 @@ namespace Mortens_Komeback_3
                 gameObject.Update(gameTime);
                 DoCollisionCheck(gameObject);
             }
+
+            //myButton.Update();
 
             SpawnEnemies();
 
@@ -218,6 +234,10 @@ namespace Mortens_Komeback_3
 #endif
 
             }
+            
+            myButton.Draw(_spriteBatch, GameFont);
+
+           
 
             InputHandler.Instance.Draw(_spriteBatch);
 
@@ -395,8 +415,23 @@ namespace Mortens_Komeback_3
             Sprites.Add(PuzzleType.OrderPuzzlePlaque, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Items\\wallTurkey"), Content.Load<Texture2D>("Sprites\\Items\\sling"), Content.Load<Texture2D>("Sprites\\Items\\key") });
             Sprites.Add(PuzzleType.ShootPuzzle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\heartSprite") });
 
+            Sprites.Add(EnvironmentType.Chest, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\chestClosed") });
+            Sprites.Add(EnvironmentType.ChestOpen, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\chestOpen") });
+            Sprites.Add(EnvironmentType.Lever, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
+
+            Sprites.Add(EnvironmentType.Plaque, new Texture2D[9] { Content.Load<Texture2D>("Sprites\\Environment\\plaqueDove"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueCross"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueSun"),
+            Content.Load<Texture2D>("Sprites\\Environment\\plaqueLeaves"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueStar"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueMoon"),
+            Content.Load<Texture2D>("Sprites\\Environment\\plaqueAnchor"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueWine"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueCandle")});
+
             #endregion
             #region Decorations
+
+
+            Sprites.Add(DecorationType.Splash, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\splash") });
+            Sprites.Add(DecorationType.Cobweb, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\cobweb") });
+            Sprites.Add(DecorationType.Cross, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\cross") });
+            Sprites.Add(DecorationType.Painting, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\painting") });
+            Sprites.Add(DecorationType.Light, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Light0"), Content.Load<Texture2D>("Sprites\\Environment\\Light1"), Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
 
 
             #endregion
