@@ -59,6 +59,7 @@ namespace Mortens_Komeback_3.Environment
 
         #region Method
         /// <summary>
+        /// Unlocks door/stairs - sprite changes to closed and is now collidable
         /// Irene
         /// </summary>
         public void UnlockDoor()
@@ -69,9 +70,15 @@ namespace Mortens_Komeback_3.Environment
                 Debug.WriteLine("room unlocked");
                 Sprite = GameWorld.Instance.Sprites[DoorStatus][0];
             }
+            else if (DoorStatus == DoorType.StairsLocked)
+            {
+                DoorStatus = DoorType.Stairs;
+                Sprite = GameWorld.Instance.Sprites[DoorType.Stairs][0];
+            }
         }
 
         /// <summary>
+        /// Changes sprite/enum to open
         /// Irene
         /// </summary>
         public void OpenDoor()
@@ -88,7 +95,7 @@ namespace Mortens_Komeback_3.Environment
 
 
         /// <summary>
-        /// Roterer dørene
+        /// Rotating door sprite
         /// Irene
         /// </summary>
         /// <param name="direction"></param>
@@ -114,18 +121,13 @@ namespace Mortens_Komeback_3.Environment
         }
 
 
-
+        /// <summary>
+        /// When Player collides with door, player is teleported to a new position
+        /// Irene
+        /// </summary>
+        /// <param name="other"></param>
         public void OnCollision(ICollidable other)
         {
-            //if (other == Player.Instance &&
-            //    (DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open) &&
-            //    DestinationRoom != null && DestinationDoor != null)
-            //{
-            //    Player.Instance.Position = DestinationDoor.Position;
-            //    Player.Instance.Position = Vector2.Zero;
-            //    GameWorld.Instance.CurrentRoom = DestinationRoom;
-            //    //Debug.WriteLine("Player teleported to " + DestinationRoom.RoomType);
-            //}
 
             if (other == Player.Instance && (DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open))
             {
@@ -137,6 +139,11 @@ namespace Mortens_Komeback_3.Environment
 
         }
 
+        /// <summary>
+        /// 
+        /// Irene
+        /// </summary>
+        /// <param name="otherDoor"></param>
         public void LinkTo(Door otherDoor)
         {
             this.DestinationDoor = otherDoor;
@@ -146,16 +153,6 @@ namespace Mortens_Komeback_3.Environment
             otherDoor.DestinationRoom = this.room;
         }
 
-
-        /// <summary>
-        /// When player collides with door, players position is moved to next room
-        /// </summary>
-        /// <param name = "room" ></ param >
-        //public void TeleportPlayer()
-        //{
-        //    Player.Instance.Position = teleportPosition;
-        //    //    Debug.WriteLine("teleport");
-        //}
 
         #endregion
     }

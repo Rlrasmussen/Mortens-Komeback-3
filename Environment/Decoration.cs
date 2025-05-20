@@ -18,14 +18,15 @@ namespace Mortens_Komeback_3.Environment
         #endregion
 
         #region Constructor
-        public Decoration(Enum type, Vector2 spawnPos) : base(type, spawnPos)
+        public Decoration(Enum type, Vector2 spawnPos, float rotation) : base(type, spawnPos)
         {
+            Rotation = rotation;
         }
 
         #endregion
 
         #region Method
-
+        
         #endregion
     }
 }

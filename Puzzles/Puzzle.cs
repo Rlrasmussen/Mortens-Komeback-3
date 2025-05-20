@@ -20,6 +20,7 @@ namespace Mortens_Komeback_3.Puzzles
         protected bool solved = false;
         protected Door puzzleDoor;
         protected int id;
+        protected Location location;
 
 
         #endregion
@@ -33,7 +34,11 @@ namespace Mortens_Komeback_3.Puzzles
                 bool isChanged = solved;
                 solved = value;
                 if (value && !isChanged)
+                {
                     DatabaseUpdate();
+                    if (location != Location.Spawn)
+                        SafePoint.SaveGame(location);
+                }
             }
         }
 
@@ -58,6 +63,21 @@ namespace Mortens_Komeback_3.Puzzles
             foreach (GameObject puzzle in GameWorld.Instance.gamePuzzles)
                 if (puzzle is Puzzle && (puzzle as Puzzle).ID == id)
                     throw new Exception("Puzzle ID already exists, must be unique");
+
+            switch (id)
+            {
+                case 0:
+                    location = Location.PuzzleOne;
+                    break;
+                case 1:
+                    location = Location.PuzzleTwo;
+                    break;
+                case 2:
+                    location = Location.PuzzleThree;
+                    break;
+                default:
+                    break;
+            }
 
         }
 
