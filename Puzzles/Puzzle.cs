@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Data.Sqlite;
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +9,6 @@ using System.Threading.Tasks;
 using Mortens_Komeback_3.Environment;
 using Mortens_Komeback_3.Collider;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D9;
 using Mortens_Komeback_3.Factory;
 
 namespace Mortens_Komeback_3.Puzzles
@@ -18,12 +19,26 @@ namespace Mortens_Komeback_3.Puzzles
         protected Dictionary<string, GameObject> puzzlePieces;
         protected bool solved = false;
         protected Door puzzleDoor;
+        protected int id;
 
 
         #endregion
 
         #region Properties
-        public bool Solved { get => solved; set => solved = value; }
+        public bool Solved
+        {
+            get => solved;
+            set
+            {
+                bool isChanged = solved;
+                solved = value;
+                if (value && !isChanged)
+                    DatabaseUpdate();
+            }
+        }
+
+
+        public int ID { get => id; }
 
         #endregion
 
@@ -34,13 +49,32 @@ namespace Mortens_Komeback_3.Puzzles
         /// </summary> 
         /// <param name="type">The type of puzzle</param>
         /// <param name="spawnPos">The position the main element of the puzzle will be spawned at.</param>
-        public Puzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor) : base(type, spawnPos)
+        public Puzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id) : base(type, spawnPos)
         {
+
+            this.id = id;
+            GetStatusFromDB();
+
+            foreach (GameObject puzzle in GameWorld.Instance.gamePuzzles)
+                if (puzzle is Puzzle && (puzzle as Puzzle).ID == id)
+                    throw new Exception("Puzzle ID already exists, must be unique");
+
         }
 
         #endregion
 
         #region Method
+
+
+        public override void Load()
+        {
+
+            if (solved)
+                SolvePuzzle();
+
+            base.Load();
+
+        }
 
         /// <summary>
         /// Solves the puzzle.
@@ -69,6 +103,48 @@ namespace Mortens_Komeback_3.Puzzles
             {
                 puzzleDoor.DoorStatus = DoorType.StairsLocked;
             }
+        }
+
+
+        public virtual void DatabaseUpdate()
+        {
+
+            using (GameWorld.Instance.Connection)
+            {
+
+                GameWorld.Instance.Connection.Open();
+
+                string commandText = "INSERT INTO Puzzles (ID, Solved) VALUES (@ID, @SOLVED) ON CONFLICT(ID) DO UPDATE SET Solved = excluded.Solved";
+                SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
+                command.Parameters.AddWithValue("@ID", id);
+                command.Parameters.AddWithValue("@SOLVED", solved);
+                command.ExecuteScalar();
+
+            }
+
+        }
+
+
+        public virtual void GetStatusFromDB()
+        {
+
+            using (GameWorld.Instance.Connection)
+            {
+
+                GameWorld.Instance.Connection.Open();
+
+                string commandText = "SELECT * FROM Puzzles WHERE ID = @ID";
+                SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
+                command.Parameters.AddWithValue("@ID", id);
+                SqliteDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    solved = reader.GetBoolean(reader.GetOrdinal("Solved"));
+                }
+
+            }
+
         }
 
         #endregion

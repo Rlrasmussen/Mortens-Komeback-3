@@ -15,6 +15,8 @@ namespace Mortens_Komeback_3
     {
         #region Fields
 
+        private float speed;
+
         #endregion
 
         #region Properties
@@ -64,22 +66,30 @@ namespace Mortens_Komeback_3
         /// </summary>
         public override void Load()
         {
-            //Health and damage switch case
-            switch (this.type)
+
+            if (GameWorld.Instance.EnemyStats.TryGetValue((EnemyType)type, out var stats))
             {
-                case EnemyType.WalkingGoose:
-                    Health = 1;
-                    this.Damage = 2;
-                    break;
-                case EnemyType.AggroGoose:
-                    Health = 1;
-                    this.Damage = 2;
-                    break;
-                case EnemyType.Goosifer:
-                    Health = 1;
-                    this.Damage = 2;
-                    break;
+                Health = stats.health;
+                Damage = stats.damage;
+                speed = stats.speed;
             }
+
+            //Health and damage switch case
+            //switch (this.type)
+            //{
+            //    case EnemyType.WalkingGoose:
+            //        Health = 1;
+            //        this.Damage = 2;
+            //        break;
+            //    case EnemyType.AggroGoose:
+            //        Health = 1;
+            //        this.Damage = 2;
+            //        break;
+            //    case EnemyType.Goosifer:
+            //        Health = 1;
+            //        this.Damage = 2;
+            //        break;
+            //}
 
             base.Load();
         }

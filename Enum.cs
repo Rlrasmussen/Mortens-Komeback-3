@@ -212,7 +212,8 @@ namespace Mortens_Komeback_3
     /// </summary>
     public enum Location
     {
-        Spawn
+        Spawn,
+        Test
     }
     /// <summary>
     /// Enum for identifying tile type, used for Astar algorithm.

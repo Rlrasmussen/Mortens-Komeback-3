@@ -22,7 +22,7 @@ namespace Mortens_Komeback_3.Puzzles
         /// <param name="type">Type of puzzle </param>
         /// <param name="triggerPos">Position of the trigger</param>
         /// <param name="puzzleDoor">The door that the puzzle will unlock</param>
-        public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Door puzzleDoor) : base(type, triggerPos, puzzleDoor)
+        public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Door puzzleDoor, int id) : base(type, triggerPos, puzzleDoor, id)
         {
 
             this.puzzleDoor = puzzleDoor;
@@ -42,7 +42,7 @@ namespace Mortens_Komeback_3.Puzzles
         /// <param name="firstFireRotation">The rotation of the first fire</param>
         /// <param name="secondFirePos">Position of the second fire</param>
         /// <param name="secondFireRotation">Rotation of the second fire</param>
-        public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Door puzzleDoor, Vector2 firstFirePos, float firstFireRotation, Vector2 secondFirePos, float secondFireRotation) : base(type, triggerPos, puzzleDoor)
+        public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Door puzzleDoor, Vector2 firstFirePos, float firstFireRotation, Vector2 secondFirePos, float secondFireRotation, int id) : base(type, triggerPos, puzzleDoor, id)
         {
             this.puzzleDoor = puzzleDoor;
             if (!(puzzleDoor.DoorStatus == DoorType.Locked))

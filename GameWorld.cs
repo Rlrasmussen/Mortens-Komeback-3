@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
+using System.IO;
 using System;
 using System.Diagnostics;
 using Mortens_Komeback_3.Command;
@@ -11,6 +12,7 @@ using Mortens_Komeback_3.Collider;
 using Mortens_Komeback_3.Factory;
 using Mortens_Komeback_3.Puzzles;
 using Mortens_Komeback_3.Environment;
+using Microsoft.Data.Sqlite;
 
 namespace Mortens_Komeback_3
 {
@@ -29,11 +31,15 @@ namespace Mortens_Komeback_3
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
+        public Dictionary<EnemyType, (int health, int damage, float speed)> EnemyStats = new Dictionary<EnemyType, (int health, int damage, float speed)>();
         public SpriteFont GameFont;
         private float deltaTime;
         private bool gamePaused = false;
         private bool gameRunning = true;
         public List<GameObject> gamePuzzles = new List<GameObject>();
+
+        private string dbBasePath = AppDomain.CurrentDomain.BaseDirectory;
+        public SqliteConnection Connection;
 
         private float spawnEnemyTime = 5f;
         private float lastSpawnEnemy = 0f;
@@ -73,6 +79,9 @@ namespace Mortens_Komeback_3
         public bool GamePaused { get => gamePaused; set => gamePaused = value; }
 
 
+        public List<GameObject> GameObjects { get => gameObjects; }
+
+
 #if DEBUG
         /// <summary>
         /// Bool to change if collisionboxes are draw or not
@@ -100,19 +109,29 @@ namespace Mortens_Komeback_3
         protected override void Initialize()
         {
 
+            string dbPath = Path.Combine(dbBasePath, "Database", "mk3db.db");
+            Connection = new SqliteConnection($"Data Source={dbPath}");
+
             LoadSprites();
             LoadSoundEffects();
             LoadMusic();
             GameFont = Content.Load<SpriteFont>("mortalKombatFont");
             AddLocations();
+            GetEnemyStats();
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
+
+#if DEBUG
             InputHandler.Instance.AddButtonDownCommand(Keys.Space, new DrawCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.M, new SaveCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.U, new ClearSaveCommand());
+#endif
 
             gameObjects.Add(Player.Instance);
             gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
 
+            //SafePoint.SaveGame(Location.Spawn);
 
             //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
 
@@ -154,7 +173,7 @@ namespace Mortens_Komeback_3
             OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 2000), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 2000)), new Vector2(300, 500), new Vector2(100, 500), new Vector2(-100, 500));
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)), new Vector2(0, 5700), 0, new Vector2(0, 6300), 0);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)),new Vector2(0, 5700), 0, new Vector2(0, 6300), 0, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             OrderPuzzle test = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(-540,-210), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 2000)), new Vector2(300, 500), new Vector2(100, 500), new Vector2(-100, 500));
@@ -162,6 +181,9 @@ namespace Mortens_Komeback_3
             gameObjects.Add(test);
             #endregion
 
+            SafePoint.LoadSave();
+
+        
             AStar.AStarFindPath(new Vector2(-990, 240), new Vector2(60, -660), DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles);
             List<Tile> tileList = AStar.AStarRetracePath(DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles[new Vector2(-990, 240)], DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles[new Vector2(60, -660)]);
             foreach(Tile t in tileList)
@@ -170,8 +192,6 @@ namespace Mortens_Komeback_3
                 gameObjects.Add(t);
                 Debug.WriteLine(t.Position);
             }
-
-        }
 
         /// <summary>
         /// Handles update logic
@@ -495,6 +515,7 @@ namespace Mortens_Komeback_3
         {
 
             Locations.Add(Location.Spawn, new Vector2(-250, 250));
+            Locations.Add(Location.Test, new Vector2(500, 0));
 
         }
 
@@ -618,6 +639,31 @@ namespace Mortens_Komeback_3
         }
 
 #endif
+
+
+        private void GetEnemyStats()
+        {
+
+            using (Connection)
+            {
+
+                Connection.Open();
+
+                string commandText = "SELECT * FROM EnemyTypes";
+                SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
+                SqliteDataReader reader = command.ExecuteReader();
+
+                int id = reader.GetOrdinal("ID");
+                int damage = reader.GetOrdinal("Damage");
+                int health = reader.GetOrdinal("Max_HP");
+                int speed = reader.GetOrdinal("Speed");
+
+                while (reader.Read())
+                    EnemyStats.Add((EnemyType)reader.GetInt32(id), (reader.GetInt32(health), reader.GetInt32(damage), reader.GetFloat(speed)));
+
+            }
+
+        }
 
     }
 }
