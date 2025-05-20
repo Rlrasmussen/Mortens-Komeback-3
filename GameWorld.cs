@@ -12,6 +12,7 @@ using Mortens_Komeback_3.Collider;
 using Mortens_Komeback_3.Factory;
 using Mortens_Komeback_3.Puzzles;
 using Mortens_Komeback_3.Environment;
+using Mortens_Komeback_3.Menu;
 using Microsoft.Data.Sqlite;
 
 namespace Mortens_Komeback_3
@@ -44,6 +45,14 @@ namespace Mortens_Komeback_3
         private float spawnEnemyTime = 5f;
         private float lastSpawnEnemy = 0f;
 
+        //Rotation
+        private float rotationTop = 0;
+        private float rotationRight = (float)(Math.PI / 2);
+        private float rotationBottom = (float)(Math.PI);
+        private float rotationLeft = (float)(-Math.PI / 2);
+
+        private Button myButton;
+       
         /// <summary>
         /// Singleton for GameWorld
         /// </summary>
@@ -135,6 +144,8 @@ namespace Mortens_Komeback_3
 
             //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
 
+            myButton = new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 200), "Quit");
+
 
             base.Initialize();
         }
@@ -153,8 +164,14 @@ namespace Mortens_Komeback_3
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+          
+            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200,200))); //Used for testing - To be removed
 
-            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200, 200))); //Used for testing - To be removed
+            #region Decorations
+            gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
+            #endregion
+
+
             DoorManager.Initialize();
             GameWorld.Instance.CurrentRoom = DoorManager.Rooms[0];
 
@@ -165,23 +182,34 @@ namespace Mortens_Komeback_3
                 gameObjects.Add(door);
             CurrentRoom = DoorManager.Rooms[0]; // Start i første rum
 
-            foreach (GameObject gameObject in gameObjects)
-                gameObject.Load();
-
-
             #region Puzzles
-            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 400), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 2000)), new Vector2(300, 500), new Vector2(100, 500), new Vector2(-100, 500), 0);
+            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 2000), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 2000)), new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)),new Vector2(0, 5700), 0, new Vector2(0, 6300), 0, 1);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)), new Vector2(0, 5700), 0, new Vector2(0, 6300), 0, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             #endregion
 
+            foreach (GameObject gameObject in gameObjects)
+                gameObject.Load();
+
+
+
+            #region buttons and menu
+
+            #endregion
+
             SafePoint.LoadSave();
 
-        }
 
+            AStar.AStarFindPath(new Vector2(-990, 240), new Vector2(60, -660), DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles);
+            List<Tile> tileList = AStar.AStarRetracePath(DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles[new Vector2(-990, 240)], DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles[new Vector2(60, -660)]);
+            foreach (Tile t in tileList)
+            {
+                Debug.WriteLine(t.Position);
+            }
+        }
         /// <summary>
         /// Handles update logic
         /// Simon
@@ -231,6 +259,15 @@ namespace Mortens_Komeback_3
                 }
 #endif
 
+            }
+            
+            myButton.Draw(_spriteBatch, GameFont);
+
+           
+
+            foreach (var GO in DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)
+            {
+                DrawCollisionBox(GO.Value.CollisionBox);
             }
 
             InputHandler.Instance.Draw(_spriteBatch);
@@ -374,6 +411,8 @@ namespace Mortens_Komeback_3
 
             Sprites.Add(MenuType.Win, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\winScreen") });
             Sprites.Add(MenuType.GameOver, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\looseScreen") });
+            Sprites.Add(ButtonType.Button, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\button") });
+            Sprites.Add(ButtonType.ButtonPressed, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\buttonPressed") });
 
             #endregion
             #region NPC
@@ -407,8 +446,23 @@ namespace Mortens_Komeback_3
             Sprites.Add(PuzzleType.OrderPuzzlePlaque, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Items\\wallTurkey"), Content.Load<Texture2D>("Sprites\\Items\\sling"), Content.Load<Texture2D>("Sprites\\Items\\key") });
             Sprites.Add(PuzzleType.ShootPuzzle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\heartSprite") });
 
+            Sprites.Add(EnvironmentType.Chest, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\chestClosed") });
+            Sprites.Add(EnvironmentType.ChestOpen, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\chestOpen") });
+            Sprites.Add(EnvironmentType.Lever, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
+
+            Sprites.Add(EnvironmentType.Plaque, new Texture2D[9] { Content.Load<Texture2D>("Sprites\\Environment\\plaqueDove"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueCross"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueSun"),
+            Content.Load<Texture2D>("Sprites\\Environment\\plaqueLeaves"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueStar"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueMoon"),
+            Content.Load<Texture2D>("Sprites\\Environment\\plaqueAnchor"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueWine"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueCandle")});
+
             #endregion
             #region Decorations
+
+
+            Sprites.Add(DecorationType.Splash, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\splash") });
+            Sprites.Add(DecorationType.Cobweb, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\cobweb") });
+            Sprites.Add(DecorationType.Cross, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\cross") });
+            Sprites.Add(DecorationType.Painting, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\painting") });
+            Sprites.Add(DecorationType.Light, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Light0"), Content.Load<Texture2D>("Sprites\\Environment\\Light1"), Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
 
 
             #endregion

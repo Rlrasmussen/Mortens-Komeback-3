@@ -8,105 +8,7 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3
 {
-    public class Tile : GameObject
-    {
-        private bool walkable = true;
-        private bool fencePath = false;
-        private HashSet<Edge> edges = new HashSet<Edge>();
-        private bool discovered = false;
-        private Tile parent;
-
-        public int G { get; set; }
-        public int H { get; set; }
-        public int F => G + H;
-
-        public HashSet<Edge> Edges { get => edges; }
-        public bool Discovered { get => discovered; set => discovered = value; }
-        public Tile Parent { get => parent; set => parent = value; }
-        public bool Walkable
-        {
-            get => walkable;
-            set
-            {
-                if (value == false && walkable == true)
-                {
-                    walkable = value;
-                }
-            }
-        }
-        public bool FencePath { get => fencePath; }
-
-        public Tile(Enum type, Vector2 spawnPos, bool fencePath) : base(type, spawnPos)
-        {
-            
-        }
-
-
-        public void CreateEdges(List<Tile> list)
-        {
-            if (walkable)
-                foreach (Tile other in list)
-                {
-                    if (this != other && other.Walkable)
-                    {
-                        float distance = Vector2.Distance(Position, other.Position);
-                        if (distance < 91)
-                        {
-                            int weight;
-                            if (distance < 65)
-                                weight = 10;
-                            else
-                                weight = 14;
-                            Edges.Add(new Edge(weight, this, other));
-                        }
-                    }
-                }
-
-        }
-
-    }
-
-    public class Edge
-    {
-
-        #region Fields
-
-        private int weight;
-        private Tile from;
-        private Tile to;
-
-        #endregion
-        #region Properties
-
-        public int Weight { get => weight; private set => weight = value; }
-        public Tile From { get => from; }
-        //public Tile To { get => to; }
-        public Tile To
-        {
-            get
-            {
-                if (to.Walkable)
-                    return to;
-                else
-                    return default;
-            }
-        }
-
-        #endregion
-        #region Constructor
-
-        public Edge(int weight, Tile from, Tile to)
-        {
-            this.weight = weight;
-            this.from = from;
-            this.to = to;
-        }
-
-        #endregion
-
-    }
-
-    internal class AStar
+    public class AStar
     {
 
         public AStar()
@@ -115,9 +17,9 @@ namespace Mortens_Komeback_3
         }
 
 
-        //public static Dictionary<Vector2, Tile> Cells { get => cells; set => cells = value; }
+        //public static Dictionary<Vector2, Tile> Cells { get => tiles; set => tiles = value; }
 
-        public static List<Tile> AStarFindPath(Vector2 startVector, Vector2 endVector, Dictionary<Vector2, Tile> cells)
+        public static List<Tile> AStarFindPath(Vector2 startVector, Vector2 endVector, Dictionary<Vector2, Tile> tiles)
         {
 
             HashSet<Tile> openList = new HashSet<Tile>();
@@ -128,47 +30,47 @@ namespace Mortens_Komeback_3
 
 
             // Sikrer at punkterne findes i cellerne
-            if (!cells.ContainsKey(startVector) || !cells.ContainsKey(endVector))
+            if (!tiles.ContainsKey(startVector) || !tiles.ContainsKey(endVector))
             {
                 return null;
             }
 
-            Tile startTile = cells[startVector];
-            Tile endTile = cells[endVector];
-            openList.Add(cells[startVector]);
+            Tile startTile = tiles[startVector];
+            Tile endTile = tiles[endVector];
+            openList.Add(tiles[startVector]);
 
             while (openList.Count > 0)
             {
-                Tile curCell = openList.First();
+                Tile curTile = openList.First();
                 foreach (var t in openList)
                 {
-                    if (t.F < curCell.F || t.F == curCell.F && t.H < curCell.H)
+                    if (t.F < curTile.F || t.F == curTile.F && t.H < curTile.H)
                     {
-                        curCell = t;
+                        curTile = t;
                     }
                 }
-                openList.Remove(curCell);
-                closedList.Add(curCell);
+                openList.Remove(curTile);
+                closedList.Add(curTile);
 
-                if (curCell.Position.X == endVector.X && curCell.Position.Y == endVector.Y)
+                if (curTile.Position.X == endVector.X && curTile.Position.Y == endVector.Y)
                 {
-                    return AStarRetracePath(cells[startVector], cells[endVector]);
+                    return AStarRetracePath(tiles[startVector], tiles[endVector]);
                 }
 
-                List<Tile> neighbours = AStarGetNeighbours(curCell, cells);
+                List<Tile> neighbours = AStarGetNeighbours(curTile, tiles);
                 foreach (var neighbour in neighbours)
                 {
                     if (closedList.Contains(neighbour))
                         continue;
 
-                    int newMovementCostToNeighbour = curCell.G + AStarGetDistance(curCell.Position, neighbour.Position);
+                    int newMovementCostToNeighbour = curTile.G + AStarGetDistance(curTile.Position, neighbour.Position);
 
                     if (newMovementCostToNeighbour < neighbour.G || !openList.Contains(neighbour))
                     {
                         neighbour.G = newMovementCostToNeighbour;
                         //udregner H med manhatten princip
                         neighbour.H = (((int)Math.Abs(neighbour.Position.X - endVector.X) + (int)Math.Abs(endVector.Y - neighbour.Position.Y)) * 10);
-                        neighbour.Parent = curCell;
+                        neighbour.Parent = curTile;
 
                         if (!openList.Contains(neighbour))
                         {
@@ -212,7 +114,7 @@ namespace Mortens_Komeback_3
 
 
 
-        public static List<Tile> AStarGetNeighbours(Tile curCell, Dictionary<Vector2, Tile> cells)
+        public static List<Tile> AStarGetNeighbours(Tile curTile, Dictionary<Vector2, Tile> tiles)
         {
             List<Tile> neighbours = new List<Tile>(8);
             //var wallSprite = TileTypes.Stone;
@@ -226,9 +128,9 @@ namespace Mortens_Komeback_3
                     }
 
                     Tile curNeighbour;
-                    if (cells.TryGetValue(new Vector2((int)curCell.Position.X + (i * curCell.Sprite.Width), (int)curCell.Position.Y + (curCell.Sprite.Height * j)), out var cell))
+                    if (tiles.TryGetValue(new Vector2((int)curTile.Position.X + (i * curTile.CollisionBox.Width), (int)curTile.Position.Y + (curTile.CollisionBox.Height * j)), out var tile))
                     {
-                        curNeighbour = cell;
+                        curNeighbour = tile;
                     }
                     else
                     {
@@ -239,6 +141,7 @@ namespace Mortens_Komeback_3
                     {
                         continue; // Spring den over
                     }
+                    neighbours.Add(curNeighbour);
 
                     //hjørner
                     //switch (i)
