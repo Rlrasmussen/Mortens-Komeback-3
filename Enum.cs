@@ -213,7 +213,10 @@ namespace Mortens_Komeback_3
     public enum Location
     {
         Spawn,
-        Test
+        Test,
+        PuzzleOne,
+        PuzzleTwo,
+        PuzzleThree
     }
 
 }

@@ -500,6 +500,9 @@ namespace Mortens_Komeback_3
 
             Locations.Add(Location.Spawn, new Vector2(-250, 250));
             Locations.Add(Location.Test, new Vector2(500, 0));
+            Locations.Add(Location.PuzzleOne, new Vector2(-1050, 2000));
+            Locations.Add(Location.PuzzleTwo, new Vector2(-1050, 6000));
+            Locations.Add(Location.PuzzleThree, new Vector2(-1050, 18000));
 
         }
 
