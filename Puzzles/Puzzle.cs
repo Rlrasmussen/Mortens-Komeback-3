@@ -36,7 +36,8 @@ namespace Mortens_Komeback_3.Puzzles
                 if (value && !isChanged)
                 {
                     DatabaseUpdate();
-                    SafePoint.SaveGame(location);
+                    if (location != Location.Spawn)
+                        SafePoint.SaveGame(location);
                 }
             }
         }
