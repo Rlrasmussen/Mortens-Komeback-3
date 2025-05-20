@@ -139,7 +139,7 @@ namespace Mortens_Komeback_3
             {
 
                 GameWorld.Instance.Connection.Open();
-                string commandText = "DELETE FROM Player; DELETE FROM Inventory";
+                string commandText = "DELETE FROM Player; DELETE FROM Inventory; DELETE FROM Puzzles";
                 SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
                 var check = command.ExecuteScalar();
 
