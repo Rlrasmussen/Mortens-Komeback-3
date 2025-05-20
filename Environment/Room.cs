@@ -43,9 +43,9 @@ namespace Mortens_Komeback_3.Environment
         #region Method
         public void AddDoor(Door door)
         {
-            Doors.Add(door);   
+            Doors.Add(door);
         }
-    
+
 
         /// <summary>
         /// Adds a grid of tiles to the room, used by AStar algorithm. 
@@ -64,8 +64,10 @@ namespace Mortens_Komeback_3.Environment
             }
             foreach (var tile in tiles)
             {
-                foreach (GameObject go in GameWorld.Instance.gamePuzzles)
+                foreach (GameObject go in GameWorld.Instance.GameObjects)
                 {
+                    if (!(go is Decoration))
+                        continue;
                     if (tile.Value.CollisionBox.Intersects(go.CollisionBox))
                     {
                         tile.Value.Walkable = false;

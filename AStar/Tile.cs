@@ -38,7 +38,9 @@ namespace Mortens_Komeback_3
 
         public Tile(Enum type, Vector2 spawnPos, bool fencePath) : base(type, spawnPos)
         {
-
+#if DEBUG
+            Sprite = GameWorld.Instance.Sprites[DebugEnum.Pixel][0];
+#endif
         }
 
 

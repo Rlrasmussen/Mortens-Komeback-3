@@ -52,7 +52,7 @@ namespace Mortens_Komeback_3
         private float rotationLeft = (float)(-Math.PI / 2);
 
         private Button myButton;
-       
+
         /// <summary>
         /// Singleton for GameWorld
         /// </summary>
@@ -164,8 +164,8 @@ namespace Mortens_Komeback_3
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-          
-            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200,200))); //Used for testing - To be removed
+
+            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200, 200))); //Used for testing - To be removed
 
             #region Decorations
             gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
@@ -203,11 +203,13 @@ namespace Mortens_Komeback_3
             SafePoint.LoadSave();
 
 
-            AStar.AStarFindPath(new Vector2(-990, 240), new Vector2(60, -660), DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles);
-            List<Tile> tileList = AStar.AStarRetracePath(DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles[new Vector2(-990, 240)], DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles[new Vector2(60, -660)]);
-            foreach (Tile t in tileList)
+            List<Tile> tileList = AStar.AStarFindPath(new Vector2(-990, 240), new Vector2(660, -60), DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles);
+            if (tileList != null)
             {
-                Debug.WriteLine(t.Position);
+                foreach (Tile t in tileList)
+                {
+                    Debug.WriteLine(t.Position);
+                }
             }
         }
         /// <summary>
@@ -260,10 +262,10 @@ namespace Mortens_Komeback_3
 #endif
 
             }
-            
+
             myButton.Draw(_spriteBatch, GameFont);
 
-           
+
 
             foreach (var GO in DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)
             {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Mortens_Komeback_3
 {
@@ -84,17 +85,23 @@ namespace Mortens_Komeback_3
 
         }
 
-        public static List<Tile> AStarRetracePath(Tile startVector, Tile endVector)
+        public static List<Tile> AStarRetracePath(Tile startTile, Tile endTile)
         {
             List<Tile> path = new List<Tile>();
-            Tile currentNode = endVector;
+            Tile currentNode = endTile;
 
-            while (currentNode != startVector)
+            if (currentNode.Walkable == false)
+            {
+                Debug.WriteLine("EndTile is not walkable, AStar exited.");
+                return null;
+            }
+
+            while (currentNode != startTile)
             {
                 path.Add(currentNode);
                 currentNode = currentNode.Parent;
             }
-            path.Add(startVector);
+            path.Add(startTile);
             path.Reverse();
 
             return path;
