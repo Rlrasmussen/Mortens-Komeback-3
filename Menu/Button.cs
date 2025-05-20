@@ -16,7 +16,7 @@ namespace Mortens_Komeback_3.Menu
         #region Fields
         private Vector2 position;
         //private Button myButton;
-        public List<Button> buttonList = new List<Button>();
+        //public List<Button> buttonList = new List<Button>();
         #endregion
 
         #region Properties
@@ -37,14 +37,12 @@ namespace Mortens_Komeback_3.Menu
         #endregion
 
         #region Constructor
-        //public Button(ButtonType bg, Vector2 spawnPos, string buttonText, ICommand command)
-        public Button(ButtonType bg, Vector2 spawnPos, string buttonText)
+        public Button(ButtonType bg, Vector2 spawnPos, string buttonText) 
         {
             this.Type = bg;
             this.Position = spawnPos;
             this.ButtonText = buttonText;
             Layer = 0.7f;
-            //this.Command = command;
 
 
             if (GameWorld.Instance.Sprites.TryGetValue(bg, out var spriteArray))
@@ -61,7 +59,7 @@ namespace Mortens_Komeback_3.Menu
                 case "Start":
                     break;
 
-                case "Continue":
+                case "Resume":
                     break;
 
                 case "Quit":
@@ -70,26 +68,34 @@ namespace Mortens_Komeback_3.Menu
                 case "Try again?": //Reload
                     break;
 
+                case "Music on/off": //Reload
+                    break;
+
+                case "Sound on/off": //Reload
+                    break;
+
                 default:
                     break;
             }
 
-           
-
-
-
         }
+
+        public Button(ButtonType bg, Vector2 spawnPos, string buttonText, ICommand command) : this(bg, spawnPos, buttonText) // Kalder eksisterende konstruktor
+        {
+            this.Command = command;
+        }
+
         #endregion
 
         #region Method
 
-      
+
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
-            Color color = Hovering ? Color.Gray : Color.White;
+            Color color = Hovering ? Color.HotPink : Color.White;
 
-            spriteBatch.Draw(Sprite, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.8f);
+            spriteBatch.Draw(Sprite, Position, null, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.8f);
 
             // Tegn knaptekst centreret på knappen
             Vector2 textSize = font.MeasureString(ButtonText);
@@ -101,22 +107,25 @@ namespace Mortens_Komeback_3.Menu
 
         public void Update()
         {
+            Hovering = CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
 
+            if (Hovering && Mouse.GetState().LeftButton == ButtonState.Pressed)
+            {
+                Command?.Execute();
+            }
         }
 
-        public void AddButtons()
+        
+
+        public static void AddButtons()
         {
-            buttonList.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 200), "Start"));
-            buttonList.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 400), "Quit"));
+            GameWorld.Instance.buttonList.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 200), "Start"), new StartGameCommand());
+            GameWorld.Instance.buttonList.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 300), "Resume"), new ExitCommand());
+            //GameWorld.Instance.buttonList.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 400), "Quit"));
+            //GameWorld.Instance.buttonList.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 100), "Music on/off")); //musictoggle
+            //GameWorld.Instance.buttonList.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 0), "Sound on/off")); //soundtoggle
 
-            
         }
-
-        //public void Loadcontent()
-        //{
-        //    myButton.Add(new Button(bg, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 200), "Start"));
-        //    myButton.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 200), "Quit"));
-        //}
 
         public void Execute()
         {

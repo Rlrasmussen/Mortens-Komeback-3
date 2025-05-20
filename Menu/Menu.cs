@@ -22,6 +22,12 @@ namespace Mortens_Komeback_3.Menu
         #endregion
 
         #region Constructor
+         
+        public Menu(MenuType bg, Vector2 spawnPos)
+        {
+
+
+        }
 
         #endregion
 

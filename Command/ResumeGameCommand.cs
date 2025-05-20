@@ -7,11 +7,11 @@ using Mortens_Komeback_3.Command;
 
 namespace Mortens_Komeback_3.Command
 {
-    class ContinueCommand : ICommand
+    class ResumeGameCommand : ICommand
     {
         public void Execute()
         {
-            throw new NotImplementedException();
+            //GameWorld.Instance.ResumeGame();
         }
     }
 }

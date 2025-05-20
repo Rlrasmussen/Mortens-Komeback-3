@@ -52,7 +52,9 @@ namespace Mortens_Komeback_3
         private float rotationLeft = (float)(-Math.PI / 2);
 
         private Button myButton;
-       
+        public List<Button> buttonList = new List<Button>();
+
+
         /// <summary>
         /// Singleton for GameWorld
         /// </summary>
@@ -144,7 +146,7 @@ namespace Mortens_Komeback_3
 
             //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
 
-            myButton = new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 200), "Quit");
+            //myButton = new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 200), "Quit");
 
 
             base.Initialize();
@@ -160,7 +162,7 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
             gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
 
-
+            Button.AddButtons();
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -219,6 +221,13 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
+            foreach (Button button in buttonList)
+            {
+                
+                button.Hovering = button.CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
+                button.Update();
+            }
+
             //SpawnEnemies();
 
             CleanUp();
@@ -253,10 +262,16 @@ namespace Mortens_Komeback_3
 #endif
 
             }
-            
-            myButton.Draw(_spriteBatch, GameFont);
 
-           
+            //myButton.Draw(_spriteBatch, GameFont);
+            foreach (Button button in buttonList)
+            {
+                button.Draw(_spriteBatch, GameFont);
+
+            }
+            //GameWorld.Instance.buttonList.Draw(_spriteBatch, GameFont);
+
+
 
             InputHandler.Instance.Draw(_spriteBatch);
 
