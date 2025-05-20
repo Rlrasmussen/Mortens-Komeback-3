@@ -134,8 +134,8 @@ namespace Mortens_Komeback_3
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-          
-            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200,200))); //Used for testing - To be removed
+
+            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200, 200))); //Used for testing - To be removed
             DoorManager.Initialize();
             GameWorld.Instance.CurrentRoom = DoorManager.Rooms[0];
 
@@ -151,13 +151,25 @@ namespace Mortens_Komeback_3
 
 
             #region Puzzles
-            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 400), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 2000)), new Vector2(300, 500), new Vector2(100, 500), new Vector2(-100, 500));
+            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 2000), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 2000)), new Vector2(300, 500), new Vector2(100, 500), new Vector2(-100, 500));
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)),new Vector2(0, 5700), 0, new Vector2(0, 6300), 0);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)), new Vector2(0, 5700), 0, new Vector2(0, 6300), 0);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
+            OrderPuzzle test = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(-540,-210), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 2000)), new Vector2(300, 500), new Vector2(100, 500), new Vector2(-100, 500));
+            gamePuzzles.Add(test);
+            gameObjects.Add(test);
             #endregion
+
+            AStar.AStarFindPath(new Vector2(-990, 240), new Vector2(60, -660), DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles);
+            List<Tile> tileList = AStar.AStarRetracePath(DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles[new Vector2(-990, 240)], DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles[new Vector2(60, -660)]);
+            foreach(Tile t in tileList)
+            {
+                t.Sprite = Sprites[ItemType.WallTurkey][0];
+                gameObjects.Add(t);
+                Debug.WriteLine(t.Position);
+            }
 
         }
 
@@ -211,8 +223,8 @@ namespace Mortens_Komeback_3
 #endif
 
             }
-            
-            foreach(var GO in DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)
+
+            foreach (var GO in DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)
             {
                 DrawCollisionBox(GO.Value.CollisionBox);
             }

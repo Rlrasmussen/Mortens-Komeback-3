@@ -109,11 +109,14 @@ namespace Mortens_Komeback_3.Environment
 
         //}
 
+        /// <summary>
+        /// Adds a grid of tiles to the room, used by AStar algorithm. 
+        /// </summary>
         public void AddTiles()
         {
-            int tilesX = CollisionBox.Width/150;
-            int tilesY = CollisionBox.Height/150;
-            for (int i = 1; i < tilesX-1; i++)
+            int tilesX = CollisionBox.Width / 150;
+            int tilesY = CollisionBox.Height / 150;
+            for (int i = 1; i < tilesX - 1; i++)
             {
                 for (int j = 1; j < tilesY; j++)
                 {
@@ -121,8 +124,18 @@ namespace Mortens_Komeback_3.Environment
                     Tiles.Add(t.Position, t);
                 }
             }
-        }
+            foreach (var tile in tiles)
+            {
+                foreach (GameObject go in GameWorld.Instance.gamePuzzles)
+                {
+                    if (tile.Value.CollisionBox.Intersects(go.CollisionBox))
+                    {
+                        tile.Value.Walkable = false;
+                    }
 
+                }
+            }
+        }
         #endregion
     }
 }

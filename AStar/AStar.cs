@@ -128,9 +128,9 @@ namespace Mortens_Komeback_3
                     }
 
                     Tile curNeighbour;
-                    if (tiles.TryGetValue(new Vector2((int)curTile.Position.X + (i * curTile.Sprite.Width), (int)curTile.Position.Y + (curTile.Sprite.Height * j)), out var cell))
+                    if (tiles.TryGetValue(new Vector2((int)curTile.Position.X + (i * curTile.CollisionBox.Width), (int)curTile.Position.Y + (curTile.CollisionBox.Height * j)), out var tile))
                     {
-                        curNeighbour = cell;
+                        curNeighbour = tile;
                     }
                     else
                     {
@@ -141,6 +141,7 @@ namespace Mortens_Komeback_3
                     {
                         continue; // Spring den over
                     }
+                    neighbours.Add(curNeighbour);
 
                     //hjørner
                     //switch (i)
