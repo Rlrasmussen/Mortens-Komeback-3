@@ -107,7 +107,7 @@ namespace Mortens_Komeback_3
         {
             Health -= gameObject.Damage;
 
-            //Enemy dies is Health is 0
+            //Enemy dies if Health is 0
             if (Health <= 0)
             {
                 IsAlive = false;

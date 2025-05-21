@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Audio;
 using Mortens_Komeback_3.Puzzles;
+using Mortens_Komeback_3.Factory;
 
 namespace Mortens_Komeback_3
 {
@@ -60,7 +61,13 @@ namespace Mortens_Komeback_3
             set
             {
                 if (value <= 0)
+                {
                     IsAlive = false;
+
+                    //If Player is dead alle the Enemies og Projectile is being released back to the inactive stack i ObjectPool
+                    EnemyPool.Instance.PlayerDead();
+                    ProjectilePool.Instance.PlayerDead();
+                }
 
                 health = value;
             }
