@@ -61,41 +61,25 @@ namespace Mortens_Komeback_3
         }
 
         /// <summary>
-        /// Reset Health with switch case by EnemyType
-        /// Rikke
+        /// Sets enemys stats according to data retrieved from database
+        /// Simon
         /// </summary>
         public override void Load()
         {
 
-            if (GameWorld.Instance.EnemyStats.TryGetValue((EnemyType)type, out var stats))
+            if (GameWorld.Instance.EnemyStats.TryGetValue((EnemyType)type, out var stats)) //Simon - Does a TryGetValue according to objects type against a dictionary, and retrieves a named tuple containing relevant data if successful
             {
                 Health = stats.health;
                 Damage = stats.damage;
                 speed = stats.speed;
             }
 
-            //Health and damage switch case
-            //switch (this.type)
-            //{
-            //    case EnemyType.WalkingGoose:
-            //        Health = 1;
-            //        this.Damage = 2;
-            //        break;
-            //    case EnemyType.AggroGoose:
-            //        Health = 1;
-            //        this.Damage = 2;
-            //        break;
-            //    case EnemyType.Goosifer:
-            //        Health = 1;
-            //        this.Damage = 2;
-            //        break;
-            //}
-
             base.Load();
         }
 
         /// <summary>
         /// Collision with Enemy
+        /// Rikke
         /// </summary>
         /// <param name="other">IColliable</param>
         public void OnCollision(ICollidable other)

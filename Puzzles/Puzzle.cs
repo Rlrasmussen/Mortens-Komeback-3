@@ -33,11 +33,11 @@ namespace Mortens_Komeback_3.Puzzles
             {
                 bool isChanged = solved;
                 solved = value;
-                if (value && !isChanged)
+                if (value && !isChanged) //Simon
                 {
                     DatabaseUpdate();
                     if (location != Location.Spawn)
-                        SafePoint.SaveGame(location);
+                        SavePoint.SaveGame(location);
                 }
             }
         }
@@ -54,17 +54,18 @@ namespace Mortens_Komeback_3.Puzzles
         /// </summary> 
         /// <param name="type">The type of puzzle</param>
         /// <param name="spawnPos">The position the main element of the puzzle will be spawned at.</param>
+        /// <param name="id">Puzzles ID (for database) - Simon</param>
         public Puzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id) : base(type, spawnPos)
         {
 
             this.id = id;
-            GetStatusFromDB();
+            GetStatusFromDB(); //Simon
 
-            foreach (GameObject puzzle in GameWorld.Instance.gamePuzzles)
+            foreach (GameObject puzzle in GameWorld.Instance.gamePuzzles) //Simon
                 if (puzzle is Puzzle && (puzzle as Puzzle).ID == id)
-                    throw new Exception("Puzzle ID already exists, must be unique");
+                    throw new Exception("Puzzle ID already exists, MUST be unique");
 
-            switch (id)
+            switch (id) //Simon
             {
                 case 0:
                     location = Location.PuzzleOne;
@@ -85,7 +86,10 @@ namespace Mortens_Komeback_3.Puzzles
 
         #region Method
 
-
+        /// <summary>
+        /// Changes state to solved if data recieved from database marks puzzle as already solved (on a "load"/respawn)
+        /// Simon
+        /// </summary>
         public override void Load()
         {
 
@@ -125,43 +129,72 @@ namespace Mortens_Komeback_3.Puzzles
             }
         }
 
-
+        /// <summary>
+        /// Method for updating database when a puzzle has been solved
+        /// Simon
+        /// </summary>
+        /// <exception cref="Exception">Exception to be thrown upon database error</exception>
         public virtual void DatabaseUpdate()
         {
 
-            using (GameWorld.Instance.Connection)
+            try
             {
 
-                GameWorld.Instance.Connection.Open();
+                using (GameWorld.Instance.Connection)
+                {
 
-                string commandText = "INSERT INTO Puzzles (ID, Solved) VALUES (@ID, @SOLVED) ON CONFLICT(ID) DO UPDATE SET Solved = excluded.Solved";
-                SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
-                command.Parameters.AddWithValue("@ID", id);
-                command.Parameters.AddWithValue("@SOLVED", solved);
-                command.ExecuteScalar();
+                    GameWorld.Instance.Connection.Open();
+
+                    string commandText = "INSERT INTO Puzzles (ID, Solved) VALUES (@ID, @SOLVED) ON CONFLICT(ID) DO UPDATE SET Solved = excluded.Solved";
+                    SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
+                    command.Parameters.AddWithValue("@ID", id);
+                    command.Parameters.AddWithValue("@SOLVED", solved);
+                    command.ExecuteScalar();
+
+                }
+
+            }
+            catch
+            {
+
+                throw new Exception("Couldn't execute Puzzle.DatabaseUpdate correctly");
 
             }
 
         }
 
-
+        /// <summary>
+        /// Method to retrieve data from database upon construction to see if the puzzle has already been solved (if loading a savepoint)
+        /// </summary>
+        /// <exception cref="Exception">Exception to be thrown upon database error</exception>
         public virtual void GetStatusFromDB()
         {
 
-            using (GameWorld.Instance.Connection)
+            try
             {
 
-                GameWorld.Instance.Connection.Open();
-
-                string commandText = "SELECT * FROM Puzzles WHERE ID = @ID";
-                SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
-                command.Parameters.AddWithValue("@ID", id);
-                SqliteDataReader reader = command.ExecuteReader();
-
-                if (reader.Read())
+                using (GameWorld.Instance.Connection)
                 {
-                    solved = reader.GetBoolean(reader.GetOrdinal("Solved"));
+
+                    GameWorld.Instance.Connection.Open();
+
+                    string commandText = "SELECT * FROM Puzzles WHERE ID = @ID"; //Retrieves all data from the row where ID matches the puzzles id, could also just have been "SELECT Solved"
+                    SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
+                    command.Parameters.AddWithValue("@ID", id);
+                    SqliteDataReader reader = command.ExecuteReader();
+
+                    if (reader.Read()) //If any data retrieved, does following
+                    {
+                        solved = reader.GetBoolean(reader.GetOrdinal("Solved")); //Sets "solved" to what data from database is
+                    }
+
                 }
+
+            }
+            catch
+            {
+
+                throw new Exception("Couldn't execute Puzzle.GetStatusFromDB correctly");
 
             }
 

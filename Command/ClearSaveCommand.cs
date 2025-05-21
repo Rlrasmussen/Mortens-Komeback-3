@@ -10,7 +10,7 @@ namespace Mortens_Komeback_3.Command
     {
         public void Execute()
         {
-            SafePoint.ClearSave();
+            SavePoint.ClearSave();
         }
     }
 }

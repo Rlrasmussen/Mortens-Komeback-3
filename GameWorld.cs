@@ -52,7 +52,7 @@ namespace Mortens_Komeback_3
         private float rotationLeft = (float)(-Math.PI / 2);
 
         private Button myButton;
-       
+
         /// <summary>
         /// Singleton for GameWorld
         /// </summary>
@@ -87,13 +87,17 @@ namespace Mortens_Komeback_3
         /// </summary>
         public bool GamePaused { get => gamePaused; set => gamePaused = value; }
 
-
+        /// <summary>
+        /// Get function to retrieve/locate objects in GameObjects-list
+        /// Simon
+        /// </summary>
         public List<GameObject> GameObjects { get => gameObjects; }
 
 
 #if DEBUG
         /// <summary>
         /// Bool to change if collisionboxes are draw or not
+        /// Simon
         /// </summary>
         public bool DrawCollision { get; set; } = false;
 #endif
@@ -164,8 +168,8 @@ namespace Mortens_Komeback_3
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-          
-            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200,200))); //Used for testing - To be removed
+
+            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200, 200))); //Used for testing - To be removed
 
             #region Decorations
             gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
@@ -200,7 +204,7 @@ namespace Mortens_Komeback_3
 
             #endregion
 
-            SafePoint.LoadSave();
+            SavePoint.LoadSave();
 
 
             AStar.AStarFindPath(new Vector2(-990, 240), new Vector2(60, -660), DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles);
@@ -260,10 +264,10 @@ namespace Mortens_Komeback_3
 #endif
 
             }
-            
+
             myButton.Draw(_spriteBatch, GameFont);
 
-           
+
 
             foreach (var GO in DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)
             {
@@ -682,26 +686,40 @@ namespace Mortens_Komeback_3
 
 #endif
 
-
+        /// <summary>
+        /// Retrieves data for enemies from database
+        /// </summary>
+        /// <exception cref="Exception">Exception to be thrown upon database error</exception>
         private void GetEnemyStats()
         {
 
-            using (Connection)
+            try
             {
 
-                Connection.Open();
+                using (Connection)
+                {
 
-                string commandText = "SELECT * FROM EnemyTypes";
-                SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
-                SqliteDataReader reader = command.ExecuteReader();
+                    Connection.Open();
 
-                int id = reader.GetOrdinal("ID");
-                int damage = reader.GetOrdinal("Damage");
-                int health = reader.GetOrdinal("Max_HP");
-                int speed = reader.GetOrdinal("Speed");
+                    string commandText = "SELECT * FROM EnemyTypes"; //Retrieves all data from all rows in the table EnemyTypes
+                    SqliteCommand command = new SqliteCommand(commandText, Connection);
+                    SqliteDataReader reader = command.ExecuteReader();
 
-                while (reader.Read())
-                    EnemyStats.Add((EnemyType)reader.GetInt32(id), (reader.GetInt32(health), reader.GetInt32(damage), reader.GetFloat(speed)));
+                    int id = reader.GetOrdinal("ID");
+                    int damage = reader.GetOrdinal("Damage");
+                    int health = reader.GetOrdinal("Max_HP");
+                    int speed = reader.GetOrdinal("Speed");
+
+                    while (reader.Read())
+                        EnemyStats.Add((EnemyType)reader.GetInt32(id), (reader.GetInt32(health), reader.GetInt32(damage), reader.GetFloat(speed))); //Puts all the data into a Dictionary with EnemyType as its key and a named tuple with all the values retrieved
+
+                }
+
+            }
+            catch
+            {
+
+                throw new Exception("Method GameWorld.GetEnemyStats didn't execute properly");
 
             }
 
