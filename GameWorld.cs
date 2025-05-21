@@ -143,6 +143,8 @@ namespace Mortens_Komeback_3
 
             gameObjects.Add(Player.Instance);
             gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
+            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200,500)));
+            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200, 900)));
 
             //SafePoint.SaveGame(Location.Spawn);
 
@@ -207,12 +209,6 @@ namespace Mortens_Komeback_3
             SavePoint.LoadSave();
 
 
-            AStar.AStarFindPath(new Vector2(-990, 240), new Vector2(60, -660), DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles);
-            List<Tile> tileList = AStar.AStarRetracePath(DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles[new Vector2(-990, 240)], DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles[new Vector2(60, -660)]);
-            foreach (Tile t in tileList)
-            {
-                Debug.WriteLine(t.Position);
-            }
         }
         /// <summary>
         /// Handles update logic
@@ -482,6 +478,7 @@ namespace Mortens_Komeback_3
             #endregion
             #region Debug
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
+            Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
             #endregion
 
         }

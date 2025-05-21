@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Mortens_Komeback_3
 {
@@ -17,47 +19,52 @@ namespace Mortens_Komeback_3
         }
 
 
-        //public static Dictionary<Vector2, Tile> Cells { get => tiles; set => tiles = value; }
-
-        public static List<Tile> AStarFindPath(Vector2 startVector, Vector2 endVector, Dictionary<Vector2, Tile> tiles)
+        public List<Tile> AStarFindPath(GameObject start, GameObject end, Dictionary<Vector2, Tile> tiles)
         {
-
             HashSet<Tile> openList = new HashSet<Tile>();
             HashSet<Tile> closedList = new HashSet<Tile>();
-            //Ryder tidligere data
+
+            //Clears old data
             openList.Clear();
             closedList.Clear();
 
+            Debug.WriteLine("Astar calls playerpos: " + end.Position + "Enemy pos: " + start.Position);
+            //Converts the position of start and end objects to position of tiles
+            Vector2 startVector = AStarTranslatePosition(start, tiles);
+            Vector2 endVector = AStarTranslatePosition(end, tiles);
 
-            // Sikrer at punkterne findes i cellerne
+            // Makes sure that tiles cointains the start and end point
             if (!tiles.ContainsKey(startVector) || !tiles.ContainsKey(endVector))
             {
                 return null;
             }
 
+            //Starts by setting the start and end tiles, and adding start tile to open list. 
             Tile startTile = tiles[startVector];
             Tile endTile = tiles[endVector];
             openList.Add(tiles[startVector]);
 
-            while (openList.Count > 0)
+            while (openList.Count > 0) 
             {
-                Tile curTile = openList.First();
-                foreach (var t in openList)
+                Tile curTile = openList.First(); //The current tile is temporarily  set to first of oppen list.
+                foreach (var t in openList) //Chooses which tile to Look at: the tile from open list with the lowest F value (H decides on tie)
                 {
                     if (t.F < curTile.F || t.F == curTile.F && t.H < curTile.H)
                     {
-                        curTile = t;
+                        curTile = t; 
                     }
                 }
-                openList.Remove(curTile);
+                //The current tile is moved from open to closest list - it is a potential candidate for the path
+                openList.Remove(curTile); 
                 closedList.Add(curTile);
 
                 if (curTile.Position.X == endVector.X && curTile.Position.Y == endVector.Y)
                 {
-                    return AStarRetracePath(tiles[startVector], tiles[endVector]);
+                    return AStarRetracePath(tiles[startVector], tiles[endVector]); //If we have reached the end, a path is returned as list of tiles. 
                 }
 
                 List<Tile> neighbours = AStarGetNeighbours(curTile, tiles);
+                //Looks at all neihbouirs not already in closed list. Sets current tile as parent to neighbouh if its is not already on closed list, or the G cost via the neighboug and currTiles is cheaer than earlier G cost of the neighbour. 
                 foreach (var neighbour in neighbours)
                 {
                     if (closedList.Contains(neighbour))
@@ -67,39 +74,52 @@ namespace Mortens_Komeback_3
 
                     if (newMovementCostToNeighbour < neighbour.G || !openList.Contains(neighbour))
                     {
+                        //Updates cost of neighboor using current tile and sets parent.
                         neighbour.G = newMovementCostToNeighbour;
-                        //udregner H med manhatten princip
+                        //Calculates H med manhatten princip
                         neighbour.H = (((int)Math.Abs(neighbour.Position.X - endVector.X) + (int)Math.Abs(endVector.Y - neighbour.Position.Y)) * 10);
                         neighbour.Parent = curTile;
 
                         if (!openList.Contains(neighbour))
                         {
-                            openList.Add(neighbour);
+                            openList.Add(neighbour); 
                         }
                     }
                 }
-            }
-
+            } 
+            //If open list is empty, the end hasn't been found and null is returned. 
             return null;
-
         }
 
-        public static List<Tile> AStarRetracePath(Tile startVector, Tile endVector)
+        /// <summary>
+        /// Returns a path, in the form of list of tiles between start and end tile. 
+        /// Path is found by looking at parents, already set by astar algorithm. 
+        /// </summary>
+        /// <param name="startTile">The tile at the start of path</param>
+        /// <param name="endTile">The tile at end of path</param>
+        /// <returns></returns>
+        public List<Tile> AStarRetracePath(Tile startTile, Tile endTile)
         {
             List<Tile> path = new List<Tile>();
-            Tile currentNode = endVector;
+            Tile currentNode = endTile;
 
-            while (currentNode != startVector)
+            while (currentNode != startTile)
             {
                 path.Add(currentNode);
                 currentNode = currentNode.Parent;
             }
-            path.Add(startVector);
+            path.Add(startTile);
             path.Reverse();
 
             return path;
         }
-
+        /// <summary>
+        /// Distance between position and end point
+        /// Philip
+        /// </summary>
+        /// <param name="neighbourPosition">Position of the neighbour (tile) </param>
+        /// <param name="endVector">The end point that the path should lead to. </param>
+        /// <returns></returns>
         public static int AStarGetDistance(Vector2 neighbourPosition, Vector2 endVector)
         {
             int dstX = Math.Abs((int)neighbourPosition.X - (int)endVector.X);
@@ -113,7 +133,13 @@ namespace Mortens_Komeback_3
         }
 
 
-
+        /// <summary>
+        /// Gets a list of the neighbours sorounding the tile, if they are walkable. 
+        /// Philip
+        /// </summary>
+        /// <param name="curTile">The current tile which neiighbours should be found</param>
+        /// <param name="tiles">The list of tiles that the astar is using. </param>
+        /// <returns></returns>
         public static List<Tile> AStarGetNeighbours(Tile curTile, Dictionary<Vector2, Tile> tiles)
         {
             List<Tile> neighbours = new List<Tile>(8);
@@ -142,28 +168,38 @@ namespace Mortens_Komeback_3
                         continue; // Spring den over
                     }
                     neighbours.Add(curNeighbour);
-
-                    //hjørner
-                    //switch (i)
-                    //{
-                    //    case -1 when j == 1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Stone) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Stone)):
-                    //    case 1 when j == 1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Stone) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Stone)):
-                    //    case -1 when j == -1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Stone) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Stone)):
-                    //    case 1 when j == -1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Stone) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Stone)):
-                    //    case -1 when j == 1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Fence) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Fence)):
-                    //    case 1 when j == 1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Fence) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Fence)):
-                    //    case -1 when j == -1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Fence) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Fence)):
-                    //    case 1 when j == -1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Fence) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Fence)):
-                    //        continue;
-                    //    default:
-                    //        neighbours.Add(curNeighbour);
-                    //        break;
-                    //}
                 }
 
             }
 
             return neighbours;
+        }
+        /// <summary>
+        /// "Translates" the position of a gameobject, to the position of closets tile in the grid of tiles, if the object is within the grid. 
+        /// </summary>
+        /// <param name="go">The gameobject which position should be translated</param>
+        /// <param name="tiles">The grid of tiles used by the Astar.</param>
+        /// <returns></returns>
+        public Vector2 AStarTranslatePosition(GameObject go, Dictionary<Vector2, Tile> tiles)
+        {
+            Vector2 returnPosition = go.Position;
+            float distance = 151;
+            foreach (Tile t in tiles.Values)
+            {
+                if (Vector2.Distance(go.Position, t.Position) < 150
+                    //go.Position.X > t.CollisionBox.Left && go.Position.X < t.CollisionBox.Right && go.Position.Y > t.CollisionBox.Top && go.Position.Y < t.CollisionBox.Bottom
+                    )
+                {
+                    float tempDistance = Vector2.Distance(go.Position, t.Position);
+                    if (tempDistance < distance)
+                    {
+                        returnPosition = t.Position;
+                        distance = tempDistance;
+                    }
+
+                }
+            }
+            return returnPosition;
         }
     }
 }
