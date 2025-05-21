@@ -38,6 +38,7 @@ namespace Mortens_Komeback_3
         private bool gamePaused = false;
         private bool gameRunning = true;
         public List<GameObject> gamePuzzles = new List<GameObject>();
+        public List<GameObject> npcs = new List<GameObject>();
 
         private string dbBasePath = AppDomain.CurrentDomain.BaseDirectory;
         public SqliteConnection Connection;
@@ -141,14 +142,6 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new ClearSaveCommand());
 #endif
 
-            gameObjects.Add(Player.Instance);
-            gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200,500)));
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200, 900)));
-
-            //SafePoint.SaveGame(Location.Spawn);
-
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
 
             myButton = new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 200), "Quit");
 
@@ -162,6 +155,16 @@ namespace Mortens_Komeback_3
         /// </summary>
         protected override void LoadContent()
         {
+            gameObjects.Add(Player.Instance);
+
+            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
+
+            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200,500)));
+            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200, 900)));
+
+            //SafePoint.SaveGame(Location.Spawn);
+
+            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
 
             gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
             gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
@@ -171,7 +174,6 @@ namespace Mortens_Komeback_3
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
-            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200, 200))); //Used for testing - To be removed
 
             #region Decorations
             gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
@@ -195,6 +197,13 @@ namespace Mortens_Komeback_3
             ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)), new Vector2(0, 5700), 0, new Vector2(0, 6300), 0, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
+            #endregion
+
+            #region NPC
+            NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
+            gameObjects.Add(pope); 
+            npcs.Add(pope);
+
             #endregion
 
             foreach (GameObject gameObject in gameObjects)

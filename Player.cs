@@ -412,6 +412,10 @@ namespace Mortens_Komeback_3
                 case PuzzleType.OrderPuzzle:
                     (gameObject as OrderPuzzle).TrySolve();
                     break;
+                case NPCType.Pope:
+                    (gameObject as NPC).Speak();
+                    
+                    break;
                 default:
                     break;
             }
@@ -481,6 +485,10 @@ namespace Mortens_Komeback_3
 
         }
 
+        public void Kage()
+        {
+            this.drawColor = Color.Green;
+        }
         #endregion
     }
 }

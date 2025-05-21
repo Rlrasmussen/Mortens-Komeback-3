@@ -37,6 +37,16 @@ namespace Mortens_Komeback_3.Command
                         break;
                     }
             }
+
+            foreach (GameObject npc in GameWorld.Instance.npcs)
+            {
+                if ((npc as ICollidable).CheckCollision(Player.Instance))
+                    if ((Player.Instance as IPPCollidable).DoHybridCheck(npc.CollisionBox))
+                    {
+                        Player.Instance.Interact(npc);
+                        break;
+                    }
+            }
         }
     }
 }

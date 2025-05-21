@@ -20,7 +20,7 @@ namespace Mortens_Komeback_3
     public class NPC : GameObject, ICollidable
     {
         #region Fields
-        private Texture2D textBubble = GameWorld.Instance.Sprites[OverlayObjects.InteractBubble][0];
+        private Texture2D textBubble = GameWorld.Instance.Sprites[OverlayObjects.Dialog][0];
         private int number = 0;
         #endregion
 
@@ -50,10 +50,17 @@ namespace Mortens_Komeback_3
             {
                 spriteBatch.Draw(textBubble, Position - new Vector2(0, 90), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
 
-
+                
             }
 
             base.Draw(spriteBatch);
+        }
+
+        public void Speak()
+        {
+            GameWorld.Instance.Sounds[Sound.CatacombDoor].Play();
+
+            number++;
         }
 
         #endregion
