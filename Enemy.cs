@@ -21,13 +21,13 @@ namespace Mortens_Komeback_3
         private float threadTimer;
         private float threadTimerThreshold;
         private bool pauseAStar = true;
-        private AStar aStar = new AStar();
+        private AStar aStar = new AStar(); 
         private List<Tile> destinations = new List<Tile>();
         private int destinationsIndex = 0;
         private Vector2 destination;
         private Vector2 velocity;
         private Vector2 playerPreviousPos;
-        private bool waitforAStar = false;
+        private bool waitforAStar = false; //Used for making sure that player doens't move before a star proces is done. 
         #endregion
 
         #region Properties
@@ -141,16 +141,23 @@ namespace Mortens_Komeback_3
             }
         }
 
-        public void RunAStar(GameObject chaser, GameObject destinationObject, Dictionary<Vector2, Tile> tiles)
+        /// <summary>
+        /// Runs the AStar pathfinding for the enemy. 
+        /// Philip
+        /// </summary>
+        /// <param name="enemy">The enemy that is getting a path </param>
+        /// <param name="destinationObject">The objecct that is destination of the path</param>
+        /// <param name="tiles">A dictionary of tiles, in the current room. </param>
+        public void RunAStar(GameObject enemy, GameObject destinationObject, Dictionary<Vector2, Tile> tiles)
         {
             while (IsAlive) //Thread Runs as long as Enemy is alive.
             {
-                while (pauseAStar == true)
+                while (pauseAStar == true) //Pause astar is managed by the Move method - makes sure the Astar thread doesn't use unnessecary resources
                 {
                     Thread.Sleep(10);
                 }
-                Debug.WriteLine("RunAstar calls playerpos: " + destinationObject.Position + "Enemy pos: " + chaser.Position);
-                List<Tile> path = aStar.AStarFindPath(chaser, destinationObject, tiles);
+                Debug.WriteLine("RunAstar calls playerpos: " + destinationObject.Position + "Enemy pos: " + enemy.Position);
+                List<Tile> path = aStar.AStarFindPath(enemy, destinationObject, tiles);
                 if (path != null)
                 {
                     destinationsIndex = 0;
@@ -164,11 +171,14 @@ namespace Mortens_Komeback_3
                 waitforAStar = false;
             }
         }
-
+        /// <summary>
+        /// Moves the enemy through it's list of destinations. 
+        /// Philip 
+        /// </summary>
         public void Move()
         {
             threadTimer += GameWorld.Instance.DeltaTime;
-            if (Vector2.Distance(Position, destination) > 7 && !waitforAStar)
+            if (Vector2.Distance(Position, destination) > 7 && !waitforAStar) //If destination is not reached, moves enemy to it's destination
             {
                 if (Position.X + 5 < destination.X)
                     velocity += new Vector2(1, 0);
@@ -184,21 +194,20 @@ namespace Mortens_Komeback_3
 
                 velocity = Vector2.Zero;
             }
-            else if (destinationsIndex < destinations.Count - 1 && !waitforAStar)
+            else if (destinationsIndex < destinations.Count - 1 && !waitforAStar) //If destination is reached, and there are more destinations, sets the next
             {
                 Debug.WriteLine("Enemy reached destination" + destination);
                 destinationsIndex += 1; //NOTICE: first destination is ignored. 
                 destination = destinations[destinationsIndex].Position;
                 Debug.WriteLine("New destination:" + destination);
             }
-            else if (!CollisionBox.Intersects(Player.Instance.CollisionBox) && !(playerPreviousPos == Player.Instance.Position) && !waitforAStar)
+            else if (!CollisionBox.Intersects(Player.Instance.CollisionBox) && !(playerPreviousPos == Player.Instance.Position) && !waitforAStar) //If destination is reached, there are no more, and enemy has not reached the player, a new path is set to be calculated by astar
             {
-
                 Debug.WriteLine("Enemy reached final destination");
                 playerPreviousPos = Player.Instance.Position;
                 Debug.WriteLine("Enemy calls playerpos: " + Player.Instance.Position + "Enemy pos: " + Position);
-                waitforAStar = true;
-                pauseAStar = false;
+                waitforAStar = true; //Make sure enemy doens't move until RunAstar-Method is done
+                pauseAStar = false; //Makes the aStar thread not sleep
             }
         }
         #endregion

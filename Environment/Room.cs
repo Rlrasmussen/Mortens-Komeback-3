@@ -58,7 +58,7 @@ namespace Mortens_Komeback_3.Environment
             {
                 for (int j = 1; j < tilesY; j++)
                 {
-                    Tile t = new Tile(TileEnum.Tile, new Vector2(CollisionBox.Left + (i * 150), CollisionBox.Top + (j * 150)), false);
+                    Tile t = new Tile(TileEnum.Tile, new Vector2(CollisionBox.Left + (i * 150), CollisionBox.Top + (j * 150)));
                     Tiles.Add(t.Position, t);
                 }
             }

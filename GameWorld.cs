@@ -205,14 +205,6 @@ namespace Mortens_Komeback_3
             SafePoint.LoadSave();
 
 
-            //List<Tile> tileList = AStar.AStarFindPath(new Vector2(-990, 240), new Vector2(660, -60), DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles);
-            //if (tileList != null)
-            //{
-            //    foreach (Tile t in tileList)
-            //    {
-            //        Debug.WriteLine(t.Position);
-            //    }
-            //}
         }
         /// <summary>
         /// Handles update logic
@@ -482,6 +474,7 @@ namespace Mortens_Komeback_3
             #endregion
             #region Debug
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
+            Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
             #endregion
 
         }

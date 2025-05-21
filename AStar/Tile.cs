@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3
 {
+    /// <summary>
+    /// A tile used to make a grid, so AStar can find a path. 
+    /// </summary>
     public class Tile : GameObject
     {
         private bool walkable = true;
-        private bool fencePath = false;
-        //   private HashSet<Edge> edges = new HashSet<Edge>();
         private bool discovered = false;
         private Tile parent;
 
@@ -20,7 +21,6 @@ namespace Mortens_Komeback_3
         public int H { get; set; }
         public int F => G + H;
 
-        //public HashSet<Edge> Edges { get => edges; }
         public bool Discovered { get => discovered; set => discovered = value; }
         public Tile Parent { get => parent; set => parent = value; }
         public bool Walkable
@@ -34,13 +34,9 @@ namespace Mortens_Komeback_3
                 }
             }
         }
-        public bool FencePath { get => fencePath; }
 
-        public Tile(Enum type, Vector2 spawnPos, bool fencePath) : base(type, spawnPos)
+        public Tile(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
-#if DEBUG
-            Sprite = GameWorld.Instance.Sprites[DebugEnum.Pixel][0];
-#endif
         }
 
 
