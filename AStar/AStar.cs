@@ -13,7 +13,6 @@ namespace Mortens_Komeback_3
     public class AStar
     {
 
-        public static readonly object aStarLockObject = new object();
         public AStar()
         {
 

@@ -21,7 +21,6 @@ namespace Mortens_Komeback_3
         private float threadTimer;
         private float threadTimerThreshold;
         private bool pauseAStar = true;
-        public static readonly object enemyLockObject = new object();
         private AStar aStar = new AStar();
         private List<Tile> destinations = new List<Tile>();
         private int destinationsIndex = 0;
@@ -200,7 +199,6 @@ namespace Mortens_Komeback_3
                 Debug.WriteLine("Enemy calls playerpos: " + Player.Instance.Position + "Enemy pos: " + Position);
                 waitforAStar = true;
                 pauseAStar = false;
-                threadTimer = 0;
             }
         }
         #endregion
