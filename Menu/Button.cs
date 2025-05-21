@@ -15,13 +15,10 @@ namespace Mortens_Komeback_3.Menu
     {
         #region Fields
         private Vector2 position;
-        //private Button myButton;
-        //public List<Button> buttonList = new List<Button>();
         #endregion
 
         #region Properties
         public string ButtonText { get; set; }
-        ////public Enum ButtonType { get; set; }
         public ICommand Command { get; set; }
         public bool Hovering { get; set; }
         public bool IsEnabled { get; set; }
@@ -32,100 +29,66 @@ namespace Mortens_Komeback_3.Menu
         public Rectangle CollisionBox => new Rectangle((int)Position.X, (int)Position.Y, Sprite.Width, Sprite.Height);
 
         public Vector2 Position { get; set; }
+        public Vector2 screenCenter;
+
 
         public Texture2D Sprite { get; set; }
         #endregion
 
         #region Constructor
-        public Button(ButtonType bg, Vector2 spawnPos, string buttonText) 
+        public Button(ButtonType type, Vector2 spawnPos, string buttonText, ICommand command) 
         {
-            this.Type = bg;
+            this.Type = type;
             this.Position = spawnPos;
             this.ButtonText = buttonText;
-            Layer = 0.7f;
+            Layer = 0.9f;
 
 
-            if (GameWorld.Instance.Sprites.TryGetValue(bg, out var spriteArray))
+            if (GameWorld.Instance.Sprites.TryGetValue(type, out var spriteArray))
             {
                 Sprite = spriteArray[0];
             }
             else
             {
-                throw new Exception("Sprite ikke fundet for " + bg);
+                throw new Exception("Sprite ikke fundet for " + type);
             }
 
-            switch (buttonText)
-            {
-                case "Start":
-                    break;
-
-                case "Resume":
-                    break;
-
-                case "Quit":
-                    break;
-
-                case "Try again?": //Reload
-                    break;
-
-                case "Music on/off": //Reload
-                    break;
-
-                case "Sound on/off": //Reload
-                    break;
-
-                default:
-                    break;
-            }
-
-        }
-
-        public Button(ButtonType bg, Vector2 spawnPos, string buttonText, ICommand command) : this(bg, spawnPos, buttonText) // Kalder eksisterende konstruktor
-        {
-            this.Command = command;
         }
 
         #endregion
 
         #region Method
 
+        public void Update(Vector2 mousePos, bool isClicking)
+        {
+            Hovering = CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
+
+            //if (Hovering && Mouse.GetState().LeftButton == ButtonState.Pressed)
+            //{
+            //    Command?.Execute();
+            //}
+        }
 
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             Color color = Hovering ? Color.HotPink : Color.White;
 
-            spriteBatch.Draw(Sprite, Position, null, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.8f);
+            // Midten af knappen
+            Vector2 origin = new Vector2(Sprite.Width / 2f, Sprite.Height / 2f);
+            Vector2 screenCenter = Camera.Instance.Position; // Brug Position, ikke Camera.Instance.Position direkte
 
-            // Tegn knaptekst centreret på knappen
+            // Tegn knappen
+            spriteBatch.Draw(Sprite, screenCenter, null, color, 0f, origin, 1f, SpriteEffects.None, 0.8f);
+
+            // Beregn tekstens størrelse
             Vector2 textSize = font.MeasureString(ButtonText);
-            Vector2 textPos = Position + new Vector2((Sprite.Width - textSize.X) / 2, (Sprite.Height - textSize.Y) / 2);
-            spriteBatch.DrawString(font, ButtonText, textPos, Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
+            Vector2 textOrigin = textSize / 2f;
 
+            // Tegn teksten centreret over knappen
+            spriteBatch.DrawString(font, ButtonText, screenCenter, Color.Black, 0f, textOrigin, 1f, SpriteEffects.None, 0.9f);
+        }
             
-        }
-
-        public void Update()
-        {
-            Hovering = CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
-
-            if (Hovering && Mouse.GetState().LeftButton == ButtonState.Pressed)
-            {
-                Command?.Execute();
-            }
-        }
-
-        
-
-        public static void AddButtons()
-        {
-            GameWorld.Instance.buttonList.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 200), "Start"), new StartGameCommand());
-            GameWorld.Instance.buttonList.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 300), "Resume"), new ExitCommand());
-            //GameWorld.Instance.buttonList.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 400), "Quit"));
-            //GameWorld.Instance.buttonList.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 100), "Music on/off")); //musictoggle
-            //GameWorld.Instance.buttonList.Add(new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 0), "Sound on/off")); //soundtoggle
-
-        }
 
         public void Execute()
         {
