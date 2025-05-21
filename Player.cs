@@ -66,7 +66,7 @@ namespace Mortens_Komeback_3
 
                 if (value >= health)
                     health = value;
-                else 
+                else
                 {
 
                     if (value <= 0)
@@ -75,16 +75,15 @@ namespace Mortens_Komeback_3
                     //If Player is dead alle the Enemies og Projectile is being released back to the inactive stack i ObjectPool
                     EnemyPool.Instance.PlayerDead();
                     ProjectilePool.Instance.PlayerDead();
-                }
-
-                health = value;
-                    colorTimer = 0f;
 
                     health = value;
+                    colorTimer = 0f;
 
                 }
 
             }
+
+        }
         }
 
         /// <summary>
