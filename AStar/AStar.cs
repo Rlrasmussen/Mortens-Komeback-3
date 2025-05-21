@@ -6,12 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Mortens_Komeback_3
 {
     public class AStar
     {
 
+        public static readonly object aStarLockObject = new object();
         public AStar()
         {
 
@@ -20,81 +22,79 @@ namespace Mortens_Komeback_3
 
         //public static Dictionary<Vector2, Tile> Cells { get => tiles; set => tiles = value; }
 
-        public static List<Tile> AStarFindPath(Vector2 startVector, Vector2 endVector, Dictionary<Vector2, Tile> tiles)
+        public List<Tile> AStarFindPath(GameObject start, GameObject end, Dictionary<Vector2, Tile> tiles)
         {
-
-            HashSet<Tile> openList = new HashSet<Tile>();
-            HashSet<Tile> closedList = new HashSet<Tile>();
-            //Ryder tidligere data
-            openList.Clear();
-            closedList.Clear();
-
-
-            // Sikrer at punkterne findes i cellerne
-            if (!tiles.ContainsKey(startVector) || !tiles.ContainsKey(endVector))
+            lock (aStarLockObject)
             {
-                return null;
-            }
+                HashSet<Tile> openList = new HashSet<Tile>();
+                HashSet<Tile> closedList = new HashSet<Tile>();
+                //Ryder tidligere data
+                openList.Clear();
+                closedList.Clear();
 
-            Tile startTile = tiles[startVector];
-            Tile endTile = tiles[endVector];
-            openList.Add(tiles[startVector]);
+                Debug.WriteLine("Astar calls playerpos: " + end.Position + "Enemy pos: " + start.Position); 
+                Vector2 startVector = AStarTranslatePosition(start, tiles);
+                Vector2 endVector = AStarTranslatePosition(end, tiles);
 
-            while (openList.Count > 0)
-            {
-                Tile curTile = openList.First();
-                foreach (var t in openList)
+                // Sikrer at punkterne findes i cellerne
+                if (!tiles.ContainsKey(startVector) || !tiles.ContainsKey(endVector))
                 {
-                    if (t.F < curTile.F || t.F == curTile.F && t.H < curTile.H)
-                    {
-                        curTile = t;
-                    }
-                }
-                openList.Remove(curTile);
-                closedList.Add(curTile);
-
-                if (curTile.Position.X == endVector.X && curTile.Position.Y == endVector.Y)
-                {
-                    return AStarRetracePath(tiles[startVector], tiles[endVector]);
+                    return null;
                 }
 
-                List<Tile> neighbours = AStarGetNeighbours(curTile, tiles);
-                foreach (var neighbour in neighbours)
+                Tile startTile = tiles[startVector];
+                Tile endTile = tiles[endVector];
+                openList.Add(tiles[startVector]);
+
+                while (openList.Count > 0)
                 {
-                    if (closedList.Contains(neighbour))
-                        continue;
-
-                    int newMovementCostToNeighbour = curTile.G + AStarGetDistance(curTile.Position, neighbour.Position);
-
-                    if (newMovementCostToNeighbour < neighbour.G || !openList.Contains(neighbour))
+                    Tile curTile = openList.First();
+                    foreach (var t in openList)
                     {
-                        neighbour.G = newMovementCostToNeighbour;
-                        //udregner H med manhatten princip
-                        neighbour.H = (((int)Math.Abs(neighbour.Position.X - endVector.X) + (int)Math.Abs(endVector.Y - neighbour.Position.Y)) * 10);
-                        neighbour.Parent = curTile;
-
-                        if (!openList.Contains(neighbour))
+                        if (t.F < curTile.F || t.F == curTile.F && t.H < curTile.H)
                         {
-                            openList.Add(neighbour);
+                            curTile = t;
+                        }
+                    }
+                    openList.Remove(curTile);
+                    closedList.Add(curTile);
+
+                    if (curTile.Position.X == endVector.X && curTile.Position.Y == endVector.Y)
+                    {
+                        return AStarRetracePath(tiles[startVector], tiles[endVector]);
+                    }
+
+                    List<Tile> neighbours = AStarGetNeighbours(curTile, tiles);
+                    foreach (var neighbour in neighbours)
+                    {
+                        if (closedList.Contains(neighbour))
+                            continue;
+
+                        int newMovementCostToNeighbour = curTile.G + AStarGetDistance(curTile.Position, neighbour.Position);
+
+                        if (newMovementCostToNeighbour < neighbour.G || !openList.Contains(neighbour))
+                        {
+                            neighbour.G = newMovementCostToNeighbour;
+                            //udregner H med manhatten princip
+                            neighbour.H = (((int)Math.Abs(neighbour.Position.X - endVector.X) + (int)Math.Abs(endVector.Y - neighbour.Position.Y)) * 10);
+                            neighbour.Parent = curTile;
+
+                            if (!openList.Contains(neighbour))
+                            {
+                                openList.Add(neighbour);
+                            }
                         }
                     }
                 }
+
+                return null;
             }
-
-            return null;
-
         }
 
-        public static List<Tile> AStarRetracePath(Tile startTile, Tile endTile)
+        public List<Tile> AStarRetracePath(Tile startTile, Tile endTile)
         {
             List<Tile> path = new List<Tile>();
             Tile currentNode = endTile;
-
-            if (currentNode.Walkable == false)
-            {
-                Debug.WriteLine("EndTile is not walkable, AStar exited.");
-                return null;
-            }
 
             while (currentNode != startTile)
             {
@@ -149,28 +149,33 @@ namespace Mortens_Komeback_3
                         continue; // Spring den over
                     }
                     neighbours.Add(curNeighbour);
-
-                    //hjørner
-                    //switch (i)
-                    //{
-                    //    case -1 when j == 1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Stone) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Stone)):
-                    //    case 1 when j == 1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Stone) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Stone)):
-                    //    case -1 when j == -1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Stone) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Stone)):
-                    //    case 1 when j == -1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Stone) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Stone)):
-                    //    case -1 when j == 1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Fence) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Fence)):
-                    //    case 1 when j == 1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Fence) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Fence)):
-                    //    case -1 when j == -1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Fence) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Fence)):
-                    //    case 1 when j == -1 && (cells[curCell.Position + new Vector2(i * 64, 0)].Type.Equals(TileTypes.Fence) || cells[curCell.Position + new Vector2(0, j * 64)].Type.Equals(TileTypes.Fence)):
-                    //        continue;
-                    //    default:
-                    //        neighbours.Add(curNeighbour);
-                    //        break;
-                    //}
                 }
 
             }
 
             return neighbours;
+        }
+
+        public Vector2 AStarTranslatePosition(GameObject go, Dictionary<Vector2, Tile> tiles)
+        {
+            Vector2 returnPosition = go.Position;
+            float distance=151;
+            foreach (Tile t in tiles.Values)
+            {
+                if (Vector2.Distance(go.Position, t.Position)<150
+                    //go.Position.X > t.CollisionBox.Left && go.Position.X < t.CollisionBox.Right && go.Position.Y > t.CollisionBox.Top && go.Position.Y < t.CollisionBox.Bottom
+                    )
+                {
+                    float tempDistance = Vector2.Distance(go.Position, t.Position);
+                    if(tempDistance < distance)
+                    {
+                    returnPosition = t.Position;
+                        distance = tempDistance;
+                    }
+                    
+                }
+            }
+            return returnPosition;
         }
     }
 }

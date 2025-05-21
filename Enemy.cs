@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Mortens_Komeback_3.Collider;
 using Mortens_Komeback_3.Factory;
+using System.Threading;
+using Mortens_Komeback_3.Environment;
 
 namespace Mortens_Komeback_3
 {
@@ -16,7 +18,17 @@ namespace Mortens_Komeback_3
         #region Fields
 
         private float speed;
-
+        private float threadTimer;
+        private float threadTimerThreshold;
+        private bool pauseAStar = true;
+        public static readonly object enemyLockObject = new object();
+        private AStar aStar = new AStar();
+        private List<Tile> destinations = new List<Tile>();
+        private int destinationsIndex = 0;
+        private Vector2 destination;
+        private Vector2 velocity;
+        private Vector2 playerPreviousPos;
+        private bool waitforAStar = false;
         #endregion
 
         #region Properties
@@ -28,6 +40,7 @@ namespace Mortens_Komeback_3
         public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
 
 
+
         #endregion
 
         #region Constructor
@@ -37,7 +50,6 @@ namespace Mortens_Komeback_3
                 Sprites = sprites;
             else
                 Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
-
         }
 
 
@@ -48,6 +60,8 @@ namespace Mortens_Komeback_3
         {
             (this as IAnimate).Animate();
             (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
+
+            Move();
 
             base.Update(gameTime);
         }
@@ -73,7 +87,9 @@ namespace Mortens_Komeback_3
                 Damage = stats.damage;
                 speed = stats.speed;
             }
-
+            Thread aStarThread = new Thread(() => RunAStar(this, Player.Instance, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles));
+            aStarThread.IsBackground = true;
+            aStarThread.Start();
             //Health and damage switch case
             //switch (this.type)
             //{
@@ -126,6 +142,72 @@ namespace Mortens_Komeback_3
             }
         }
 
+        public void RunAStar(GameObject chaser, GameObject destinationObject, Dictionary<Vector2, Tile> tiles)
+        {
+            while (IsAlive) //Thread Runs as long as Enemy is alive.
+            {
+                while (pauseAStar == true)
+                {
+                    Thread.Sleep(10);
+                }
+                lock (enemyLockObject)
+                {
+                    Debug.WriteLine("RunAstar calls playerpos: " + destinationObject.Position + "Enemy pos: " + chaser.Position);
+                    List<Tile> path = aStar.AStarFindPath(chaser, destinationObject, tiles);
+                    if (path != null)
+                    {
+                        destinations = path;
+                        Debug.WriteLine("Path : ");
+                        foreach (Tile t in destinations)
+                        { Debug.WriteLine(t.Position); }
+                        destinationsIndex = 0;
+                        pauseAStar = true;
+                    }
+                }
+                waitforAStar = false;
+            }
+        }
+
+        public void Move()
+        {
+            threadTimer += GameWorld.Instance.DeltaTime;
+            if (Vector2.Distance(Position, destination) > 7)
+            {
+                if (Position.X + 5 < destination.X)
+                    velocity += new Vector2(1, 0);
+                else if (Position.X - 5 > destination.X)
+                    velocity -= new Vector2(1, 0);
+
+                if (Position.Y + 5 < destination.Y)
+                    velocity += new Vector2(0, 1);
+                else if (Position.Y - 5 > destination.Y)
+                    velocity -= new Vector2(0, 1);
+
+                ////Speed for worker walkin vertically or horizontally
+                //int speed = 300;
+                ////Speed for worker walking diagonally
+                //if ((velocity.Y != 0) && (velocity.X != 0))
+                //{ speed = 200; }
+                Position += (speed * velocity * GameWorld.Instance.DeltaTime);
+
+                velocity = Vector2.Zero;
+            }
+            else if (destinationsIndex < destinations.Count - 1)
+            {
+                destinationsIndex += 1; //NOTICE: first destination is ignored. 
+                destination = destinations[destinationsIndex].Position;
+            }
+            else if (!CollisionBox.Intersects(Player.Instance.CollisionBox) && !(playerPreviousPos == Player.Instance.Position) && !waitforAStar)
+            {
+
+                Debug.WriteLine("Enemy reached destination");
+                playerPreviousPos = Player.Instance.Position;
+                Debug.WriteLine("Enemy calls playerpos: " + Player.Instance.Position + "Enemy pos: " + Position);
+                waitforAStar = true;
+                pauseAStar = false;
+                threadTimer = 0;
+            }
+        }
         #endregion
     }
 }
