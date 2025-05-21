@@ -74,6 +74,8 @@ namespace Mortens_Komeback_3
                     health = value;
 
                 }
+                else if (value > health)
+                    health = value;
 
             }
         }
