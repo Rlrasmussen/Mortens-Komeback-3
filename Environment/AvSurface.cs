@@ -68,23 +68,27 @@ namespace Mortens_Komeback_3.Environment
                 base.Draw(spriteBatch);
         }
 
+        /// <summary>
+        /// Handles interaction with a collided object based on a switch case 
+        /// Simon
+        /// </summary>
+        /// <param name="other">Object collided with</param>
         public void OnCollision(ICollidable other)
         {
 
             switch (other)
             {
-
-                case Player:
+                case Player: //If other is "Player"
                     Player player = (Player)other;
 
-                    if (gracePeriod >= 2f)
+                    if (gracePeriod >= 2f) //Damages the player if he hasn't been "burned" recently 
                     {
                         player.Health -= Damage;
                         GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
                         gracePeriod = 0f;
                     }
 
-                    float distanceThrown = 150f;
+                    float distanceThrown = 150f; //"Throws" Player away from the fire
                     if (player.Position.X > Position.X)
                         player.Position = new Vector2(player.Position.X + distanceThrown, player.Position.Y);
                     else
@@ -98,7 +102,6 @@ namespace Mortens_Komeback_3.Environment
                     break;
                 default:
                     break;
-
             }
 
         }

@@ -66,11 +66,25 @@ namespace Mortens_Komeback_3.Factory
             //CleanUp(gameObject);
         }
 
+        /// <summary>
+        /// Creating a new GameObject
+        /// Rikke
+        /// </summary>
+        /// <returns></returns>
         public abstract GameObject Create();
 
-        public void CleanUp(GameObject gameObject)
+
+        /// <summary>
+        /// If Player is dead (IsAlive == false) alle the GameObjects needs to go back in the inactive stack
+        /// Made Unit Test for
+        /// Rikke
+        /// </summary>
+        public void PlayerDead()
         {
-            
+            while (active.Count > 0)
+            {
+                ReleaseObject(active[0]);
+            }
 
         }
         #endregion

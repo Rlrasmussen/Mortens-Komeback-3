@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Collider;
+using Mortens_Komeback_3.Environment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,9 +68,13 @@ namespace Mortens_Komeback_3.Factory
         /// <param name="other">Other object that was collided with</param>
         public void OnCollision(ICollidable other)
         {
+
+            if (!(other is AvSurface))
+            {
                 ProjectilePool.Instance.ReleaseObject(this);
                 IsAlive = false;
- 
+            }
+
         }
 
         /// <summary>

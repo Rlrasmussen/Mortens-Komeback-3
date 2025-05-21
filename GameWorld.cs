@@ -87,13 +87,17 @@ namespace Mortens_Komeback_3
         /// </summary>
         public bool GamePaused { get => gamePaused; set => gamePaused = value; }
 
-
+        /// <summary>
+        /// Get function to retrieve/locate objects in GameObjects-list
+        /// Simon
+        /// </summary>
         public List<GameObject> GameObjects { get => gameObjects; }
 
 
 #if DEBUG
         /// <summary>
         /// Bool to change if collisionboxes are draw or not
+        /// Simon
         /// </summary>
         public bool DrawCollision { get; set; } = false;
 #endif
@@ -202,7 +206,7 @@ namespace Mortens_Komeback_3
 
             #endregion
 
-            SafePoint.LoadSave();
+            SavePoint.LoadSave();
 
 
         }
@@ -499,7 +503,7 @@ namespace Mortens_Komeback_3
             Sounds.Add(Sound.EggSmash, Content.Load<SoundEffect>("Sounds\\Environment\\eggSmashSound"));
             Sounds.Add(Sound.Fire, Content.Load<SoundEffect>("Sounds\\Environment\\fire-sound"));
             Sounds.Add(Sound.Click, Content.Load<SoundEffect>("Sounds\\Environment\\click"));
-            Sounds.Add(Sound.CatacombDoor, Content.Load<SoundEffect>("Sounds\\Environment\\Catacomb door"));
+            Sounds.Add(Sound.CatacombDoor, Content.Load<SoundEffect>("Sounds\\Environment\\Door"));
 
 
             #endregion
@@ -507,7 +511,7 @@ namespace Mortens_Komeback_3
 
             Sounds.Add(Sound.PlayerDamage, Content.Load<SoundEffect>("Sounds\\Player\\morten_Av"));
             Sounds.Add(Sound.PlayerHeal, Content.Load<SoundEffect>("Sounds\\Player\\playerHeal"));
-            Sounds.Add(Sound.PlayerShoot, Content.Load<SoundEffect>("Sounds\\Player\\086123_slingshot-81843"));
+            Sounds.Add(Sound.PlayerShoot, Content.Load<SoundEffect>("Sounds\\Player\\slingshoot"));
             Sounds.Add(Sound.PlayerWalk1, Content.Load<SoundEffect>("Sounds\\Player\\walkSound"));
             Sounds.Add(Sound.PlayerWalk2, Content.Load<SoundEffect>("Sounds\\Player\\walkSound2"));
             Sounds.Add(Sound.PlayerSwordAttack, Content.Load<SoundEffect>("Sounds\\Player\\playerSwordAttack"));
@@ -679,26 +683,40 @@ namespace Mortens_Komeback_3
 
 #endif
 
-
+        /// <summary>
+        /// Retrieves data for enemies from database
+        /// </summary>
+        /// <exception cref="Exception">Exception to be thrown upon database error</exception>
         private void GetEnemyStats()
         {
 
-            using (Connection)
+            try
             {
 
-                Connection.Open();
+                using (Connection)
+                {
 
-                string commandText = "SELECT * FROM EnemyTypes";
-                SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
-                SqliteDataReader reader = command.ExecuteReader();
+                    Connection.Open();
 
-                int id = reader.GetOrdinal("ID");
-                int damage = reader.GetOrdinal("Damage");
-                int health = reader.GetOrdinal("Max_HP");
-                int speed = reader.GetOrdinal("Speed");
+                    string commandText = "SELECT * FROM EnemyTypes"; //Retrieves all data from all rows in the table EnemyTypes
+                    SqliteCommand command = new SqliteCommand(commandText, Connection);
+                    SqliteDataReader reader = command.ExecuteReader();
 
-                while (reader.Read())
-                    EnemyStats.Add((EnemyType)reader.GetInt32(id), (reader.GetInt32(health), reader.GetInt32(damage), reader.GetFloat(speed)));
+                    int id = reader.GetOrdinal("ID");
+                    int damage = reader.GetOrdinal("Damage");
+                    int health = reader.GetOrdinal("Max_HP");
+                    int speed = reader.GetOrdinal("Speed");
+
+                    while (reader.Read())
+                        EnemyStats.Add((EnemyType)reader.GetInt32(id), (reader.GetInt32(health), reader.GetInt32(damage), reader.GetFloat(speed))); //Puts all the data into a Dictionary with EnemyType as its key and a named tuple with all the values retrieved
+
+                }
+
+            }
+            catch
+            {
+
+                throw new Exception("Method GameWorld.GetEnemyStats didn't execute properly");
 
             }
 
