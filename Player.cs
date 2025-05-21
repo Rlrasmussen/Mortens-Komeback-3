@@ -63,7 +63,9 @@ namespace Mortens_Komeback_3
             set
             {
 
-                if (value != health)
+                if (value > health)
+                    health = value;
+                else if (value != health)
                 {
 
                     if (value <= 0)
@@ -74,8 +76,6 @@ namespace Mortens_Komeback_3
                     health = value;
 
                 }
-                else if (value > health)
-                    health = value;
 
             }
         }
