@@ -63,9 +63,9 @@ namespace Mortens_Komeback_3
             set
             {
 
-                if (value > health)
+                if (value >= health)
                     health = value;
-                else if (value != health)
+                else 
                 {
 
                     if (value <= 0)
@@ -457,6 +457,17 @@ namespace Mortens_Komeback_3
                 default:
                     break;
             }
+        }
+
+        /// <summary>
+        /// Method to get around property effects
+        /// </summary>
+        /// <param name="health">Value to set health</param>
+        public void SetHealthFromDB(int health)
+        {
+
+            this.health = health;
+
         }
 
         #endregion

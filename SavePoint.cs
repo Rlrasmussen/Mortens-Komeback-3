@@ -47,7 +47,7 @@ namespace Mortens_Komeback_3
                     if (playerReader.Read())
                     {
 
-                        Player.Instance.Health = playerReader.GetInt32(playerReader.GetOrdinal("CurrentHP"));
+                        Player.Instance.SetHealthFromDB(playerReader.GetInt32(playerReader.GetOrdinal("CurrentHP")));
                         Player.Instance.Position = GameWorld.Instance.Locations[(Location)playerReader.GetInt32(playerReader.GetOrdinal("RespawnPosition"))];
 
                         int equipped = playerReader.GetOrdinal("Equipped_Item");
