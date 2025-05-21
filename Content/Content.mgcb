@@ -86,17 +86,17 @@
 /processorParam:Quality=Best
 /build:Sounds/Enemy/goosifer.mp3
 
-#begin Sounds/Environment/Catacomb door.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/Environment/Catacomb door.mp3
-
 #begin Sounds/Environment/click.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Environment/click.mp3
+
+#begin Sounds/Environment/Door.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Environment/Door.mp3
 
 #begin Sounds/Environment/eggSmashSound.wav
 /importer:WavImporter
@@ -109,12 +109,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Environment/fire-sound.mp3
-
-#begin Sounds/Player/086123_slingshot-81843.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/Player/086123_slingshot-81843.mp3
 
 #begin Sounds/Player/metal-impact-247482.mp3
 /importer:Mp3Importer
@@ -145,6 +139,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Player/shootSound.wav
+
+#begin Sounds/Player/slingshoot.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Player/slingshoot.mp3
 
 #begin Sounds/Player/walkSound.wav
 /importer:WavImporter
@@ -410,30 +410,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/avsurfaceILD1.png
 
-#begin Sprites/Environment/avsurfaceILD1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/avsurfaceILD1.png
-
-#begin Sprites/Environment/avsurfaceILD2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/avsurfaceILD2.png
-
 #begin Sprites/Environment/avsurfaceILD2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -457,30 +433,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/avsurfaceILD3.png
-
-#begin Sprites/Environment/avsurfaceILD3.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/avsurfaceILD3.png
-
-#begin Sprites/Environment/avsurfaceILD4.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/avsurfaceILD4.png
 
 #begin Sprites/Environment/avsurfaceILD4.png
 /importer:TextureImporter
@@ -554,18 +506,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/doorClosed_shadow.png
 
-#begin Sprites/Environment/doorClosed_shadow.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/doorClosed_shadow.png
-
 #begin Sprites/Environment/doorLocked.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -577,30 +517,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/doorLocked.png
-
-#begin Sprites/Environment/doorLocked.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/doorLocked.png
-
-#begin Sprites/Environment/doorOpen_shadow.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/doorOpen_shadow.png
 
 #begin Sprites/Environment/doorOpen_shadow.png
 /importer:TextureImporter
@@ -626,18 +542,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/Lever0.png
 
-#begin Sprites/Environment/Lever0.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/Lever0.png
-
 #begin Sprites/Environment/Lever1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -649,30 +553,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/Lever1.png
-
-#begin Sprites/Environment/Lever1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/Lever1.png
-
-#begin Sprites/Environment/Lever2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/Lever2.png
 
 #begin Sprites/Environment/Lever2.png
 /importer:TextureImporter
@@ -746,18 +626,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/plaqueAnchor.png
 
-#begin Sprites/Environment/plaqueAnchor.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/plaqueAnchor.png
-
 #begin Sprites/Environment/plaqueCandle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -769,30 +637,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/plaqueCandle.png
-
-#begin Sprites/Environment/plaqueCandle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/plaqueCandle.png
-
-#begin Sprites/Environment/plaqueCross.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/plaqueCross.png
 
 #begin Sprites/Environment/plaqueCross.png
 /importer:TextureImporter
@@ -818,18 +662,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/plaqueDove.png
 
-#begin Sprites/Environment/plaqueDove.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/plaqueDove.png
-
 #begin Sprites/Environment/plaqueLeaves.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -841,30 +673,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/plaqueLeaves.png
-
-#begin Sprites/Environment/plaqueLeaves.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/plaqueLeaves.png
-
-#begin Sprites/Environment/plaqueMoon.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/plaqueMoon.png
 
 #begin Sprites/Environment/plaqueMoon.png
 /importer:TextureImporter
@@ -890,18 +698,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/plaqueStar.png
 
-#begin Sprites/Environment/plaqueStar.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/plaqueStar.png
-
 #begin Sprites/Environment/plaqueSun.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -913,30 +709,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/plaqueSun.png
-
-#begin Sprites/Environment/plaqueSun.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/plaqueSun.png
-
-#begin Sprites/Environment/plaqueWine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/plaqueWine.png
 
 #begin Sprites/Environment/plaqueWine.png
 /importer:TextureImporter
