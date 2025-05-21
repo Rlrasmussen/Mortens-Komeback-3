@@ -150,20 +150,18 @@ namespace Mortens_Komeback_3
                 {
                     Thread.Sleep(10);
                 }
-                lock (enemyLockObject)
+                Debug.WriteLine("RunAstar calls playerpos: " + destinationObject.Position + "Enemy pos: " + chaser.Position);
+                List<Tile> path = aStar.AStarFindPath(chaser, destinationObject, tiles);
+                if (path != null)
                 {
-                    Debug.WriteLine("RunAstar calls playerpos: " + destinationObject.Position + "Enemy pos: " + chaser.Position);
-                    List<Tile> path = aStar.AStarFindPath(chaser, destinationObject, tiles);
-                    if (path != null)
-                    {
-                        destinations = path;
-                        Debug.WriteLine("Path : ");
-                        foreach (Tile t in destinations)
-                        { Debug.WriteLine(t.Position); }
-                        destinationsIndex = 0;
-                        pauseAStar = true;
-                    }
+                    destinationsIndex = 0;
+                    destinations = path;
+                    Debug.WriteLine("Path : ");
+                    foreach (Tile t in destinations)
+                    { Debug.WriteLine(t.Position); }
+                    pauseAStar = true;
                 }
+
                 waitforAStar = false;
             }
         }
@@ -171,7 +169,7 @@ namespace Mortens_Komeback_3
         public void Move()
         {
             threadTimer += GameWorld.Instance.DeltaTime;
-            if (Vector2.Distance(Position, destination) > 7)
+            if (Vector2.Distance(Position, destination) > 7 && !waitforAStar)
             {
                 if (Position.X + 5 < destination.X)
                     velocity += new Vector2(1, 0);
@@ -183,24 +181,21 @@ namespace Mortens_Komeback_3
                 else if (Position.Y - 5 > destination.Y)
                     velocity -= new Vector2(0, 1);
 
-                ////Speed for worker walkin vertically or horizontally
-                //int speed = 300;
-                ////Speed for worker walking diagonally
-                //if ((velocity.Y != 0) && (velocity.X != 0))
-                //{ speed = 200; }
                 Position += (speed * velocity * GameWorld.Instance.DeltaTime);
 
                 velocity = Vector2.Zero;
             }
-            else if (destinationsIndex < destinations.Count - 1)
+            else if (destinationsIndex < destinations.Count - 1 && !waitforAStar)
             {
+                Debug.WriteLine("Enemy reached destination" + destination);
                 destinationsIndex += 1; //NOTICE: first destination is ignored. 
                 destination = destinations[destinationsIndex].Position;
+                Debug.WriteLine("New destination:" + destination);
             }
             else if (!CollisionBox.Intersects(Player.Instance.CollisionBox) && !(playerPreviousPos == Player.Instance.Position) && !waitforAStar)
             {
 
-                Debug.WriteLine("Enemy reached destination");
+                Debug.WriteLine("Enemy reached final destination");
                 playerPreviousPos = Player.Instance.Position;
                 Debug.WriteLine("Enemy calls playerpos: " + Player.Instance.Position + "Enemy pos: " + Position);
                 waitforAStar = true;
