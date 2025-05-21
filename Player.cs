@@ -62,12 +62,19 @@ namespace Mortens_Komeback_3
             get => health;
             set
             {
-                if (value <= 0)
-                    IsAlive = false;
 
-                colorTimer = 0f;
+                if (value != health)
+                {
 
-                health = value;
+                    if (value <= 0)
+                        IsAlive = false;
+
+                    colorTimer = 0f;
+
+                    health = value;
+
+                }
+
             }
         }
 
