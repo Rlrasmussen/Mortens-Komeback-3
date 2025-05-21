@@ -84,7 +84,7 @@ namespace Mortens_Komeback_3
             }
 
         }
-        
+
 
         /// <summary>
         /// Used for doing actions if the player spawns/dies
@@ -273,6 +273,10 @@ namespace Mortens_Komeback_3
             else
                 base.Draw(spriteBatch);
 
+#if DEBUG
+            if (GameWorld.Instance.DrawCollision)
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, $"X: {Position.X}\nY: {Position.Y}", Position + new Vector2(0, 100), Color.Black, 0f, Vector2.Zero, 2f, SpriteEffects.None, 1f);
+#endif
             if (attacking && CurrentIndex >= Sprites.Length - 1 && GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var sprites))
             {
                 Sprites = sprites;
