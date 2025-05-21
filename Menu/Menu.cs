@@ -40,17 +40,24 @@ namespace Mortens_Komeback_3.Menu
         #endregion
 
         #region Method
-        
 
+
+        //public void Update(Vector2 mousePos, bool isClicking)
+        //{
+        //    foreach (var button in buttonList)
+        //        button.Update(mousePos, isClicking);
+
+        //    //foreach (var button in buttonList)
+        //    //{
+        //    //    button.Hovering = button.CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
+        //    //}
+        //}
         public void Update(Vector2 mousePos, bool isClicking)
         {
             foreach (var button in buttonList)
-                button.Update(mousePos, isClicking);
-
-            //foreach (var button in buttonList)
-            //{
-            //    button.Hovering = button.CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
-            //}
+            {
+                button.Update(mousePos, isClicking); // <-- korrekt metode
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont buttonFont)

@@ -63,11 +63,21 @@ namespace Mortens_Komeback_3.Menu
         {
             Hovering = CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
 
-            //if (Hovering && Mouse.GetState().LeftButton == ButtonState.Pressed)
-            //{
-            //    Command?.Execute();
-            //}
+            if (Hovering && Mouse.GetState().LeftButton == ButtonState.Pressed||isClicking)
+            {
+                Command?.Execute();
+            }
         }
+        //public void Update(Vector2 mousePos, bool isClicking)
+        //{
+        //    Hovering = CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
+
+
+        //    if (Hovering && isClicking)
+        //    {
+        //        Command?.Execute();
+        //    }
+        //}
 
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)

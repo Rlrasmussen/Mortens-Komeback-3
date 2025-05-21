@@ -80,23 +80,27 @@ namespace Mortens_Komeback_3.Menu
             currentMenu = null;
         }
 
-        public void Update()
+        //public void Update()
+        //{
+        //    //foreach (var button in GetActiveButtons())
+        //    //{
+        //    //    button.Hovering = button.CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
+
+        //    //    //if (button.Hovering && InputHandler.Instance.LeftClickEventHandler)
+        //    //    if (button.Hovering)
+        //    //    {
+        //    //        button.Command?.Execute();
+        //    //    }
+
+        //    //    button.Update();
+        //    //}
+        //    currentMenu?.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+
+
+        //}
+        public void Update(Vector2 mousePos, bool isClicking)
         {
-            //foreach (var button in GetActiveButtons())
-            //{
-            //    button.Hovering = button.CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
-
-            //    //if (button.Hovering && InputHandler.Instance.LeftClickEventHandler)
-            //    if (button.Hovering)
-            //    {
-            //        button.Command?.Execute();
-            //    }
-            
-            //    button.Update();
-            //}
-            currentMenu?.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-
-          
+            currentMenu?.Update(mousePos, isClicking);
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)

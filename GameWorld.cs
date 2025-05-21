@@ -226,19 +226,18 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
-
+            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+            //MenuManager.Update();
             //foreach (Button button in buttonList)
             //{
 
             //    button.Hovering = button.CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
-            //    button.Update();
-            //    button.Update(Vector2 mousePos, bool isClicking );
+            //    button.Update(Vector2 mousePos, bool isClicking);
             //}
             if (Keyboard.GetState().IsKeyDown(Keys.P))
             {
                 GameWorld.Instance.MenuManager.OpenMenu(MenuType.Pause);
             }
-            MenuManager.Update();
 
 
             //SpawnEnemies();
