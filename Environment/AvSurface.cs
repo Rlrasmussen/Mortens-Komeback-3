@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D9;
+using Mortens_Komeback_3.Collider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.Environment
 {
-    public class AvSurface : GameObject, IAnimate
+    public class AvSurface : GameObject, IAnimate, ICollidable
     {
         #region Fields
+
+        private float gracePeriod;
 
         #endregion
 
@@ -44,6 +46,7 @@ namespace Mortens_Komeback_3.Environment
             FPS = 8;
             Sprites = GameWorld.Instance.Sprites[SurfaceType.AvSurface];
             Rotation = rotation;
+            damage = 10;
         }
 
         #endregion
@@ -53,6 +56,8 @@ namespace Mortens_Komeback_3.Environment
         public override void Update(GameTime gameTime)
         {
             (this as IAnimate).Animate();
+
+            gracePeriod += GameWorld.Instance.DeltaTime;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -61,6 +66,41 @@ namespace Mortens_Komeback_3.Environment
                 spriteBatch.Draw(Sprites[CurrentIndex], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             else
                 base.Draw(spriteBatch);
+        }
+
+        public void OnCollision(ICollidable other)
+        {
+
+            switch (other)
+            {
+
+                case Player:
+                    Player player = (Player)other;
+
+                    if (gracePeriod >= 2f)
+                    {
+                        player.Health -= Damage;
+                        GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
+                        gracePeriod = 0f;
+                    }
+
+                    float distanceThrown = 150f;
+                    if (player.Position.X > Position.X)
+                        player.Position = new Vector2(player.Position.X + distanceThrown, player.Position.Y);
+                    else
+                        player.Position = new Vector2(player.Position.X - distanceThrown, player.Position.Y);
+
+                    if (player.Position.Y > Position.Y)
+                        player.Position = new Vector2(player.Position.X, player.Position.Y + distanceThrown);
+                    else
+                        player.Position = new Vector2(player.Position.X, player.Position.Y - distanceThrown);
+
+                    break;
+                default:
+                    break;
+
+            }
+
         }
 
         #endregion
