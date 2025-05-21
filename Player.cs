@@ -22,7 +22,7 @@ namespace Mortens_Komeback_3
         private static Player instance;
         private SoundEffect currentWalkSound;
         private Weapon equippedWeapon;
-        private List<Weapon> availableWeapons = new List<Weapon>();
+        private List<GameObject> inventory = new List<GameObject>();
         private Vector2 velocity;
         private Vector2 meleeAttackDirection;
         private float speed = 500f;
@@ -30,6 +30,7 @@ namespace Mortens_Komeback_3
         private int health;
         private int maxHealth = 100;
         private bool attacking = false;
+        private float colorTimer = 2f;
 
         private float damageTimer;
         private float damageGracePeriode = 2f;
@@ -40,6 +41,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Singleton property
+        /// Simon
         /// </summary>
         public static Player Instance
         {
@@ -54,15 +56,21 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Used for handling logic when Player takes damage
+        /// Simon
         /// </summary>
         public int Health
         {
             get => health;
             set
             {
-                if (value <= 0)
+
+                if (value >= health)
+                    health = value;
+                else 
                 {
-                    IsAlive = false;
+
+                    if (value <= 0)
+                        IsAlive = false;
 
                     //If Player is dead alle the Enemies og Projectile is being released back to the inactive stack i ObjectPool
                     EnemyPool.Instance.PlayerDead();
@@ -70,6 +78,12 @@ namespace Mortens_Komeback_3
                 }
 
                 health = value;
+                    colorTimer = 0f;
+
+                    health = value;
+
+                }
+
             }
         }
 
@@ -81,6 +95,18 @@ namespace Mortens_Komeback_3
             get => base.IsAlive;
             set => base.IsAlive = value;
         }
+
+        /// <summary>
+        /// Returns the "Inventory" for save-functionality
+        /// Simon
+        /// </summary>
+        public List<GameObject> Inventory { get => inventory; }
+
+        /// <summary>
+        /// Returns which weapon (if any) is currently equipped for save-functionality
+        /// Simon
+        /// </summary>
+        public Weapon EquippedWeapon { get => equippedWeapon; }
 
         /// <summary>
         /// Used for movement
@@ -166,6 +192,12 @@ namespace Mortens_Komeback_3
         {
 
             walkTimer += GameWorld.Instance.DeltaTime;
+            colorTimer += GameWorld.Instance.DeltaTime;
+
+            if (colorTimer >= 2f)
+                drawColor = Color.White;
+            else
+                drawColor = Color.Red;
 
             if (InputHandler.Instance.MousePosition.X < Position.X)
                 spriteEffect = SpriteEffects.FlipHorizontally;
@@ -181,7 +213,7 @@ namespace Mortens_Komeback_3
             else if (attacking)
                 (this as IAnimate).Animate();
 
-            foreach (Weapon weapon in availableWeapons)
+            foreach (Weapon weapon in inventory)
                 weapon.Update(gameTime);
 
             (this as IPPCollidable).UpdateRectangles(spriteEffect == SpriteEffects.FlipHorizontally);
@@ -262,7 +294,7 @@ namespace Mortens_Komeback_3
         {
             if (other.Type.GetType() == typeof(EnemyType) && damageTimer > damageGracePeriode) //Rikke
             {
-                health -= (other as Enemy).Damage;
+                Health -= (other as Enemy).Damage;
                 GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
 
                 damageTimer = 0f;
@@ -272,14 +304,14 @@ namespace Mortens_Komeback_3
                 {
                     case WeaponType.Melee:
                         if (other is Weapon)
-                            availableWeapons.Add(other as Weapon);
+                            inventory.Add(other as Weapon);
                         (other as Weapon).IsAlive = false;
                         if (equippedWeapon == null)
                             equippedWeapon = (other as Weapon);
                         break;
                     case WeaponType.Ranged:
                         if (other is Weapon)
-                            availableWeapons.Add(other as Weapon);
+                            inventory.Add(other as Weapon);
                         (other as Weapon).IsAlive = false;
                         break;
                     default:
@@ -315,13 +347,14 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Used by InputHandler to change the type of weapon that's equipped
+        /// Simon
         /// </summary>
         /// <param name="weapon">Type of weapon to change to</param>
         public void ChangeWeapon(WeaponType weapon)
         {
 
             if (!attacking)
-                equippedWeapon = availableWeapons.Find(x => (WeaponType)x.Type == weapon);
+                equippedWeapon = (Weapon)inventory.Find(x => (WeaponType)x.Type == weapon);
 
         }
 
@@ -379,6 +412,69 @@ namespace Mortens_Komeback_3
                 default:
                     break;
             }
+
+        }
+
+        /// <summary>
+        /// Handles adding items to inventory-list and "equipping" a weapon
+        /// Simon
+        /// </summary>
+        /// <param name="item">Object to be added</param>
+        private void AddItemToInventory(GameObject item)
+        {
+
+            if (item is Weapon && equippedWeapon == null)
+                equippedWeapon = (Weapon)item;
+
+            inventory.Add(item);
+
+        }
+
+        /// <summary>
+        /// Determines what kind of object to add to the inventory, and tries removing it from the "GameWorld" if not already
+        /// Simon
+        /// </summary>
+        /// <param name="id">Identifier for the item to search for/add</param>
+        public void AcquireItem(int id)
+        {
+
+            GameObject item;
+            switch (id)
+            {
+                case 0:
+                    item = GameWorld.Instance.GameObjects.Find(x => x is WeaponMelee);
+                    if (item != null)
+                    {
+                        item.IsAlive = false;
+                        Instance.AddItemToInventory(item);
+                    }
+                    else
+                        Instance.AddItemToInventory(new WeaponMelee(WeaponType.Melee, Vector2.Zero));
+                    break;
+                case 1:
+                    item = GameWorld.Instance.GameObjects.Find(x => x is WeaponRanged);
+                    if (item != null)
+                    {
+                        item.IsAlive = false;
+                        Instance.AddItemToInventory(item);
+                    }
+                    else
+                        Instance.AddItemToInventory(new WeaponRanged(WeaponType.Ranged, Vector2.Zero));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Method to get around property effects
+        /// Simon
+        /// </summary>
+        /// <param name="health">Value to set health</param>
+        public void SetHealthFromDB(int health)
+        {
+
+            this.health = health;
 
         }
 

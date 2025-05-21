@@ -15,6 +15,8 @@ namespace Mortens_Komeback_3
     {
         #region Fields
 
+        private float speed;
+
         #endregion
 
         #region Properties
@@ -59,26 +61,17 @@ namespace Mortens_Komeback_3
         }
 
         /// <summary>
-        /// Reset Health with switch case by EnemyType
-        /// Rikke
+        /// Sets enemys stats according to data retrieved from database
+        /// Simon
         /// </summary>
         public override void Load()
         {
-            //Health and damage switch case
-            switch (this.type)
+
+            if (GameWorld.Instance.EnemyStats.TryGetValue((EnemyType)type, out var stats)) //Simon - Does a TryGetValue according to objects type against a dictionary, and retrieves a named tuple containing relevant data if successful
             {
-                case EnemyType.WalkingGoose:
-                    Health = 1;
-                    this.Damage = 2;
-                    break;
-                case EnemyType.AggroGoose:
-                    Health = 1;
-                    this.Damage = 2;
-                    break;
-                case EnemyType.Goosifer:
-                    Health = 1;
-                    this.Damage = 2;
-                    break;
+                Health = stats.health;
+                Damage = stats.damage;
+                speed = stats.speed;
             }
 
             base.Load();
@@ -86,6 +79,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Collision with Enemy
+        /// Rikke
         /// </summary>
         /// <param name="other">IColliable</param>
         public void OnCollision(ICollidable other)

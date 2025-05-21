@@ -30,7 +30,8 @@ namespace Mortens_Komeback_3
         Closed,
         Locked,
         Unlocked,
-        Stairs
+        Stairs,
+        StairsLocked
     }
 
     /// <summary>
@@ -82,6 +83,14 @@ namespace Mortens_Komeback_3
         Inventory,
         Win,
         Cursor
+    }
+
+    public enum ButtonType
+    {
+        Button,
+        ButtonPressed,
+        ButtonSquare,
+        ButtonSquareChecked
     }
 
     /// <summary>
@@ -184,18 +193,31 @@ namespace Mortens_Komeback_3
         ShootPuzzle,
     }
 
+    public enum EnvironmentType
+    {
+        Lever,
+        Plaque,
+        Spikes,
+        Pillars,
+        Stairs,
+        Chest,
+        ChestOpen,
+        Coffin,
+
+    }
+
     /// <summary>
     /// Enum for identifying decorations
     /// </summary>
     public enum DecorationType
     {
         Torch,
-        Spikes,
-        Pillars,
-        Stairs,
-        Chest,
-        Candles,
-        Coffin,
+        Candle,
+        Cobweb,
+        Light,
+        Cross,
+        Painting,
+        Splash
     }
 
     /// <summary>
@@ -211,7 +233,18 @@ namespace Mortens_Komeback_3
     /// </summary>
     public enum Location
     {
-        Spawn
+        Spawn,
+        Test,
+        PuzzleOne,
+        PuzzleTwo,
+        PuzzleThree
+    }
+    /// <summary>
+    /// Enum for identifying tile type, used for Astar algorithm.
+    /// </summary>
+    public enum TileEnum
+    {
+        Tile
     }
 
 }
