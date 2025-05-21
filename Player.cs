@@ -461,6 +461,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Method to get around property effects
+        /// Simon
         /// </summary>
         /// <param name="health">Value to set health</param>
         public void SetHealthFromDB(int health)
