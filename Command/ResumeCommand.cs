@@ -12,6 +12,7 @@ namespace Mortens_Komeback_3.Command
         public void Execute()
         {
             GameWorld.Instance.GameRunning = true;
+
         }
     }
 }

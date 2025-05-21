@@ -42,6 +42,7 @@ namespace Mortens_Komeback_3.Menu
             this.Position = spawnPos;
             this.ButtonText = buttonText;
             Layer = 0.9f;
+            Hovering = false;
 
 
             if (GameWorld.Instance.Sprites.TryGetValue(type, out var spriteArray))
@@ -61,12 +62,19 @@ namespace Mortens_Komeback_3.Menu
 
         public void Update(Vector2 mousePos, bool isClicking)
         {
+            Hovering = CollisionBox.Contains(mousePos.ToPoint());
             Hovering = CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
 
-            if (Hovering && Mouse.GetState().LeftButton == ButtonState.Pressed||isClicking)
+            if (Hovering && isClicking)
             {
-                Command?.Execute();
+                OnClick?.Invoke();
             }
+            
+
+            //if (Hovering && Mouse.GetState().LeftButton == ButtonState.Pressed||isClicking)
+            //{
+            //    Command?.Execute();
+            //}
         }
         //public void Update(Vector2 mousePos, bool isClicking)
         //{

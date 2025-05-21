@@ -13,13 +13,14 @@ namespace Mortens_Komeback_3.Menu
     public class Menu
     {
         #region Fields
-        public bool menuActive = false;
+        //private bool menuActive = false;
         public List<Button> buttonList = new List<Button>();
         //public MenuType background { get; set; }
         //public Vector2 Position { get; set; } = Player.Instance.Position; 
         public Vector2 screenCenter;
         public Enum Type { get; set; }
         public Texture2D Sprite { get; set; }
+        //public bool MenuActive { get => menuActive; set => menuActive = value; } 
 
 
 
@@ -41,17 +42,6 @@ namespace Mortens_Komeback_3.Menu
 
         #region Method
 
-
-        //public void Update(Vector2 mousePos, bool isClicking)
-        //{
-        //    foreach (var button in buttonList)
-        //        button.Update(mousePos, isClicking);
-
-        //    //foreach (var button in buttonList)
-        //    //{
-        //    //    button.Hovering = button.CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
-        //    //}
-        //}
         public void Update(Vector2 mousePos, bool isClicking)
         {
             foreach (var button in buttonList)
@@ -77,11 +67,11 @@ namespace Mortens_Komeback_3.Menu
             }
         }
 
-        private void AddCommands()
-        {
+        //private void AddCommands()
+        //{
 
-            InputHandler.Instance.LeftClickEventHandler += HandleLeftClick;
-        }
+        //    InputHandler.Instance.LeftClickEventHandler += HandleLeftClick;
+        //}
 
         public void HandleLeftClick()
         {
