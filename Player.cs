@@ -84,7 +84,7 @@ namespace Mortens_Komeback_3
             }
 
         }
-        }
+        
 
         /// <summary>
         /// Used for doing actions if the player spawns/dies
