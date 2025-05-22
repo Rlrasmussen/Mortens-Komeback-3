@@ -21,15 +21,12 @@ namespace Mortens_Komeback_3
     {
         #region Fields
         private Texture2D textBubble = GameWorld.Instance.Sprites[OverlayObjects.Dialog][0];
-        private Texture2D bob = GameWorld.Instance.Sprites[OverlayObjects.DialogBox][0];
-
+        private Texture2D dialogueBox = GameWorld.Instance.Sprites[OverlayObjects.DialogBox][0];
         private bool interact = true;
-        private int no = 0;
         private bool talk = false;
+        private int reply = 0; //Number of reply
         private string npcText;
-
         private bool canada = false; //2 different for Canada Goose dialogue
-
 
         #endregion
 
@@ -45,7 +42,6 @@ namespace Mortens_Komeback_3
 
         }
 
-
         #endregion
 
         #region Method
@@ -59,21 +55,23 @@ namespace Mortens_Komeback_3
             //If there is a collision between Player and NPC there will spawn an talk textbubble
             if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox) && interact == true)
             {
-
                 spriteBatch.Draw(textBubble, Position - new Vector2(0, 90), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
-
-
             }
 
+            //DialogueBox 
             if (talk == true && (this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
             {
-                spriteBatch.Draw(bob, Player.Instance.Position - new Vector2(bob.Width / 2, -bob.Height), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
-                spriteBatch.DrawString(GameWorld.Instance.GameFont, npcText, Player.Instance.Position - new Vector2(bob.Width / 2, -bob.Height - 50), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.2f);
+                spriteBatch.Draw(dialogueBox, Player.Instance.Position - new Vector2(dialogueBox.Width / 2, -dialogueBox.Height), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, npcText, Player.Instance.Position - new Vector2(dialogueBox.Width / 2, -dialogueBox.Height - 50), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.2f);
             }
 
             base.Draw(spriteBatch);
         }
 
+        /// <summary>
+        /// The Player stand still (speed = 0) next to the NPC and call the different kinds of NPC dialogue
+        /// Rikke
+        /// </summary>
         public void Speak()
         {
             Player.Instance.Speed = 0f;
@@ -99,40 +97,48 @@ namespace Mortens_Komeback_3
 
         }
 
+        /// <summary>
+        /// NPCType Pope dialogue
+        /// Rikke
+        /// </summary>
         public void PopeDialogue()
         {
-            if (no == 0)
+            if (reply == 0)
             {
                 talk = true;
                 interact = false;
                 npcText = "God bless your quest";
-                no++;
+                reply++;
             }
             else
             {
                 talk = false;
                 interact = true;
                 Player.Instance.Speed = 500f;
-                no = 0;
+                reply = 0;
             }
         }
 
+        /// <summary>
+        /// NPCType Monk dialogue
+        /// Rikke
+        /// </summary>
         public void MonkDialogue()
         {
-            if (no == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
+            if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
             {
                 talk = true;
                 interact = false;
                 npcText = "Try press left mouse to shoot \n Bless you Morten and your courag";
-                no++;
+                reply++;
 
             }
-            else if (no == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
+            else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
             {
                 talk = true;
                 interact = false;
                 npcText = "I don't need this slingshot anymore, \nmaybe you can use it for something \n Press left mouse to shoot";
-                no++;
+                reply++;
                 GameWorld.Instance.SpawnObject(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position - new Vector2(0, 150)));
             }
             else
@@ -140,27 +146,31 @@ namespace Mortens_Komeback_3
                 talk = false;
                 interact = true;
                 Player.Instance.Speed = 500f;
-                no = 0;
+                reply = 0;
             }
 
         }
 
+        /// <summary>
+        /// NPCType CanadaGoose dialogue
+        /// Rikke
+        /// </summary>
         public void CanadaGooseDialogue()
         {
             if (Canada == false)
             {
-                if (no == 0)
+                if (reply == 0)
                 {
                     talk = true;
                     interact = false;
                     npcText = "No stop I'm not with the other geese \nYou can trust me";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
                 }
-                else if (no == 1)
+                else if (reply == 1)
                 {
                     npcText = "I saw a goose running throw here with something in its beak";
                 }
-                else if (no == 2)
+                else if (reply == 2)
                 {
                     npcText = "The ran throw the door to the rigth";
                 }
@@ -169,19 +179,19 @@ namespace Mortens_Komeback_3
                     talk = false;
                     interact = true;
                     Player.Instance.Speed = 500f;
-                    no++;
+                    reply++;
                 }
             }
             else if (Canada == true)
             {
-                if (no == 0)
+                if (reply == 0)
                 {
                     talk = true;
                     interact = false;
                     npcText = "It just went through here! No need to be afraid ..";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
                 }
-                else if (no == 1)
+                else if (reply == 1)
                 {
                     npcText = "Good luck";
                 }
@@ -190,35 +200,39 @@ namespace Mortens_Komeback_3
                     talk = false;
                     interact = true;
                     Player.Instance.Speed = 500f;
-                    no++;
+                    reply++;
                 }
             }
 
-            if (no > 2)
+            if (reply > 2)
             {
-                no = 0;
+                reply = 0;
             }
             else
             {
-                no++;
+                reply++;
             }
         }
 
+        /// <summary>
+        /// NPCType Nun dialogue
+        /// Rikke
+        /// </summary>
         public void NunDialogue()
         {
-            if (no == 0)
+            if (reply == 0)
             {
                 talk = true;
                 interact = false;
                 npcText = "I need a strong and handsome man to help me move thise stones";
-                no++;
+                reply++;
             }
             else
             {
                 talk = false;
                 interact = true;
                 Player.Instance.Speed = 500f;
-                no = 0;
+                reply = 0;
             }
         }
         #endregion
