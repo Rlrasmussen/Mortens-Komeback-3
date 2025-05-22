@@ -200,11 +200,23 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC
-            NPC monk = new NPC(NPCType.CanadaGoose, new Vector2(200, 200));
-            monk.Canada = true;
-            gameObjects.Add(monk); 
-            npcs.Add(monk);
+            NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
+            NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
+            NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16300));
+            NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
+            NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 20000));
+            canadaGoose2.Canada = true;
 
+            npcs.Add(pope);
+            npcs.Add(monk);
+            npcs.Add(nun);
+            npcs.Add(canadaGoose1);
+            npcs.Add(canadaGoose2);
+
+            foreach (GameObject npc in npcs)
+            {
+                gameObjects.Add(npc);
+            }
             #endregion
 
             foreach (GameObject gameObject in gameObjects)
@@ -428,9 +440,9 @@ namespace Mortens_Komeback_3
             #region NPC
 
             Sprites.Add(NPCType.Monk, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\monkNPCbible") });
-            Sprites.Add(NPCType.Nun, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary") });
+            Sprites.Add(NPCType.Nun, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary2") });
             Sprites.Add(NPCType.Pope, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\pope0"), Content.Load<Texture2D>("Sprites\\NPC\\pope1") });
-            Sprites.Add(NPCType.CanadaGoose, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\goose0")});
+            Sprites.Add(NPCType.CanadaGoose, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\goose0") });
 
             #endregion
             #region Overlay

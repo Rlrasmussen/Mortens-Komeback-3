@@ -169,7 +169,7 @@ namespace Mortens_Komeback_3
                     talk = false;
                     interact = true;
                     Player.Instance.Speed = 500f;
-                    no = 0;
+                    no++;
                 }
             }
             else if (Canada == true)
