@@ -200,7 +200,7 @@ namespace Mortens_Komeback_3
             ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)), new Vector2(0, 5700), 0, new Vector2(0, 6300), 0, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
-            gameObjects.Add(new Obstacle(PuzzleType.PuzzleObstacle, Vector2.Zero, true));
+            gameObjects.Add(new Obstacle(PuzzleType.PuzzleObstacle, Vector2.Zero, true, CurrentRoom));
             #endregion
 
             foreach (GameObject gameObject in gameObjects)
