@@ -200,7 +200,8 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC
-            NPC monk = new NPC(NPCType.Nun, new Vector2(200, 200));
+            NPC monk = new NPC(NPCType.CanadaGoose, new Vector2(200, 200));
+            monk.Canada = true;
             gameObjects.Add(monk); 
             npcs.Add(monk);
 
@@ -429,6 +430,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(NPCType.Monk, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\monkNPCbible") });
             Sprites.Add(NPCType.Nun, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary") });
             Sprites.Add(NPCType.Pope, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\pope0"), Content.Load<Texture2D>("Sprites\\NPC\\pope1") });
+            Sprites.Add(NPCType.CanadaGoose, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\goose0")});
 
             #endregion
             #region Overlay

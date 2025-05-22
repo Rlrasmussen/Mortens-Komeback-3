@@ -28,10 +28,13 @@ namespace Mortens_Komeback_3
         private bool talk = false;
         private string npcText;
 
+        private bool canada = false; //2 different for Canada Goose dialogue
+
+
         #endregion
 
         #region Properties
-        //public int No { get => no; set => no = value; }
+        public bool Canada { get => canada; set => canada = value; }
 
         #endregion
 
@@ -144,7 +147,61 @@ namespace Mortens_Komeback_3
 
         public void CanadaGooseDialogue()
         {
+            if (Canada == false)
+            {
+                if (no == 0)
+                {
+                    talk = true;
+                    interact = false;
+                    npcText = "No stop I'm not with the other geese \nYou can trust me";
+                    GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
+                }
+                else if (no == 1)
+                {
+                    npcText = "I saw a goose running throw here with something in its beak";
+                }
+                else if (no == 2)
+                {
+                    npcText = "The ran throw the door to the rigth";
+                }
+                else
+                {
+                    talk = false;
+                    interact = true;
+                    Player.Instance.Speed = 500f;
+                    no = 0;
+                }
+            }
+            else if (Canada == true)
+            {
+                if (no == 0)
+                {
+                    talk = true;
+                    interact = false;
+                    npcText = "It just went through here! No need to be afraid ..";
+                    GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
+                }
+                else if (no == 1)
+                {
+                    npcText = "Good luck";
+                }
+                else
+                {
+                    talk = false;
+                    interact = true;
+                    Player.Instance.Speed = 500f;
+                    no++;
+                }
+            }
 
+            if (no > 2)
+            {
+                no = 0;
+            }
+            else
+            {
+                no++;
+            }
         }
 
         public void NunDialogue()
