@@ -19,14 +19,11 @@ namespace Mortens_Komeback_3
         #region Fields
 
         private float speed;
-        private float threadTimer;
-        private float threadTimerThreshold;
         private bool pauseAStar = true;
         private AStar aStar = new AStar();
         private List<Tile> destinations = new List<Tile>();
         private int destinationsIndex = 0;
         private Vector2 destination;
-        private Vector2 direction;
         private Vector2 playerPreviousPos;
         private bool waitforAStar = false; //Used for making sure that player doens't move before a star proces is done.
         private IState<Enemy> state;
@@ -45,6 +42,9 @@ namespace Mortens_Komeback_3
         public IState<Enemy> State { set => state = value; }
         public List<Tile> Destinations { get => destinations; set => destinations = value; }
         public bool PauseAStar { get => pauseAStar; set => pauseAStar = value; }
+        public Vector2 Direction { get; set; }
+        public Room InRoom { get; set; }
+        public bool IgnoreState { get; set; } = false;
 
         #endregion
 
@@ -63,16 +63,33 @@ namespace Mortens_Komeback_3
         #region Method
         public override void Update(GameTime gameTime)
         {
+
+            float maxDistance = 1600f;
+            foreach (Room room in DoorManager.Rooms)
+            {
+                float distance = Vector2.Distance(Position, room.Position);
+                if (distance < maxDistance)
+                {
+                    maxDistance = distance;
+                    InRoom = room;
+                }
+            }
+
             (this as IAnimate).Animate();
             (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
 
-            bool stateTest = true;
-
-            if (stateTest && state != null)
+            if (state != null)
                 state.Execute();
 
-            if (!stateTest)
-                Move();
+            switch (Direction.X)
+            {
+                case > 0:
+                    spriteEffect = SpriteEffects.FlipHorizontally;
+                    break;
+                default:
+                    spriteEffect = SpriteEffects.None;
+                    break;
+            }
 
             base.Update(gameTime);
         }
@@ -102,8 +119,11 @@ namespace Mortens_Komeback_3
             aStarThread.IsBackground = true;
             aStarThread.Start();
 
-            PatrolState patrol = new PatrolState();
-            patrol.Enter(this);
+            if (!IgnoreState)
+            {
+                PatrolState patrol = new PatrolState();
+                patrol.Enter(this);
+            }
 
             base.Load();
         }
@@ -160,36 +180,35 @@ namespace Mortens_Komeback_3
                 if (path != null)
                 {
                     destinationsIndex = 0;
-                    pauseAStar = true;
                     destinations = path;
+                    pauseAStar = true;
                 }
 
-                waitforAStar = false;
+                //waitforAStar = false;
             }
         }
         /// <summary>
-        /// Moves the enemy through it's list of destinations. 
+        /// Moves the enemy through it's list of destinations. --- Deprecated into PatrolState that can also take a preset path
         /// Philip 
         /// </summary>
         public void Move()
         {
 
-            threadTimer += GameWorld.Instance.DeltaTime;
             if (Vector2.Distance(Position, destination) > 7 && !waitforAStar) //If destination is not reached, moves enemy to it's destination
             {
                 if (Position.X + 5 < destination.X)
-                    direction += new Vector2(1, 0);
+                    Direction += new Vector2(1, 0);
                 else if (Position.X - 5 > destination.X)
-                    direction -= new Vector2(1, 0);
+                    Direction -= new Vector2(1, 0);
 
                 if (Position.Y + 5 < destination.Y)
-                    direction += new Vector2(0, 1);
+                    Direction += new Vector2(0, 1);
                 else if (Position.Y - 5 > destination.Y)
-                    direction -= new Vector2(0, 1);
+                    Direction -= new Vector2(0, 1);
 
-                Position += (speed * direction * GameWorld.Instance.DeltaTime);
+                Position += (speed * Direction * GameWorld.Instance.DeltaTime);
 
-                direction = Vector2.Zero;
+                Direction = Vector2.Zero;
             }
             else if (destinationsIndex < destinations.Count - 1 && !waitforAStar) //If destination is reached, and there are more destinations, sets the next
             {

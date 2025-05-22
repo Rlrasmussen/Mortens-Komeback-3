@@ -18,7 +18,7 @@ namespace Mortens_Komeback_3.State
 
         #region Properties
 
-
+        public IState<Enemy> PreviousState { get; set; }
 
         #endregion
 
@@ -34,17 +34,19 @@ namespace Mortens_Komeback_3.State
         public void Enter(Enemy parent)
         {
 
-            this.parent = parent;
-            parent.State = this;
+            if (this.parent == null)
+                this.parent = parent;
+            this.parent.State = this;
 
         }
 
 
         public void Execute()
         {
-            
+
             Vector2 direction = Player.Instance.Position - parent.Position;
             direction.Normalize();
+            parent.Direction = direction;
             parent.Position += direction * parent.Speed * GameWorld.Instance.DeltaTime;
 
             if (Vector2.Distance(parent.Position, Player.Instance.Position) > 300)
@@ -55,10 +57,9 @@ namespace Mortens_Komeback_3.State
 
         public void Exit()
         {
-            
+
             parent.PauseAStar = false;
-            PatrolState patrol = new PatrolState();
-            patrol.Enter(parent);
+            PreviousState.Enter(parent);
 
         }
 

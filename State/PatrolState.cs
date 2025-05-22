@@ -14,6 +14,8 @@ namespace Mortens_Komeback_3.State
         private Enemy parent;
         private Queue<Vector2> waypoints = new Queue<Vector2>();
         private Vector2 target;
+        private List<Vector2> patrolPath;
+        private ChaseState chasePlayer = new ChaseState();
 
         #endregion
 
@@ -23,6 +25,22 @@ namespace Mortens_Komeback_3.State
 
         #region Constructor
 
+        public PatrolState()
+        {
+
+            chasePlayer.PreviousState = this;
+
+        }
+
+
+        public PatrolState(List<Vector2> waypoints)
+        {
+
+            chasePlayer.PreviousState = this;
+            patrolPath = waypoints;
+
+        }
+
         #endregion
 
         #region Method
@@ -31,8 +49,9 @@ namespace Mortens_Komeback_3.State
         public void Enter(Enemy parent)
         {
 
-            this.parent = parent;
-            parent.State = this;
+            if (this.parent == null)
+                this.parent = parent;
+            this.parent.State = this;
 
         }
 
@@ -40,7 +59,7 @@ namespace Mortens_Komeback_3.State
         public void Execute()
         {
 
-            if (parent.Destinations.Count > 0)
+            if (parent.Destinations.Count > 0 && patrolPath == null)
             {
                 foreach (Tile tile in parent.Destinations)
                 {
@@ -50,18 +69,24 @@ namespace Mortens_Komeback_3.State
                 parent.Destinations.Clear();
             }
 
-            if (target != Vector2.Zero)
+            if (Vector2.Distance(parent.Position, target) < 15 && waypoints.Count > 0)
+                target = waypoints.Dequeue();
+            else if (waypoints.Count == 0 && parent.PauseAStar && parent.Destinations.Count == 0)
+            {
+                if (patrolPath == null)
+                    parent.PauseAStar = false;
+                else
+                    foreach (Vector2 waypoint in patrolPath)
+                        waypoints.Enqueue(waypoint);
+            }
+
+            if (target != Vector2.Zero && Vector2.Distance(parent.Position, Player.Instance.Position) > 15)
             {
                 Vector2 direction = target - parent.Position;
                 direction.Normalize();
+                parent.Direction = direction;
                 parent.Position += direction * parent.Speed * GameWorld.Instance.DeltaTime;
             }
-
-            if (Vector2.Distance(parent.Position, target) < 10 && waypoints.Count > 0)
-                target = waypoints.Dequeue();
-            else if (waypoints.Count == 0 && parent.PauseAStar && parent.Destinations.Count == 0)
-                parent.PauseAStar = false;
-            
 
             if (Vector2.Distance(parent.Position, Player.Instance.Position) < 200)
                 Exit();
@@ -72,7 +97,7 @@ namespace Mortens_Komeback_3.State
         public void Exit()
         {
 
-            ChaseState chasePlayer = new ChaseState();
+            waypoints.Clear();
             chasePlayer.Enter(parent);
 
         }
