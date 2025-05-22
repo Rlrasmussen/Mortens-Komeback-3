@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Audio;
 using Mortens_Komeback_3.Puzzles;
+using Mortens_Komeback_3.Factory;
 
 namespace Mortens_Komeback_3
 {
@@ -29,6 +30,7 @@ namespace Mortens_Komeback_3
         private int health;
         private int maxHealth = 100;
         private bool attacking = false;
+        private float colorTimer = 2f;
 
         private float damageTimer;
         private float damageGracePeriode = 2f;
@@ -39,6 +41,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Singleton property
+        /// Simon
         /// </summary>
         public static Player Instance
         {
@@ -53,18 +56,35 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Used for handling logic when Player takes damage
+        /// Simon
         /// </summary>
         public int Health
         {
             get => health;
             set
             {
-                if (value <= 0)
-                    IsAlive = false;
 
-                health = value;
+                if (value >= health)
+                    health = value;
+                else
+                {
+
+                    if (value <= 0)
+                        IsAlive = false;
+
+                    //If Player is dead alle the Enemies og Projectile is being released back to the inactive stack i ObjectPool
+                    EnemyPool.Instance.PlayerDead();
+                    ProjectilePool.Instance.PlayerDead();
+
+                    health = value;
+                    colorTimer = 0f;
+
+                }
+
             }
+
         }
+
 
         /// <summary>
         /// Used for doing actions if the player spawns/dies
@@ -75,10 +95,16 @@ namespace Mortens_Komeback_3
             set => base.IsAlive = value;
         }
 
-
+        /// <summary>
+        /// Returns the "Inventory" for save-functionality
+        /// Simon
+        /// </summary>
         public List<GameObject> Inventory { get => inventory; }
 
-
+        /// <summary>
+        /// Returns which weapon (if any) is currently equipped for save-functionality
+        /// Simon
+        /// </summary>
         public Weapon EquippedWeapon { get => equippedWeapon; }
 
         /// <summary>
@@ -165,6 +191,12 @@ namespace Mortens_Komeback_3
         {
 
             walkTimer += GameWorld.Instance.DeltaTime;
+            colorTimer += GameWorld.Instance.DeltaTime;
+
+            if (colorTimer >= 2f)
+                drawColor = Color.White;
+            else
+                drawColor = Color.Red;
 
             if (InputHandler.Instance.MousePosition.X < Position.X)
                 spriteEffect = SpriteEffects.FlipHorizontally;
@@ -241,6 +273,10 @@ namespace Mortens_Komeback_3
             else
                 base.Draw(spriteBatch);
 
+#if DEBUG
+            if (GameWorld.Instance.DrawCollision)
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, $"X: {Position.X}\nY: {Position.Y}", Position + new Vector2(0, 100), Color.Black, 0f, Vector2.Zero, 2f, SpriteEffects.None, 1f);
+#endif
             if (attacking && CurrentIndex >= Sprites.Length - 1 && GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var sprites))
             {
                 Sprites = sprites;
@@ -261,7 +297,7 @@ namespace Mortens_Komeback_3
         {
             if (other.Type.GetType() == typeof(EnemyType) && damageTimer > damageGracePeriode) //Rikke
             {
-                health -= (other as Enemy).Damage;
+                Health -= (other as Enemy).Damage;
                 GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
 
                 damageTimer = 0f;
@@ -314,6 +350,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Used by InputHandler to change the type of weapon that's equipped
+        /// Simon
         /// </summary>
         /// <param name="weapon">Type of weapon to change to</param>
         public void ChangeWeapon(WeaponType weapon)
@@ -381,7 +418,11 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Handles adding items to inventory-list and "equipping" a weapon
+        /// Simon
+        /// </summary>
+        /// <param name="item">Object to be added</param>
         private void AddItemToInventory(GameObject item)
         {
 
@@ -392,9 +433,14 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Determines what kind of object to add to the inventory, and tries removing it from the "GameWorld" if not already
+        /// Simon
+        /// </summary>
+        /// <param name="id">Identifier for the item to search for/add</param>
         public void AcquireItem(int id)
         {
+
             GameObject item;
             switch (id)
             {
@@ -421,6 +467,18 @@ namespace Mortens_Komeback_3
                 default:
                     break;
             }
+        }
+
+        /// <summary>
+        /// Method to get around property effects
+        /// Simon
+        /// </summary>
+        /// <param name="health">Value to set health</param>
+        public void SetHealthFromDB(int health)
+        {
+
+            this.health = health;
+
         }
 
         #endregion

@@ -38,10 +38,12 @@ namespace Mortens_Komeback_3.Environment
             Room catacombesH = new Room(RoomType.CatacombesG, new Vector2(0, 20000));
             Room trapRoom = new Room(RoomType.CatacombesH, new Vector2(0, 22000));
 
+            popeRoom.AddTiles();
+
             // Create Doors
             Door doorA1 = new Door(new Vector2(1190, 0), DoorDirection.Right);
             Door doorA2 = new Door(new Vector2(-1190, 2000), DoorDirection.Left);
-            Door doorB1 = new Door(new Vector2(1190, 2000), DoorDirection.Right); //match 3 puzzle
+            Door doorB1 = new Door(new Vector2(1190, 2000), DoorDirection.Right, DoorType.StairsLocked);
             Door doorB2 = new Door(new Vector2(-1190, 4000), DoorDirection.Left);
             Door doorC1 = new Door(new Vector2(1190 * 3 + 275, 4000), DoorDirection.Right); //catacombesA
             Door doorC2 = new Door(new Vector2(-1190, 6000), DoorDirection.Left);
@@ -162,7 +164,8 @@ namespace Mortens_Komeback_3.Environment
             Doors.Add(doorI2);       
             Doors.Add(doorJ1);
             Doors.Add(doorJ2);
-        }
 
+
+        }
     }
 }

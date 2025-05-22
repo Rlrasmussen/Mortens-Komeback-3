@@ -10,7 +10,7 @@ namespace Mortens_Komeback_3.Command
     {
         public void Execute()
         {
-            SafePoint.SaveGame(Location.Test);
+            SavePoint.SaveGame(Location.Test);
         }
     }
 }

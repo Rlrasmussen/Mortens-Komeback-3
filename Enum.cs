@@ -239,5 +239,12 @@ namespace Mortens_Komeback_3
         PuzzleTwo,
         PuzzleThree
     }
+    /// <summary>
+    /// Enum for identifying tile type, used for Astar algorithm.
+    /// </summary>
+    public enum TileEnum
+    {
+        Tile
+    }
 
 }
