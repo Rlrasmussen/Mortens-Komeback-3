@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.State
 {
-    public class ChaseState <Enemy>
+    public class ChaseState : IState<Enemy>
     {
         #region Fields
+
+        private Enemy parent;
 
         #endregion
 
@@ -23,5 +25,21 @@ namespace Mortens_Komeback_3.State
         #region Method
 
         #endregion
+        public void Enter(Enemy parent)
+        {
+
+            this.parent = parent;
+
+        }
+
+        public void Execute()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Exit()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -37,6 +37,7 @@ namespace Mortens_Komeback_3
         public int CurrentIndex { get; set; }
         public int Health { get; set; }
         public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
+        
 
 
 
@@ -89,22 +90,6 @@ namespace Mortens_Komeback_3
             Thread aStarThread = new Thread(() => RunAStar(this, Player.Instance, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles));
             aStarThread.IsBackground = true;
             aStarThread.Start();
-            //Health and damage switch case
-            //switch (this.type)
-            //{
-            //    case EnemyType.WalkingGoose:
-            //        Health = 1;
-            //        this.Damage = 2;
-            //        break;
-            //    case EnemyType.AggroGoose:
-            //        Health = 1;
-            //        this.Damage = 2;
-            //        break;
-            //    case EnemyType.Goosifer:
-            //        Health = 1;
-            //        this.Damage = 2;
-            //        break;
-            //}
 
             base.Load();
         }
@@ -157,15 +142,11 @@ namespace Mortens_Komeback_3
                 {
                     Thread.Sleep(10);
                 }
-                Debug.WriteLine("RunAstar calls playerpos: " + destinationObject.Position + "Enemy pos: " + enemy.Position);
                 List<Tile> path = aStar.AStarFindPath(enemy, destinationObject, tiles);
                 if (path != null)
                 {
                     destinationsIndex = 0;
                     destinations = path;
-                    Debug.WriteLine("Path : ");
-                    foreach (Tile t in destinations)
-                    { Debug.WriteLine(t.Position); }
                     pauseAStar = true;
                 }
 
