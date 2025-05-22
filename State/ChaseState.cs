@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.State
 {
+
     public class ChaseState : IState<Enemy>
     {
         #region Fields
@@ -16,30 +18,47 @@ namespace Mortens_Komeback_3.State
 
         #region Properties
 
+
+
         #endregion
 
         #region Constructor
+
+
 
         #endregion
 
         #region Method
 
-        #endregion
+
         public void Enter(Enemy parent)
         {
 
             this.parent = parent;
+            parent.State = this;
 
         }
+
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            
+            Vector2 direction = Player.Instance.Position - parent.Position;
+            direction.Normalize();
+            parent.Position += direction * parent.Speed * GameWorld.Instance.DeltaTime;
+
         }
+
 
         public void Exit()
         {
-            throw new NotImplementedException();
+
+            parent.State = null;
+
         }
+
+        #endregion
+
     }
+
 }

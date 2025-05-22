@@ -10,6 +10,7 @@ using Mortens_Komeback_3.Collider;
 using Mortens_Komeback_3.Factory;
 using System.Threading;
 using Mortens_Komeback_3.Environment;
+using Mortens_Komeback_3.State;
 
 namespace Mortens_Komeback_3
 {
@@ -21,25 +22,27 @@ namespace Mortens_Komeback_3
         private float threadTimer;
         private float threadTimerThreshold;
         private bool pauseAStar = true;
-        private AStar aStar = new AStar(); 
+        private AStar aStar = new AStar();
         private List<Tile> destinations = new List<Tile>();
         private int destinationsIndex = 0;
         private Vector2 destination;
-        private Vector2 velocity;
+        private Vector2 direction;
         private Vector2 playerPreviousPos;
-        private bool waitforAStar = false; //Used for making sure that player doens't move before a star proces is done. 
+        private bool waitforAStar = false; //Used for making sure that player doens't move before a star proces is done.
+        private IState<Enemy> state;
+
         #endregion
 
         #region Properties
+
         public float FPS { get; set; } = 6;
         public Texture2D[] Sprites { get; set; }
         public float ElapsedTime { get; set; }
         public int CurrentIndex { get; set; }
         public int Health { get; set; }
         public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
-        
-
-
+        public float Speed { get => speed; }
+        public IState<Enemy> State { set => state = value; }
 
         #endregion
 
@@ -61,7 +64,13 @@ namespace Mortens_Komeback_3
             (this as IAnimate).Animate();
             (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
 
-            Move();
+            bool stateTest = true;
+
+            if (stateTest && state != null)
+                state.Execute();
+
+            if (!stateTest)
+                Move();
 
             base.Update(gameTime);
         }
@@ -90,6 +99,9 @@ namespace Mortens_Komeback_3
             Thread aStarThread = new Thread(() => RunAStar(this, Player.Instance, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles));
             aStarThread.IsBackground = true;
             aStarThread.Start();
+
+            ChaseState chase = new ChaseState();
+            chase.Enter(this);
 
             base.Load();
         }
@@ -159,22 +171,23 @@ namespace Mortens_Komeback_3
         /// </summary>
         public void Move()
         {
+
             threadTimer += GameWorld.Instance.DeltaTime;
             if (Vector2.Distance(Position, destination) > 7 && !waitforAStar) //If destination is not reached, moves enemy to it's destination
             {
                 if (Position.X + 5 < destination.X)
-                    velocity += new Vector2(1, 0);
+                    direction += new Vector2(1, 0);
                 else if (Position.X - 5 > destination.X)
-                    velocity -= new Vector2(1, 0);
+                    direction -= new Vector2(1, 0);
 
                 if (Position.Y + 5 < destination.Y)
-                    velocity += new Vector2(0, 1);
+                    direction += new Vector2(0, 1);
                 else if (Position.Y - 5 > destination.Y)
-                    velocity -= new Vector2(0, 1);
+                    direction -= new Vector2(0, 1);
 
-                Position += (speed * velocity * GameWorld.Instance.DeltaTime);
+                Position += (speed * direction * GameWorld.Instance.DeltaTime);
 
-                velocity = Vector2.Zero;
+                direction = Vector2.Zero;
             }
             else if (destinationsIndex < destinations.Count - 1 && !waitforAStar) //If destination is reached, and there are more destinations, sets the next
             {
@@ -191,6 +204,7 @@ namespace Mortens_Komeback_3
                 waitforAStar = true; //Make sure enemy doens't move until RunAstar-Method is done
                 pauseAStar = false; //Makes the aStar thread not sleep
             }
+
         }
         #endregion
     }
