@@ -12,8 +12,15 @@ namespace Mortens_Komeback_3.Puzzles
 {
     class ShootPuzzle : Puzzle
     {
+        #region Fields
         private AvSurface fire1;
         private AvSurface fire2;
+        #endregion
+
+        #region Properties
+        #endregion
+
+        #region Constructor
 
         /// <summary>
         /// A Puzzle that consist of a trigger that needs to be hit by projectile, and a door. 
@@ -24,13 +31,9 @@ namespace Mortens_Komeback_3.Puzzles
         /// <param name="puzzleDoor">The door that the puzzle will unlock</param>
         public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Door puzzleDoor, int id) : base(type, triggerPos, puzzleDoor, id)
         {
-
-            this.puzzleDoor = puzzleDoor;
-            if (!(puzzleDoor.DoorStatus == DoorType.Locked))
-            {
-                puzzleDoor.DoorStatus = DoorType.Locked;
-            }
+            LockDoor();
         }
+
         /// <summary>
         /// A Puzzle that consist of a trigger that needs to be hit by projectile, a door and fire surfaces that blocks the door. 
         /// Philip
@@ -44,17 +47,16 @@ namespace Mortens_Komeback_3.Puzzles
         /// <param name="secondFireRotation">Rotation of the second fire</param>
         public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Door puzzleDoor, Vector2 firstFirePos, float firstFireRotation, Vector2 secondFirePos, float secondFireRotation, int id) : base(type, triggerPos, puzzleDoor, id)
         {
-            this.puzzleDoor = puzzleDoor;
-            if (!(puzzleDoor.DoorStatus == DoorType.Locked))
-            {
-                puzzleDoor.DoorStatus = DoorType.Locked;
-            }
             fire1 = new AvSurface(SurfaceType.AvSurface, firstFirePos, firstFireRotation);
             fire2 = new AvSurface(SurfaceType.AvSurface, secondFirePos, secondFireRotation);
             GameWorld.Instance.SpawnObject(fire1);
             GameWorld.Instance.SpawnObject(fire2);
             LockDoor();
         }
+        #endregion
+
+        #region Methods
+
 
         public override void OnCollision(ICollidable other)
         {
@@ -66,8 +68,7 @@ namespace Mortens_Komeback_3.Puzzles
 
         public override void SolvePuzzle()
         {
-            Solved = true;
-            puzzleDoor.UnlockDoor();
+            base.SolvePuzzle();
             if(fire1 != null)
             {
                 fire1.IsAlive = false;
@@ -77,5 +78,6 @@ namespace Mortens_Komeback_3.Puzzles
                 fire2.IsAlive = false;
             }
         }
+        #endregion
     }
 }

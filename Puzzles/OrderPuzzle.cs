@@ -13,7 +13,13 @@ namespace Mortens_Komeback_3.Puzzles
 {
     class OrderPuzzle : Puzzle
     {
+        #region Fields
+        #endregion
 
+        #region Properties
+        #endregion
+
+        #region Constructor
 
         /// <summary>
         /// Constructor for an OrderPuzzle: A puzzle consisting of a door and three rotatable plaques.
@@ -36,12 +42,13 @@ namespace Mortens_Komeback_3.Puzzles
                 GameWorld.Instance.SpawnObject(item.Value);
                 GameWorld.Instance.gamePuzzles.Add(item.Value);
             }
-            this.puzzleDoor = puzzleDoor;
             puzzleDoor.Position = spawnPos;
             LockDoor();
         }
 
+        #endregion
 
+        #region Methods
 
         /// <summary>
         /// Tries solving the puzzle, i.e. checks if all requirements for solving is met, and if so, changes the puzzle to solved. Requirements depends on type of puzzle. 
@@ -63,17 +70,13 @@ namespace Mortens_Komeback_3.Puzzles
 
         }
 
-        public override void SolvePuzzle()
-        {
-            Solved = true;
-            puzzleDoor.UnlockDoor();
-        }
+
 
 
         public override void Draw(SpriteBatch spriteBatch)
         {
         }
-
+        #endregion
 
     }
 }

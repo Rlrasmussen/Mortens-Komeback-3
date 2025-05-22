@@ -142,7 +142,7 @@ namespace Mortens_Komeback_3
 #endif
 
             gameObjects.Add(Player.Instance);
-            gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
+           // gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
             //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200,500)));
             //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200, 900)));
 
