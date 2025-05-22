@@ -74,7 +74,7 @@ namespace Mortens_Komeback_3
         public void Speak()
         {
             Player.Instance.Speed = 0f;
-            Player.Instance.Position = Position - new Vector2(125, 0);
+            Player.Instance.Position = Position - new Vector2(100, 0);
 
             switch (type)
             {
@@ -84,18 +84,19 @@ namespace Mortens_Komeback_3
                 case NPCType.GreyGoose:
                     break;
                 case NPCType.Pope:
-                    PopoDialogue();
+                    PopeDialogue();
                     break;
                 case NPCType.Monk:
                     MonkDialogue();
                     break;
                 case NPCType.Nun:
+                    NunDialogue();
                     break;
             }
 
         }
 
-        public void PopoDialogue()
+        public void PopeDialogue()
         {
             if (no == 0)
             {
@@ -115,25 +116,38 @@ namespace Mortens_Komeback_3
 
         public void MonkDialogue()
         {
-            //if (no == 0)
-            //{
-            //    kage = true;
-            //    talk = false;
-            //    npcText = "God bless your quest";
-            //    no++;
-            //}
-            //else
-            //{
-            //    kage = false;
-            //    talk = true;
-            //    Player.Instance.Speed = 500f;
-            //    no = 0;
-            //}
+            if (no == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
+            {
+                kage = true;
+                talk = false;
+                npcText = "Try press left mouse to shoot \n Bless you Morten and your courag";
+                no++;
 
-            PopoDialogue();
+            }
+            else if (no == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
+            {
+                kage = true;
+                talk = false;
+                npcText = "I don't need this slingshot anymore, \nmaybe you can use it for something \n Press left mouse to shoot";
+                no++;
+                GameWorld.Instance.SpawnObject(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position - new Vector2(0, 150)));
+            }
+            else
+            {
+                kage = false;
+                talk = true;
+                Player.Instance.Speed = 500f;
+                no = 0;
+            }
+
         }
 
         public void CanadaGooseDialogue()
+        {
+
+        }
+
+        public void NunDialogue()
         {
 
         }

@@ -200,9 +200,9 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC
-            NPC pope = new NPC(NPCType.Monk, new Vector2(200, 200));
-            gameObjects.Add(pope); 
-            npcs.Add(pope);
+            NPC monk = new NPC(NPCType.Nun, new Vector2(200, 200));
+            gameObjects.Add(monk); 
+            npcs.Add(monk);
 
             #endregion
 
