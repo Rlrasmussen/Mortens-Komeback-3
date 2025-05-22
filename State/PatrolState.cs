@@ -59,6 +59,8 @@ namespace Mortens_Komeback_3.State
         public void Execute()
         {
 
+            parent.IgnoreState = false;
+
             if (parent.Destinations.Count > 0 && patrolPath == null)
             {
                 foreach (Tile tile in parent.Destinations)
