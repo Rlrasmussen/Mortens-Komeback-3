@@ -43,6 +43,8 @@ namespace Mortens_Komeback_3
         public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
         public float Speed { get => speed; }
         public IState<Enemy> State { set => state = value; }
+        public List<Tile> Destinations { get => destinations; set => destinations = value; }
+        public bool PauseAStar { get => pauseAStar; set => pauseAStar = value; }
 
         #endregion
 
@@ -100,8 +102,8 @@ namespace Mortens_Komeback_3
             aStarThread.IsBackground = true;
             aStarThread.Start();
 
-            ChaseState chase = new ChaseState();
-            chase.Enter(this);
+            PatrolState patrol = new PatrolState();
+            patrol.Enter(this);
 
             base.Load();
         }
@@ -158,8 +160,8 @@ namespace Mortens_Komeback_3
                 if (path != null)
                 {
                     destinationsIndex = 0;
-                    destinations = path;
                     pauseAStar = true;
+                    destinations = path;
                 }
 
                 waitforAStar = false;

@@ -47,13 +47,18 @@ namespace Mortens_Komeback_3.State
             direction.Normalize();
             parent.Position += direction * parent.Speed * GameWorld.Instance.DeltaTime;
 
+            if (Vector2.Distance(parent.Position, Player.Instance.Position) > 300)
+                Exit();
+
         }
 
 
         public void Exit()
         {
-
-            parent.State = null;
+            
+            parent.PauseAStar = false;
+            PatrolState patrol = new PatrolState();
+            patrol.Enter(parent);
 
         }
 
