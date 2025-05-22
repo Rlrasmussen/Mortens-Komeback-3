@@ -13,6 +13,11 @@ namespace Mortens_Komeback_3.Menu
     public class MenuManager
     {
 
+        
+
+        public bool Hovering { get; set; }
+
+
         private Menu currentMenu;
 
         private Dictionary<MenuType, Menu> menus = new Dictionary<MenuType, Menu>();
@@ -35,7 +40,8 @@ namespace Mortens_Komeback_3.Menu
             var pauseMenu = new Menu(MenuType.Pause);
             pauseMenu.Sprite = GameWorld.Instance.Sprites[MenuType.Pause][0];
             //gameOverMenu.AddButtons(new Button(ButtonType.Button, new Vector2(500, 400), "Try Again", new RestartCommand()));
-            pauseMenu.AddButtons(new Button(ButtonType.Button, new Vector2(0, 0), "Resume", new ResumeCommand()));
+            pauseMenu.AddButtons(new Button(ButtonType.Button, new Vector2(Camera.Instance.Position.X + 100f, Camera.Instance.Position.X + 100f), "Resume", new ResumeCommand()));
+            pauseMenu.AddButtons(new Button(ButtonType.Button, Player.Instance.Position, "Quit", new ExitCommand()));
 
             menus.Add(MenuType.Start, startMenu);
             menus.Add(MenuType.GameOver, gameOverMenu);
@@ -43,17 +49,6 @@ namespace Mortens_Komeback_3.Menu
         }
 
         
-
-        //private List<Button> GetActiveButtons()
-        //{
-        //    return CurrentMenu switch
-        //    {
-        //        MenuType.Start => startMenuButtons,
-        //        MenuType.Pause => pauseMenuButtons,
-        //        MenuType.GameOver => gameOverButtons,
-        //        _ => new List<Button>()
-        //    };
-        //}
 
         public void OpenMenu(MenuType type)
         {
@@ -68,33 +63,17 @@ namespace Mortens_Komeback_3.Menu
             currentMenu = null;
         }
 
-        //public void Update()
-        //{
-        //    //foreach (var button in GetActiveButtons())
-        //    //{
-        //    //    button.Hovering = button.CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
-
-        //    //    //if (button.Hovering && InputHandler.Instance.LeftClickEventHandler)
-        //    //    if (button.Hovering)
-        //    //    {
-        //    //        button.Command?.Execute();
-        //    //    }
-
-        //    //    button.Update();
-        //    //}
-        //    currentMenu?.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-
-
-        //}
+       
         public void Update(Vector2 mousePos, bool isClicking)
         {
             currentMenu?.Update(InputHandler.Instance.MousePosition, isClicking);
-            
-            if (InputHandler.Instance.LeftClick)
-            {
 
+            if (InputHandler.Instance.LeftClick /*&& Hovering*/)
+            {
                 GameWorld.Instance.MenuManager.CloseMenu();
             }
+           
+
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)

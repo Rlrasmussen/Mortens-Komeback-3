@@ -10,6 +10,7 @@ namespace Mortens_Komeback_3.Environment
 {
     public class DoorManager : GameObject
     {
+
         public static List<Room> Rooms = new();
         public static List<Door> Doors = new();
 

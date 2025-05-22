@@ -17,7 +17,7 @@ namespace Mortens_Komeback_3.Menu
         public List<Button> buttonList = new List<Button>();
         //public MenuType background { get; set; }
         //public Vector2 Position { get; set; } = Player.Instance.Position; 
-        public Vector2 screenCenter;
+        public Vector2 Position { get; set; }
         public Enum Type { get; set; }
         public Texture2D Sprite { get; set; }
         //public bool MenuActive { get => menuActive; set => menuActive = value; } 
@@ -46,18 +46,30 @@ namespace Mortens_Komeback_3.Menu
         {
             foreach (var button in buttonList)
             {
-                button.Update(mousePos, isClicking); // <-- korrekt metode
+                button.Update(mousePos, isClicking); 
             }
+
+            // Opdater menuens center hver frame
+            Position = Camera.Instance.Position;
+
+            // Flyt knapper relativt til menuens Position
+            for (int i = 0; i < buttonList.Count; i++)
+            {
+                Vector2 offset = new Vector2(0, i * (buttonList[i].Sprite.Height + 10)); // placér dem vertikalt
+                buttonList[i].Position = Position + offset;
+                buttonList[i].Update(mousePos, isClicking);
+            }
+
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont buttonFont)
         {
             if (Sprite != null)
             {
-                Vector2 screenCenter = Camera.Instance.Position;
+                Vector2 Position = Camera.Instance.Position;
                 Vector2 origin = new Vector2(Sprite.Width / 2f, Sprite.Height / 2f);
 
-                spriteBatch.Draw(Sprite, screenCenter, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0.8f);
+                spriteBatch.Draw(Sprite, Position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0.8f);
             }
 
             //spriteBatch.Draw(Sprite, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.8f);
