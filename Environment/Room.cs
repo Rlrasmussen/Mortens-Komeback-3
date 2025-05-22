@@ -66,7 +66,7 @@ namespace Mortens_Komeback_3.Environment
             {
                 foreach (GameObject go in GameWorld.Instance.GameObjects)
                 {
-                    if (!(go is Decoration))
+                    if (!(go is AvSurface))
                         continue;
                     if (tile.Value.CollisionBox.Intersects(go.CollisionBox))
                     {
