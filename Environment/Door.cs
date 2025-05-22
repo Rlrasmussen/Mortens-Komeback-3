@@ -133,24 +133,24 @@ namespace Mortens_Komeback_3.Environment
             {
                 GameWorld.Instance.CurrentRoom = DestinationRoom;
                 GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
-            }
 
-            switch (Direction)
-            {
-                case DoorDirection.Top:
-                    Player.Instance.Position = new Vector2(DestinationDoor.Position.X, DestinationDoor.Position.Y - 180);
-                    break;
-                case DoorDirection.Right:
-                    Player.Instance.Position = new Vector2(DestinationDoor.Position.X + 180, DestinationDoor.Position.Y);
-                    break;
-                case DoorDirection.Bottom:
-                    Player.Instance.Position = new Vector2(DestinationDoor.Position.X , DestinationDoor.Position.Y +180);
-                    break;
-                case DoorDirection.Left:
-                    Player.Instance.Position = new Vector2(DestinationDoor.Position.X - 180, DestinationDoor.Position.Y);
-                    break;
-                default:
-                    break;
+                switch (Direction)
+                {
+                    case DoorDirection.Top:
+                        Player.Instance.Position = new Vector2(DestinationDoor.Position.X, DestinationDoor.Position.Y - 180);
+                        break;
+                    case DoorDirection.Right :
+                        Player.Instance.Position = new Vector2(DestinationDoor.Position.X + 320, DestinationDoor.Position.Y);
+                        break;
+                    case DoorDirection.Bottom:
+                        Player.Instance.Position = new Vector2(DestinationDoor.Position.X , DestinationDoor.Position.Y +180);
+                        break;
+                    case DoorDirection.Left:
+                        Player.Instance.Position = new Vector2(DestinationDoor.Position.X - 320, DestinationDoor.Position.Y);
+                        break;
+                    default:
+                        break;
+                }
             }
 
         }
