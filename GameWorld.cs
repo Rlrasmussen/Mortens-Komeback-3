@@ -611,7 +611,8 @@ namespace Mortens_Komeback_3
 
                     if ((
                         gameObject.Type.GetType() == typeof(PlayerType) ||
-                        gameObject.Type.GetType() == typeof(AttackType)
+                        gameObject.Type.GetType() == typeof(AttackType) ||
+                        gameObject.Type.GetType() == typeof(PuzzleType)
                         ) && (
                         other.Type.GetType() == typeof(EnemyType) ||
                         other.Type.GetType() == typeof(PuzzleType) ||

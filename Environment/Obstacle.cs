@@ -12,6 +12,9 @@ namespace Mortens_Komeback_3.Environment
     {
         private bool movable;
         private Vector2 velocity;
+        private float moveTimer;
+        private float moveTimerStop = 0.2f;
+        private int speed = 500;
         public Obstacle(Enum type, Vector2 spawnPos, bool movable) : base(type, spawnPos)
         {
             this.movable = movable;
@@ -19,16 +22,43 @@ namespace Mortens_Komeback_3.Environment
 
         public override void Update(GameTime gameTime)
         {
-            Position += velocity * 500 * GameWorld.Instance.DeltaTime;
+            moveTimer += GameWorld.Instance.DeltaTime;
+            Move();
+        }
+
+        public void Move()
+        {
+            if (moveTimer < moveTimerStop)
+            {
+                //Only moves, if move doesn't move obstacle out of room
+                // OBS!! Change to current room when available!!!
+                if (!((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Right)
+                    && !((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Left)
+                    && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Top)
+                    && !((Position.Y + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Bottom))
+
+                {
+                    Position += velocity * speed * GameWorld.Instance.DeltaTime;
+                }
+            }
         }
 
         public void OnCollision(ICollidable other)
         {
             if (other is Player)
             {
-                velocity = (other as Player).Velocity;
-                if (!(velocity == Vector2.Zero))
+                Vector2 tempVelocity = (other as Player).Velocity;
+                if (!(tempVelocity == Vector2.Zero))
+                {
+                    velocity = tempVelocity;
                     velocity.Normalize();
+                    moveTimer = 0;
+                }
+
+            }
+            else if (other is Door)
+            {
+                Position -= velocity * speed * GameWorld.Instance.DeltaTime;
             }
         }
     }

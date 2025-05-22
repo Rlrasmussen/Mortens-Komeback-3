@@ -42,7 +42,7 @@ namespace Mortens_Komeback_3.Puzzles
         public override void Load()
         {
             base.Load();
-            Thread aStarThread = new Thread(() => AStarPath(pathStart, pathEnd, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles));
+            Thread aStarThread = new Thread(() => AStarPath(pathStart, pathEnd, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)); //TODO: change to current room when availble!
             aStarThread.IsBackground = true;
             GameWorld.Instance.SpawnObject(pathfindingObstacle);
             GameWorld.Instance.SpawnObject(pathStart);

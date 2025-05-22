@@ -86,7 +86,7 @@ namespace Mortens_Komeback_3
                 Damage = stats.damage;
                 speed = stats.speed;
             }
-            Thread aStarThread = new Thread(() => RunAStar(this, Player.Instance, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles));
+            Thread aStarThread = new Thread(() => RunAStar(this, Player.Instance, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)); //TODO : Cahnge to current room when availble
             aStarThread.IsBackground = true;
             aStarThread.Start();
             //Health and damage switch case
