@@ -200,7 +200,7 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC
-            NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
+            NPC pope = new NPC(NPCType.Monk, new Vector2(200, 200));
             gameObjects.Add(pope); 
             npcs.Add(pope);
 
@@ -436,6 +436,8 @@ namespace Mortens_Komeback_3
             Sprites.Add(OverlayObjects.Heart, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\heartSprite") });
             Sprites.Add(OverlayObjects.Dialog, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\talk") });
             Sprites.Add(OverlayObjects.InteractBubble, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\interact") });
+            Sprites.Add(OverlayObjects.DialogBox, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\dialogueBox") });
+
 
             #endregion
             #region Environment

@@ -100,7 +100,8 @@ namespace Mortens_Komeback_3
     {
         Heart,
         Dialog,
-        InteractBubble
+        InteractBubble,
+        DialogBox
     }
 
     /// <summary>

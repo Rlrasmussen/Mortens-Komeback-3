@@ -62,8 +62,7 @@ namespace Mortens_Komeback_3.Factory
 
             //Pushing to the inactive
             inactive.Push(gameObject);
-
-            //CleanUp(gameObject);
+            gameObject.IsAlive = false;
         }
 
         /// <summary>
@@ -83,6 +82,7 @@ namespace Mortens_Komeback_3.Factory
         {
             while (active.Count > 0)
             {
+                active[0].IsAlive = false;
                 ReleaseObject(active[0]);
             }
 
