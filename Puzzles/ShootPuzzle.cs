@@ -48,14 +48,13 @@ namespace Mortens_Komeback_3.Puzzles
         {
             fire1 = new AvSurface(SurfaceType.AvSurface, firstFirePos, firstFireRotation);
             fire2 = new AvSurface(SurfaceType.AvSurface, secondFirePos, secondFireRotation);
-            GameWorld.Instance.SpawnObject(fire1);
-            GameWorld.Instance.SpawnObject(fire2);
+            GameWorld.Instance.GameObjects.Add(fire1);
+            GameWorld.Instance.GameObjects.Add(fire2);
             LockDoor();
         }
         #endregion
 
         #region Methods
-
 
         public override void OnCollision(ICollidable other)
         {
@@ -68,6 +67,7 @@ namespace Mortens_Komeback_3.Puzzles
         public override void SolvePuzzle()
         {
             base.SolvePuzzle();
+            Sprite = GameWorld.Instance.Sprites[PuzzleType.ShootPuzzle][1];
             if(fire1 != null)
             {
                 fire1.IsAlive = false;

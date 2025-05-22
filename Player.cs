@@ -143,6 +143,8 @@ namespace Mortens_Komeback_3
         /// </summary>
         public int CurrentIndex { get; set; }
 
+        public float Speed { get => speed; }
+
         #endregion
 
         #region Constructor

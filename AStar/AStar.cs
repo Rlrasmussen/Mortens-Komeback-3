@@ -18,7 +18,13 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Claculates the shortest path, in the form of list of tiles, between start and end object.  
+        /// </summary>
+        /// <param name="start">The object where the path should start</param>
+        /// <param name="end">The object where the path should end</param>
+        /// <param name="tiles">A dictionary of tiles, that is the grid where the path is found</param>
+        /// <returns></returns>
         public List<Tile> AStarFindPath(GameObject start, GameObject end, Dictionary<Vector2, Tile> tiles)
         {
             HashSet<Tile> openList = new HashSet<Tile>();
