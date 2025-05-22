@@ -15,6 +15,7 @@ namespace Mortens_Komeback_3.Environment
         private float moveTimer;
         private float moveTimerStop = 0.3f;
         private int speed = 500;
+        private Room obstacleRoom;
 
         /// <summary>
         /// An obstacle that can be collided with, and potentialy moved.
@@ -22,9 +23,10 @@ namespace Mortens_Komeback_3.Environment
         /// <param name="type">The type of obstacle</param>
         /// <param name="spawnPos">Position the obstacle should spawn</param>
         /// <param name="movable">Wether the obstacle should be movable</param>
-        public Obstacle(Enum type, Vector2 spawnPos, bool movable) : base(type, spawnPos)
+        public Obstacle(Enum type, Vector2 spawnPos, bool movable, Room room) : base(type, spawnPos)
         {
             this.movable = movable;
+            this.obstacleRoom = room;
         }
 
         public override void Update(GameTime gameTime)
@@ -41,10 +43,10 @@ namespace Mortens_Komeback_3.Environment
             {
                 //Only moves, if move doesn't move obstacle out of room
                 // OBS!! Change to current room when available!!!
-                if (!((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Right)
-                    && !((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Left)
-                    && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Top)
-                    && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Bottom))
+                if (!((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > obstacleRoom.CollisionBox.Right)
+                    && !((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < obstacleRoom.CollisionBox.Left)
+                    && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < obstacleRoom.CollisionBox.Top)
+                    && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > obstacleRoom.CollisionBox.Bottom))
 
                 {
                     Position += velocity * speed * GameWorld.Instance.DeltaTime;

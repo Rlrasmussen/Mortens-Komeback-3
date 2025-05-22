@@ -22,11 +22,12 @@ namespace Mortens_Komeback_3.Puzzles
         private float pathUpdateTimer = 0;
         private float pathUpdateCountdown = 1;
 
-        public PathfindingPuzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id, Room room, Vector2 pathStartPos, Vector2 pathEndPos, Vector2 pathGoalPoint, Vector2 obstaclePos) : base(type, spawnPos, puzzleDoor, id)
+        public PathfindingPuzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id, Room room, Vector2 pathStartPos, Vector2 pathEndPos, Vector2 pathGoalPoint, Vector2 obstaclePos, Room puzzleRoom) : base(type, spawnPos, puzzleDoor, id)
         {
             this.pathEnd = new Decoration(DecorationType.Light, pathEndPos, 0);
             this.pathStart = new Decoration(DecorationType.Torch, pathStartPos, 0);
-            pathfindingObstacle = new Obstacle(PuzzleType.PuzzleObstacle, obstaclePos, true);
+            this.puzzleRoom = puzzleRoom;
+            pathfindingObstacle = new Obstacle(PuzzleType.PuzzleObstacle, obstaclePos, true, puzzleRoom);
             goalPosition = pathGoalPoint;
         }
 
@@ -42,7 +43,11 @@ namespace Mortens_Komeback_3.Puzzles
         public override void Load()
         {
             base.Load();
-            Thread aStarThread = new Thread(() => AStarPath(pathStart, pathEnd, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)); //TODO: change to current room when availble!
+            if (puzzleRoom.Tiles.Count == 0)
+            {
+                puzzleRoom.AddTiles();
+            }
+            Thread aStarThread = new Thread(() => AStarPath(pathStart, pathEnd, puzzleRoom.Tiles)); //TODO: change to current room when availble!
             aStarThread.IsBackground = true;
             GameWorld.Instance.SpawnObject(pathfindingObstacle);
             GameWorld.Instance.SpawnObject(pathStart);
