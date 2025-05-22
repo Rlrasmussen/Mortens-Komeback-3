@@ -15,6 +15,13 @@ namespace Mortens_Komeback_3.Environment
         private float moveTimer;
         private float moveTimerStop = 0.2f;
         private int speed = 500;
+
+        /// <summary>
+        /// An obstacle that can be collided with, and potentialy moved.
+        /// </summary>
+        /// <param name="type">The type of obstacle</param>
+        /// <param name="spawnPos">Position the obstacle should spawn</param>
+        /// <param name="movable">Wether the obstacle should be movable</param>
         public Obstacle(Enum type, Vector2 spawnPos, bool movable) : base(type, spawnPos)
         {
             this.movable = movable;
@@ -25,7 +32,9 @@ namespace Mortens_Komeback_3.Environment
             moveTimer += GameWorld.Instance.DeltaTime;
             Move();
         }
-
+        /// <summary>
+        /// Slides the obstacle 
+        /// </summary>
         public void Move()
         {
             if (moveTimer < moveTimerStop)
