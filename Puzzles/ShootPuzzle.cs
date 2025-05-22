@@ -31,7 +31,6 @@ namespace Mortens_Komeback_3.Puzzles
         /// <param name="puzzleDoor">The door that the puzzle will unlock</param>
         public ShootPuzzle(PuzzleType type, Vector2 triggerPos, Door puzzleDoor, int id) : base(type, triggerPos, puzzleDoor, id)
         {
-            LockDoor();
         }
 
         /// <summary>

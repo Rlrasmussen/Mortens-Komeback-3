@@ -14,7 +14,7 @@ namespace Mortens_Komeback_3.Puzzles
 
         public PathfindingPuzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id, Room room, Vector2 pathStartPos, Vector2 pathEndPos, Vector2 pathGoalPoint) : base(type, spawnPos, puzzleDoor, id)
         {
-            LockDoor();
+            
 
 
         }

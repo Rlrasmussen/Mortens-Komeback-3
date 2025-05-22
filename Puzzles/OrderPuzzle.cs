@@ -43,7 +43,6 @@ namespace Mortens_Komeback_3.Puzzles
                 GameWorld.Instance.gamePuzzles.Add(item.Value);
             }
             puzzleDoor.Position = spawnPos;
-            LockDoor();
         }
 
         #endregion
