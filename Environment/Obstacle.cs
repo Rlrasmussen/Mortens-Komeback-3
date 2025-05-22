@@ -44,7 +44,7 @@ namespace Mortens_Komeback_3.Environment
                 if (!((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Right)
                     && !((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Left)
                     && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Top)
-                    && !((Position.Y + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Bottom))
+                    && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).CollisionBox.Bottom))
 
                 {
                     Position += velocity * speed * GameWorld.Instance.DeltaTime;
