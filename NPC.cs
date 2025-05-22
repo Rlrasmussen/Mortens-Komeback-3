@@ -17,7 +17,7 @@ using Microsoft.Data.Sqlite;
 
 namespace Mortens_Komeback_3
 {
-    public class NPC : GameObject, ICollidable
+    public class NPC : GameObject, ICollidable, IAnimate
     {
         #region Fields
         private Texture2D textBubble = GameWorld.Instance.Sprites[OverlayObjects.Dialog][0];
@@ -32,12 +32,21 @@ namespace Mortens_Komeback_3
 
         #region Properties
         public bool Canada { get => canada; set => canada = value; }
+        public float FPS { get; set; } = 6;
+        public Texture2D[] Sprites { get; set; }
+        public float ElapsedTime { get; set; }
+        public int CurrentIndex { get; set; }
 
         #endregion
 
         #region Constructor
         public NPC(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
+            if (GameWorld.Instance.Sprites.TryGetValue(type, out var sprites))
+                Sprites = sprites;
+            else
+                Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
+
             layer = 0.6f;
 
         }
@@ -45,6 +54,12 @@ namespace Mortens_Komeback_3
         #endregion
 
         #region Method
+        public override void Update(GameTime gameTime)
+        {
+            (this as IAnimate).Animate();
+            base.Update(gameTime);
+        }
+
         public void OnCollision(ICollidable other)
         {
             //throw new NotImplementedException();
@@ -52,8 +67,13 @@ namespace Mortens_Komeback_3
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //If there is a collision between Player and NPC there will spawn an talk textbubble
-            if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox) && interact == true)
+            if (Sprites != null)
+            {
+                spriteBatch.Draw(Sprites[CurrentIndex], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+            }
+
+                //If there is a collision between Player and NPC there will spawn an talk textbubble
+                if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox) && interact == true)
             {
                 spriteBatch.Draw(textBubble, Position - new Vector2(0, 90), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             }
