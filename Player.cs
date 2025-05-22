@@ -423,6 +423,9 @@ namespace Mortens_Komeback_3
                 case NPCType.Monk:
                     (gameObject as NPC).Speak();
                     break;
+                case NPCType.Nun:
+                    (gameObject as NPC).Speak();
+                        break;
                 default:
                     break;
             }

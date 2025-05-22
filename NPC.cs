@@ -23,9 +23,9 @@ namespace Mortens_Komeback_3
         private Texture2D textBubble = GameWorld.Instance.Sprites[OverlayObjects.Dialog][0];
         private Texture2D bob = GameWorld.Instance.Sprites[OverlayObjects.DialogBox][0];
 
-        private bool talk = true;
+        private bool interact = true;
         private int no = 0;
-        private bool kage = false;
+        private bool talk = false;
         private string npcText;
 
         #endregion
@@ -54,7 +54,7 @@ namespace Mortens_Komeback_3
         public override void Draw(SpriteBatch spriteBatch)
         {
             //If there is a collision between Player and NPC there will spawn an talk textbubble
-            if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox) && talk == true)
+            if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox) && interact == true)
             {
 
                 spriteBatch.Draw(textBubble, Position - new Vector2(0, 90), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
@@ -62,7 +62,7 @@ namespace Mortens_Komeback_3
 
             }
 
-            if (kage == true && (this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
+            if (talk == true && (this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
             {
                 spriteBatch.Draw(bob, Player.Instance.Position - new Vector2(bob.Width / 2, -bob.Height), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
                 spriteBatch.DrawString(GameWorld.Instance.GameFont, npcText, Player.Instance.Position - new Vector2(bob.Width / 2, -bob.Height - 50), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.2f);
@@ -100,15 +100,15 @@ namespace Mortens_Komeback_3
         {
             if (no == 0)
             {
-                kage = true;
-                talk = false;
+                talk = true;
+                interact = false;
                 npcText = "God bless your quest";
                 no++;
             }
             else
             {
-                kage = false;
-                talk = true;
+                talk = false;
+                interact = true;
                 Player.Instance.Speed = 500f;
                 no = 0;
             }
@@ -118,24 +118,24 @@ namespace Mortens_Komeback_3
         {
             if (no == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
             {
-                kage = true;
-                talk = false;
+                talk = true;
+                interact = false;
                 npcText = "Try press left mouse to shoot \n Bless you Morten and your courag";
                 no++;
 
             }
             else if (no == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
             {
-                kage = true;
-                talk = false;
+                talk = true;
+                interact = false;
                 npcText = "I don't need this slingshot anymore, \nmaybe you can use it for something \n Press left mouse to shoot";
                 no++;
                 GameWorld.Instance.SpawnObject(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position - new Vector2(0, 150)));
             }
             else
             {
-                kage = false;
-                talk = true;
+                talk = false;
+                interact = true;
                 Player.Instance.Speed = 500f;
                 no = 0;
             }
@@ -149,7 +149,20 @@ namespace Mortens_Komeback_3
 
         public void NunDialogue()
         {
-
+            if (no == 0)
+            {
+                talk = true;
+                interact = false;
+                npcText = "I need a strong and handsome man to help me move thise stones";
+                no++;
+            }
+            else
+            {
+                talk = false;
+                interact = true;
+                Player.Instance.Speed = 500f;
+                no = 0;
+            }
         }
         #endregion
     }
