@@ -13,7 +13,7 @@ namespace Mortens_Komeback_3.Environment
         private bool movable;
         private Vector2 velocity;
         private float moveTimer;
-        private float moveTimerStop = 0.2f;
+        private float moveTimerStop = 0.3f;
         private int speed = 500;
 
         /// <summary>
