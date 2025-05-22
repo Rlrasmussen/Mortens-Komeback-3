@@ -53,6 +53,10 @@ namespace Mortens_Komeback_3
         private float rotationLeft = (float)(-Math.PI / 2);
 
         private Button myButton;
+        public List<Button> buttonList = new List<Button>();
+
+        public MenuManager MenuManager { get; set; }
+        public Vector2 ScreenSize { get; private set; }
 
         /// <summary>
         /// Singleton for GameWorld
@@ -140,10 +144,12 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddButtonDownCommand(Keys.Space, new DrawCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.M, new SaveCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new ClearSaveCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());//Test
 #endif
 
 
-            myButton = new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 200), "Quit");
+            MenuManager = new MenuManager();
+            MenuManager.CreateMenus();
 
 
             base.Initialize();
@@ -169,14 +175,13 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
             gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
 
-
-
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
 
             #region Decorations
             gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
+            
             #endregion
 
 
@@ -248,6 +253,15 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
+            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+
+            //if (Keyboard.GetState().IsKeyDown(Keys.P))
+            //{
+            //    GameWorld.Instance.MenuManager.OpenMenu(MenuType.Pause);
+            //}
+            
+
+
             //SpawnEnemies();
 
             CleanUp();
@@ -283,7 +297,16 @@ namespace Mortens_Komeback_3
 
             }
 
-            myButton.Draw(_spriteBatch, GameFont);
+            //myButton.Draw(_spriteBatch, GameFont);
+
+            ////foreach (Button button in buttonList)
+            ////{
+            ////    button.Draw(_spriteBatch, GameFont);
+
+            ////}
+
+            //GameWorld.Instance.buttonList.Draw(_spriteBatch, GameFont);
+            MenuManager.Draw(_spriteBatch, GameFont);
 
 
 
@@ -306,6 +329,7 @@ namespace Mortens_Komeback_3
         /// <param name="screenSize">Angiver skærmstørrelse i form af x- og y-akser</param>
         private void SetScreenSize(Vector2 screenSize)
         {
+            screenSize = screenSize;
 
             _graphics.PreferredBackBufferWidth = (int)screenSize.X;
             _graphics.PreferredBackBufferHeight = (int)screenSize.Y;
@@ -433,6 +457,9 @@ namespace Mortens_Komeback_3
 
             Sprites.Add(MenuType.Win, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\winScreen") });
             Sprites.Add(MenuType.GameOver, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\looseScreen") });
+            Sprites.Add(MenuType.Start, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\looseScreen") });
+            Sprites.Add(MenuType.Pause, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\square") });
+
             Sprites.Add(ButtonType.Button, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\button") });
             Sprites.Add(ButtonType.ButtonPressed, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\buttonPressed") });
 
@@ -744,6 +771,23 @@ namespace Mortens_Komeback_3
 
                 throw new Exception("Method GameWorld.GetEnemyStats didn't execute properly");
 
+            }
+
+        }
+
+
+        public void Pause()
+        {
+            if (gamePaused)
+            {
+                gamePaused = false;
+
+                //MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
+            }
+            else
+            {
+                gamePaused = true;
+                //MediaPlayer.Play(Music[MusicTrack.BackgroundMusic]);
             }
 
         }

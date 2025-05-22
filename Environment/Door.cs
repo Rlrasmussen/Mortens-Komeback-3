@@ -131,10 +131,26 @@ namespace Mortens_Komeback_3.Environment
 
             if (other == Player.Instance && (DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open || DoorStatus == DoorType.Stairs))
             {
-                Player.Instance.Position = new Vector2(DestinationDoor.Position.X + 180, DestinationDoor.Position.Y);
                 GameWorld.Instance.CurrentRoom = DestinationRoom;
-                //Debug.WriteLine("Player teleported to " + DestinationRoom.RoomType);
                 GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
+
+                switch (Direction)
+                {
+                    case DoorDirection.Top:
+                        Player.Instance.Position = new Vector2(DestinationDoor.Position.X, DestinationDoor.Position.Y - 180);
+                        break;
+                    case DoorDirection.Right :
+                        Player.Instance.Position = new Vector2(DestinationDoor.Position.X + 320, DestinationDoor.Position.Y);
+                        break;
+                    case DoorDirection.Bottom:
+                        Player.Instance.Position = new Vector2(DestinationDoor.Position.X , DestinationDoor.Position.Y +180);
+                        break;
+                    case DoorDirection.Left:
+                        Player.Instance.Position = new Vector2(DestinationDoor.Position.X - 320, DestinationDoor.Position.Y);
+                        break;
+                    default:
+                        break;
+                }
             }
 
         }

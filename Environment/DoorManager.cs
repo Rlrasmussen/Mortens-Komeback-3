@@ -10,6 +10,7 @@ namespace Mortens_Komeback_3.Environment
 {
     public class DoorManager : GameObject
     {
+
         public static List<Room> Rooms = new();
         public static List<Door> Doors = new();
 
@@ -43,7 +44,7 @@ namespace Mortens_Komeback_3.Environment
             Door doorA1 = new Door(new Vector2(1190, 0), DoorDirection.Right);
             Door doorA2 = new Door(new Vector2(-1190, 2000), DoorDirection.Left);
             Door doorB1 = new Door(new Vector2(1190, 2000), DoorDirection.Right, DoorType.StairsLocked);
-            Door doorB2 = new Door(new Vector2(-1190, 4000), DoorDirection.Left);
+            Door doorB2 = new Door(new Vector2(-1190, 4000), DoorDirection.Left, DoorType.Stairs);
             Door doorC1 = new Door(new Vector2(1190 * 3 + 275, 4000), DoorDirection.Right); //catacombesA
             Door doorC2 = new Door(new Vector2(-1190, 6000), DoorDirection.Left);
             Door doorD1 = new Door(new Vector2(1190, 6000), DoorDirection.Right); //shoot puzzle
