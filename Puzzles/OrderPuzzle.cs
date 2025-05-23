@@ -13,14 +13,20 @@ namespace Mortens_Komeback_3.Puzzles
 {
     class OrderPuzzle : Puzzle
     {
+        #region Fields
+        #endregion
 
+        #region Properties
+        #endregion
+
+        #region Constructor
 
         /// <summary>
-        /// Constructor for an OrderPuzzle: A puzzle consisting of a door and three rotatable plaques.
+        /// Constructor for an OrderPuzzle: A puzzle consisting of a door, a lever and three rotatable plaques.
         /// Philip
         /// </summary>
         /// <param name="type">Type of the puzzle</param>
-        /// <param name="spawnPos">Position of the Door/primary element of puzzle. Notice! this also changes the position of the hcosen door. </param>
+        /// <param name="spawnPos">Position of primary element of puzzle.  </param>
         /// <param name="puzzleDoor">The door that the puzzle will unlock</param>
         /// <param name="plaque1Pos">Position of the first plaque</param>
         /// <param name="plaque2Pos">Position of the second plaque</param>
@@ -36,12 +42,12 @@ namespace Mortens_Komeback_3.Puzzles
                 GameWorld.Instance.SpawnObject(item.Value);
                 GameWorld.Instance.gamePuzzles.Add(item.Value);
             }
-            this.puzzleDoor = puzzleDoor;
-            puzzleDoor.Position = spawnPos;
-            LockDoor();
+            Position = spawnPos;
         }
 
+        #endregion
 
+        #region Methods
 
         /// <summary>
         /// Tries solving the puzzle, i.e. checks if all requirements for solving is met, and if so, changes the puzzle to solved. Requirements depends on type of puzzle. 
@@ -52,8 +58,8 @@ namespace Mortens_Komeback_3.Puzzles
             {
                 if (
                 puzzlePieces["plaque1"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][0] &&
-                puzzlePieces["plaque2"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][2] &&
-                puzzlePieces["plaque3"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][1]
+                puzzlePieces["plaque2"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][1] &&
+                puzzlePieces["plaque3"].Sprite == GameWorld.Instance.Sprites[PuzzleType.OrderPuzzlePlaque][2]
                     )
                 {
                     this.SolvePuzzle();
@@ -65,15 +71,14 @@ namespace Mortens_Komeback_3.Puzzles
 
         public override void SolvePuzzle()
         {
-            Solved = true;
-            puzzleDoor.UnlockDoor();
+            base.SolvePuzzle();
+            Sprite = GameWorld.Instance.Sprites[PuzzleType.OrderPuzzle][2];
         }
 
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-        }
 
+
+        #endregion
 
     }
 }

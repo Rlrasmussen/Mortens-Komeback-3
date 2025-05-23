@@ -64,16 +64,7 @@ namespace Mortens_Komeback_3.Environment
             }
             foreach (var tile in tiles)
             {
-                foreach (GameObject go in GameWorld.Instance.GameObjects)
-                {
-                    if (!(go is AvSurface))
-                        continue;
-                    if (tile.Value.CollisionBox.Intersects(go.CollisionBox))
-                    {
-                        tile.Value.Walkable = false;
-                    }
-
-                }
+                tile.Value.SetWalkable();
             }
         }
         #endregion

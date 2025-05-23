@@ -57,7 +57,7 @@ namespace Mortens_Komeback_3.Puzzles
         /// <param name="id">Puzzles ID (for database) - Simon</param>
         public Puzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id) : base(type, spawnPos)
         {
-
+            this.puzzleDoor = puzzleDoor; 
             this.id = id;
             GetStatusFromDB(); //Simon
 
@@ -92,7 +92,7 @@ namespace Mortens_Komeback_3.Puzzles
         /// </summary>
         public override void Load()
         {
-
+            LockDoor();
             if (solved)
                 SolvePuzzle();
 
@@ -104,7 +104,11 @@ namespace Mortens_Komeback_3.Puzzles
         /// Solves the puzzle.
         /// Philip
         /// </summary>
-        public abstract void SolvePuzzle();
+        public virtual void SolvePuzzle()
+        {
+            Solved = true;
+            puzzleDoor.UnlockDoor();
+        }
 
         /// <summary>
         /// The funcitoning happening when the puzzle is colliding with another object, 

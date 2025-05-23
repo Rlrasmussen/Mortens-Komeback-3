@@ -194,6 +194,7 @@ namespace Mortens_Komeback_3
         OrderPuzzlePlaque,
         PathfindingPuzzle,
         ShootPuzzle,
+        PuzzleObstacle
     }
 
     public enum EnvironmentType

@@ -424,6 +424,9 @@ namespace Mortens_Komeback_3
                 case PuzzleType.OrderPuzzle:
                     (gameObject as OrderPuzzle).TrySolve();
                     break;
+                case PuzzleType.PathfindingPuzzle:
+                    (gameObject as PathfindingPuzzle).TrySolve();
+                    break;
                 case NPCType.Pope:
                     (gameObject as NPC).Speak();
                     break;
