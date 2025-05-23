@@ -100,7 +100,7 @@ namespace Mortens_Komeback_3.Environment
             catacombesD1.AddDoor(doorF1);
             catacombesE.AddDoor(doorF2);
             catacombesE.AddDoor(doorG1);
-            catacombesE.AddDoor(doorG2);
+            catacombesE.AddDoor(doorH1);
 
             trapRoom.AddDoor(doorG2);
             trapRoom.AddDoor(doorG3);

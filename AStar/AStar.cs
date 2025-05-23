@@ -50,18 +50,18 @@ namespace Mortens_Komeback_3
             Tile endTile = tiles[endVector];
             openList.Add(tiles[startVector]);
 
-            while (openList.Count > 0) 
+            while (openList.Count > 0)
             {
                 Tile curTile = openList.First(); //The current tile is temporarily  set to first of oppen list.
                 foreach (var t in openList) //Chooses which tile to Look at: the tile from open list with the lowest F value (H decides on tie)
                 {
                     if (t.F < curTile.F || t.F == curTile.F && t.H < curTile.H)
                     {
-                        curTile = t; 
+                        curTile = t;
                     }
                 }
                 //The current tile is moved from open to closest list - it is a potential candidate for the path
-                openList.Remove(curTile); 
+                openList.Remove(curTile);
                 closedList.Add(curTile);
 
                 if (curTile.Position.X == endVector.X && curTile.Position.Y == endVector.Y)
@@ -88,11 +88,11 @@ namespace Mortens_Komeback_3
 
                         if (!openList.Contains(neighbour))
                         {
-                            openList.Add(neighbour); 
+                            openList.Add(neighbour);
                         }
                     }
                 }
-            } 
+            }
             //If open list is empty, the end hasn't been found and null is returned. 
             return null;
         }

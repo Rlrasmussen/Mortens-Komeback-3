@@ -12,23 +12,29 @@ namespace Mortens_Komeback_3.Puzzles
     class PathfindingPuzzle : Puzzle
     {
         private Room puzzleRoom;
-        private Obstacle pathfindingObstacle;
+        private Obstacle pathfindingObstacle1;
+        private Obstacle pathfindingObstacle2;
+        private Obstacle pathfindingObstacle3;
         private AStar puzzleAStar = new AStar();
         private Decoration pathStart;
         private Decoration pathEnd;
         private bool aStarPaused = true;
-        private List<Decoration> puzzlePath = new List<Decoration>();
+        private List<Tile> puzzlePath = new List<Tile>();
         private Vector2 goalPosition;
+        private Decoration pathGoal;
         private float pathUpdateTimer = 0;
-        private float pathUpdateCountdown = 1;
+        private float pathUpdateCountdown = 2;
 
-        public PathfindingPuzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id, Room room, Vector2 pathStartPos, Vector2 pathEndPos, Vector2 pathGoalPoint, Vector2 obstaclePos, Room puzzleRoom) : base(type, spawnPos, puzzleDoor, id)
+        public PathfindingPuzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id, Vector2 pathStartPos, Vector2 pathEndPos, Vector2 pathGoalPoint, Room puzzleRoom) : base(type, spawnPos, puzzleDoor, id)
         {
             this.pathEnd = new Decoration(DecorationType.Light, pathEndPos, 0);
-            this.pathStart = new Decoration(DecorationType.Torch, pathStartPos, 0);
+            this.pathStart = new Decoration(DecorationType.Splash, pathStartPos, 0);
             this.puzzleRoom = puzzleRoom;
-            pathfindingObstacle = new Obstacle(PuzzleType.PuzzleObstacle, obstaclePos, true, puzzleRoom);
+            pathfindingObstacle1 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(puzzleRoom.Position.X - 400, puzzleRoom.Position.Y), true, puzzleRoom);
+            pathfindingObstacle2 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(pathfindingObstacle1.Position.X, pathfindingObstacle1.Position.Y + 200), true, puzzleRoom);
+            pathfindingObstacle3 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(pathfindingObstacle2.Position.X, pathfindingObstacle2.Position.Y + 200), true, puzzleRoom);
             goalPosition = pathGoalPoint;
+            pathGoal = new Decoration(DecorationType.Cross, pathGoalPoint, 0);
         }
 
         public override void Update(GameTime gameTime)
@@ -49,16 +55,22 @@ namespace Mortens_Komeback_3.Puzzles
             }
             Thread aStarThread = new Thread(() => AStarPath(pathStart, pathEnd, puzzleRoom.Tiles)); //TODO: change to current room when availble!
             aStarThread.IsBackground = true;
-            GameWorld.Instance.SpawnObject(pathfindingObstacle);
+            GameWorld.Instance.SpawnObject(pathfindingObstacle1);
+            GameWorld.Instance.SpawnObject(pathfindingObstacle2);
+            GameWorld.Instance.SpawnObject(pathfindingObstacle3);
             GameWorld.Instance.SpawnObject(pathStart);
             GameWorld.Instance.SpawnObject(pathEnd);
+            GameWorld.Instance.SpawnObject(pathGoal);
+
+
+            aStarThread.Start();
 
         }
-        public void TrySolvePuzzle()
+        public void TrySolve()
         {
-            foreach (Decoration step in puzzlePath)
+            foreach (Tile step in puzzlePath)
             {
-                if (Vector2.Distance(step.Position, goalPosition) < 150) ;
+                if (step.CollisionBox.Intersects(pathGoal.CollisionBox)) 
                 {
                     SolvePuzzle();
                     return;
@@ -69,6 +81,7 @@ namespace Mortens_Komeback_3.Puzzles
         public override void SolvePuzzle()
         {
             base.SolvePuzzle();
+            Sprite = GameWorld.Instance.Sprites[PuzzleType.PathfindingPuzzle][2];
         }
 
         public void AStarPath(GameObject startObject, GameObject endObject, Dictionary<Vector2, Tile> tiles)
@@ -79,25 +92,32 @@ namespace Mortens_Komeback_3.Puzzles
                 {
                     Thread.Sleep(10);
                 }
+                foreach (var tile in tiles)
+                {
+                    tile.Value.SetWalkable();
+                }
                 List<Tile> path = puzzleAStar.AStarFindPath(startObject, endObject, tiles);
                 if (path != null)
                 {
-                    foreach (Decoration step in puzzlePath)
+                    if (path != puzzlePath)
                     {
-                        step.IsAlive = false;
-                    }
-                    puzzlePath.Clear();
-                    foreach (Tile tile in path)
-                    {
-                        puzzlePath.Add(new Decoration(DecorationType.Light, tile.Position, 0));
-                    }
-                    foreach (Decoration step in puzzlePath)
-                    {
-                        GameWorld.Instance.SpawnObject(step);
+                        foreach (Tile step in puzzlePath)
+                        {
+                            step.IsAlive = false;
+                        }
+                        puzzlePath.Clear();
+                        foreach (Tile tile in path)
+                        {
+                            puzzlePath.Add(tile);
+                        }
+                        foreach (Tile step in puzzlePath)
+                        {
+                            GameWorld.Instance.SpawnObject(step);
+                        }
                     }
                 }
                 aStarPaused = true;
-
+                pathUpdateTimer = 0;
             }
 
         }

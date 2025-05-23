@@ -202,7 +202,19 @@ namespace Mortens_Komeback_3
             ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)), new Vector2(0, 5700), 0, new Vector2(0, 6300), 0, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
-            gameObjects.Add(new Obstacle(PuzzleType.PuzzleObstacle, Vector2.Zero, true, CurrentRoom));
+            PathfindingPuzzle pathfindingPuzzle = new PathfindingPuzzle(PuzzleType.PathfindingPuzzle,
+                new Vector2(DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Right - 200, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Bottom - 500), //Puzzlelever
+                DoorManager.doorList["doorI1"], //Door
+                2, //ID
+                new Vector2(-200, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Bottom - 200), //Path start
+                new Vector2(500, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Top + 300), //Path end
+                new Vector2(-100, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).Position.Y -200), //Path Goal
+                DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF)); //Room
+            gameObjects.Add(pathfindingPuzzle);
+            gamePuzzles.Add(pathfindingPuzzle);
+
+
+
             #endregion
 
             #region NPC
@@ -293,6 +305,17 @@ namespace Mortens_Komeback_3
                     DrawCollisionBox(gameObject.CollisionBox);
                     if (gameObject is IPPCollidable)
                         DrawIPPCollisionBoxes(gameObject as IPPCollidable);
+
+                    foreach (Room room in DoorManager.Rooms)
+                    {
+                        if (room.Tiles.Count > 0)
+                        {
+                            foreach (var tileKeyValue in room.Tiles)
+                            {
+                                DrawCollisionBox(tileKeyValue.Value.CollisionBox);
+                            }
+                        }
+                    }
                 }
 #endif
 
@@ -308,13 +331,6 @@ namespace Mortens_Komeback_3
 
             //GameWorld.Instance.buttonList.Draw(_spriteBatch, GameFont);
             MenuManager.Draw(_spriteBatch, GameFont);
-
-
-
-            foreach (var GO in DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)
-            {
-                DrawCollisionBox(GO.Value.CollisionBox);
-            }
 
             InputHandler.Instance.Draw(_spriteBatch);
 
@@ -353,7 +369,10 @@ namespace Mortens_Komeback_3
         /// </summary>
         private void CleanUp()
         {
-
+            foreach (GameObject go in gameObjects.FindAll(x => !x.IsAlive))
+            {
+                Debug.WriteLine("Removed" + go.Type);
+            }
             int remove = gameObjects.RemoveAll(x => !x.IsAlive);
             if (remove > 0)
                 Debug.WriteLine($"{remove} objects removed from gameObjects");
@@ -522,7 +541,6 @@ namespace Mortens_Komeback_3
             Sprites.Add(DecorationType.Painting, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\painting") });
             Sprites.Add(DecorationType.Light, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Light0"), Content.Load<Texture2D>("Sprites\\Environment\\Light1"), Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
 
-
             #endregion
             #region VFX
 
@@ -536,7 +554,7 @@ namespace Mortens_Komeback_3
             #endregion
             #region Debug
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
-            Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
+            Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\plaqueStar") });
             #endregion
 
         }

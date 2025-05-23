@@ -67,7 +67,7 @@ namespace Mortens_Komeback_3.Puzzles
         public override void SolvePuzzle()
         {
             base.SolvePuzzle();
-            Sprite = GameWorld.Instance.Sprites[PuzzleType.ShootPuzzle][1];
+            Sprite = GameWorld.Instance.Sprites[PuzzleType.ShootPuzzle][2];
             if(fire1 != null)
             {
                 fire1.IsAlive = false;
