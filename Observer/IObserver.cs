@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.Observer
 {
-    public interface IObserver
+    public interface IObserve
     {
 
 

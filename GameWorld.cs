@@ -204,7 +204,7 @@ namespace Mortens_Komeback_3
             gamePuzzles.Add(shootPuzzle2);
             #endregion
 
-            #region NPC
+            #region NPC + Bible & Rosary
             gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 16000)));
             gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
 
