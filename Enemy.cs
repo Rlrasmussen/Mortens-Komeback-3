@@ -121,7 +121,7 @@ namespace Mortens_Komeback_3
 
             if (!IgnoreState)
             {
-                PatrolState patrol = new PatrolState();
+                BossFightState patrol = new BossFightState();
                 patrol.Enter(this);
             }
 

@@ -52,6 +52,8 @@ namespace Mortens_Komeback_3.State
             if (this.parent == null)
                 this.parent = parent;
             this.parent.State = this;
+            if (patrolPath != null)
+                parent.IgnoreState = true;
 
         }
 
