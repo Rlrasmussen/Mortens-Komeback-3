@@ -32,7 +32,7 @@ namespace Mortens_Komeback_3.Puzzles
             this.puzzleRoom = puzzleRoom;
             pathfindingObstacle1 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(puzzleRoom.Position.X - 400, puzzleRoom.Position.Y), true, puzzleRoom);
             pathfindingObstacle2 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(pathfindingObstacle1.Position.X, pathfindingObstacle1.Position.Y + 200), true, puzzleRoom);
-            pathfindingObstacle3 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(pathfindingObstacle2.Position.X, pathfindingObstacle2.Position.Y + 200), true, puzzleRoom);
+            pathfindingObstacle3 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(pathfindingObstacle2.Position.X, pathfindingObstacle2.Position.Y + 200), false, puzzleRoom);
             goalPosition = pathGoalPoint;
             pathGoal = new Decoration(DecorationType.Cross, pathGoalPoint, 0);
         }
