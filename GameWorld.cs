@@ -38,6 +38,7 @@ namespace Mortens_Komeback_3
         private bool gamePaused = false;
         private bool gameRunning = true;
         public List<GameObject> gamePuzzles = new List<GameObject>();
+        public List<GameObject> npcs = new List<GameObject>();
 
         private string dbBasePath = AppDomain.CurrentDomain.BaseDirectory;
         public SqliteConnection Connection;
@@ -146,14 +147,6 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());//Test
 #endif
 
-            gameObjects.Add(Player.Instance);
-            // gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200,500)));
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200, 900)));
-
-            //SafePoint.SaveGame(Location.Spawn);
-
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
 
             MenuManager = new MenuManager();
             MenuManager.CreateMenus();
@@ -168,6 +161,16 @@ namespace Mortens_Komeback_3
         /// </summary>
         protected override void LoadContent()
         {
+            gameObjects.Add(Player.Instance);
+
+            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
+
+            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200,500)));
+            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200, 900)));
+
+            //SafePoint.SaveGame(Location.Spawn);
+
+            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
 
             gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
             gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
@@ -175,7 +178,6 @@ namespace Mortens_Komeback_3
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
-            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200, 200))); //Used for testing - To be removed
 
             #region Decorations
             gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
@@ -201,6 +203,26 @@ namespace Mortens_Komeback_3
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             gameObjects.Add(new Obstacle(PuzzleType.PuzzleObstacle, Vector2.Zero, true, CurrentRoom));
+            #endregion
+
+            #region NPC
+            NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
+            NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
+            NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16300));
+            NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
+            NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 20000));
+            canadaGoose2.Canada = true;
+
+            npcs.Add(pope);
+            npcs.Add(monk);
+            npcs.Add(nun);
+            npcs.Add(canadaGoose1);
+            npcs.Add(canadaGoose2);
+
+            foreach (GameObject npc in npcs)
+            {
+                gameObjects.Add(npc);
+            }
             #endregion
 
             foreach (GameObject gameObject in gameObjects)
@@ -444,8 +466,9 @@ namespace Mortens_Komeback_3
             #region NPC
 
             Sprites.Add(NPCType.Monk, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\monkNPCbible") });
-            Sprites.Add(NPCType.Nun, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary") });
+            Sprites.Add(NPCType.Nun, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary2") });
             Sprites.Add(NPCType.Pope, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\pope0"), Content.Load<Texture2D>("Sprites\\NPC\\pope1") });
+            Sprites.Add(NPCType.CanadaGoose, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\goose0") });
 
             #endregion
             #region Overlay
@@ -453,6 +476,8 @@ namespace Mortens_Komeback_3
             Sprites.Add(OverlayObjects.Heart, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\heartSprite") });
             Sprites.Add(OverlayObjects.Dialog, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\talk") });
             Sprites.Add(OverlayObjects.InteractBubble, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\interact") });
+            Sprites.Add(OverlayObjects.DialogBox, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\dialogueBox") });
+
 
             #endregion
             #region Environment
@@ -615,6 +640,7 @@ namespace Mortens_Komeback_3
                         gameObject.Type.GetType() == typeof(PuzzleType)
                         ) && (
                         other.Type.GetType() == typeof(EnemyType) ||
+                        other.Type.GetType() == typeof(NPCType) ||
                         other.Type.GetType() == typeof(PuzzleType) ||
                         other.Type.GetType() == typeof(WeaponType) ||
                         other.GetType() == typeof(AvSurface) ||

@@ -70,12 +70,13 @@ namespace Mortens_Komeback_3
                 {
 
                     if (value <= 0)
+                    {
                         IsAlive = false;
 
-                    //If Player is dead alle the Enemies og Projectile is being released back to the inactive stack i ObjectPool
-                    EnemyPool.Instance.PlayerDead();
-                    ProjectilePool.Instance.PlayerDead();
-
+                        //If Player is dead alle the Enemies og Projectile is being released back to the inactive stack i ObjectPool
+                        EnemyPool.Instance.PlayerDead();
+                        ProjectilePool.Instance.PlayerDead();
+                    }
                     health = value;
                     colorTimer = 0f;
 
@@ -142,6 +143,7 @@ namespace Mortens_Komeback_3
         /// Simon
         /// </summary>
         public int CurrentIndex { get; set; }
+        public float Speed { get => speed; set => speed = value; }
 
         public float Speed { get => speed; }
 
@@ -237,7 +239,7 @@ namespace Mortens_Komeback_3
 
             velocity.Normalize();
 
-            Position += velocity * speed * GameWorld.Instance.DeltaTime;
+            Position += velocity * Speed * GameWorld.Instance.DeltaTime;
 
             velocity = Vector2.Zero;
 
@@ -414,6 +416,18 @@ namespace Mortens_Komeback_3
                 case PuzzleType.OrderPuzzle:
                     (gameObject as OrderPuzzle).TrySolve();
                     break;
+                case NPCType.Pope:
+                    (gameObject as NPC).Speak();
+                    break;
+                case NPCType.CanadaGoose:
+                    (gameObject as NPC).Speak();
+                    break;
+                case NPCType.Monk:
+                    (gameObject as NPC).Speak();
+                    break;
+                case NPCType.Nun:
+                    (gameObject as NPC).Speak();
+                        break;
                 default:
                     break;
             }
@@ -483,6 +497,10 @@ namespace Mortens_Komeback_3
 
         }
 
+        public void Kage()
+        {
+            this.drawColor = Color.Green;
+        }
         #endregion
     }
 }
