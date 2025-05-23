@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,6 +71,16 @@ namespace Mortens_Komeback_3.Environment
             else if (other is Door)
             {
                 Position -= velocity * speed * GameWorld.Instance.DeltaTime;
+            }
+            if (other is Obstacle)
+            {
+                Vector2 tempVelocity = (other as Obstacle).velocity;
+                if (!(tempVelocity == Vector2.Zero))
+                {
+                    velocity = tempVelocity;
+                    velocity.Normalize();
+                    moveTimer = 0;
+                }
             }
         }
     }

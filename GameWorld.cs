@@ -208,7 +208,7 @@ namespace Mortens_Komeback_3
                 2, //ID
                 new Vector2(-200, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Bottom - 200), //Path start
                 new Vector2(500, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Top + 300), //Path end
-                new Vector2(-100, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).Position.Y -200), //Path Goal
+                new Vector2(-100, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).Position.Y - 200), //Path Goal
                 DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF)); //Room
             gameObjects.Add(pathfindingPuzzle);
             gamePuzzles.Add(pathfindingPuzzle);
@@ -649,7 +649,7 @@ namespace Mortens_Komeback_3
                 foreach (GameObject other in gameObjects)
                 {
 
-                    if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type.GetType() == other.Type.GetType() || !(other is ICollidable) || !gameObject.IsAlive || !other.IsAlive)
+                    if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || (gameObject.Type.GetType() == other.Type.GetType() && !((PuzzleType)gameObject.Type == PuzzleType.PuzzleObstacle)) || !(other is ICollidable) || !gameObject.IsAlive || !other.IsAlive)
                         continue;
 
                     if ((
@@ -690,7 +690,8 @@ namespace Mortens_Komeback_3
 
                             if (handledCollision)
                             {
-                                (gameObject as ICollidable).OnCollision(other as ICollidable);
+                                if (!((PuzzleType)gameObject.Type == PuzzleType.PuzzleObstacle)) //Makes sure obstacles doesn't double collide.
+                                    (gameObject as ICollidable).OnCollision(other as ICollidable);
                                 (other as ICollidable).OnCollision(gameObject as ICollidable);
                                 collisions.Add((gameObject, other));
                             }
