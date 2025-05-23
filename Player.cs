@@ -214,8 +214,9 @@ namespace Mortens_Komeback_3
             else if (attacking)
                 (this as IAnimate).Animate();
 
-            foreach (Weapon weapon in inventory)
-                weapon.Update(gameTime);
+            foreach (GameObject go in inventory)
+                go.Update(gameTime);
+
 
             (this as IPPCollidable).UpdateRectangles(spriteEffect == SpriteEffects.FlipHorizontally);
 
@@ -319,10 +320,19 @@ namespace Mortens_Komeback_3
                             inventory.Add(other as Weapon);
                         (other as Weapon).IsAlive = false;
                         break;
+                    case ItemType.Bible:
+                        if (other is Item)
+                            inventory.Add(other as Item);
+                        (other as Item).IsAlive = false;
+                        break;
+                    case ItemType.Rosary:
+                        if (other is Item)
+                            inventory.Add(other as Item);
+                        (other as Item).IsAlive = false;
+                        break;
                     default:
                         break;
                 }
-
         }
 
         /// <summary>
@@ -425,7 +435,7 @@ namespace Mortens_Komeback_3
                     break;
                 case NPCType.Nun:
                     (gameObject as NPC).Speak();
-                        break;
+                    break;
                 default:
                     break;
             }
@@ -441,7 +451,9 @@ namespace Mortens_Komeback_3
         {
 
             if (item is Weapon && equippedWeapon == null)
+            {
                 equippedWeapon = (Weapon)item;
+            }
 
             inventory.Add(item);
 

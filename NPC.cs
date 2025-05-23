@@ -27,7 +27,7 @@ namespace Mortens_Komeback_3
         private int reply = 0; //Number of reply
         private string npcText;
         private bool canada = false; //2 different for Canada Goose dialogue
-        private int happy = 0;
+        private int happy = -1;
 
         #endregion
 
@@ -37,7 +37,6 @@ namespace Mortens_Komeback_3
         public Texture2D[] Sprites { get; set; }
         public float ElapsedTime { get; set; }
         public int CurrentIndex { get; set; }
-        public int Happy { get => happy; set => happy = value; }
 
         #endregion
 
@@ -51,6 +50,11 @@ namespace Mortens_Komeback_3
 
             layer = 0.6f;
 
+            if (type is NPCType.Monk || type is NPCType.Nun)
+            {
+                happy = 0; //Sad
+            }
+
         }
 
         #endregion
@@ -60,26 +64,36 @@ namespace Mortens_Komeback_3
         {
             (this as IAnimate).Animate();
             base.Update(gameTime);
+
         }
 
         public void OnCollision(ICollidable other)
         {
-            //throw new NotImplementedException();
+            if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Bible) != null && Type is NPCType.Monk)
+            {
+                happy = 1;
+                Player.Instance.Inventory.Remove(Player.Instance.Inventory.Find(x => x.Type is ItemType.Bible));
+            }
+            else if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && Type is NPCType.Nun)
+            {
+                happy = 1;
+                Player.Instance.Inventory.Remove(Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary));
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Sprites != null && Happy == 0) //Animate
+            if (Sprites != null && happy == -1)
             {
                 spriteBatch.Draw(Sprites[CurrentIndex], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             }
-            else if (Sprites != null && Happy == 1) //Sad
-            {
-                spriteBatch.Draw(Sprites[2], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
-            }
-            else if (Sprites != null && Happy == 2) //Happy
+            if (Sprites != null && happy == 0) //Sad
             {
                 spriteBatch.Draw(Sprites[1], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+            }
+            if (Sprites != null && happy == 1) //Happy
+            {
+                spriteBatch.Draw(Sprites[0], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             }
 
             //If there is a collision between Player and NPC there will spawn an talk textbubble

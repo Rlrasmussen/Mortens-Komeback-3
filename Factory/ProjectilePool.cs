@@ -50,7 +50,7 @@ namespace Mortens_Komeback_3.Factory
         /// <returns></returns>
         public override GameObject Create(Enum type, Vector2 spawnPosition)
         {
-            return ProjectileFactory.Instance.Create(type, Player.Instance.Position);
+            return ProjectileFactory.Instance.Create(type, spawnPosition);
         }
 
         #endregion

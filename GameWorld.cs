@@ -205,16 +205,15 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC
+            gameObjects.Add(new Item(ItemType.Bible, new Vector2(500, 6000)));
+            Player.Instance.Position = new Vector2(0, 6000);
+
             NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
             NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
             NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16300));
             NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
             NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 20000));
-
-            //Mood
             canadaGoose2.Canada = true;
-            monk.Happy = 1;
-            nun.Happy = 1;
 
             npcs.Add(pope);
             npcs.Add(monk);
@@ -456,7 +455,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(MenuType.Cursor, sword);
             Sprites.Add(WeaponType.Melee, sword);
             Sprites.Add(ItemType.Bible, new Texture2D[1] {Content.Load<Texture2D>("Sprites\\Items\\bible") });
-            Sprites.Add(ItemType.Roseary, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\rosary") });
+            Sprites.Add(ItemType.Rosary, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\rosary") });
 
 
             #endregion
@@ -641,6 +640,7 @@ namespace Mortens_Komeback_3
                         ) && (
                         other.Type.GetType() == typeof(EnemyType) ||
                         other.Type.GetType() == typeof(NPCType) ||
+                        other.Type.GetType() == typeof(ItemType) ||
                         other.Type.GetType() == typeof(PuzzleType) ||
                         other.Type.GetType() == typeof(WeaponType) ||
                         other.GetType() == typeof(AvSurface) ||

@@ -151,7 +151,7 @@ namespace Mortens_Komeback_3
         Sword,
         WallTurkey,
         Bible,
-        Roseary
+        Rosary
     }
 
     /// <summary>
