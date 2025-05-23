@@ -169,11 +169,11 @@ namespace Mortens_Komeback_3
         /// </summary>
         public void MonkDialogue()
         {
-            if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
+            if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) != null && happy == 1)
             {
                 talk = true;
                 interact = false;
-                npcText = "Try press left mouse to shoot \n Bless you Morten and your courag";
+                npcText = "Try press left mouse to shoot \nBless you Morten and your courag";
                 reply++;
 
             }
@@ -181,9 +181,18 @@ namespace Mortens_Komeback_3
             {
                 talk = true;
                 interact = false;
-                npcText = "I don't need this slingshot anymore, \nmaybe you can use it for something \nPress left mouse to shoot";
+
+                if (happy == 1) //Happy
+                {
+                    npcText = "I don't need this slingshot anymore, maybe you can use it for something \nPress left mouse to shoot";
+                    GameWorld.Instance.SpawnObject(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position - new Vector2(0, 150)));
+                }
+                else //Sad
+                {
+                    npcText = "Forgive me, I have lost my Bible. Can you help me find it?";
+                }
+
                 reply++;
-                GameWorld.Instance.SpawnObject(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position - new Vector2(0, 150)));
             }
             else
             {
@@ -268,8 +277,16 @@ namespace Mortens_Komeback_3
             {
                 talk = true;
                 interact = false;
-                npcText = "I need a strong and handsome man to help me move thise stones";
                 reply++;
+                if (happy == 1) //Happy
+                {
+                    npcText = "Thank you? \n" +
+                            "I need a strong and handsome man to help me move thise stones";
+                }
+                else //Sad
+                {
+                    npcText = "Oh no my rosary is gone, can you find it?";
+                }
             }
             else
             {

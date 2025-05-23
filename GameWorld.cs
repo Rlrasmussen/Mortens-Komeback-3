@@ -205,8 +205,8 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC
-            gameObjects.Add(new Item(ItemType.Bible, new Vector2(500, 6000)));
-            Player.Instance.Position = new Vector2(0, 6000);
+            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 16000)));
+            gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
 
             NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
             NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
