@@ -157,7 +157,7 @@ namespace Mortens_Komeback_3
             {
                 talk = true;
                 interact = false;
-                npcText = "I don't need this slingshot anymore, \nmaybe you can use it for something \n Press left mouse to shoot";
+                npcText = "I don't need this slingshot anymore, \nmaybe you can use it for something \nPress left mouse to shoot";
                 reply++;
                 GameWorld.Instance.SpawnObject(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position - new Vector2(0, 150)));
             }
@@ -188,11 +188,11 @@ namespace Mortens_Komeback_3
                 }
                 else if (reply == 1)
                 {
-                    npcText = "I saw a goose running throw here with something in its beak";
+                    npcText = "I saw a goose running through here with something in its beak";
                 }
                 else if (reply == 2)
                 {
-                    npcText = "The ran throw the door to the rigth";
+                    npcText = "The ran through the door to the rigth";
                 }
                 else
                 {

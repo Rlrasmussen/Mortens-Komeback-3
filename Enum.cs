@@ -149,7 +149,9 @@ namespace Mortens_Komeback_3
         GeesusBlood,
         Sling,
         Sword,
-        WallTurkey
+        WallTurkey,
+        Bible,
+        Roseary
     }
 
     /// <summary>
