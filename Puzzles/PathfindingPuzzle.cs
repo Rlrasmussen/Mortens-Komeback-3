@@ -27,7 +27,7 @@ namespace Mortens_Komeback_3.Puzzles
 
         public PathfindingPuzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id, Vector2 pathStartPos, Vector2 pathEndPos, Vector2 pathGoalPoint, Room puzzleRoom) : base(type, spawnPos, puzzleDoor, id)
         {
-            this.pathEnd = new Decoration(DecorationType.Light, pathEndPos, 0);
+            this.pathEnd = new Decoration(DecorationType.Splash, pathEndPos, 0);
             this.pathStart = new Decoration(DecorationType.Splash, pathStartPos, 0);
             this.puzzleRoom = puzzleRoom;
             pathfindingObstacle1 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(puzzleRoom.Position.X - 400, puzzleRoom.Position.Y), true, puzzleRoom);
