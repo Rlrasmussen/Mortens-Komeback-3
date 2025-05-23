@@ -18,6 +18,8 @@ namespace Mortens_Komeback_3.Environment
         private int speed = 500;
         private Room obstacleRoom;
 
+        public bool Movable { get => movable; set => movable = value; }
+
         /// <summary>
         /// An obstacle that can be collided with, and potentialy moved.
         /// </summary>
@@ -26,7 +28,7 @@ namespace Mortens_Komeback_3.Environment
         /// <param name="movable">Wether the obstacle should be movable</param>
         public Obstacle(Enum type, Vector2 spawnPos, bool movable, Room room) : base(type, spawnPos)
         {
-            this.movable = movable;
+            this.Movable = movable;
             this.obstacleRoom = room;
         }
 
@@ -40,7 +42,7 @@ namespace Mortens_Komeback_3.Environment
         /// </summary>
         public void Move()
         {
-            if (moveTimer < moveTimerStop)
+            if (moveTimer < moveTimerStop && Movable)
             {
                 //Only moves, if move doesn't move obstacle out of room
                 // OBS!! Change to current room when available!!!
@@ -57,29 +59,39 @@ namespace Mortens_Komeback_3.Environment
 
         public void OnCollision(ICollidable other)
         {
-            if (other is Player)
+            if (Movable)
             {
-                Vector2 tempVelocity = (other as Player).Velocity;
-                if (!(tempVelocity == Vector2.Zero))
+                if (other is Player)
                 {
-                    velocity = tempVelocity;
-                    velocity.Normalize();
-                    moveTimer = 0;
-                }
+                    Vector2 tempVelocity = (other as Player).Velocity;
+                    if (!(tempVelocity == Vector2.Zero))
+                    {
+                        velocity = tempVelocity;
+                        velocity.Normalize();
+                        moveTimer = 0;
+                    }
 
-            }
-            else if (other is Door)
-            {
-                Position -= velocity * speed * GameWorld.Instance.DeltaTime;
-            }
-            if (other is Obstacle)
-            {
-                Vector2 tempVelocity = (other as Obstacle).velocity;
-                if (!(tempVelocity == Vector2.Zero))
+                }
+                else if (other is Door)
                 {
-                    velocity = tempVelocity;
-                    velocity.Normalize();
-                    moveTimer = 0;
+                   Position -= velocity * speed * GameWorld.Instance.DeltaTime;
+                }
+                if (other is Obstacle)
+                {
+                    if ((other as Obstacle).Movable ==  false)
+                    {
+                        Position -= velocity * speed * GameWorld.Instance.DeltaTime;
+                    }
+                    else
+                    {
+                        Vector2 tempVelocity = (other as Obstacle).velocity;
+                        if (!(tempVelocity == Vector2.Zero))
+                        {
+                            velocity = tempVelocity;
+                            velocity.Normalize();
+                            moveTimer = 0;
+                        }
+                    }
                 }
             }
         }

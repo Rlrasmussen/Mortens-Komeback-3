@@ -196,10 +196,10 @@ namespace Mortens_Komeback_3
             CurrentRoom = DoorManager.Rooms[0]; // Start i første rum
 
             #region Puzzles
-            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(DoorManager.doorList["doorB1"].Position.X-500, DoorManager.doorList["doorB1"].Position.Y+500), DoorManager.doorList["doorB1"], new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
+            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(DoorManager.doorList["doorB1"].Position.X - 500, DoorManager.doorList["doorB1"].Position.Y + 500), DoorManager.doorList["doorB1"], new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X, DoorManager.doorList["doorD1"].Position.Y-400), DoorManager.doorList["doorD1"], new Vector2(0, 5700), 0, new Vector2(0, 6300), 0, 1);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(0, 5700), 0, new Vector2(0, 6300), 0, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             PathfindingPuzzle pathfindingPuzzle = new PathfindingPuzzle(PuzzleType.PathfindingPuzzle,
@@ -697,9 +697,9 @@ namespace Mortens_Komeback_3
 
                             if (handledCollision)
                             {
-                                if (!((PuzzleType)gameObject.Type == PuzzleType.PuzzleObstacle)) //Makes sure obstacles doesn't double collide.
-                                    (gameObject as ICollidable).OnCollision(other as ICollidable);
-                                (other as ICollidable).OnCollision(gameObject as ICollidable);
+                                (gameObject as ICollidable).OnCollision(other as ICollidable);
+                                if (!((PuzzleType)gameObject.Type == PuzzleType.PuzzleObstacle && (PuzzleType)other.Type == PuzzleType.PuzzleObstacle)) //Makes sure obstacles doesn't double collide.
+                                    (other as ICollidable).OnCollision(gameObject as ICollidable);
                                 collisions.Add((gameObject, other));
                             }
 
