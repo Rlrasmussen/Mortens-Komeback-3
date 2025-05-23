@@ -680,11 +680,13 @@ namespace Mortens_Komeback_3
 
         private void SpawnEnemies()
         {
+            
+            
             lastSpawnEnemy += DeltaTime;
 
             if (lastSpawnEnemy > spawnEnemyTime)
-            {
-                SpawnObject(EnemyPool.Instance.GetObject());
+            {              
+                SpawnObject(EnemyPool.Instance.CreateSpecificGoose(EnemyType.WalkingGoose, Vector2.Zero));
                 lastSpawnEnemy = 0f;
             }
         }

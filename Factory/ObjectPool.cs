@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
+using System.Diagnostics;
+using Mortens_Komeback_3.Command;
 
 namespace Mortens_Komeback_3.Factory
 {
@@ -41,7 +45,6 @@ namespace Mortens_Komeback_3.Factory
             {
                 //Popping from the inactive stack
                 gameObject = inactive.Pop();
-                //CleanUp(gameObject);
             }
 
             //Adding the GameObject to the active List
@@ -86,6 +89,29 @@ namespace Mortens_Komeback_3.Factory
                 ReleaseObject(active[0]);
             }
 
+        }
+
+
+
+        public GameObject GetSpecificEnemy(EnemyType type, Vector2 spawnPosition)
+        {
+            GameObject gameObject;
+
+            //If active is empty create a new GameObject else pop the inactive stack
+            if (inactive.Count == 0)
+            {
+                gameObject = EnemyPool.Instance.CreateSpecificGoose(type, spawnPosition);
+            }
+            else
+            {
+                //Popping from the inactive stack
+                gameObject = inactive.Pop();
+            }
+
+            //Adding the GameObject to the active List
+            active.Add(gameObject);
+
+            return gameObject;
         }
         #endregion
     }

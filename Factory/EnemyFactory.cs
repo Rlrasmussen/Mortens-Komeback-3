@@ -76,20 +76,7 @@ namespace Mortens_Komeback_3.Factory
         }
 
         /// <summary>
-        /// Spawning Goosifer
-        /// Rikke
-        /// </summary>
-        /// <returns></returns>
-        public Enemy CreateGoosifer()
-        {
-            //Goosifers spawnposition
-            //this.position = Vector2.Zero;
-
-            return new Enemy(EnemyType.Goosifer, position);
-        }
-
-        /// <summary>
-        /// Spawn a specific goose - can not make a Goosifer
+        /// Spawn a specific goose
         /// Rikke
         /// </summary>
         /// <param name="type">Enemytype - can not be Goosifer</param>
@@ -97,15 +84,7 @@ namespace Mortens_Komeback_3.Factory
         /// <returns></returns>
         public Enemy CreateSpecificGoose(EnemyType type, Vector2 spawnposition)
         {
-            if (type is EnemyType.Goosifer) //If type is Goosifer it will change to another Enemytype
-            {
-                return new Enemy(EnemyType.WalkingGoose, spawnposition);
-            }
-            else
-            {
                 return new Enemy(type, spawnposition);
-            }
-
         }
 
         #endregion
