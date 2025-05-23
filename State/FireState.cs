@@ -24,7 +24,6 @@ namespace Mortens_Komeback_3.State
 
             Damage = damage;
             Sprites = null; //Delete if sprites are set for a fire animation
-            scale = 1.5f;
             FireState attackMorten = new FireState();
             attackMorten.Enter(this);
             movement = attackMorten;
