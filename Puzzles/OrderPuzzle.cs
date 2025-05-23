@@ -22,11 +22,11 @@ namespace Mortens_Komeback_3.Puzzles
         #region Constructor
 
         /// <summary>
-        /// Constructor for an OrderPuzzle: A puzzle consisting of a door and three rotatable plaques.
+        /// Constructor for an OrderPuzzle: A puzzle consisting of a door, a lever and three rotatable plaques.
         /// Philip
         /// </summary>
         /// <param name="type">Type of the puzzle</param>
-        /// <param name="spawnPos">Position of the Door/primary element of puzzle. Notice! this also changes the position of the hcosen door. </param>
+        /// <param name="spawnPos">Position of primary element of puzzle.  </param>
         /// <param name="puzzleDoor">The door that the puzzle will unlock</param>
         /// <param name="plaque1Pos">Position of the first plaque</param>
         /// <param name="plaque2Pos">Position of the second plaque</param>
@@ -42,7 +42,7 @@ namespace Mortens_Komeback_3.Puzzles
                 GameWorld.Instance.SpawnObject(item.Value);
                 GameWorld.Instance.gamePuzzles.Add(item.Value);
             }
-            puzzleDoor.Position = spawnPos;
+            Position = spawnPos;
         }
 
         #endregion
@@ -69,12 +69,15 @@ namespace Mortens_Komeback_3.Puzzles
 
         }
 
-
-
-
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void SolvePuzzle()
         {
+            base.SolvePuzzle();
+            Sprite = GameWorld.Instance.Sprites[PuzzleType.OrderPuzzle][2];
         }
+
+
+
+
         #endregion
 
     }
