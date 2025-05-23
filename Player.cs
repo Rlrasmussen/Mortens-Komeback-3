@@ -145,8 +145,6 @@ namespace Mortens_Komeback_3
         public int CurrentIndex { get; set; }
         public float Speed { get => speed; set => speed = value; }
 
-        public float Speed { get => speed; }
-
         #endregion
 
         #region Constructor
