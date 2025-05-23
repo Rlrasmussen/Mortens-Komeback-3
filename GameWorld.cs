@@ -210,7 +210,11 @@ namespace Mortens_Komeback_3
             NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16300));
             NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
             NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 20000));
+
+            //Mood
             canadaGoose2.Canada = true;
+            monk.Happy = 1;
+            nun.Happy = 1;
 
             npcs.Add(pope);
             npcs.Add(monk);
@@ -329,7 +333,7 @@ namespace Mortens_Komeback_3
         /// <param name="screenSize">Angiver skærmstørrelse i form af x- og y-akser</param>
         private void SetScreenSize(Vector2 screenSize)
         {
-            screenSize = screenSize;
+            //screenSize = screenSize;
 
             _graphics.PreferredBackBufferWidth = (int)screenSize.X;
             _graphics.PreferredBackBufferHeight = (int)screenSize.Y;
@@ -451,6 +455,9 @@ namespace Mortens_Komeback_3
             Texture2D[] sword = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sword") };
             Sprites.Add(MenuType.Cursor, sword);
             Sprites.Add(WeaponType.Melee, sword);
+            Sprites.Add(ItemType.Bible, new Texture2D[1] {Content.Load<Texture2D>("Sprites\\Items\\bible") });
+            Sprites.Add(ItemType.Roseary, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\rosary") });
+
 
             #endregion
             #region Menu
@@ -466,8 +473,8 @@ namespace Mortens_Komeback_3
             #endregion
             #region NPC
 
-            Sprites.Add(NPCType.Monk, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\monkNPCbible") });
-            Sprites.Add(NPCType.Nun, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary2") });
+            Sprites.Add(NPCType.Monk, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\monkNPCbible"), Content.Load<Texture2D>("Sprites\\NPC\\monkNPC") });
+            Sprites.Add(NPCType.Nun, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary2"), Content.Load<Texture2D>("Sprites\\NPC\\nunNPC") });
             Sprites.Add(NPCType.Pope, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\pope0"), Content.Load<Texture2D>("Sprites\\NPC\\pope1") });
             Sprites.Add(NPCType.CanadaGoose, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\goose0") });
 
@@ -686,7 +693,7 @@ namespace Mortens_Komeback_3
 
             if (lastSpawnEnemy > spawnEnemyTime)
             {              
-                SpawnObject(EnemyPool.Instance.CreateSpecificGoose(EnemyType.WalkingGoose, Vector2.Zero));
+                SpawnObject(EnemyPool.Instance.Create(EnemyType.WalkingGoose, Vector2.Zero));
                 lastSpawnEnemy = 0f;
             }
         }

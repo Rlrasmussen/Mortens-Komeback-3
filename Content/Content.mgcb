@@ -914,6 +914,30 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/goose0.png
 
+#begin Sprites/NPC/goose0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/NPC/goose0.png
+
+#begin Sprites/NPC/monkNPC.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/NPC/monkNPC.png
+
 #begin Sprites/NPC/monkNPCbible.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -926,7 +950,7 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/monkNPCbible.png
 
-#begin Sprites/NPC/nunNPCrosary.png
+#begin Sprites/NPC/monkNPCbible.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -936,7 +960,31 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Sprites/NPC/nunNPCrosary.png
+/build:Sprites/NPC/monkNPCbible.png
+
+#begin Sprites/NPC/nunNPC.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/NPC/nunNPC.png
+
+#begin Sprites/NPC/nunNPCrosary2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/NPC/nunNPCrosary2.png
 
 #begin Sprites/NPC/nunNPCrosary2.png
 /importer:TextureImporter
@@ -962,6 +1010,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/pope0.png
 
+#begin Sprites/NPC/pope0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/NPC/pope0.png
+
 #begin Sprites/NPC/pope1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -973,6 +1033,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/pope1.png
+
+#begin Sprites/NPC/pope1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/NPC/pope1.png
+
+#begin Sprites/NPC/Testing Morten.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/NPC/Testing Morten.png
 
 #begin Sprites/NPC/Testing Morten.png
 /importer:TextureImporter

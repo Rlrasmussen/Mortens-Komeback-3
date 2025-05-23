@@ -27,6 +27,7 @@ namespace Mortens_Komeback_3
         private int reply = 0; //Number of reply
         private string npcText;
         private bool canada = false; //2 different for Canada Goose dialogue
+        private int happy = 0;
 
         #endregion
 
@@ -36,6 +37,7 @@ namespace Mortens_Komeback_3
         public Texture2D[] Sprites { get; set; }
         public float ElapsedTime { get; set; }
         public int CurrentIndex { get; set; }
+        public int Happy { get => happy; set => happy = value; }
 
         #endregion
 
@@ -67,13 +69,21 @@ namespace Mortens_Komeback_3
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Sprites != null)
+            if (Sprites != null && Happy == 0) //Animate
             {
                 spriteBatch.Draw(Sprites[CurrentIndex], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             }
+            else if (Sprites != null && Happy == 1) //Sad
+            {
+                spriteBatch.Draw(Sprites[2], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+            }
+            else if (Sprites != null && Happy == 2) //Happy
+            {
+                spriteBatch.Draw(Sprites[1], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+            }
 
-                //If there is a collision between Player and NPC there will spawn an talk textbubble
-                if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox) && interact == true)
+            //If there is a collision between Player and NPC there will spawn an talk textbubble
+            if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox) && interact == true)
             {
                 spriteBatch.Draw(textBubble, Position - new Vector2(0, 90), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             }
