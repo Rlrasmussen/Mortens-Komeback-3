@@ -30,8 +30,7 @@ namespace Mortens_Komeback_3.Factory
         #endregion
 
         #region Fields
-        private Vector2 position;
-        private int nestNumbers = 4;
+
         #endregion
 
         #region Properties
@@ -48,45 +47,11 @@ namespace Mortens_Komeback_3.Factory
         /// Rikke
         /// </summary>
         /// <returns></returns>
-        public override Enemy Create()
+        public override GameObject Create(Enum type, Vector2 spawnPositio)
         {
-            //Spawn enemies in the Goosifer fight. Can spawn from choosen positions
-            int nest = GameWorld.Instance.Random.Next(1, nestNumbers);
-
-            //Spawn position
-            switch (nest)
-            {
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                default:
-                    break;
-            }
-
-            //Can spawn any other goose than Goosifer
-            int goose = GameWorld.Instance.Random.Next(0, Enum.GetNames(typeof(EnemyType)).Length - 1);
-
-            this.position = Vector2.Zero;
-
-            return new Enemy((EnemyType)goose, position);
+            return new Enemy(type, spawnPositio);
 
         }
-
-        /// <summary>
-        /// Spawn a specific goose
-        /// Rikke
-        /// </summary>
-        /// <param name="type">Enemytype - can not be Goosifer</param>
-        /// <param name="spawnposition">Spawn position</param>
-        /// <returns></returns>
-        public Enemy CreateSpecificGoose(EnemyType type, Vector2 spawnposition)
-        {
-                return new Enemy(type, spawnposition);
-        }
-
         #endregion
     }
 }

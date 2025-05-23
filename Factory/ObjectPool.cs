@@ -32,14 +32,14 @@ namespace Mortens_Komeback_3.Factory
         /// Rikke
         /// </summary>
         /// <returns></returns>
-        public GameObject GetObject()
+        public GameObject GetObject(Enum type, Vector2 spawnPosition)
         {
             GameObject gameObject;
 
             //If active is empty create a new GameObject else pop the inactive stack
             if (inactive.Count == 0)
             {
-                gameObject = Create();
+                gameObject = Create(type, spawnPosition);
             }
             else
             {
@@ -73,7 +73,7 @@ namespace Mortens_Komeback_3.Factory
         /// Rikke
         /// </summary>
         /// <returns></returns>
-        public abstract GameObject Create();
+        public abstract GameObject Create(Enum type, Vector2 spawnPosition);
 
 
         /// <summary>
@@ -91,28 +91,6 @@ namespace Mortens_Komeback_3.Factory
 
         }
 
-
-
-        public GameObject GetSpecificEnemy(EnemyType type, Vector2 spawnPosition)
-        {
-            GameObject gameObject;
-
-            //If active is empty create a new GameObject else pop the inactive stack
-            if (inactive.Count == 0)
-            {
-                gameObject = EnemyPool.Instance.CreateSpecificGoose(type, spawnPosition);
-            }
-            else
-            {
-                //Popping from the inactive stack
-                gameObject = inactive.Pop();
-            }
-
-            //Adding the GameObject to the active List
-            active.Add(gameObject);
-
-            return gameObject;
-        }
         #endregion
     }
 }

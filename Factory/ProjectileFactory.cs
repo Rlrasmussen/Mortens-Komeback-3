@@ -47,9 +47,12 @@ namespace Mortens_Komeback_3.Factory
         /// Rikke
         /// </summary>
         /// <returns></returns>
-        public override Projectile Create()
+        public override Projectile Create(Enum type, Vector2 spawnPosition)
         {
-            return new Projectile(AttackType.Egg, Player.Instance.Position);
+            spawnPosition = Player.Instance.Position;
+
+
+            return new Projectile(type, spawnPosition);
         }
         #endregion
     }

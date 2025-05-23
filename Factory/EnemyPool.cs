@@ -48,32 +48,11 @@ namespace Mortens_Komeback_3.Factory
         /// Rikke
         /// </summary>
         /// <returns></returns>
-        public override Enemy Create()
+        public override GameObject Create(Enum type, Vector2 spawnPosition)
         {
-            return EnemyFactory.Instance.Create();
+            return EnemyFactory.Instance.Create(type, spawnPosition);
         }
 
-        /// <summary>
-        /// Creating Goosifer with EnemyFactory
-        /// Rikke
-        /// </summary>
-        /// <returns></returns>
-        public Enemy CreateGoosifer()
-        {
-            return EnemyFactory.Instance.CreateGoosifer();
-        }
-
-        /// <summary>
-        /// Creating a specific goose at spawnposition
-        /// Rikke
-        /// </summary>
-        /// <param name="type">Enemytype</param>
-        /// <param name="spawnposition">Spawnposition</param>
-        /// <returns></returns>
-        public Enemy CreateSpecificGoose(EnemyType type, Vector2 spawnposition)
-        {
-            return EnemyFactory.Instance.CreateSpecificGoose(type, spawnposition);
-        }
         #endregion
     }
 }
