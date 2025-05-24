@@ -144,6 +144,7 @@ namespace Mortens_Komeback_3
         /// </summary>
         public int CurrentIndex { get; set; }
         public float Speed { get => speed; set => speed = value; }
+        public int MaxHealth { get => maxHealth; set => maxHealth = value; }
 
         #endregion
 
@@ -180,7 +181,7 @@ namespace Mortens_Komeback_3
 
             base.Load();
 
-            health = maxHealth;
+            health = MaxHealth;
 
         }
 
@@ -328,6 +329,13 @@ namespace Mortens_Komeback_3
                     case ItemType.Rosary:
                         if (other is Item)
                             inventory.Add(other as Item);
+                        (other as Item).IsAlive = false;
+                        break;
+                    case ItemType.GeesusBlood:
+                        if (other is Item)
+                        {
+                            Health += 10;
+                        }
                         (other as Item).IsAlive = false;
                         break;
                     default:
@@ -508,11 +516,6 @@ namespace Mortens_Komeback_3
 
             this.health = health;
 
-        }
-
-        public void Kage()
-        {
-            this.drawColor = Color.Green;
         }
         #endregion
     }

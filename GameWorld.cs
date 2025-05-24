@@ -20,7 +20,7 @@ namespace Mortens_Komeback_3
 {
     public class GameWorld : Game, ISubject
     {
-
+        #region Fields
         private static GameWorld instance;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -56,6 +56,9 @@ namespace Mortens_Komeback_3
         private Button myButton;
         public List<Button> buttonList = new List<Button>();
 
+        #endregion
+
+        #region Properties
         public MenuManager MenuManager { get; set; }
         public Vector2 ScreenSize { get; private set; }
 
@@ -111,6 +114,9 @@ namespace Mortens_Komeback_3
 
         public Environment.Room CurrentRoom { get; set; }
 
+        #endregion
+
+        #region Constructor
         /// <summary>
         /// Constuctor used by Singleton
         /// </summary>
@@ -121,6 +127,9 @@ namespace Mortens_Komeback_3
             IsMouseVisible = true;
         }
 
+        #endregion
+
+        #region Method
         /// <summary>
         /// Handles loading of assets and basic functionality
         /// All
@@ -178,7 +187,7 @@ namespace Mortens_Komeback_3
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-
+            gameObjects.Add(new Item(ItemType.GeesusBlood, Vector2.Zero));
 
             #region Decorations
             gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
@@ -475,7 +484,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(WeaponType.Melee, sword);
             Sprites.Add(ItemType.Bible, new Texture2D[1] {Content.Load<Texture2D>("Sprites\\Items\\bible") });
             Sprites.Add(ItemType.Rosary, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\rosary") });
-
+            Sprites.Add(ItemType.GeesusBlood, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\potion") });
 
             #endregion
             #region Menu
@@ -843,6 +852,8 @@ namespace Mortens_Komeback_3
         {
             throw new NotImplementedException();
         }
+
+        #endregion
 
         #endregion
     }

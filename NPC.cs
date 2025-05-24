@@ -282,6 +282,14 @@ namespace Mortens_Komeback_3
                 {
                     npcText = "Thank you? \n" +
                             "I need a strong and handsome man to help me move thise stones";
+                    if (Player.Instance.Health < Player.Instance.MaxHealth)
+                    {
+                        Player.Instance.SetHealthFromDB(Player.Instance.MaxHealth);
+                    }
+                    else
+                    {
+                        Player.Instance.SetHealthFromDB(Player.Instance.MaxHealth + 10);
+                    }
                 }
                 else //Sad
                 {
