@@ -28,6 +28,7 @@ namespace Mortens_Komeback_3
         private string npcText;
         private bool canada = false; //2 different for Canada Goose dialogue
         private int happy = -1;
+        private bool nun = false;
 
         #endregion
 
@@ -149,17 +150,13 @@ namespace Mortens_Komeback_3
         {
             if (reply == 0)
             {
-                talk = true;
-                interact = false;
+                StartConversation();
                 npcText = "God bless your quest";
                 reply++;
             }
             else
             {
-                talk = false;
-                interact = true;
-                Player.Instance.Speed = 500f;
-                reply = 0;
+                EndConversation();
             }
         }
 
@@ -171,21 +168,20 @@ namespace Mortens_Komeback_3
         {
             if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) != null && happy == 1)
             {
-                talk = true;
-                interact = false;
+                StartConversation();
                 npcText = "Try press left mouse to shoot \nBless you Morten and your courag";
                 reply++;
 
             }
             else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
             {
-                talk = true;
-                interact = false;
+                StartConversation();
 
                 if (happy == 1) //Happy
                 {
                     npcText = "I don't need this slingshot anymore, maybe you can use it for something \nPress left mouse to shoot";
                     GameWorld.Instance.SpawnObject(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position - new Vector2(0, 150)));
+                    GameWorld.Instance.Notify(StatusType.Delivered);
                 }
                 else //Sad
                 {
@@ -196,10 +192,7 @@ namespace Mortens_Komeback_3
             }
             else
             {
-                talk = false;
-                interact = true;
-                Player.Instance.Speed = 500f;
-                reply = 0;
+                EndConversation();
             }
 
         }
@@ -214,8 +207,7 @@ namespace Mortens_Komeback_3
             {
                 if (reply == 0)
                 {
-                    talk = true;
-                    interact = false;
+                    StartConversation();
                     npcText = "No stop I'm not with the other geese \nYou can trust me";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
                 }
@@ -229,18 +221,14 @@ namespace Mortens_Komeback_3
                 }
                 else
                 {
-                    talk = false;
-                    interact = true;
-                    Player.Instance.Speed = 500f;
-                    reply++;
+                    EndConversation();
                 }
             }
             else if (Canada == true)
             {
                 if (reply == 0)
                 {
-                    talk = true;
-                    interact = false;
+                    StartConversation();
                     npcText = "It just went through here! No need to be afraid ..";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
                 }
@@ -250,10 +238,7 @@ namespace Mortens_Komeback_3
                 }
                 else
                 {
-                    talk = false;
-                    interact = true;
-                    Player.Instance.Speed = 500f;
-                    reply++;
+                    EndConversation();
                 }
             }
 
@@ -275,21 +260,19 @@ namespace Mortens_Komeback_3
         {
             if (reply == 0)
             {
-                talk = true;
-                interact = false;
+                StartConversation();
                 reply++;
-                if (happy == 1) //Happy
+                if (happy == 1 && nun == false) //Happy
                 {
-                    npcText = "Thank you? \n" +
-                            "I need a strong and handsome man to help me move thise stones";
-                    if (Player.Instance.Health < Player.Instance.MaxHealth)
-                    {
-                        Player.Instance.SetHealthFromDB(Player.Instance.MaxHealth);
-                    }
-                    else
-                    {
-                        Player.Instance.SetHealthFromDB(Player.Instance.MaxHealth + 10);
-                    }
+                    npcText = "Thank you Morten take this\n";
+                    GameWorld.Instance.SpawnObject(new Item(ItemType.Rosary, Player.Instance.Position - new Vector2(0, 150)));
+                    nun = true;
+                    GameWorld.Instance.Notify(StatusType.Delivered);
+                }
+                else if (happy == 1 && nun == true)
+                {
+                    npcText = "I need a strong and handsome man to help me move thise stones";
+
                 }
                 else //Sad
                 {
@@ -298,11 +281,22 @@ namespace Mortens_Komeback_3
             }
             else
             {
-                talk = false;
-                interact = true;
-                Player.Instance.Speed = 500f;
-                reply = 0;
+                EndConversation();
             }
+        }
+
+        public void EndConversation()
+        {
+            talk = false;
+            interact = true;
+            Player.Instance.Speed = 500f;
+            reply = 0;
+        }
+
+        public void StartConversation()
+        {
+            talk = true;
+            interact = false;
         }
         #endregion
     }

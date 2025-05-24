@@ -101,7 +101,10 @@ namespace Mortens_Komeback_3
         Heart,
         Dialog,
         InteractBubble,
-        DialogBox
+        DialogBox,
+        WeaponBox,
+        Bibel,
+        Rosary
     }
 
     /// <summary>
@@ -259,6 +262,9 @@ namespace Mortens_Komeback_3
         WeaponMelee,
         WeaponRanged,
         Health,
-        PlayerDead
+        PlayerDead,
+        Bible,
+        Rosary,
+        Delivered
     }
 }

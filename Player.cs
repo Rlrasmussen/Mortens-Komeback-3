@@ -34,7 +34,7 @@ namespace Mortens_Komeback_3
 
         private float damageTimer;
         private float damageGracePeriode = 2f;
-
+        private int healthPortion = 10;
         #endregion
 
         #region Properties
@@ -315,28 +315,33 @@ namespace Mortens_Komeback_3
                         (other as Weapon).IsAlive = false;
                         if (equippedWeapon == null)
                             equippedWeapon = (other as Weapon);
+                        GameWorld.Instance.Notify(StatusType.WeaponMelee);
                         break;
                     case WeaponType.Ranged:
                         if (other is Weapon)
                             inventory.Add(other as Weapon);
                         (other as Weapon).IsAlive = false;
+                        GameWorld.Instance.Notify(StatusType.WeaponRanged);
                         break;
                     case ItemType.Bible:
                         if (other is Item)
                             inventory.Add(other as Item);
                         (other as Item).IsAlive = false;
+                        GameWorld.Instance.Notify(StatusType.Bible);
                         break;
                     case ItemType.Rosary:
                         if (other is Item)
                             inventory.Add(other as Item);
                         (other as Item).IsAlive = false;
+                        GameWorld.Instance.Notify(StatusType.Rosary);
                         break;
                     case ItemType.GeesusBlood:
                         if (other is Item)
                         {
-                            Health += 10;
+                            Health += healthPortion;
                         }
                         (other as Item).IsAlive = false;
+                        GameWorld.Instance.Notify(StatusType.Health);
                         break;
                     default:
                         break;

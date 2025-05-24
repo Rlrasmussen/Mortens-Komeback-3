@@ -46,6 +46,8 @@ namespace Mortens_Komeback_3
 
         private float spawnEnemyTime = 5f;
         private float lastSpawnEnemy = 0f;
+        private List<IObserver> listeners = new List<IObserver>();
+        private Status status;
 
         //Rotation
         private float rotationTop = 0;
@@ -173,6 +175,11 @@ namespace Mortens_Komeback_3
         {
             gameObjects.Add(Player.Instance);
 
+            status = new Status();
+
+            gameObjects.Add(new Item(ItemType.Rosary, Vector2.Zero));
+
+
             //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
 
             //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200,500)));
@@ -233,7 +240,7 @@ namespace Mortens_Komeback_3
 
             NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
             NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
-            NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16300));
+            NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 18000));
             NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
             NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 20000));
             canadaGoose2.Canada = true;
@@ -289,6 +296,8 @@ namespace Mortens_Komeback_3
 
 
             //SpawnEnemies();
+
+            status.Update(gameTime);
 
             CleanUp();
 
@@ -347,6 +356,8 @@ namespace Mortens_Komeback_3
 
             InputHandler.Instance.Draw(_spriteBatch);
 
+            status.Draw(_spriteBatch);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -359,6 +370,8 @@ namespace Mortens_Komeback_3
         /// <param name="screenSize">Angiver skærmstørrelse i form af x- og y-akser</param>
         private void SetScreenSize(Vector2 screenSize)
         {
+            ScreenSize = screenSize;
+            
             _graphics.PreferredBackBufferWidth = (int)screenSize.X;
             _graphics.PreferredBackBufferHeight = (int)screenSize.Y;
             _graphics.ApplyChanges();
@@ -482,7 +495,7 @@ namespace Mortens_Komeback_3
             Texture2D[] sword = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sword") };
             Sprites.Add(MenuType.Cursor, sword);
             Sprites.Add(WeaponType.Melee, sword);
-            Sprites.Add(ItemType.Bible, new Texture2D[1] {Content.Load<Texture2D>("Sprites\\Items\\bible") });
+            Sprites.Add(ItemType.Bible, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\bible") });
             Sprites.Add(ItemType.Rosary, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\rosary") });
             Sprites.Add(ItemType.GeesusBlood, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\potion") });
 
@@ -512,6 +525,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(OverlayObjects.Dialog, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\talk") });
             Sprites.Add(OverlayObjects.InteractBubble, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\interact") });
             Sprites.Add(OverlayObjects.DialogBox, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\dialogueBox") });
+            Sprites.Add(OverlayObjects.WeaponBox, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\round-corner") });
 
 
             #endregion
@@ -723,12 +737,12 @@ namespace Mortens_Komeback_3
 
         private void SpawnEnemies()
         {
-            
-            
+
+
             lastSpawnEnemy += DeltaTime;
 
             if (lastSpawnEnemy > spawnEnemyTime)
-            {              
+            {
                 SpawnObject(EnemyPool.Instance.Create(EnemyType.WalkingGoose, Vector2.Zero));
                 lastSpawnEnemy = 0f;
             }
@@ -836,21 +850,29 @@ namespace Mortens_Komeback_3
             }
 
         }
-        
+
         #region Observer - Rikke
         public void Attach(IObserver observer)
         {
-            throw new NotImplementedException();
+            listeners.Add(observer);
         }
 
         public void Detach(IObserver observer)
         {
-            throw new NotImplementedException();
+            listeners.Remove(observer);
         }
 
-        public void Notify()
+        public void Notify(StatusType statusType)
         {
-            throw new NotImplementedException();
+            foreach (IObserver observer in listeners)
+            {
+                observer.OnNotify(statusType);
+            }
+        }
+
+        public void ResetObsevers()
+        {
+            listeners.Clear();
         }
 
         #endregion
