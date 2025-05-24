@@ -10,7 +10,7 @@ namespace Mortens_Komeback_3.Observer
     {
 
 
-        public void OnNotify();
+        public void OnNotify(StatusType status);
 
     }
 }

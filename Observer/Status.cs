@@ -33,6 +33,10 @@ namespace Mortens_Komeback_3.Observer
 
         #region Method
 
+        public void OnNotify(StatusType type)
+        {
+
+        }
         #endregion
     }
 }

@@ -14,10 +14,11 @@ using Mortens_Komeback_3.Puzzles;
 using Mortens_Komeback_3.Environment;
 using Mortens_Komeback_3.Menu;
 using Microsoft.Data.Sqlite;
+using Mortens_Komeback_3.Observer;
 
 namespace Mortens_Komeback_3
 {
-    public class GameWorld : Game
+    public class GameWorld : Game, ISubject
     {
 
         private static GameWorld instance;
@@ -826,6 +827,23 @@ namespace Mortens_Komeback_3
             }
 
         }
+        
+        #region Observer - Rikke
+        public void Attach(IObserver observer)
+        {
+            throw new NotImplementedException();
+        }
 
+        public void Detach(IObserver observer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Notify()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

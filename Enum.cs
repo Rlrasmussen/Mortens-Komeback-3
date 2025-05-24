@@ -38,7 +38,7 @@ namespace Mortens_Komeback_3
     /// Enum for identifying direction of doors
     /// </summary>
     public enum DoorDirection
-    { 
+    {
         Top,
         Right,
         Bottom,
@@ -251,4 +251,14 @@ namespace Mortens_Komeback_3
         Tile
     }
 
+    public enum StatusType
+    {
+        EnemiesKilled,
+        ExUp,
+        LevelUp,
+        WeaponMelee,
+        WeaponRanged,
+        Health,
+        PlayerDead
+    }
 }
