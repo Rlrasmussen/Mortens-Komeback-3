@@ -177,21 +177,17 @@ namespace Mortens_Komeback_3
 
             status = new Status();
 
-            gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
-
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200,500)));
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200, 900)));
+            //gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
 
             //SafePoint.SaveGame(Location.Spawn);
-
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
 
             gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
             gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gameObjects.Add(new Item(ItemType.GeesusBlood, Vector2.Zero));
+            //Test Item
+            //gameObjects.Add(new Item(ItemType.GeesusBlood, Vector2.Zero));
 
             #region Decorations
             gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
@@ -232,6 +228,11 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC + Bible & Rosary
+            Player.Instance.Position = new Vector2(-00, 18000);
+            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(200, 18000)));
+
+
+
             gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 16000)));
             gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
 
