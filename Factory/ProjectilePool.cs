@@ -44,9 +44,11 @@ namespace Mortens_Komeback_3.Factory
 
         #region Method
         /// <summary>
-        /// Creating a new Projectile with ProjectileFactory
+        /// Creating a new Projectile through ProjectileFactgory
         /// Rikke
         /// </summary>
+        /// <param name="type">Projectile type</param>
+        /// <param name="spawnPosition">Spawn position</param>
         /// <returns></returns>
         public override GameObject Create(Enum type, Vector2 spawnPosition)
         {

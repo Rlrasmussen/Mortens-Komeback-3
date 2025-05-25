@@ -28,13 +28,13 @@ namespace Mortens_Komeback_3
         private float speed = 500f;
         private float walkTimer = 0.5f;
         private int health;
-        private int maxHealth = 100;
+        private int maxHealth = 50;
         private bool attacking = false;
         private float colorTimer = 2f;
 
-        private float damageTimer;
+        private float damageTimer = 2f;
         private float damageGracePeriode = 2f;
-
+        private int portionHelath = 10;
         #endregion
 
         #region Properties
@@ -76,6 +76,7 @@ namespace Mortens_Komeback_3
                         //If Player is dead alle the Enemies og Projectile is being released back to the inactive stack i ObjectPool
                         EnemyPool.Instance.PlayerDead();
                         ProjectilePool.Instance.PlayerDead();
+                        GameWorld.Instance.Notify(StatusType.PlayerDead);
                     }
                     health = value;
                     colorTimer = 0f;
@@ -144,6 +145,7 @@ namespace Mortens_Komeback_3
         /// </summary>
         public int CurrentIndex { get; set; }
         public float Speed { get => speed; set => speed = value; }
+        public int MaxHealth { get => maxHealth; set => maxHealth = value; }
 
         #endregion
 
@@ -180,8 +182,8 @@ namespace Mortens_Komeback_3
 
             base.Load();
 
-            health = maxHealth;
-
+            health = MaxHealth;
+            GameWorld.Instance.Notify(StatusType.Health);
         }
 
         /// <summary>
@@ -224,6 +226,8 @@ namespace Mortens_Komeback_3
 
             //Grace periode for attacks from Enemy
             damageTimer += GameWorld.Instance.DeltaTime;
+
+
 
             base.Update(gameTime);
 
@@ -301,8 +305,8 @@ namespace Mortens_Komeback_3
             if (other.Type.GetType() == typeof(EnemyType) && damageTimer > damageGracePeriode) //Rikke
             {
                 Health -= (other as Enemy).Damage;
+                GameWorld.Instance.Notify(StatusType.Health);
                 GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
-
                 damageTimer = 0f;
             }
             else //Simon
@@ -314,21 +318,30 @@ namespace Mortens_Komeback_3
                         (other as Weapon).IsAlive = false;
                         if (equippedWeapon == null)
                             equippedWeapon = (other as Weapon);
+                        GameWorld.Instance.Notify(StatusType.WeaponMelee);
                         break;
                     case WeaponType.Ranged:
                         if (other is Weapon)
                             inventory.Add(other as Weapon);
                         (other as Weapon).IsAlive = false;
+                        GameWorld.Instance.Notify(StatusType.WeaponRanged);
                         break;
                     case ItemType.Bible:
                         if (other is Item)
                             inventory.Add(other as Item);
                         (other as Item).IsAlive = false;
+                        GameWorld.Instance.Notify(StatusType.Bible);
                         break;
                     case ItemType.Rosary:
                         if (other is Item)
                             inventory.Add(other as Item);
                         (other as Item).IsAlive = false;
+                        GameWorld.Instance.Notify(StatusType.Rosary);
+                        break;
+                    case ItemType.GeesusBlood:
+                        (other as Item).IsAlive = false;
+                        Health += portionHelath;
+                        GameWorld.Instance.Notify(StatusType.Health);
                         break;
                     default:
                         break;
@@ -508,11 +521,6 @@ namespace Mortens_Komeback_3
 
             this.health = health;
 
-        }
-
-        public void Kage()
-        {
-            this.drawColor = Color.Green;
         }
         #endregion
     }

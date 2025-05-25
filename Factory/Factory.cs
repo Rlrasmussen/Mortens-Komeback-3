@@ -30,6 +30,8 @@ namespace Mortens_Komeback_3.Factory
         /// Creating a GameObject
         /// Rikke
         /// </summary>
+        /// <param name="type">Enum type</param>
+        /// <param name="spawnPositio">Spawn position</param>
         /// <returns></returns>
         public abstract GameObject Create(Enum type, Vector2 spawnPositio);
 

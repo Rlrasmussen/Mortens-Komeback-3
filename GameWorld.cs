@@ -14,12 +14,13 @@ using Mortens_Komeback_3.Puzzles;
 using Mortens_Komeback_3.Environment;
 using Mortens_Komeback_3.Menu;
 using Microsoft.Data.Sqlite;
+using Mortens_Komeback_3.Observer;
 
 namespace Mortens_Komeback_3
 {
-    public class GameWorld : Game
+    public class GameWorld : Game, ISubject
     {
-
+        #region Fields
         private static GameWorld instance;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -45,6 +46,8 @@ namespace Mortens_Komeback_3
 
         private float spawnEnemyTime = 5f;
         private float lastSpawnEnemy = 0f;
+        private List<IObserver> listeners = new List<IObserver>();
+        private Status status;
 
         //Rotation
         private float rotationTop = 0;
@@ -55,6 +58,9 @@ namespace Mortens_Komeback_3
         private Button myButton;
         public List<Button> buttonList = new List<Button>();
 
+        #endregion
+
+        #region Properties
         public MenuManager MenuManager { get; set; }
         public Vector2 ScreenSize { get; private set; }
 
@@ -110,6 +116,9 @@ namespace Mortens_Komeback_3
 
         public Environment.Room CurrentRoom { get; set; }
 
+        #endregion
+
+        #region Constructor
         /// <summary>
         /// Constuctor used by Singleton
         /// </summary>
@@ -120,6 +129,9 @@ namespace Mortens_Komeback_3
             IsMouseVisible = true;
         }
 
+        #endregion
+
+        #region Method
         /// <summary>
         /// Handles loading of assets and basic functionality
         /// All
@@ -163,21 +175,19 @@ namespace Mortens_Komeback_3
         {
             gameObjects.Add(Player.Instance);
 
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
+            status = new Status();
 
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200,500)));
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200, 900)));
+            //gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
 
             //SafePoint.SaveGame(Location.Spawn);
-
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
 
             gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
             gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-
+            //Test Item
+            //gameObjects.Add(new Item(ItemType.GeesusBlood, Vector2.Zero));
 
             #region Decorations
             gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
@@ -223,7 +233,7 @@ namespace Mortens_Komeback_3
 
             NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
             NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
-            NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16300));
+            NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 18000));
             NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
             NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 20000));
             canadaGoose2.Canada = true;
@@ -242,8 +252,6 @@ namespace Mortens_Komeback_3
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
-
-
 
             #region buttons and menu
 
@@ -272,6 +280,8 @@ namespace Mortens_Komeback_3
             MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
 
             //SpawnEnemies();
+
+            status.Update(gameTime);
 
             CleanUp();
 
@@ -330,6 +340,8 @@ namespace Mortens_Komeback_3
 
             InputHandler.Instance.Draw(_spriteBatch);
 
+            status.Draw(_spriteBatch);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -342,6 +354,8 @@ namespace Mortens_Komeback_3
         /// <param name="screenSize">Angiver skærmstørrelse i form af x- og y-akser</param>
         private void SetScreenSize(Vector2 screenSize)
         {
+            ScreenSize = screenSize;
+
             _graphics.PreferredBackBufferWidth = (int)screenSize.X;
             _graphics.PreferredBackBufferHeight = (int)screenSize.Y;
             _graphics.ApplyChanges();
@@ -465,9 +479,9 @@ namespace Mortens_Komeback_3
             Texture2D[] sword = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sword") };
             Sprites.Add(MenuType.Cursor, sword);
             Sprites.Add(WeaponType.Melee, sword);
-            Sprites.Add(ItemType.Bible, new Texture2D[1] {Content.Load<Texture2D>("Sprites\\Items\\bible") });
+            Sprites.Add(ItemType.Bible, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\bible") });
             Sprites.Add(ItemType.Rosary, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\rosary") });
-
+            Sprites.Add(ItemType.GeesusBlood, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\potion") });
 
             #endregion
             #region Menu
@@ -495,6 +509,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(OverlayObjects.Dialog, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\talk") });
             Sprites.Add(OverlayObjects.InteractBubble, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\interact") });
             Sprites.Add(OverlayObjects.DialogBox, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\dialogueBox") });
+            Sprites.Add(OverlayObjects.WeaponBox, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\round-corner") });
 
 
             #endregion
@@ -706,12 +721,12 @@ namespace Mortens_Komeback_3
 
         private void SpawnEnemies()
         {
-            
-            
+
+
             lastSpawnEnemy += DeltaTime;
 
             if (lastSpawnEnemy > spawnEnemyTime)
-            {              
+            {
                 SpawnObject(EnemyPool.Instance.Create(EnemyType.WalkingGoose, Vector2.Zero));
                 lastSpawnEnemy = 0f;
             }
@@ -820,5 +835,32 @@ namespace Mortens_Komeback_3
 
         }
 
+        #region Observer - Rikke
+        public void Attach(IObserver observer)
+        {
+            listeners.Add(observer);
+        }
+
+        public void Detach(IObserver observer)
+        {
+            listeners.Remove(observer);
+        }
+
+        public void Notify(StatusType statusType)
+        {
+            foreach (IObserver observer in listeners)
+            {
+                observer.OnNotify(statusType);
+            }
+        }
+
+        public void ResetObsevers()
+        {
+            listeners.Clear();
+        }
+
+        #endregion
+
+        #endregion
     }
 }

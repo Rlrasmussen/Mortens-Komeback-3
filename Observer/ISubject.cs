@@ -16,7 +16,7 @@ namespace Mortens_Komeback_3.Observer
         public void Detach(IObserver observer);
 
 
-        public void Notify();
+        public void Notify(StatusType type);
 
     }
 }

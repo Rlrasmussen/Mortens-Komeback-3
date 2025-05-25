@@ -31,6 +31,8 @@ namespace Mortens_Komeback_3.Factory
         /// Getting a GameObject out from the inactive stack or creating a new GameObject
         /// Rikke
         /// </summary>
+        /// <param name="type">Objecttype from enum</param>
+        /// <param name="spawnPosition">Spawn position</param>
         /// <returns></returns>
         public GameObject GetObject(Enum type, Vector2 spawnPosition)
         {
@@ -55,9 +57,10 @@ namespace Mortens_Komeback_3.Factory
 
         /// <summary>
         /// Releasing the gameobject from the active List to the inactive stack
+        /// Sending notify to the status when an Enemy is dead
         /// Rikke
         /// </summary>
-        /// <param name="gameObject"></param>
+        /// <param name="gameObject">A GameObject</param>
         public void ReleaseObject(GameObject gameObject)
         {
             //Remove from active to the inactive
@@ -66,12 +69,20 @@ namespace Mortens_Komeback_3.Factory
             //Pushing to the inactive
             inactive.Push(gameObject);
             gameObject.IsAlive = false;
+
+            //Notifying the Observer/Status an Enemy has been killed
+            if (gameObject is Enemy)
+            {
+                GameWorld.Instance.Notify(StatusType.EnemiesKilled);
+            }
         }
 
         /// <summary>
         /// Creating a new GameObject
         /// Rikke
         /// </summary>
+        /// <param name="type">Objecttype from enum</param>
+        /// <param name="spawnPosition">Spawn position</param>
         /// <returns></returns>
         public abstract GameObject Create(Enum type, Vector2 spawnPosition);
 
