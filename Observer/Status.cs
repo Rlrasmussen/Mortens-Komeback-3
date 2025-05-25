@@ -72,12 +72,6 @@ namespace Mortens_Komeback_3.Observer
                 case StatusType.Health:
                     playerHealth = Player.Instance.Health;
                     break;
-                case StatusType.Portion:
-                    playerHealth += 10;
-                    break;
-                case StatusType.TakeDamage:
-                    playerHealth -= 10;
-                    break;
                 case StatusType.PlayerDead:
                     //Kald dead screan
                     break;

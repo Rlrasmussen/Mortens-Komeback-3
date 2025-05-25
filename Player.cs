@@ -34,6 +34,7 @@ namespace Mortens_Komeback_3
 
         private float damageTimer = 2f;
         private float damageGracePeriode = 2f;
+        private int portionHelath = 10;
         #endregion
 
         #region Properties
@@ -303,8 +304,8 @@ namespace Mortens_Komeback_3
         {
             if (other.Type.GetType() == typeof(EnemyType) && damageTimer > damageGracePeriode) //Rikke
             {
-                GameWorld.Instance.Notify(StatusType.TakeDamage);
                 Health -= (other as Enemy).Damage;
+                GameWorld.Instance.Notify(StatusType.Health);
                 GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
                 damageTimer = 0f;
             }
@@ -339,7 +340,8 @@ namespace Mortens_Komeback_3
                         break;
                     case ItemType.GeesusBlood:
                         (other as Item).IsAlive = false;
-                        GameWorld.Instance.Notify(StatusType.Portion);
+                        Health += portionHelath;
+                        GameWorld.Instance.Notify(StatusType.Health);
                         break;
                     default:
                         break;
