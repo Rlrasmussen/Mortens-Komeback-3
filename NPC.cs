@@ -22,7 +22,8 @@ namespace Mortens_Komeback_3
         #region Fields
         private Texture2D textBubble = GameWorld.Instance.Sprites[OverlayObjects.Dialog][0];
         private Texture2D dialogueBox = GameWorld.Instance.Sprites[OverlayObjects.DialogBox][0];
-
+        
+        //Texture2D for the sad and happy monknun
         private Texture2D happyNun = GameWorld.Instance.Sprites[NPCType.Nun][0];
         private Texture2D sadNun = GameWorld.Instance.Sprites[NPCType.Nun][1];
         private Texture2D happyMonk = GameWorld.Instance.Sprites[NPCType.Monk][0];
@@ -30,12 +31,12 @@ namespace Mortens_Komeback_3
 
         private int reply = 0; //Number of reply
         private string npcText;
-        private bool interact = true;
-        private bool talk = false;
+        private bool interact = true; //Showing the interact/textBubble
+        private bool talk = false; //Showing the dialogBox
         private bool canada = false; //2 different for Canada Goose dialogue
-        private bool animate = true;
-        private bool happy = false;
-        private bool nunPuzzle = false;
+        private bool animate = true; //Either the NPC is animated or only has 1 sprite
+        private bool happy = false; //Monk/nun is happy to recive their item back
+        private bool nunPuzzle = false; //If true the Player is ready for the puzzle 
 
         #endregion
 
@@ -83,6 +84,7 @@ namespace Mortens_Komeback_3
 
         public void OnCollision(ICollidable other)
         {
+            //Returning the item to the NPC
             if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Bible) != null && Type is NPCType.Monk)
             {
                 Sprite = happyMonk;
@@ -240,7 +242,7 @@ namespace Mortens_Komeback_3
                 if (reply == 0)
                 {
                     StartConversation();
-                    npcText = "It just went through here! No need to be afraid ..";
+                    npcText = "It just went through here! No need to be afraid ...";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
                 }
                 else if (reply == 1)
@@ -296,18 +298,25 @@ namespace Mortens_Komeback_3
             }
         }
 
+        /// <summary>
+        /// Starting the conversation by setting talk = true and interact = false
+        /// </summary>
+        public void StartConversation()
+        {
+            talk = true;
+            interact = false;
+        }
+
+        /// <summary>
+        /// Ending the conversation with resetting talk, interact and reply
+        /// Resetting the Players speed again
+        /// </summary>
         public void EndConversation()
         {
             talk = false;
             interact = true;
             Player.Instance.Speed = 500f;
             reply = 0;
-        }
-
-        public void StartConversation()
-        {
-            talk = true;
-            interact = false;
         }
         #endregion
     }
