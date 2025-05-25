@@ -75,6 +75,9 @@ namespace Mortens_Komeback_3.Observer
                 case StatusType.Portion:
                     playerHealth += 10;
                     break;
+                case StatusType.TakeDamage:
+                    playerHealth -= 10;
+                    break;
                 case StatusType.PlayerDead:
                     break;
                 case StatusType.Bible:

@@ -32,7 +32,7 @@ namespace Mortens_Komeback_3
         private bool attacking = false;
         private float colorTimer = 2f;
 
-        private float damageTimer;
+        private float damageTimer = 2f;
         private float damageGracePeriode = 2f;
         private int healthPortion = 10;
         #endregion
@@ -182,7 +182,7 @@ namespace Mortens_Komeback_3
             base.Load();
 
             health = MaxHealth;
-
+            GameWorld.Instance.Notify(StatusType.Health);
         }
 
         /// <summary>
@@ -301,9 +301,9 @@ namespace Mortens_Komeback_3
         {
             if (other.Type.GetType() == typeof(EnemyType) && damageTimer > damageGracePeriode) //Rikke
             {
-                Health -= (other as Enemy).Damage;
+                GameWorld.Instance.Notify(StatusType.TakeDamage);
+                //Health -= (other as Enemy).Damage;
                 GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
-
                 damageTimer = 0f;
             }
             else //Simon

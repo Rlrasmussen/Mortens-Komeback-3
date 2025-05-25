@@ -177,7 +177,7 @@ namespace Mortens_Komeback_3
 
             status = new Status();
 
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
+            gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
 
             //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200,500)));
             //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200, 900)));
@@ -256,11 +256,6 @@ namespace Mortens_Komeback_3
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
-
-            if (gameRunning == true)
-            {
-                Notify(StatusType.Health);
-            }
 
             #region buttons and menu
 
