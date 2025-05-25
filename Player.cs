@@ -341,7 +341,7 @@ namespace Mortens_Komeback_3
                             Health += healthPortion;
                         }
                         (other as Item).IsAlive = false;
-                        GameWorld.Instance.Notify(StatusType.Health);
+                        GameWorld.Instance.Notify(StatusType.Portion);
                         break;
                     default:
                         break;

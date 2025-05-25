@@ -66,6 +66,11 @@ namespace Mortens_Komeback_3.Factory
             //Pushing to the inactive
             inactive.Push(gameObject);
             gameObject.IsAlive = false;
+
+            if (gameObject is Enemy)
+            {
+                GameWorld.Instance.Notify(StatusType.EnemiesKilled);
+            }
         }
 
         /// <summary>

@@ -30,11 +30,12 @@ namespace Mortens_Komeback_3.Observer
         private Texture2D bible = GameWorld.Instance.Sprites[ItemType.Bible][0];
         private Texture2D rosary = GameWorld.Instance.Sprites[ItemType.Rosary][0];
 
-
         private bool ranged = false;
         private bool melee = false;
-
         private int npcItem = 0;
+
+        private int enemiesKilled = 0;
+        private int playerHealth;
         #endregion
 
         #region Properties
@@ -56,6 +57,7 @@ namespace Mortens_Komeback_3.Observer
             switch (type)
             {
                 case StatusType.EnemiesKilled:
+                    enemiesKilled++;
                     break;
                 case StatusType.ExUp:
                     break;
@@ -68,6 +70,10 @@ namespace Mortens_Komeback_3.Observer
                     ranged = true;
                     break;
                 case StatusType.Health:
+                    playerHealth = Player.Instance.Health;
+                    break;
+                case StatusType.Portion:
+                    playerHealth += 10;
                     break;
                 case StatusType.PlayerDead:
                     break;
@@ -93,9 +99,9 @@ namespace Mortens_Komeback_3.Observer
         public void Draw(SpriteBatch spriteBatch)
         {
             #region Player hralth
-            spriteBatch.Draw(heart, Player.Instance.Position + new Vector2(GameWorld.Instance.ScreenSize.X / 2, -GameWorld.Instance.ScreenSize.Y / 2) + (new Vector2(-weaponBox.Width * 2, weaponBox.Height)), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
+            spriteBatch.Draw(heart, Player.Instance.Position + new Vector2(GameWorld.Instance.ScreenSize.X / 2, -GameWorld.Instance.ScreenSize.Y / 2) + (new Vector2(-weaponBox.Width * 2, weaponBox.Height)), null, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, layer);
 
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, Player.Instance.Health.ToString(), Player.Instance.Position - new Vector2(200, 200), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, playerHealth.ToString(), Player.Instance.Position - new Vector2(200, 200), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
 
             #endregion
 
@@ -107,7 +113,7 @@ namespace Mortens_Komeback_3.Observer
             {
                 spriteBatch.Draw(weaponMelee, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width, weaponBox.Height), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layer + 0.01f);
             }
-            
+
             //For ranged
             spriteBatch.Draw(weaponBox, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width, weaponBox.Height * 2), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
             spriteBatch.DrawString(GameWorld.Instance.GameFont, "2", Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width * 2, weaponBox.Height * 2.2f), Color.White, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
@@ -115,7 +121,7 @@ namespace Mortens_Komeback_3.Observer
             {
                 spriteBatch.Draw(weaponRanged, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width, weaponBox.Height * 2), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layer + 0.01f);
             }
-            
+
             //For item
             spriteBatch.Draw(weaponBox, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width, weaponBox.Height * 3), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
             if (npcItem == 1)
