@@ -70,6 +70,7 @@ namespace Mortens_Komeback_3.Factory
             inactive.Push(gameObject);
             gameObject.IsAlive = false;
 
+            //Notifying the Observer/Status an Enemy has been killed
             if (gameObject is Enemy)
             {
                 GameWorld.Instance.Notify(StatusType.EnemiesKilled);

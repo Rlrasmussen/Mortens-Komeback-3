@@ -43,9 +43,11 @@ namespace Mortens_Komeback_3.Factory
 
         #region Method
         /// <summary>
-        /// Spawner Enemies in the figth with Goosifer
+        /// Creating a new Enemy
         /// Rikke
         /// </summary>
+        /// <param name="type">Enemytype</param>
+        /// <param name="spawnPositio">Spawn position</param>
         /// <returns></returns>
         public override GameObject Create(Enum type, Vector2 spawnPositio)
         {
