@@ -37,8 +37,6 @@ namespace Mortens_Komeback_3.Observer
         private int enemiesKilled = 0;
         private int playerHealth;
         private int hearts = 0;
-
-        private int kage;
         #endregion
 
         #region Properties

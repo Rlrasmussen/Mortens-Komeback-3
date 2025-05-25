@@ -28,10 +28,10 @@ namespace Mortens_Komeback_3
         private Texture2D happyMonk = GameWorld.Instance.Sprites[NPCType.Monk][0];
         private Texture2D sadMonk = GameWorld.Instance.Sprites[NPCType.Monk][1];
 
-        private bool interact = true;
-        private bool talk = false;
         private int reply = 0; //Number of reply
         private string npcText;
+        private bool interact = true;
+        private bool talk = false;
         private bool canada = false; //2 different for Canada Goose dialogue
         private bool animate = true;
         private bool happy = false;

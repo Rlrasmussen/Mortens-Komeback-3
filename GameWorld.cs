@@ -228,11 +228,6 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC + Bible & Rosary
-            Player.Instance.Position = new Vector2(-00, 18000);
-            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(200, 18000)));
-
-
-
             gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 16000)));
             gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
 
@@ -367,7 +362,7 @@ namespace Mortens_Komeback_3
         private void SetScreenSize(Vector2 screenSize)
         {
             ScreenSize = screenSize;
-            
+
             _graphics.PreferredBackBufferWidth = (int)screenSize.X;
             _graphics.PreferredBackBufferHeight = (int)screenSize.Y;
             _graphics.ApplyChanges();
