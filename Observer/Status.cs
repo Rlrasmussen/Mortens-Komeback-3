@@ -79,6 +79,7 @@ namespace Mortens_Komeback_3.Observer
                     playerHealth -= 10;
                     break;
                 case StatusType.PlayerDead:
+                    //Kald dead screan
                     break;
                 case StatusType.Bible:
                     npcItem = 1;

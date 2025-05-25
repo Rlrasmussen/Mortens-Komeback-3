@@ -34,7 +34,6 @@ namespace Mortens_Komeback_3
 
         private float damageTimer = 2f;
         private float damageGracePeriode = 2f;
-        private int healthPortion = 10;
         #endregion
 
         #region Properties
@@ -76,6 +75,7 @@ namespace Mortens_Komeback_3
                         //If Player is dead alle the Enemies og Projectile is being released back to the inactive stack i ObjectPool
                         EnemyPool.Instance.PlayerDead();
                         ProjectilePool.Instance.PlayerDead();
+                        GameWorld.Instance.Notify(StatusType.PlayerDead);
                     }
                     health = value;
                     colorTimer = 0f;
@@ -226,6 +226,8 @@ namespace Mortens_Komeback_3
             //Grace periode for attacks from Enemy
             damageTimer += GameWorld.Instance.DeltaTime;
 
+
+
             base.Update(gameTime);
 
         }
@@ -302,7 +304,7 @@ namespace Mortens_Komeback_3
             if (other.Type.GetType() == typeof(EnemyType) && damageTimer > damageGracePeriode) //Rikke
             {
                 GameWorld.Instance.Notify(StatusType.TakeDamage);
-                //Health -= (other as Enemy).Damage;
+                Health -= (other as Enemy).Damage;
                 GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
                 damageTimer = 0f;
             }
@@ -336,10 +338,6 @@ namespace Mortens_Komeback_3
                         GameWorld.Instance.Notify(StatusType.Rosary);
                         break;
                     case ItemType.GeesusBlood:
-                        if (other is Item)
-                        {
-                            Health += healthPortion;
-                        }
                         (other as Item).IsAlive = false;
                         GameWorld.Instance.Notify(StatusType.Portion);
                         break;
