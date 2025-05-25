@@ -29,20 +29,7 @@ namespace Mortens_Komeback_3.Menu
         public float Layer { get; set; }
 
         public Enum Type { get; set; }
-        //public Rectangle CollisionBox => new Rectangle((int)Position.X, (int)Position.Y, Sprite.Width, Sprite.Height);
-        //public Rectangle CollisionBox
-        //{
-        //    get
-        //    {
-        //        Vector2 origin = new Vector2(Sprite.Width / 2f, Sprite.Height / 2f);
-        //        return new Rectangle(
-        //            (int)(Position.X - origin.X),
-        //            (int)(Position.Y - origin.Y),
-        //            Sprite.Width,
-        //            Sprite.Height
-        //        );
-        //    }
-        //}
+      
         public Rectangle CollisionBox
         {
             get
@@ -62,18 +49,15 @@ namespace Mortens_Komeback_3.Menu
 
 
         public Texture2D Sprite { get; set; }
-        //public Vector2 ButtonPosition { get => buttonPosition; set => buttonPosition = value; }
         #endregion
 
         #region Constructor
         public Button(ButtonType type, Vector2 spawnPos, string buttonText, ICommand command) 
         {
             this.Type = type;
-            //spawnPos = cameraCenter + buttonOffset;
             this.Position = spawnPos;
             this.ButtonText = buttonText;
             Layer = 0.9f;
-            //Hovering = false;
 
 
             if (GameWorld.Instance.Sprites.TryGetValue(type, out var spriteArray))
@@ -93,7 +77,6 @@ namespace Mortens_Komeback_3.Menu
 
         public void Update(Vector2 mousePos, bool isClicking)
         {
-            //Hovering = CollisionBox.Contains(mousePos.ToPoint());
             Hovering = CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
 
 
@@ -111,22 +94,14 @@ namespace Mortens_Komeback_3.Menu
         {
             Color color = Hovering ? Color.HotPink : Color.White;
 
-            // Midten af knappen
-            //Vector2 origin = new Vector2(Sprite.Width / 2f, Sprite.Height / 2f);
-
-            // Tegn knappen
-            spriteBatch.Draw(Sprite, Position, null, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.8f);
+            spriteBatch.Draw(Sprite, Position, null, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
 
             // Beregn tekstens størrelse
-            //Vector2 textSize = font.MeasureString(ButtonText);
-            //Vector2 textOrigin = textSize / 2f;
-
             Vector2 textSize = font.MeasureString(ButtonText);
             Vector2 textPos = Position + new Vector2((Sprite.Width - textSize.X) / 2f, (Sprite.Height - textSize.Y) / 2f);
 
-
             // Tegn teksten centreret over knappen
-            spriteBatch.DrawString(font, ButtonText, textPos, Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
+            spriteBatch.DrawString(font, ButtonText, textPos, Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.92f);
         }
             
 

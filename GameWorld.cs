@@ -271,13 +271,6 @@ namespace Mortens_Komeback_3
 
             MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
 
-            //if (Keyboard.GetState().IsKeyDown(Keys.P))
-            //{
-            //    GameWorld.Instance.MenuManager.OpenMenu(MenuType.Pause);
-            //}
-
-
-
             //SpawnEnemies();
 
             CleanUp();
@@ -815,14 +808,14 @@ namespace Mortens_Komeback_3
         {
             if (gamePaused)
             {
-                gamePaused = false;
+                //gamePaused = false;
 
-                //MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
+                MediaPlayer.Play(Music[MusicTrack.Background]);
             }
             else
             {
                 gamePaused = true;
-                //MediaPlayer.Play(Music[MusicTrack.BackgroundMusic]);
+                MediaPlayer.Play(Music[MusicTrack.Menu]);
             }
 
         }
