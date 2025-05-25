@@ -28,7 +28,7 @@ namespace Mortens_Komeback_3
         private float speed = 500f;
         private float walkTimer = 0.5f;
         private int health;
-        private int maxHealth = 100;
+        private int maxHealth = 50;
         private bool attacking = false;
         private float colorTimer = 2f;
 
