@@ -13,7 +13,7 @@ namespace Mortens_Komeback_3.Environment
     {
         #region Fields
 
-        private float gracePeriod;
+        private float gracePeriod = 2.1f;
 
         #endregion
 
@@ -73,7 +73,7 @@ namespace Mortens_Komeback_3.Environment
         /// Simon
         /// </summary>
         /// <param name="other">Object collided with</param>
-        public void OnCollision(ICollidable other)
+        public virtual void OnCollision(ICollidable other)
         {
 
             switch (other)

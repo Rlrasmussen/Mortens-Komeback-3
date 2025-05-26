@@ -13,6 +13,7 @@ using Mortens_Komeback_3.Factory;
 using Mortens_Komeback_3.Puzzles;
 using Mortens_Komeback_3.Environment;
 using Mortens_Komeback_3.Menu;
+using Mortens_Komeback_3.State;
 using Microsoft.Data.Sqlite;
 using Mortens_Komeback_3.Observer;
 
@@ -180,7 +181,7 @@ namespace Mortens_Komeback_3
 
             status = new Status();
 
-            //gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
+            gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
 
             //SafePoint.SaveGame(Location.Spawn);
 
@@ -720,6 +721,7 @@ namespace Mortens_Komeback_3
                         other.Type.GetType() == typeof(PuzzleType) ||
                         other.Type.GetType() == typeof(WeaponType) ||
                         other.GetType() == typeof(AvSurface) ||
+                        other.GetType() == typeof(GoosiferFire) ||
                         other.Type.GetType() == typeof(DoorType) //test remove
 
                         ))
