@@ -194,10 +194,11 @@ namespace Mortens_Komeback_3
             //gameObjects.Add(new Item(ItemType.GeesusBlood, Vector2.Zero));
 
             #region Decorations
-            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(100, 600), rotationTop)); //Used for testing - To be removed
+            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(100, 600), rotationTop)); 
             //gameObjects.Add(new Decoration(DecorationType.Hole0, new Vector2(600, 3500), rotationTop)); //Used for testing - To be removed
-            gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop)); //Used for testing - To be removed
-            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(50, 3600), rotationTop)); //Used for testing - To be removed
+            gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop)); 
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(50, 3600), rotationTop)); 
+            gameObjects.Add(new Decoration(DecorationType.Cobweb, new Vector2(-1160, 16500), rotationTop)); 
 
             #endregion
 
@@ -621,7 +622,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(DecorationType.Light, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Light0"), Content.Load<Texture2D>("Sprites\\Environment\\Light1"), Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
             //Sprites.Add(DecorationType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
             Sprites.Add(DecorationType.Hole1, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole1") });
-            Sprites.Add(DecorationType.Candle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\candle0") });
+            Sprites.Add(DecorationType.Candle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\candle") });
 
 
             #endregion
