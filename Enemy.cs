@@ -147,7 +147,7 @@ namespace Mortens_Komeback_3
             }
             if (!IgnoreState) //Simon - for setting a default State
             {
-                BossFightState patrol = new BossFightState();
+                PatrolState patrol = new PatrolState();
                 patrol.Enter(this);
             }
 
