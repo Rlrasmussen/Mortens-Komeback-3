@@ -28,7 +28,7 @@ namespace Mortens_Komeback_3.Environment
             Room stairs = new Room(RoomType.Stairs, new Vector2(0, 2000));
             Room catacombesA = new Room(RoomType.CatacombesA, new Vector2(0, 4000));
             catacombesA.LeftSideOfBigRoom = true;
-            Room catacombesA1 = new Room(RoomType.CatacombesA1, new Vector2(2650, 4000));
+            Room catacombesA1 = new Room(RoomType.CatacombesA1, new Vector2(2695, 4000));
             catacombesA1.RightSideOfBigRoom = true;
             Room catacombesB = new Room(RoomType.CatacombesB, new Vector2(0, 6000));
             Room catacombesC = new Room(RoomType.CatacombesC, new Vector2(0, 8000));
@@ -47,10 +47,10 @@ namespace Mortens_Komeback_3.Environment
             // Create Doors
             Door doorA1 = new Door(new Vector2(1190, 0), DoorDirection.Right);
             Door doorA2 = new Door(new Vector2(-1190, 2000), DoorDirection.Left);
-            Door doorB1 = new Door(new Vector2(1190, 2000), DoorDirection.Right, DoorType.StairsLocked);
-            Door doorB2 = new Door(new Vector2(-1190, 4000), DoorDirection.Left, DoorType.Stairs);
-            Door doorC1 = new Door(new Vector2(1190 * 3 + 275, 4000), DoorDirection.Right); //catacombesA
-            Door doorC2 = new Door(new Vector2(-1190, 6000), DoorDirection.Left);   
+            Door doorB1 = new Door(new Vector2(880, 2000), DoorDirection.Right, DoorType.StairsLocked);
+            Door doorB2 = new Door(new Vector2(-945, 4000), DoorDirection.Left, DoorType.StairsUp);
+            Door doorC1 = new Door(new Vector2(1190 * 3 + 320, 4000), DoorDirection.Right); //catacombesA
+            Door doorC2 = new Door(new Vector2(-1190, 6000), DoorDirection.Left);
             Door doorD1 = new Door(new Vector2(1190, 6000), DoorDirection.Right); //shoot puzzle
             Door doorD2 = new Door(new Vector2(-1190, 8000), DoorDirection.Left);
             Door doorE1 = new Door(new Vector2(1190, 8000), DoorDirection.Right);

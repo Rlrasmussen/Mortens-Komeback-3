@@ -129,7 +129,7 @@ namespace Mortens_Komeback_3.Environment
         public void OnCollision(ICollidable other)
         {
 
-            if (other == Player.Instance && (DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open || DoorStatus == DoorType.Stairs))
+            if (other == Player.Instance && (DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open || DoorStatus == DoorType.Stairs || DoorStatus == DoorType.StairsUp))
             {
                 GameWorld.Instance.CurrentRoom = DestinationRoom;
 

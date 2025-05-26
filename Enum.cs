@@ -32,7 +32,8 @@ namespace Mortens_Komeback_3
         Locked,
         Unlocked,
         Stairs,
-        StairsLocked
+        StairsLocked,
+        StairsUp
     }
 
     /// <summary>
@@ -200,7 +201,8 @@ namespace Mortens_Komeback_3
         GreyGoose,
         Pope,
         Monk,
-        Nun
+        Nun,
+        Hole0
     }
 
     /// <summary>
@@ -238,8 +240,11 @@ namespace Mortens_Komeback_3
         Cobweb,
         Light,
         Cross,
-        Painting,
-        Splash
+        Coffin,
+        Splash,
+        //Hole0,
+        Hole1,
+
     }
 
     /// <summary>

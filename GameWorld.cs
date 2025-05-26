@@ -196,7 +196,10 @@ namespace Mortens_Komeback_3
             //gameObjects.Add(new Item(ItemType.GeesusBlood, Vector2.Zero));
 
             #region Decorations
-            gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
+            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(100, 600), rotationTop)); //Used for testing - To be removed
+            //gameObjects.Add(new Decoration(DecorationType.Hole0, new Vector2(600, 3500), rotationTop)); //Used for testing - To be removed
+            gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop)); //Used for testing - To be removed
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(50, 3600), rotationTop)); //Used for testing - To be removed
 
             #endregion
 
@@ -240,7 +243,8 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 16000)));
             gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
 
-            NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
+            NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
+            NPC hole0 = new NPC(NPCType.Hole0, new Vector2(600, 3400));
             NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
             NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16000));
             NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
@@ -252,6 +256,7 @@ namespace Mortens_Komeback_3
             npcs.Add(nun);
             npcs.Add(canadaGoose1);
             npcs.Add(canadaGoose2);
+            npcs.Add(hole0); //test
 
             foreach (GameObject npc in npcs)
             {
@@ -592,6 +597,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(NPCType.Monk, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\monkNPCbible"), Content.Load<Texture2D>("Sprites\\NPC\\monkNPC") });
             Sprites.Add(NPCType.Nun, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary2"), Content.Load<Texture2D>("Sprites\\NPC\\nunNPC") });
             Sprites.Add(NPCType.Pope, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\pope0"), Content.Load<Texture2D>("Sprites\\NPC\\pope1") });
+            Sprites.Add(NPCType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
 
             Texture2D[] canadaGoose = new Texture2D[6];
             for (int i = 0; i < canadaGoose.Length; i++)
@@ -623,6 +629,7 @@ namespace Mortens_Komeback_3
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD4") });
             Sprites.Add(DoorType.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stair1") });
             Sprites.Add(DoorType.StairsLocked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stair0") });
+            Sprites.Add(DoorType.StairsUp, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stairsup") });
             Sprites.Add(EnvironmentType.Chest, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\chestClosed") });
             Sprites.Add(EnvironmentType.ChestOpen, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\chestOpen") });
             Sprites.Add(EnvironmentType.Lever, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
@@ -651,8 +658,12 @@ namespace Mortens_Komeback_3
             Sprites.Add(DecorationType.Splash, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\splash") });
             Sprites.Add(DecorationType.Cobweb, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\cobweb") });
             Sprites.Add(DecorationType.Cross, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\cross") });
-            Sprites.Add(DecorationType.Painting, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\painting") });
+            Sprites.Add(DecorationType.Coffin, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\coffin") });
             Sprites.Add(DecorationType.Light, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Light0"), Content.Load<Texture2D>("Sprites\\Environment\\Light1"), Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
+            //Sprites.Add(DecorationType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
+            Sprites.Add(DecorationType.Hole1, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole1") });
+            Sprites.Add(DecorationType.Candle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\candle0") });
+
 
             #endregion
             #region VFX
