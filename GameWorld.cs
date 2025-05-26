@@ -237,9 +237,9 @@ namespace Mortens_Komeback_3
 
             NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
             NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
-            NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 18000));
+            NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16000));
             NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
-            NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 20000));
+            NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 18000));
             canadaGoose2.Canada = true;
 
             npcs.Add(pope);
