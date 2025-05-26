@@ -181,7 +181,7 @@ namespace Mortens_Komeback_3
 
             status = new Status();
 
-            gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
+            //gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
 
             //SafePoint.SaveGame(Location.Spawn);
 
@@ -232,7 +232,7 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC + Bible & Rosary
-            Player.Instance.Position = new Vector2(0, 18000);
+            //Player.Instance.Position = new Vector2(0, 18000);
 
 
             gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 16000)));
@@ -266,8 +266,10 @@ namespace Mortens_Komeback_3
 
             SavePoint.LoadSave();
 
-
+            MediaPlayer.Play(Music[MusicTrack.Background]);
+            MediaPlayer.IsRepeating = true;
         }
+
         /// <summary>
         /// Handles update logic
         /// Simon
@@ -284,7 +286,7 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
-           
+
 
             //if (gamePaused)
             //{
@@ -873,7 +875,7 @@ namespace Mortens_Komeback_3
 
         }
 
-      
+
 
         #region Observer - Rikke
         public void Attach(IObserver observer)
@@ -922,13 +924,13 @@ namespace Mortens_Komeback_3
                     GameWorld.Instance.ResumeGame();
                     break;
 
-                //case ButtonAction.ToggleMusic:
-                //    AudioManager.Instance.ToggleMusic();
-                //    break;
+                    //case ButtonAction.ToggleMusic:
+                    //    AudioManager.Instance.ToggleMusic();
+                    //    break;
 
-                //case ButtonAction.ToggleSound:
-                //    AudioManager.Instance.ToggleSound();
-                //    break;
+                    //case ButtonAction.ToggleSound:
+                    //    AudioManager.Instance.ToggleSound();
+                    //    break;
             }
         }
 

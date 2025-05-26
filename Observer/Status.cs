@@ -87,9 +87,14 @@ namespace Mortens_Komeback_3.Observer
                     npcItem = 2;
                     break;
                 case StatusType.GoosiferFigth:
+                    //MediaPlayer.Pause();
                     MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.GoosiferFigth]);
                     MediaPlayer.IsRepeating = true;
-                    MediaPlayer.Volume = 0.15f;
+                    break;
+                case StatusType.BackGroundMusic:
+                    //MediaPlayer.Pause();
+                    MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Background]);
+                    MediaPlayer.IsRepeating = true;
                     break;
                 default:
                     break;

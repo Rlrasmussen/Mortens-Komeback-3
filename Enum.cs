@@ -278,6 +278,7 @@ namespace Mortens_Komeback_3
         Bible,
         Rosary,
         Delivered,
-        GoosiferFigth
+        GoosiferFigth,
+        BackGroundMusic
     }
 }
