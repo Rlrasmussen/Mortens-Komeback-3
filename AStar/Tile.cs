@@ -1,4 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Mortens_Komeback_3.Environment;
+using SharpDX.Direct2D1.Effects;
 using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
@@ -51,6 +54,25 @@ namespace Mortens_Komeback_3
                 return new Rectangle((int)Position.X, (int)Position.Y, 150, 150);
             }
 
+        }
+        public void SetWalkable()
+        {
+            walkable = true;
+            foreach (GameObject go in GameWorld.Instance.GameObjects)
+            {
+                if (!(go is AvSurface || go is Obstacle))
+                    continue;
+                if (CollisionBox.Intersects(go.CollisionBox))
+                {
+                    Walkable = false;
+                }
+
+            }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
         }
     }
 }

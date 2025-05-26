@@ -38,7 +38,7 @@ namespace Mortens_Komeback_3
     /// Enum for identifying direction of doors
     /// </summary>
     public enum DoorDirection
-    { 
+    {
         Top,
         Right,
         Bottom,
@@ -100,7 +100,11 @@ namespace Mortens_Komeback_3
     {
         Heart,
         Dialog,
-        InteractBubble
+        InteractBubble,
+        DialogBox,
+        WeaponBox,
+        Bibel,
+        Rosary
     }
 
     /// <summary>
@@ -148,7 +152,9 @@ namespace Mortens_Komeback_3
         GeesusBlood,
         Sling,
         Sword,
-        WallTurkey
+        WallTurkey,
+        Bible,
+        Rosary
     }
 
     /// <summary>
@@ -159,9 +165,11 @@ namespace Mortens_Komeback_3
         PopeRoom,
         Stairs,
         CatacombesA,
+        CatacombesA1,
         CatacombesB,
         CatacombesC,
         CatacombesD,
+        CatacombesD1,
         CatacombesE,
         CatacombesF,
         CatacombesG,
@@ -191,6 +199,7 @@ namespace Mortens_Komeback_3
         OrderPuzzlePlaque,
         PathfindingPuzzle,
         ShootPuzzle,
+        PuzzleObstacle
     }
 
     public enum EnvironmentType
@@ -247,4 +256,17 @@ namespace Mortens_Komeback_3
         Tile
     }
 
+    public enum StatusType
+    {
+        EnemiesKilled,
+        ExUp,
+        LevelUp,
+        WeaponMelee,
+        WeaponRanged,
+        Health,
+        PlayerDead,
+        Bible,
+        Rosary,
+        Delivered
+    }
 }

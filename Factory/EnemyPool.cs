@@ -44,36 +44,17 @@ namespace Mortens_Komeback_3.Factory
 
         #region Method
         /// <summary>
-        /// Creating an enemy with EnemyFacory (not Goosifer) for the Goosifer figth
+        /// Creating an Enemy from the instance of EnemyFactory
         /// Rikke
         /// </summary>
+        /// <param name="type">Enemy type</param>
+        /// <param name="spawnPosition">Spawn Position</param>
         /// <returns></returns>
-        public override Enemy Create()
+        public override GameObject Create(Enum type, Vector2 spawnPosition)
         {
-            return EnemyFactory.Instance.Create();
+            return EnemyFactory.Instance.Create(type, spawnPosition);
         }
 
-        /// <summary>
-        /// Creating Goosifer with EnemyFactory
-        /// Rikke
-        /// </summary>
-        /// <returns></returns>
-        public Enemy CreateGoosifer()
-        {
-            return EnemyFactory.Instance.CreateGoosifer();
-        }
-
-        /// <summary>
-        /// Creating a specific goose at spawnposition
-        /// Rikke
-        /// </summary>
-        /// <param name="type">Enemytype</param>
-        /// <param name="spawnposition">Spawnposition</param>
-        /// <returns></returns>
-        public Enemy CreateSpecificGoose(EnemyType type, Vector2 spawnposition)
-        {
-            return EnemyFactory.Instance.CreateSpecificGoose(type, spawnposition);
-        }
         #endregion
     }
 }

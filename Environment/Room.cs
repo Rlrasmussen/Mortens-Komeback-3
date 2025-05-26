@@ -33,7 +33,7 @@ namespace Mortens_Komeback_3.Environment
         {
             RoomType = type;
             Doors = new List<Door>();
-            scale = 1.5F;
+            //scale = 1.5F;
             layer = 0.1f;
 
         }
@@ -44,6 +44,7 @@ namespace Mortens_Komeback_3.Environment
         public void AddDoor(Door door)
         {
             Doors.Add(door);
+            door.room = this;
         }
 
 
@@ -64,16 +65,7 @@ namespace Mortens_Komeback_3.Environment
             }
             foreach (var tile in tiles)
             {
-                foreach (GameObject go in GameWorld.Instance.GameObjects)
-                {
-                    if (!(go is AvSurface))
-                        continue;
-                    if (tile.Value.CollisionBox.Intersects(go.CollisionBox))
-                    {
-                        tile.Value.Walkable = false;
-                    }
-
-                }
+                tile.Value.SetWalkable();
             }
         }
         #endregion

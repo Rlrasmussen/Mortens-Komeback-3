@@ -15,12 +15,13 @@ using Mortens_Komeback_3.Environment;
 using Mortens_Komeback_3.Menu;
 using Mortens_Komeback_3.State;
 using Microsoft.Data.Sqlite;
+using Mortens_Komeback_3.Observer;
 
 namespace Mortens_Komeback_3
 {
-    public class GameWorld : Game
+    public class GameWorld : Game, ISubject
     {
-
+        #region Fields
         private static GameWorld instance;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -39,12 +40,15 @@ namespace Mortens_Komeback_3
         private bool gamePaused = false;
         private bool gameRunning = true;
         public List<GameObject> gamePuzzles = new List<GameObject>();
+        public List<GameObject> npcs = new List<GameObject>();
 
         private string dbBasePath = AppDomain.CurrentDomain.BaseDirectory;
         public SqliteConnection Connection;
 
         private float spawnEnemyTime = 5f;
         private float lastSpawnEnemy = 0f;
+        private List<IObserver> listeners = new List<IObserver>();
+        private Status status;
 
         //Rotation
         private float rotationTop = 0;
@@ -53,6 +57,13 @@ namespace Mortens_Komeback_3
         private float rotationLeft = (float)(-Math.PI / 2);
 
         private Button myButton;
+        public List<Button> buttonList = new List<Button>();
+
+        #endregion
+
+        #region Properties
+        public MenuManager MenuManager { get; set; }
+        public Vector2 ScreenSize { get; private set; }
 
         /// <summary>
         /// Singleton for GameWorld
@@ -106,6 +117,9 @@ namespace Mortens_Komeback_3
 
         public Environment.Room CurrentRoom { get; set; }
 
+        #endregion
+
+        #region Constructor
         /// <summary>
         /// Constuctor used by Singleton
         /// </summary>
@@ -116,6 +130,9 @@ namespace Mortens_Komeback_3
             IsMouseVisible = true;
         }
 
+        #endregion
+
+        #region Method
         /// <summary>
         /// Handles loading of assets and basic functionality
         /// All
@@ -140,18 +157,12 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddButtonDownCommand(Keys.Space, new DrawCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.M, new SaveCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new ClearSaveCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());//Test
 #endif
 
-            gameObjects.Add(Player.Instance);
-            gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, Vector2.Zero));
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200,500)));
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(200, 900)));
 
-            //SafePoint.SaveGame(Location.Spawn);
-
-            //gameObjects.Add(EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, new Vector2(-200, -200)));
-
-            myButton = new Button(ButtonType.Button, new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y + 200), "Quit");
+            MenuManager = new MenuManager();
+            MenuManager.CreateMenus();
 
 
             base.Initialize();
@@ -163,19 +174,25 @@ namespace Mortens_Komeback_3
         /// </summary>
         protected override void LoadContent()
         {
+            gameObjects.Add(Player.Instance);
 
-            gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
-            gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
+            status = new Status();
 
+            //gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
 
+            //SafePoint.SaveGame(Location.Spawn);
+
+            //gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
+            //gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-
-            gameObjects.Add(new NPC(NPCType.Pope, new Vector2(200, 200))); //Used for testing - To be removed
+            //Test Item
+            //gameObjects.Add(new Item(ItemType.GeesusBlood, Vector2.Zero));
 
             #region Decorations
             gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
+
             #endregion
 
 
@@ -190,18 +207,52 @@ namespace Mortens_Komeback_3
             CurrentRoom = DoorManager.Rooms[0]; // Start i første rum
 
             #region Puzzles
-            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(1190, 2000), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 2000)), new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
+            OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(DoorManager.doorList["doorB1"].Position.X - 500, DoorManager.doorList["doorB1"].Position.Y + 500), DoorManager.doorList["doorB1"], new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(1190, 5600), DoorManager.Doors.Find(x => x.Position == new Vector2(1190, 6000)), new Vector2(0, 5700), 0, new Vector2(0, 6300), 0, 1);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(0, 5700), 0, new Vector2(0, 6300), 0, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
+            PathfindingPuzzle pathfindingPuzzle = new PathfindingPuzzle(PuzzleType.PathfindingPuzzle,
+                new Vector2(DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Right - 200, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Bottom - 500), //Puzzlelever
+                DoorManager.doorList["doorI1"], //Door
+                2, //ID
+                new Vector2(-200, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Bottom - 200), //Path start
+                new Vector2(500, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Top + 300), //Path end
+                new Vector2(-100, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).Position.Y - 200), //Path Goal
+                DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF)); //Room
+            gameObjects.Add(pathfindingPuzzle);
+            gamePuzzles.Add(pathfindingPuzzle);
+
+
+
+            #endregion
+
+            #region NPC + Bible & Rosary
+            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 16000)));
+            gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
+
+            NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
+            NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
+            NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 18000));
+            NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
+            NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 20000));
+            canadaGoose2.Canada = true;
+
+            npcs.Add(pope);
+            npcs.Add(monk);
+            npcs.Add(nun);
+            npcs.Add(canadaGoose1);
+            npcs.Add(canadaGoose2);
+
+            foreach (GameObject npc in npcs)
+            {
+                gameObjects.Add(npc);
+            }
             #endregion
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
-
-
 
             #region buttons and menu
 
@@ -227,7 +278,18 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
+            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+
+            //if (Keyboard.GetState().IsKeyDown(Keys.P))
+            //{
+            //    GameWorld.Instance.MenuManager.OpenMenu(MenuType.Pause);
+            //}
+
+
+
             //SpawnEnemies();
+
+            status.Update(gameTime);
 
             CleanUp();
 
@@ -257,21 +319,36 @@ namespace Mortens_Komeback_3
                     DrawCollisionBox(gameObject.CollisionBox);
                     if (gameObject is IPPCollidable)
                         DrawIPPCollisionBoxes(gameObject as IPPCollidable);
+
+                    foreach (Room room in DoorManager.Rooms)
+                    {
+                        if (room.Tiles.Count > 0)
+                        {
+                            foreach (var tileKeyValue in room.Tiles)
+                            {
+                                DrawCollisionBox(tileKeyValue.Value.CollisionBox);
+                            }
+                        }
+                    }
                 }
 #endif
 
             }
 
-            myButton.Draw(_spriteBatch, GameFont);
+            //myButton.Draw(_spriteBatch, GameFont);
 
+            ////foreach (Button button in buttonList)
+            ////{
+            ////    button.Draw(_spriteBatch, GameFont);
 
+            ////}
 
-            foreach (var GO in DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)
-            {
-                DrawCollisionBox(GO.Value.CollisionBox);
-            }
+            //GameWorld.Instance.buttonList.Draw(_spriteBatch, GameFont);
+            MenuManager.Draw(_spriteBatch, GameFont);
 
             InputHandler.Instance.Draw(_spriteBatch);
+
+            status.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
@@ -285,6 +362,7 @@ namespace Mortens_Komeback_3
         /// <param name="screenSize">Angiver skærmstørrelse i form af x- og y-akser</param>
         private void SetScreenSize(Vector2 screenSize)
         {
+            ScreenSize = screenSize;
 
             _graphics.PreferredBackBufferWidth = (int)screenSize.X;
             _graphics.PreferredBackBufferHeight = (int)screenSize.Y;
@@ -309,7 +387,10 @@ namespace Mortens_Komeback_3
         /// </summary>
         private void CleanUp()
         {
-
+            foreach (GameObject go in gameObjects.FindAll(x => !x.IsAlive))
+            {
+                Debug.WriteLine("Removed" + go.Type);
+            }
             int remove = gameObjects.RemoveAll(x => !x.IsAlive);
             if (remove > 0)
                 Debug.WriteLine($"{remove} objects removed from gameObjects");
@@ -340,17 +421,19 @@ namespace Mortens_Komeback_3
 
             #region Rooms
 
-            Sprites.Add(RoomType.PopeRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.PopeRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\poperoomlight_") });
             Sprites.Add(RoomType.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
-            Sprites.Add(RoomType.CatacombesA, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesA, new Texture2D[] { Content.Load<Texture2D>("Sprites\\Rooms\\baggrundDobbelt_left")});
+            Sprites.Add(RoomType.CatacombesA1, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\baggrundDobbelt_right") });
             Sprites.Add(RoomType.CatacombesB, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
             Sprites.Add(RoomType.CatacombesC, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
             Sprites.Add(RoomType.CatacombesD, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesD1, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
             Sprites.Add(RoomType.CatacombesE, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
-            Sprites.Add(RoomType.CatacombesF, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
-            Sprites.Add(RoomType.CatacombesG, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
-            Sprites.Add(RoomType.CatacombesH, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
-            Sprites.Add(RoomType.TrapRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesF, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
+            Sprites.Add(RoomType.CatacombesG, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
+            Sprites.Add(RoomType.CatacombesH, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
+            Sprites.Add(RoomType.TrapRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
 
 
             #endregion
@@ -406,21 +489,35 @@ namespace Mortens_Komeback_3
             Texture2D[] sword = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\sword") };
             Sprites.Add(MenuType.Cursor, sword);
             Sprites.Add(WeaponType.Melee, sword);
+            Sprites.Add(ItemType.Bible, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\bible") });
+            Sprites.Add(ItemType.Rosary, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\rosary") });
+            Sprites.Add(ItemType.GeesusBlood, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\potion") });
 
             #endregion
             #region Menu
 
             Sprites.Add(MenuType.Win, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\winScreen") });
             Sprites.Add(MenuType.GameOver, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\looseScreen") });
+            Sprites.Add(MenuType.Start, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\looseScreen") });
+            Sprites.Add(MenuType.Pause, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\square") });
+
             Sprites.Add(ButtonType.Button, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\button") });
             Sprites.Add(ButtonType.ButtonPressed, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\buttonPressed") });
 
             #endregion
             #region NPC
 
-            Sprites.Add(NPCType.Monk, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\monkNPCbible") });
-            Sprites.Add(NPCType.Nun, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary") });
+            Sprites.Add(NPCType.Monk, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\monkNPCbible"), Content.Load<Texture2D>("Sprites\\NPC\\monkNPC") });
+            Sprites.Add(NPCType.Nun, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary2"), Content.Load<Texture2D>("Sprites\\NPC\\nunNPC") });
             Sprites.Add(NPCType.Pope, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\pope0"), Content.Load<Texture2D>("Sprites\\NPC\\pope1") });
+
+            Texture2D[] canadaGoose = new Texture2D[6];
+            for (int i = 0; i < canadaGoose.Length; i++)
+            {
+                canadaGoose[i] = Content.Load<Texture2D>($"Sprites\\NPC\\CG{i}");
+            }
+            Sprites.Add(NPCType.CanadaGoose, canadaGoose);
+
 
             #endregion
             #region Overlay
@@ -428,6 +525,9 @@ namespace Mortens_Komeback_3
             Sprites.Add(OverlayObjects.Heart, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\heartSprite") });
             Sprites.Add(OverlayObjects.Dialog, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\talk") });
             Sprites.Add(OverlayObjects.InteractBubble, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\interact") });
+            Sprites.Add(OverlayObjects.DialogBox, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\dialogueBox") });
+            Sprites.Add(OverlayObjects.WeaponBox, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\round-corner") });
+
 
             #endregion
             #region Environment
@@ -441,12 +541,6 @@ namespace Mortens_Komeback_3
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD4") });
             Sprites.Add(DoorType.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stair1") });
             Sprites.Add(DoorType.StairsLocked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stair0") });
-            #endregion
-            #region Puzzle
-            Sprites.Add(PuzzleType.OrderPuzzle, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\Environment\\doorLocked"), Content.Load<Texture2D>("Sprites\\Environment\\doorOpen_Shadow") });
-            Sprites.Add(PuzzleType.OrderPuzzlePlaque, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Items\\wallTurkey"), Content.Load<Texture2D>("Sprites\\Items\\sling"), Content.Load<Texture2D>("Sprites\\Items\\key") });
-            Sprites.Add(PuzzleType.ShootPuzzle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Overlay\\heartSprite") });
-
             Sprites.Add(EnvironmentType.Chest, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\chestClosed") });
             Sprites.Add(EnvironmentType.ChestOpen, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\chestOpen") });
             Sprites.Add(EnvironmentType.Lever, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
@@ -454,6 +548,19 @@ namespace Mortens_Komeback_3
             Sprites.Add(EnvironmentType.Plaque, new Texture2D[9] { Content.Load<Texture2D>("Sprites\\Environment\\plaqueDove"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueCross"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueSun"),
             Content.Load<Texture2D>("Sprites\\Environment\\plaqueLeaves"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueStar"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueMoon"),
             Content.Load<Texture2D>("Sprites\\Environment\\plaqueAnchor"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueWine"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueCandle")});
+
+            #endregion
+
+            #region Puzzle
+            Sprites.Add(PuzzleType.OrderPuzzle, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
+            Sprites.Add(PuzzleType.OrderPuzzlePlaque, new Texture2D[9] { Content.Load<Texture2D>("Sprites\\Environment\\plaqueDove"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueCross"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueSun"),
+            Content.Load<Texture2D>("Sprites\\Environment\\plaqueLeaves"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueStar"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueMoon"),
+            Content.Load<Texture2D>("Sprites\\Environment\\plaqueAnchor"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueWine"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueCandle")});
+            Sprites.Add(PuzzleType.ShootPuzzle, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
+            Sprites.Add(PuzzleType.PuzzleObstacle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\plaqueMoon") });
+            Sprites.Add(PuzzleType.PathfindingPuzzle, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
+
+
 
             #endregion
             #region Decorations
@@ -464,7 +571,6 @@ namespace Mortens_Komeback_3
             Sprites.Add(DecorationType.Cross, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\cross") });
             Sprites.Add(DecorationType.Painting, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\painting") });
             Sprites.Add(DecorationType.Light, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Light0"), Content.Load<Texture2D>("Sprites\\Environment\\Light1"), Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
-
 
             #endregion
             #region VFX
@@ -479,7 +585,7 @@ namespace Mortens_Komeback_3
             #endregion
             #region Debug
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
-            Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
+            Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
             #endregion
 
         }
@@ -574,14 +680,17 @@ namespace Mortens_Komeback_3
                 foreach (GameObject other in gameObjects)
                 {
 
-                    if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || gameObject.Type.GetType() == other.Type.GetType() || !(other is ICollidable) || !gameObject.IsAlive || !other.IsAlive)
+                    if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || (gameObject.Type.GetType() == other.Type.GetType() && !((PuzzleType)gameObject.Type == PuzzleType.PuzzleObstacle)) || !(other is ICollidable) || !gameObject.IsAlive || !other.IsAlive)
                         continue;
 
                     if ((
                         gameObject.Type.GetType() == typeof(PlayerType) ||
-                        gameObject.Type.GetType() == typeof(AttackType)
+                        gameObject.Type.GetType() == typeof(AttackType) ||
+                        (PuzzleType)gameObject.Type == PuzzleType.PuzzleObstacle
                         ) && (
                         other.Type.GetType() == typeof(EnemyType) ||
+                        other.Type.GetType() == typeof(NPCType) ||
+                        other.Type.GetType() == typeof(ItemType) ||
                         other.Type.GetType() == typeof(PuzzleType) ||
                         other.Type.GetType() == typeof(WeaponType) ||
                         other.GetType() == typeof(AvSurface) ||
@@ -615,7 +724,8 @@ namespace Mortens_Komeback_3
                             if (handledCollision)
                             {
                                 (gameObject as ICollidable).OnCollision(other as ICollidable);
-                                (other as ICollidable).OnCollision(gameObject as ICollidable);
+                                if (!((PuzzleType)gameObject.Type == PuzzleType.PuzzleObstacle && (PuzzleType)other.Type == PuzzleType.PuzzleObstacle)) //Makes sure obstacles doesn't double collide.
+                                    (other as ICollidable).OnCollision(gameObject as ICollidable);
                                 collisions.Add((gameObject, other));
                             }
 
@@ -629,11 +739,13 @@ namespace Mortens_Komeback_3
 
         private void SpawnEnemies()
         {
+
+
             lastSpawnEnemy += DeltaTime;
 
             if (lastSpawnEnemy > spawnEnemyTime)
             {
-                SpawnObject(EnemyPool.Instance.GetObject());
+                SpawnObject(EnemyPool.Instance.Create(EnemyType.WalkingGoose, Vector2.Zero));
                 lastSpawnEnemy = 0f;
             }
         }
@@ -724,5 +836,49 @@ namespace Mortens_Komeback_3
 
         }
 
+
+        public void Pause()
+        {
+            if (gamePaused)
+            {
+                gamePaused = false;
+
+                //MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
+            }
+            else
+            {
+                gamePaused = true;
+                //MediaPlayer.Play(Music[MusicTrack.BackgroundMusic]);
+            }
+
+        }
+
+        #region Observer - Rikke
+        public void Attach(IObserver observer)
+        {
+            listeners.Add(observer);
+        }
+
+        public void Detach(IObserver observer)
+        {
+            listeners.Remove(observer);
+        }
+
+        public void Notify(StatusType statusType)
+        {
+            foreach (IObserver observer in listeners)
+            {
+                observer.OnNotify(statusType);
+            }
+        }
+
+        public void ResetObsevers()
+        {
+            listeners.Clear();
+        }
+
+        #endregion
+
+        #endregion
     }
 }

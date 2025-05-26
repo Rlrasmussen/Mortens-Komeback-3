@@ -63,7 +63,7 @@ namespace Mortens_Komeback_3
             {
                 refireRate = 0f;
                 GameWorld.Instance.Sounds[Sound.PlayerShoot].Play();
-                GameWorld.Instance.SpawnObject(ProjectilePool.Instance.GetObject());
+                GameWorld.Instance.SpawnObject(ProjectilePool.Instance.GetObject(AttackType.Egg, Player.Instance.Position));
             }
 
         }
