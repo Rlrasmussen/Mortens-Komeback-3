@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Mortens_Komeback_3.State
 {
@@ -60,7 +61,6 @@ namespace Mortens_Komeback_3.State
 
             base.OnCollision(other);
             movement.Exit();
-
         }
 
     }
@@ -84,6 +84,7 @@ namespace Mortens_Komeback_3.State
             this.parent = parent;
             direction = Player.Instance.Position - parent.Position;
             direction.Normalize();
+            parent.Rotation = GetAngle();
 
         }
 
@@ -112,6 +113,17 @@ namespace Mortens_Komeback_3.State
             
             parent.IsAlive = false;
 
+        }
+
+        /// <summary>
+        /// Gets radians for rotation of object to simulate the direction of the fireball
+        /// </summary>
+        /// <returns>Radians - Pi</returns>
+        private float GetAngle()
+        {
+            Vector2 direction = Player.Instance.Position - parent.Position;
+            float angleRadians = (float)Math.Atan2(direction.Y, direction.X);
+            return angleRadians - (float)Math.PI;
         }
 
     }

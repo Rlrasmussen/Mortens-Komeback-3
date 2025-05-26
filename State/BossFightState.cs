@@ -151,7 +151,7 @@ namespace Mortens_Komeback_3.State
         {
 
             spewFire = 0;
-            GameWorld.Instance.SpawnObject(new GoosiferFire(OverlayObjects.Heart, parent.Position, 0f, parent.Damage));
+            GameWorld.Instance.SpawnObject(new GoosiferFire(SurfaceType.Fireball, parent.Position, 0, parent.Damage));
 
         }
 
