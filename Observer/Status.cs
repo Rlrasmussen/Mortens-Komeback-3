@@ -86,6 +86,11 @@ namespace Mortens_Komeback_3.Observer
                 case StatusType.Rosary:
                     npcItem = 2;
                     break;
+                case StatusType.GoosiferFigth:
+                    MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.GoosiferFigth]);
+                    MediaPlayer.IsRepeating = true;
+                    MediaPlayer.Volume = 0.15f;
+                    break;
                 default:
                     break;
             }

@@ -8,7 +8,8 @@ namespace Mortens_Komeback_3
     public enum PlayerType
     {
         Morten,
-        MortenAngriber
+        MortenAngriber,
+        MortenSling
     }
 
     /// <summary>
@@ -259,14 +260,13 @@ namespace Mortens_Komeback_3
     public enum StatusType
     {
         EnemiesKilled,
-        ExUp,
-        LevelUp,
         WeaponMelee,
         WeaponRanged,
         Health,
         PlayerDead,
         Bible,
         Rosary,
-        Delivered
+        Delivered,
+        GoosiferFigth
     }
 }

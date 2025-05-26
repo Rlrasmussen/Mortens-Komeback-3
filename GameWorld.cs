@@ -228,9 +228,9 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC + Bible & Rosary
-            //Player.Instance.Position = new Vector2(0,6000);
-            
-            
+            Player.Instance.Position = new Vector2(0, 18000);
+
+
             gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 16000)));
             gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
 
@@ -286,8 +286,6 @@ namespace Mortens_Komeback_3
             //{
             //    GameWorld.Instance.MenuManager.OpenMenu(MenuType.Pause);
             //}
-
-
 
             //SpawnEnemies();
 
@@ -454,6 +452,13 @@ namespace Mortens_Komeback_3
                 crusaderAttack[i] = Content.Load<Texture2D>($"Sprites\\Player\\attack{i}");
             }
             Sprites.Add(PlayerType.MortenAngriber, crusaderAttack);
+
+            //Texture2D[] holyWalk = new Texture2D[4];
+            //for (int i = 0; i < holyWalk.Length; i++)
+            //{
+            //    holyWalk[i] = Content.Load<Texture2D>($"Sprites\\Player\\helligMortenHvid{i}");
+            //}
+            //Sprites.Add(PlayerType.MortenSling, holyWalk);
 
             #endregion
             #region Enemy
