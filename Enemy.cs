@@ -39,7 +39,7 @@ namespace Mortens_Komeback_3
         public int Health { get; set; }
         public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
         public float Speed { get => speed; }
-        public IState<Enemy> State { set => state = value; }
+        public IState<Enemy> State { get => state; set => state = value; }
         public List<Tile> Destinations { get => destinations; set => destinations = value; }
         public bool PauseAStar { get => pauseAStar; set => pauseAStar = value; }
         public Vector2 Direction { get; set; }
@@ -65,7 +65,7 @@ namespace Mortens_Komeback_3
         {
 
             float maxDistance = 1600f;
-            foreach (Room room in DoorManager.Rooms)
+            foreach (Room room in DoorManager.Rooms) //Simon - checks for closest room
             {
                 float distance = Vector2.Distance(Position, room.Position);
                 if (distance < maxDistance)
@@ -78,16 +78,18 @@ namespace Mortens_Komeback_3
             (this as IAnimate).Animate();
             (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
 
-            if (state != null)
+            if (state != null) //Simon - movement logic
                 state.Execute();
 
-            switch (Direction.X)
+            switch (Direction.X) //Simon - flips sprite according to movement
             {
                 case > 0:
                     spriteEffect = SpriteEffects.FlipHorizontally;
                     break;
-                default:
+                case < 0:
                     spriteEffect = SpriteEffects.None;
+                    break;
+                default:
                     break;
             }
 
@@ -115,11 +117,12 @@ namespace Mortens_Komeback_3
                 Damage = stats.damage;
                 speed = stats.speed;
             }
-            Thread aStarThread = new Thread(() => RunAStar(this, Player.Instance, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles));
+
+            Thread aStarThread = new Thread(() => RunAStar(this, Player.Instance, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)); //Philip
             aStarThread.IsBackground = true;
             aStarThread.Start();
 
-            if (!IgnoreState)
+            if (!IgnoreState) //Simon - for setting a default State
             {
                 BossFightState patrol = new BossFightState();
                 patrol.Enter(this);

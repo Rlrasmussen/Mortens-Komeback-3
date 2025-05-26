@@ -31,7 +31,7 @@ namespace Mortens_Komeback_3.State
             new Vector2(0.93f, -0.37f),
             new Vector2(0.21f, 0.98f),
             new Vector2(-0.48f, 0.07f)
-        }; //Random pattern calculated by ChatGPT
+        }; //Random pattern of normalized Vector2's calculated by ChatGPT to end around same place as it starts
 
         #endregion
         #region Properties
@@ -46,7 +46,11 @@ namespace Mortens_Komeback_3.State
         #endregion
         #region Methods
 
-
+        /// <summary>
+        /// Handles starting logic of the State
+        /// Simon
+        /// </summary>
+        /// <param name="parent">Object that owns the State/subject of its effects</param>
         public void Enter(Enemy parent)
         {
 
@@ -58,7 +62,10 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Handle movement logic and timers for attacks and wave-spawning
+        /// Simon
+        /// </summary>
         public void Execute()
         {
 
@@ -71,6 +78,7 @@ namespace Mortens_Komeback_3.State
             if (directionChange >= 1.5f)
             {
                 direction = directions.Dequeue();
+                parent.Direction = Player.Instance.Position - parent.Position;
                 directions.Enqueue(direction);
                 directionChange = 0;
             }
@@ -85,7 +93,10 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Unused for this State
+        /// Simon
+        /// </summary>
         public void Exit()
         {
 
@@ -93,7 +104,10 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Spawns 10-15 enemies depending which side they "charge" from with an even spread
+        /// Simon
+        /// </summary>
         private void SpawnEnemies()
         {
 
@@ -129,7 +143,10 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Fire-breathing attack that fires a projectile (AvSurface - simply because the comparability and needed mechanics were already in place)
+        /// Simon
+        /// </summary>
         private void SpewFire()
         {
 

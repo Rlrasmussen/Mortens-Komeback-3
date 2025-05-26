@@ -35,7 +35,11 @@ namespace Mortens_Komeback_3.State
         #endregion
         #region Methods
 
-
+        /// <summary>
+        /// Handles starting logic of the State
+        /// Simon
+        /// </summary>
+        /// <param name="parent">Object that owns the State/subject of its effects</param>
         public void Enter(Enemy parent)
         {
 
@@ -47,7 +51,10 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Movement and despawn logic
+        /// Simon
+        /// </summary>
         public void Execute()
         {
 
@@ -72,7 +79,10 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Despawn logic
+        /// Simon
+        /// </summary>
         public void Exit()
         {
 

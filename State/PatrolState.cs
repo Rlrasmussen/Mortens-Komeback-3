@@ -32,7 +32,10 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Overload for giving a premade set of waypoints to patrol
+        /// </summary>
+        /// <param name="waypoints"></param>
         public PatrolState(List<Vector2> waypoints)
         {
 
@@ -45,7 +48,11 @@ namespace Mortens_Komeback_3.State
 
         #region Method
 
-
+        /// <summary>
+        /// Handles starting logic of the State
+        /// Simon
+        /// </summary>
+        /// <param name="parent">Object that owns the State/subject of its effects</param>
         public void Enter(Enemy parent)
         {
 
@@ -57,18 +64,20 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Patrol movement logic using a Queue of Vector2's either handed down from AStar or hardcoded, rinses and repeats upon completion
+        /// Simon
+        /// </summary>
         public void Execute()
         {
 
             parent.IgnoreState = false;
 
-            if (parent.Destinations.Count > 0 && patrolPath == null)
+            if (parent.Destinations.Count > 0 && (patrolPath == null || patrolPath.Count == 0) && parent.PauseAStar)
             {
                 foreach (Tile tile in parent.Destinations)
-                {
                     waypoints.Enqueue(tile.Position);
-                }
+
                 target = waypoints.Dequeue();
                 parent.Destinations.Clear();
             }
@@ -77,7 +86,7 @@ namespace Mortens_Komeback_3.State
                 target = waypoints.Dequeue();
             else if (waypoints.Count == 0 && parent.PauseAStar && parent.Destinations.Count == 0)
             {
-                if (patrolPath == null)
+                if (patrolPath == null || patrolPath.Count == 0)
                     parent.PauseAStar = false;
                 else
                     foreach (Vector2 waypoint in patrolPath)
@@ -97,7 +106,10 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Clears any remaining waypoints so it's ready for re-entering this state if necessary
+        /// Simon
+        /// </summary>
         public void Exit()
         {
 

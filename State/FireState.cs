@@ -15,10 +15,14 @@ namespace Mortens_Komeback_3.State
 
         private IState<GoosiferFire> movement;
 
-
-        public float Speed { get; } = 700f;
-
-
+        /// <summary>
+        /// Constructor based of AvSurface
+        /// Simon
+        /// </summary>
+        /// <param name="type">Sprite(s) of object</param>
+        /// <param name="spawnPos">Objects starting position</param>
+        /// <param name="rotation">Objects starting rotation</param>
+        /// <param name="damage">Damage the object will "apply" if colliding with another object</param>
         public GoosiferFire(Enum type, Vector2 spawnPos, float rotation, int damage) : base(type, spawnPos, rotation)
         {
 
@@ -30,7 +34,11 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Handles movement and (if applicable, animation of sprites)
+        /// Simon
+        /// </summary>
+        /// <param name="gameTime">DeltaTime (obsolete)</param>
         public override void Update(GameTime gameTime)
         {
 
@@ -42,7 +50,11 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// "Kills" projectile, and if hitting player, damages him and does a knockback-effect
+        /// Simon
+        /// </summary>
+        /// <param name="other">Other object collided with</param>
         public override void OnCollision(ICollidable other)
         {
 
@@ -59,8 +71,13 @@ namespace Mortens_Komeback_3.State
         private GoosiferFire parent;
         private Vector2 direction;
         private float lifetime = -15f;
-        
+        private float speed = 700f;
 
+        /// <summary>
+        /// Handles starting logic of the State
+        /// Simon
+        /// </summary>
+        /// <param name="parent">Object that owns the State/subject of its effects</param>
         public void Enter(GoosiferFire parent)
         {
 
@@ -70,20 +87,26 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Handles movement and lifespan duration of the projectile
+        /// Simon
+        /// </summary>
         public void Execute()
         {
 
             lifetime += GameWorld.Instance.DeltaTime;
 
-            parent.Position += direction * parent.Speed * GameWorld.Instance.DeltaTime;
+            parent.Position += direction * speed * GameWorld.Instance.DeltaTime;
 
             if (lifetime >= 0)
                 Exit();
 
         }
 
-
+        /// <summary>
+        /// Kill/end logic
+        /// Simon
+        /// </summary>
         public void Exit()
         {
             

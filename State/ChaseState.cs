@@ -30,7 +30,11 @@ namespace Mortens_Komeback_3.State
 
         #region Method
 
-
+        /// <summary>
+        /// Handles starting logic of the State
+        /// Simon
+        /// </summary>
+        /// <param name="parent">Object that owns the State/subject of its effects</param>
         public void Enter(Enemy parent)
         {
 
@@ -40,7 +44,10 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Movement logic, chases player until it dies or gets out of range
+        /// Simon
+        /// </summary>
         public void Execute()
         {
 
@@ -54,7 +61,10 @@ namespace Mortens_Komeback_3.State
 
         }
 
-
+        /// <summary>
+        /// Exits State and returns to a PatrolState, either with AStar-pathfinding or a preset list of waypoints, always paired for reusability
+        /// Simon
+        /// </summary>
         public void Exit()
         {
 
