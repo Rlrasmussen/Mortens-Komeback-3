@@ -90,14 +90,33 @@ namespace Mortens_Komeback_3.Environment
 
                     float distanceThrown = 150f; //"Throws" Player away from the fire
                     if (player.Position.X > Position.X)
-                        player.Position = new Vector2(player.Position.X + distanceThrown, player.Position.Y);
+                    {
+                        if (!(player.Position.X + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Left))
+                        {
+                            player.Position = new Vector2(player.Position.X + distanceThrown, player.Position.Y)
+                        }
+                    }
                     else
-                        player.Position = new Vector2(player.Position.X - distanceThrown, player.Position.Y);
-
+                    {
+                        if (!(player.Position.X + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Left))
+                        {
+                            player.Position = new Vector2(player.Position.X - distanceThrown, player.Position.Y);
+                        }
+                    }
                     if (player.Position.Y > Position.Y)
-                        player.Position = new Vector2(player.Position.X, player.Position.Y + distanceThrown);
+                    {
+                        if (!(player.Position.Y + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom))
+                        {
+                            player.Position = new Vector2(player.Position.X, player.Position.Y + distanceThrown);
+                        }
+                    }
                     else
-                        player.Position = new Vector2(player.Position.X, player.Position.Y - distanceThrown);
+                    {
+                        if (!(player.Position.Y - distanceThrown < GameWorld.Instance.CurrentRoom.CollisionBox.Top))
+                        {
+                            player.Position = new Vector2(player.Position.X, player.Position.Y - distanceThrown);
+                        }
+                    }
 
                     break;
                 default:
