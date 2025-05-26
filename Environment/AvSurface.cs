@@ -93,7 +93,7 @@ namespace Mortens_Komeback_3.Environment
                     {
                         if (!(player.Position.X + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Left))
                         {
-                            player.Position = new Vector2(player.Position.X + distanceThrown, player.Position.Y)
+                            player.Position = new Vector2(player.Position.X + distanceThrown, player.Position.Y);
                         }
                     }
                     else
