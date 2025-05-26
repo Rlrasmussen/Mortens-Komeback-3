@@ -33,10 +33,10 @@ namespace Mortens_Komeback_3.Environment
             Room catacombesD = new Room(RoomType.CatacombesD, new Vector2(0, 10000));
             Room catacombesD1 = new Room(RoomType.CatacombesD, new Vector2(0, 11500));
             Room catacombesE = new Room(RoomType.CatacombesE, new Vector2(0, 14000));
-            Room catacombesF = new Room(RoomType.TrapRoom, new Vector2(0, 16000));
-            Room catacombesG = new Room(RoomType.CatacombesF, new Vector2(0, 18000));
-            Room catacombesH = new Room(RoomType.CatacombesG, new Vector2(0, 20000));
-            Room trapRoom = new Room(RoomType.CatacombesH, new Vector2(0, 22000));
+            Room catacombesF = new Room(RoomType.CatacombesF, new Vector2(0, 16000));
+            Room catacombesG = new Room(RoomType.CatacombesG, new Vector2(0, 18000));
+            Room catacombesH = new Room(RoomType.CatacombesH, new Vector2(0, 20000));
+            Room trapRoom = new Room(RoomType.TrapRoom, new Vector2(0, 22000));
 
             popeRoom.AddTiles();
 
