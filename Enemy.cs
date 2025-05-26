@@ -21,7 +21,7 @@ namespace Mortens_Komeback_3
         private float threadTimer;
         private float threadTimerThreshold;
         private bool pauseAStar = true;
-        private AStar aStar = new AStar(); 
+        private AStar aStar = new AStar();
         private List<Tile> destinations = new List<Tile>();
         private int destinationsIndex = 0;
         private Vector2 destination;
@@ -57,12 +57,15 @@ namespace Mortens_Komeback_3
         #region Method
         public override void Update(GameTime gameTime)
         {
-            (this as IAnimate).Animate();
-            (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
+            if (CollisionBox.Intersects(GameWorld.Instance.CurrentRoom.CollisionBox))
+            {
+                (this as IAnimate).Animate();
+                (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
 
-            Move();
+                Move();
 
-            base.Update(gameTime);
+                base.Update(gameTime);
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
