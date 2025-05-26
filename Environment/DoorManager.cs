@@ -43,8 +43,8 @@ namespace Mortens_Komeback_3.Environment
             // Create Doors
             Door doorA1 = new Door(new Vector2(1190, 0), DoorDirection.Right);
             Door doorA2 = new Door(new Vector2(-1190, 2000), DoorDirection.Left);
-            Door doorB1 = new Door(new Vector2(1190, 2000), DoorDirection.Right, DoorType.StairsLocked);
-            Door doorB2 = new Door(new Vector2(-1190, 4000), DoorDirection.Left, DoorType.Stairs);
+            Door doorB1 = new Door(new Vector2(880, 2000), DoorDirection.Right, DoorType.StairsLocked);
+            Door doorB2 = new Door(new Vector2(-945, 4000), DoorDirection.Top, DoorType.StairsUp);
             Door doorC1 = new Door(new Vector2(1190 * 3 + 320, 4000), DoorDirection.Right); //catacombesA
             Door doorC2 = new Door(new Vector2(-1190, 6000), DoorDirection.Left);
             Door doorD1 = new Door(new Vector2(1190, 6000), DoorDirection.Right); //shoot puzzle
