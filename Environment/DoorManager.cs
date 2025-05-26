@@ -27,16 +27,16 @@ namespace Mortens_Komeback_3.Environment
             Room popeRoom = new Room(RoomType.PopeRoom, new Vector2(0, 0));
             Room stairs = new Room(RoomType.Stairs, new Vector2(0, 2000));
             Room catacombesA = new Room(RoomType.CatacombesA, new Vector2(0, 4000));
-            Room catacombesA1 = new Room(RoomType.CatacombesA, new Vector2(2650, 4000));
+            Room catacombesA1 = new Room(RoomType.CatacombesA1, new Vector2(2650, 4000));
             Room catacombesB = new Room(RoomType.CatacombesB, new Vector2(0, 6000));
             Room catacombesC = new Room(RoomType.CatacombesC, new Vector2(0, 8000));
             Room catacombesD = new Room(RoomType.CatacombesD, new Vector2(0, 10000));
             Room catacombesD1 = new Room(RoomType.CatacombesD, new Vector2(0, 11500));
             Room catacombesE = new Room(RoomType.CatacombesE, new Vector2(0, 14000));
-            Room catacombesF = new Room(RoomType.TrapRoom, new Vector2(0, 16000));
-            Room catacombesG = new Room(RoomType.CatacombesF, new Vector2(0, 18000));
-            Room catacombesH = new Room(RoomType.CatacombesG, new Vector2(0, 20000));
-            Room trapRoom = new Room(RoomType.CatacombesH, new Vector2(0, 22000));
+            Room catacombesF = new Room(RoomType.CatacombesF, new Vector2(0, 16000));
+            Room catacombesG = new Room(RoomType.CatacombesG, new Vector2(0, 18000));
+            Room catacombesH = new Room(RoomType.CatacombesH, new Vector2(0, 20000));
+            Room trapRoom = new Room(RoomType.TrapRoom, new Vector2(0, 22000));
 
             popeRoom.AddTiles();
 
@@ -121,20 +121,18 @@ namespace Mortens_Komeback_3.Environment
             doorF1.LinkTo(doorF2);
             doorG1.LinkTo(doorG2); // husk at blokér at man kan gå tilbage!!
             doorG3.LinkTo(doorG1); // husk !!
-            //doorH2.LinkTo(doorI1);
-            doorJ1.LinkTo(doorJ2);
-            //doorJ2.LinkTo(doorH2);//
+            //doorH2.LinkTo(doorI1); Seems a mistake
+            //doorI2.LinkTo(doorJ1); Seems a mistake
+            //doorJ2.LinkTo(doorH2);Seems a mistake
             doorH1.LinkTo(doorH2);
             doorI1.LinkTo(doorI2);
-            //doorJ1.LinkTo(doorJ2);
-            //doorH1.LinkTo(doorH2);
+            doorJ1.LinkTo(doorJ2);
             //mangler stadig lidt links pga traproom
 
             // Store for gameworld or rendering
             Rooms.Add(popeRoom);
             Rooms.Add(stairs);
             Rooms.Add(catacombesA);
-            Rooms.Add(catacombesA1);
             Rooms.Add(catacombesB);
             Rooms.Add(catacombesC);
             Rooms.Add(catacombesD);
