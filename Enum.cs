@@ -78,20 +78,31 @@ namespace Mortens_Komeback_3
     /// </summary>
     public enum MenuType
     {
-        Start,
+        MainMenu,
         GameOver,
         Pause,
         Inventory,
         Win,
-        Cursor
+        Cursor,
+        Playing
+    }
+    public enum ButtonAction
+    {
+        StartGame,
+        QuitGame,
+        TryAgain,
+        ResumeGame,
+        ToggleMusic,
+        ToggleSound
     }
 
-    public enum ButtonType
+    public enum ButtonSpriteType
     {
         Button,
         ButtonPressed,
         ButtonSquare,
         ButtonSquareChecked
+        
     }
 
     /// <summary>
