@@ -282,30 +282,33 @@ namespace Mortens_Komeback_3
 
             MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
 
-            switch (CurrentMenu)
+            if (gamePaused)
             {
-                case MenuType.MainMenu:
-                    MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-                    GameWorld.Instance.MenuManager.OpenMenu(MenuType.MainMenu);
-                    break;
-                case MenuType.GameOver:
-                    MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-                    
-                    break;
-                case MenuType.Pause:
-                    MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-                    break;
-                case MenuType.Inventory: //Fjern
-                    break;
-                case MenuType.Win:
-                    MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-                    break;
-                case MenuType.Cursor: //Fjern
-                    break;
-                case MenuType.Playing:
-                    break;
-                default:
-                    break;
+                switch (CurrentMenu)
+                {
+                    case MenuType.MainMenu:
+                        MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+                        GameWorld.Instance.MenuManager.OpenMenu(MenuType.MainMenu);
+                        break;
+                    case MenuType.GameOver:
+                        MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+
+                        break;
+                    case MenuType.Pause:
+                        MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+                        break;
+                    case MenuType.Inventory: //Fjern
+                        break;
+                    case MenuType.Win:
+                        MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+                        break;
+                    case MenuType.Cursor: //Fjern
+                        break;
+                    case MenuType.Playing:
+                        break;
+                    default:
+                        break;
+                }
             }
 
             //SpawnEnemies();
