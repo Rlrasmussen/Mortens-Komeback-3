@@ -211,6 +211,12 @@ namespace Mortens_Komeback_3
 
                 reply++;
             }
+            else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
+            {
+                StartConversation();
+                npcText = "Try press left mouse to shoot \nBless you Morten and your courag";
+                reply++;
+            }
             else
             {
                 EndConversation();
@@ -294,7 +300,7 @@ namespace Mortens_Komeback_3
                 {
                     npcText = "I need a strong and handsome man to help me move these stones";
                 }
-                else //Sad
+                else
                 {
                     npcText = "Oh no my rosary is gone, can you find it?";
                 }

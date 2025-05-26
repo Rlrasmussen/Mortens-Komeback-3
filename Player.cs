@@ -65,7 +65,9 @@ namespace Mortens_Komeback_3
             {
 
                 if (value >= health)
+                {
                     health = value;
+                }
                 else
                 {
 
@@ -80,8 +82,9 @@ namespace Mortens_Komeback_3
                     }
                     health = value;
                     colorTimer = 0f;
-
                 }
+
+                GameWorld.Instance.Notify(StatusType.Health);
 
             }
 
@@ -305,7 +308,7 @@ namespace Mortens_Komeback_3
             if (other.Type.GetType() == typeof(EnemyType) && damageTimer > damageGracePeriode) //Rikke
             {
                 Health -= (other as Enemy).Damage;
-                GameWorld.Instance.Notify(StatusType.Health);
+                //GameWorld.Instance.Notify(StatusType.Health);
                 GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
                 damageTimer = 0f;
             }
@@ -341,7 +344,6 @@ namespace Mortens_Komeback_3
                     case ItemType.GeesusBlood:
                         (other as Item).IsAlive = false;
                         Health += portionHelath;
-                        GameWorld.Instance.Notify(StatusType.Health);
                         break;
                     default:
                         break;

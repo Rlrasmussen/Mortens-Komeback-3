@@ -177,7 +177,7 @@ namespace Mortens_Komeback_3
 
             status = new Status();
 
-            //gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
+            //gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.Goosifer, Vector2.Zero));
 
             //SafePoint.SaveGame(Location.Spawn);
 
@@ -228,6 +228,9 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC + Bible & Rosary
+            //Player.Instance.Position = new Vector2(0,6000);
+            
+            
             gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 16000)));
             gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
 
