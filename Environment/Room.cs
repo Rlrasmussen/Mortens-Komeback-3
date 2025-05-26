@@ -33,7 +33,7 @@ namespace Mortens_Komeback_3.Environment
         {
             RoomType = type;
             Doors = new List<Door>();
-            scale = 1.5F;
+            //scale = 1.5F;
             layer = 0.1f;
 
         }
