@@ -47,6 +47,7 @@ namespace Mortens_Komeback_3.Factory
             {
                 //Popping from the inactive stack
                 gameObject = inactive.Pop();
+                gameObject.Position = spawnPosition;
             }
 
             //Adding the GameObject to the active List

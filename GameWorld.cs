@@ -274,6 +274,10 @@ namespace Mortens_Komeback_3
 
             foreach (GameObject gameObject in gameObjects)
             {
+
+                if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1000))
+                    continue;
+
                 gameObject.Update(gameTime);
                 DoCollisionCheck(gameObject);
             }
