@@ -133,6 +133,7 @@ namespace Mortens_Komeback_3.Environment
             Rooms.Add(popeRoom);
             Rooms.Add(stairs);
             Rooms.Add(catacombesA);
+            Rooms.Add(catacombesA1);
             Rooms.Add(catacombesB);
             Rooms.Add(catacombesC);
             Rooms.Add(catacombesD);
