@@ -62,6 +62,8 @@ namespace Mortens_Komeback_3
         private bool musicOn = true;
         private bool soundOn = true;
 
+        private Song backgroundMusic;
+
         #endregion
 
         #region Properties
@@ -266,6 +268,8 @@ namespace Mortens_Komeback_3
 
             SavePoint.LoadSave();
 
+            backgroundMusic = Music[MusicTrack.Background];
+
             MediaPlayer.Play(Music[MusicTrack.Background]);
             MediaPlayer.IsRepeating = true;
         }
@@ -290,7 +294,32 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
-
+            //Chances of background music in some rooms
+            if (backgroundMusic != Music[MusicTrack.GoosiferFigth] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
+            {
+                backgroundMusic = Music[MusicTrack.GoosiferFigth];
+                MediaPlayer.Play(backgroundMusic);
+            }
+            else if (backgroundMusic != Music[MusicTrack.TrapRoom] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom))
+            {
+                backgroundMusic = Music[MusicTrack.TrapRoom];
+                MediaPlayer.Play(backgroundMusic);
+            }
+            else if (backgroundMusic != Music[MusicTrack.Pope] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.Stairs))
+            {
+                backgroundMusic = Music[MusicTrack.Pope];
+                MediaPlayer.Play(backgroundMusic);
+            }
+            else if (backgroundMusic != Music[MusicTrack.Death] && Player.Instance.IsAlive == false) //Player is dead
+            {
+                backgroundMusic = Music[MusicTrack.Death];
+                MediaPlayer.Play(backgroundMusic);
+            }
+            //else if (backgroundMusic != Music[MusicTrack.Win] && Player.Instance.IsAlive == false) //Player win
+            //{
+            //    backgroundMusic = Music[MusicTrack.Win];
+            //    MediaPlayer.Play(backgroundMusic);
+            //}
 
             //if (gamePaused)
             //{
