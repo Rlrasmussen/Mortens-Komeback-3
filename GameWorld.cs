@@ -231,7 +231,7 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 16000)));
             gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
 
-            NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 16));
+            NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
             NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
             NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 18000));
             NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
