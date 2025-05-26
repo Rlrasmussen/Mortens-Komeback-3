@@ -64,10 +64,6 @@ namespace Mortens_Komeback_3.Observer
                 case StatusType.EnemiesKilled:
                     enemiesKilled++;
                     break;
-                case StatusType.ExUp:
-                    break;
-                case StatusType.LevelUp:
-                    break;
                 case StatusType.WeaponMelee:
                     melee = true;
                     break;

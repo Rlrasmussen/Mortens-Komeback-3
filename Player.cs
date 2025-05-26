@@ -70,7 +70,6 @@ namespace Mortens_Komeback_3
                 }
                 else
                 {
-
                     if (value <= 0)
                     {
                         IsAlive = false;
@@ -186,7 +185,6 @@ namespace Mortens_Komeback_3
             base.Load();
 
             health = MaxHealth;
-            GameWorld.Instance.Notify(StatusType.Health);
         }
 
         /// <summary>
@@ -308,7 +306,6 @@ namespace Mortens_Komeback_3
             if (other.Type.GetType() == typeof(EnemyType) && damageTimer > damageGracePeriode) //Rikke
             {
                 Health -= (other as Enemy).Damage;
-                //GameWorld.Instance.Notify(StatusType.Health);
                 GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
                 damageTimer = 0f;
             }
@@ -356,7 +353,6 @@ namespace Mortens_Komeback_3
         /// </summary>
         private void Attack()
         {
-
             if (!GameWorld.Instance.GamePaused && equippedWeapon != null && !attacking)
             {
                 equippedWeapon.Attack();
@@ -371,8 +367,6 @@ namespace Mortens_Komeback_3
                     meleeAttackDirection = InputHandler.Instance.MousePosition - Position;
                 }
             }
-
-
         }
 
         /// <summary>
