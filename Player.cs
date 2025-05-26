@@ -464,15 +464,11 @@ namespace Mortens_Komeback_3
                     (gameObject as PathfindingPuzzle).TrySolve();
                     break;
                 case NPCType.Pope:
-                    (gameObject as NPC).Speak();
-                    break;
                 case NPCType.CanadaGoose:
-                    (gameObject as NPC).Speak();
-                    break;
                 case NPCType.Monk:
-                    (gameObject as NPC).Speak();
-                    break;
                 case NPCType.Nun:
+                case NPCType.Coffin:
+                case NPCType.Hole0:
                     (gameObject as NPC).Speak();
                     break;
                 default:

@@ -202,7 +202,8 @@ namespace Mortens_Komeback_3
         Pope,
         Monk,
         Nun,
-        Hole0
+        Hole0,
+        Coffin
     }
 
     /// <summary>

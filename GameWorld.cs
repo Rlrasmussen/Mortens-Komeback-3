@@ -237,13 +237,14 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC + Bible & Rosary
-            //Player.Instance.Position = new Vector2(0, 18000);
+            //Player.Instance.Position = new Vector2(600, 3400);
 
 
-            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 16000)));
+            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 22000)));
             gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
 
-            NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
+            NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
+            NPC coffin = new NPC(NPCType.Coffin, new Vector2(600, 2300));
             NPC hole0 = new NPC(NPCType.Hole0, new Vector2(600, 3400));
             NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
             NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16000));
@@ -252,6 +253,7 @@ namespace Mortens_Komeback_3
             canadaGoose2.Canada = true;
 
             npcs.Add(pope);
+            npcs.Add(coffin);
             npcs.Add(monk);
             npcs.Add(nun);
             npcs.Add(canadaGoose1);
@@ -273,8 +275,8 @@ namespace Mortens_Komeback_3
 
             SavePoint.LoadSave();
 
+            //Music
             backgroundMusic = Music[MusicTrack.Background];
-
             MediaPlayer.Play(Music[MusicTrack.Background]);
             MediaPlayer.IsRepeating = true;
         }
@@ -598,6 +600,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(NPCType.Nun, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary2"), Content.Load<Texture2D>("Sprites\\NPC\\nunNPC") });
             Sprites.Add(NPCType.Pope, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\pope0"), Content.Load<Texture2D>("Sprites\\NPC\\pope1") });
             Sprites.Add(NPCType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
+            Sprites.Add(NPCType.Coffin, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\coffin") });
 
             Texture2D[] canadaGoose = new Texture2D[6];
             for (int i = 0; i < canadaGoose.Length; i++)
@@ -738,9 +741,9 @@ namespace Mortens_Komeback_3
 
             Music.Add(MusicTrack.Pope, Content.Load<Song>("Music\\Virtutes Vocis"));
 
-            Music.Add(MusicTrack.GoosiferFigth, Content.Load<Song>("Music\\intense-gritty-hard-rock-270016"));
+            Music.Add(MusicTrack.TrapRoom, Content.Load<Song>("Music\\intense-gritty-hard-rock-270016"));
 
-            Music.Add(MusicTrack.TrapRoom, Content.Load<Song>("Music\\Trap room"));
+            Music.Add(MusicTrack.GoosiferFigth, Content.Load<Song>("Music\\Trap room"));
 
             Music.Add(MusicTrack.Menu, Content.Load<Song>("Music\\menu"));
 
