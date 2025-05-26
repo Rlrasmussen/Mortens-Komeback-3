@@ -201,6 +201,10 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop)); //Used for testing - To be removed
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(50, 3600), rotationTop)); //Used for testing - To be removed
 
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447,-430), rotationTop)); //Under the painting in PopeRoom
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
+
+
             #endregion
 
 
@@ -301,7 +305,7 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
-            //Chances of background music in some rooms
+            #region Chances of background music in some rooms
             if (backgroundMusic != Music[MusicTrack.GoosiferFigth] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
             {
                 backgroundMusic = Music[MusicTrack.GoosiferFigth];
@@ -310,11 +314,6 @@ namespace Mortens_Komeback_3
             else if (backgroundMusic != Music[MusicTrack.TrapRoom] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom))
             {
                 backgroundMusic = Music[MusicTrack.TrapRoom];
-                MediaPlayer.Play(backgroundMusic);
-            }
-            else if (backgroundMusic != Music[MusicTrack.Pope] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.Stairs))
-            {
-                backgroundMusic = Music[MusicTrack.Pope];
                 MediaPlayer.Play(backgroundMusic);
             }
             else if (backgroundMusic != Music[MusicTrack.Death] && Player.Instance.IsAlive == false) //Player is dead
@@ -327,6 +326,7 @@ namespace Mortens_Komeback_3
             //    backgroundMusic = Music[MusicTrack.Win];
             //    MediaPlayer.Play(backgroundMusic);
             //}
+            #endregion
 
             //if (gamePaused)
             //{
@@ -735,11 +735,11 @@ namespace Mortens_Komeback_3
 
             Music.Add(MusicTrack.Battle, Content.Load<Song>("Music\\battleMusic"));
 
-            Music.Add(MusicTrack.Background, Content.Load<Song>("Music\\bgMusic"));
+            Music.Add(MusicTrack.Background, Content.Load<Song>("Music\\Virtutes Vocis"));
 
             Music.Add(MusicTrack.Death, Content.Load<Song>("Music\\Funeral March for Brass"));
 
-            Music.Add(MusicTrack.Pope, Content.Load<Song>("Music\\Virtutes Vocis"));
+            //Music.Add(MusicTrack.Pope, Content.Load<Song>("Music\\Virtutes Vocis"));
 
             Music.Add(MusicTrack.TrapRoom, Content.Load<Song>("Music\\intense-gritty-hard-rock-270016"));
 

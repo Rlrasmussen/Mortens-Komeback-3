@@ -25,7 +25,7 @@ namespace Mortens_Komeback_3
         private List<GameObject> inventory = new List<GameObject>();
         private Vector2 velocity;
         private Vector2 meleeAttackDirection;
-        private float speed = 800f;
+        private float speed = 500f;
         private float walkTimer = 0.5f;
         private int health;
         private int maxHealth = 50;

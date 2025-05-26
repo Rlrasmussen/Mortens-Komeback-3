@@ -151,7 +151,7 @@ namespace Mortens_Komeback_3
         Background,
         Death,
         Win,
-        Pope,
+        //Pope,
         GoosiferFigth,
         TrapRoom,
         Menu
