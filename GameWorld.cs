@@ -57,6 +57,9 @@ namespace Mortens_Komeback_3
 
         private Button myButton;
         public List<Button> buttonList = new List<Button>();
+        public MenuType CurrentMenu { get; set; }
+        private bool musicOn = true;
+        private bool soundOn = true;
 
         #endregion
 
@@ -156,9 +159,9 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddButtonDownCommand(Keys.Space, new DrawCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.M, new SaveCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new ClearSaveCommand());
-            InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());//Test
+            InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
 #endif
-
+            //CurrentMenu = MenuType.Playing;
 
             MenuManager = new MenuManager();
             MenuManager.CreateMenus();
@@ -278,6 +281,32 @@ namespace Mortens_Komeback_3
             }
 
             MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+
+            switch (CurrentMenu)
+            {
+                case MenuType.MainMenu:
+                    MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+                    GameWorld.Instance.MenuManager.OpenMenu(MenuType.MainMenu);
+                    break;
+                case MenuType.GameOver:
+                    MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+                    
+                    break;
+                case MenuType.Pause:
+                    MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+                    break;
+                case MenuType.Inventory: //Fjern
+                    break;
+                case MenuType.Win:
+                    MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+                    break;
+                case MenuType.Cursor: //Fjern
+                    break;
+                case MenuType.Playing:
+                    break;
+                default:
+                    break;
+            }
 
             //SpawnEnemies();
 
@@ -488,11 +517,13 @@ namespace Mortens_Komeback_3
 
             Sprites.Add(MenuType.Win, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\winScreen") });
             Sprites.Add(MenuType.GameOver, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\looseScreen") });
-            Sprites.Add(MenuType.Start, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\looseScreen") });
-            Sprites.Add(MenuType.Pause, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\square") });
+            Sprites.Add(MenuType.MainMenu, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\start") });
+            Sprites.Add(MenuType.Pause, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\pause") });
 
-            Sprites.Add(ButtonType.Button, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\button") });
-            Sprites.Add(ButtonType.ButtonPressed, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\buttonPressed") });
+            Sprites.Add(ButtonSpriteType.Button, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\button") });
+            Sprites.Add(ButtonSpriteType.ButtonPressed, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\buttonPressed") });
+            Sprites.Add(ButtonSpriteType.ButtonSquare, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\Square") });
+            Sprites.Add(ButtonSpriteType.ButtonSquareChecked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\buttonPressed") });
 
             #endregion
             #region NPC
@@ -818,22 +849,7 @@ namespace Mortens_Komeback_3
 
         }
 
-
-        public void Pause()
-        {
-            if (gamePaused)
-            {
-                //gamePaused = false;
-
-                MediaPlayer.Play(Music[MusicTrack.Background]);
-            }
-            else
-            {
-                gamePaused = true;
-                MediaPlayer.Play(Music[MusicTrack.Menu]);
-            }
-
-        }
+      
 
         #region Observer - Rikke
         public void Attach(IObserver observer)
@@ -860,6 +876,8 @@ namespace Mortens_Komeback_3
         }
 
         #endregion
+
+
 
         #endregion
     }

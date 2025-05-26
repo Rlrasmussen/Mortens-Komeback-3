@@ -18,9 +18,6 @@ namespace Mortens_Komeback_3.Menu
         #endregion
 
         #region Properties
-        //public Vector2 cameraCenter = Camera.Instance.Position;
-        //private Vector2 buttonOffset = new Vector2(0, 100); // fx under midten
-        //private Vector2 buttonPosition; 
         public string ButtonText { get; set; }
         public ICommand Command { get; set; }
         public bool Hovering { get; set; }
@@ -29,7 +26,13 @@ namespace Mortens_Komeback_3.Menu
         public float Layer { get; set; }
 
         public Enum Type { get; set; }
-      
+        public bool IsClicked(MouseState mouse, MouseState prevMouse)
+        {
+            return CollisionBox.Contains(mouse.Position) &&
+                   mouse.LeftButton == ButtonState.Pressed &&
+                   prevMouse.LeftButton == ButtonState.Released;
+        }
+
         public Rectangle CollisionBox
         {
             get
@@ -52,13 +55,21 @@ namespace Mortens_Komeback_3.Menu
         #endregion
 
         #region Constructor
-        public Button(ButtonType type, Vector2 spawnPos, string buttonText, ICommand command) 
+        public Button(ButtonSpriteType type, Vector2 spawnPos, string buttonText, ICommand command) 
         {
             this.Type = type;
             this.Position = spawnPos;
             this.ButtonText = buttonText;
             Layer = 0.9f;
-
+            this.OnClick = () => Command.Execute();
+            if (command != null)
+            {
+                this.OnClick = () => Command.Execute();
+            }
+            else
+            {
+                Console.WriteLine($"Advarsel: Button '{buttonText}' har ikke nogen kommando.");
+            }
 
             if (GameWorld.Instance.Sprites.TryGetValue(type, out var spriteArray))
             {
@@ -82,7 +93,8 @@ namespace Mortens_Komeback_3.Menu
 
             if (Hovering && isClicking)
             {
-                OnClick?.Invoke();
+                //OnClick?.Invoke();
+                Command?.Execute();
             }
             
 

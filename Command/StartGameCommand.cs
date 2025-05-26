@@ -14,6 +14,8 @@ namespace Mortens_Komeback_3.Command
         {
             GameWorld.Instance.GameRunning = true;
             Debug.WriteLine("Game started ");
+            GameWorld.Instance.MenuManager.OpenMenu(MenuType.MainMenu);
+
             //GameWorld.Instance.StartGame();
         }
 
