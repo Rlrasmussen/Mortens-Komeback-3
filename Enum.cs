@@ -200,7 +200,8 @@ namespace Mortens_Komeback_3
         GreyGoose,
         Pope,
         Monk,
-        Nun
+        Nun,
+        Hole0
     }
 
     /// <summary>
@@ -239,7 +240,10 @@ namespace Mortens_Komeback_3
         Light,
         Cross,
         Coffin,
-        Splash
+        Splash,
+        //Hole0,
+        Hole1,
+
     }
 
     /// <summary>
