@@ -281,7 +281,7 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
-           
+
 
             //if (gamePaused)
             //{
@@ -313,6 +313,16 @@ namespace Mortens_Komeback_3
             //}
 
             //SpawnEnemies();
+
+            //Sets the right current room, if the room consist of two rooms, and therefore are not set by going through doors. - Philip
+            if ((CurrentRoom.LeftSideOfBigRoom && Player.Instance.Position.X > CurrentRoom.CollisionBox.Right)
+                || (CurrentRoom.RightSideOfBigRoom && Player.Instance.Position.X < CurrentRoom.CollisionBox.Left)
+                || (CurrentRoom.TopSideOfBigRoom && Player.Instance.Position.Y > CurrentRoom.CollisionBox.Bottom)
+                || (CurrentRoom.ButtomSideOfBigRoom && Player.Instance.Position.Y < CurrentRoom.CollisionBox.Top)
+                )
+            {
+                CurrentRoom = DoorManager.Rooms.Find(x => Player.Instance.CollisionBox.Intersects(x.CollisionBox));
+            }
 
             status.Update(gameTime);
 
@@ -863,7 +873,7 @@ namespace Mortens_Komeback_3
 
         }
 
-      
+
 
         #region Observer - Rikke
         public void Attach(IObserver observer)
@@ -912,13 +922,13 @@ namespace Mortens_Komeback_3
                     GameWorld.Instance.ResumeGame();
                     break;
 
-                //case ButtonAction.ToggleMusic:
-                //    AudioManager.Instance.ToggleMusic();
-                //    break;
+                    //case ButtonAction.ToggleMusic:
+                    //    AudioManager.Instance.ToggleMusic();
+                    //    break;
 
-                //case ButtonAction.ToggleSound:
-                //    AudioManager.Instance.ToggleSound();
-                //    break;
+                    //case ButtonAction.ToggleSound:
+                    //    AudioManager.Instance.ToggleSound();
+                    //    break;
             }
         }
 
