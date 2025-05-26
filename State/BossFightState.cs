@@ -85,11 +85,11 @@ namespace Mortens_Komeback_3.State
 
             parent.Position += direction * parent.Speed * GameWorld.Instance.DeltaTime;
 
-            if (spawnEnemies >= 3)
+            if (spawnEnemies >= 10)
                 SpawnEnemies();
 
-            //if (spewFire >= 1.5f)
-            //    SpewFire();
+            if (spewFire >= 1.5f)
+                SpewFire();
 
         }
 
