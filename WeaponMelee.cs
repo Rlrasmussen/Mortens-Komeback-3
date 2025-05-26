@@ -47,7 +47,7 @@ namespace Mortens_Komeback_3
                 Debug.WriteLine("Kunne ikke sætte VFX");
 
             damage = 10;
-            range = 250f;
+            range = 300f;
 
         }
 
@@ -65,7 +65,7 @@ namespace Mortens_Komeback_3
 
             foreach (Enemy enemy in GameWorld.Instance.EnemiesNearPlayer(range))
             {
-                if (IsInCone(Player.Instance.Position, InputHandler.Instance.MousePosition, enemy.Position, 30f))
+                if (IsInCone(Player.Instance.Position, InputHandler.Instance.MousePosition, enemy.Position, 45f))
                     enemy.TakeDamage(this);
             }
 

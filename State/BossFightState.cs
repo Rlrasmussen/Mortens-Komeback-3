@@ -120,7 +120,7 @@ namespace Mortens_Komeback_3.State
                     int enemyRightAmount = 10;
                     for (int i = 0; i < enemyRightAmount; i++)
                     {
-                        GameObject enemy = EnemyPool.Instance.GetObject(EnemyType.WalkingGoose, parent.InRoom.Position + new Vector2(parent.InRoom.Sprite.Width / 2 + 75, -(parent.InRoom.Sprite.Height / 2) + increment + 75));
+                        GameObject enemy = EnemyPool.Instance.GetObject(EnemyType.AggroGoose, parent.InRoom.Position + new Vector2(parent.InRoom.Sprite.Width / 2 + 75, -(parent.InRoom.Sprite.Height / 2) + increment + 75));
                         GameWorld.Instance.SpawnObject(enemy);
                         ChargeState chargePlayer = new ChargeState(new Vector2(-1, 0));
                         chargePlayer.Enter(enemy as Enemy);
