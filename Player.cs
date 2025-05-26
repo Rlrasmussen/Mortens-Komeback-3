@@ -25,7 +25,7 @@ namespace Mortens_Komeback_3
         private List<GameObject> inventory = new List<GameObject>();
         private Vector2 velocity;
         private Vector2 meleeAttackDirection;
-        private float speed = 500f;
+        private float speed = 800f;
         private float walkTimer = 0.5f;
         private int health;
         private int maxHealth = 50;
@@ -241,9 +241,36 @@ namespace Mortens_Komeback_3
         {
 
             velocity.Normalize();
-
-            Position += velocity * Speed * GameWorld.Instance.DeltaTime;
-
+            //Player only moves if it doens't leave a rooms collisonbox, unless it's a double room. - Philip
+            if (
+                   (GameWorld.Instance.CurrentRoom.LeftSideOfBigRoom //If room is leftside, player is stopped from leaving, unless it's through right side
+                   && !((Position.X - Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left)
+                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top)
+                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom))
+                   ||
+                   (GameWorld.Instance.CurrentRoom.RightSideOfBigRoom //If room is rightside, player is stopped from leaving, unless it's through left side
+                   && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right)
+                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top)
+                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom))
+                   ||
+                   (GameWorld.Instance.CurrentRoom.TopSideOfBigRoom //If room is topside, player is stopped from leaving, unless it's through buttom
+                   && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right)
+                   && !((Position.X - Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left)
+                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top)
+                   ||
+                   (GameWorld.Instance.CurrentRoom.ButtomSideOfBigRoom //If room is buttom, player is stopped from leaving, unless it's through top
+                   && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right)
+                   && !((Position.X - Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left)
+                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom))
+                   || //Else player can't move out of rooms collisonbox
+                   (!((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right)
+                   && !((Position.X - Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left)
+                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top)
+                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom)))
+                   )
+            {
+                Position += velocity * Speed * GameWorld.Instance.DeltaTime;
+            }
             velocity = Vector2.Zero;
 
         }

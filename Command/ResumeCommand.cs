@@ -11,8 +11,10 @@ namespace Mortens_Komeback_3.Command
     {
         public void Execute()
         {
+            GameWorld.Instance.CurrentMenu = MenuType.Playing;
             GameWorld.Instance.GameRunning = true;
-
+            GameWorld.Instance.GamePaused = false;
+            GameWorld.Instance.MenuManager.CloseMenu();
         }
     }
 }

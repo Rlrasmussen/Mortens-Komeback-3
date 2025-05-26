@@ -132,7 +132,6 @@ namespace Mortens_Komeback_3.Environment
             if (other == Player.Instance && (DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open || DoorStatus == DoorType.Stairs))
             {
                 GameWorld.Instance.CurrentRoom = DestinationRoom;
-                GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
 
                 switch (Direction)
                 {

@@ -13,10 +13,13 @@ namespace Mortens_Komeback_3.Command
     {
         public void Execute()
         {
-
+            if (!GameWorld.Instance.GamePaused)
+            {
             GameWorld.Instance.MenuManager.OpenMenu(MenuType.Pause);
-            Debug.WriteLine("Game paused ");
-            //throw new NotImplementedException();
+            //GameWorld.Instance.GamePaused = true;
+
+            }
+
         }
 
         
