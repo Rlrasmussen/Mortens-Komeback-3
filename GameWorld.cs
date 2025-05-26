@@ -598,7 +598,7 @@ namespace Mortens_Komeback_3
             Content.Load<Texture2D>("Sprites\\Environment\\plaqueLeaves"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueStar"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueMoon"),
             Content.Load<Texture2D>("Sprites\\Environment\\plaqueAnchor"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueWine"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueCandle")});
             Sprites.Add(PuzzleType.ShootPuzzle, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
-            Sprites.Add(PuzzleType.PuzzleObstacle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\mirrorx300") });
+            Sprites.Add(PuzzleType.PuzzleObstacle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\sqaure200x200") });
             Sprites.Add(PuzzleType.PathfindingPuzzle, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
 
 
