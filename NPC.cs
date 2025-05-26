@@ -310,6 +310,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Starting the conversation by setting talk = true and interact = false
+        /// Rikke
         /// </summary>
         public void StartConversation()
         {
@@ -320,6 +321,7 @@ namespace Mortens_Komeback_3
         /// <summary>
         /// Ending the conversation with resetting talk, interact and reply
         /// Resetting the Players speed again
+        /// Rikke
         /// </summary>
         public void EndConversation()
         {
