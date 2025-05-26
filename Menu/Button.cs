@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Mortens_Komeback_3.Collider;
 using Mortens_Komeback_3.Command;
 
@@ -23,6 +24,7 @@ namespace Mortens_Komeback_3.Menu
         public bool Hovering { get; set; }
         public bool IsEnabled { get; set; }
         public Action OnClick { get; set; }
+        public ButtonAction Action { get; set; }
         public float Layer { get; set; }
 
         public Enum Type { get; set; }
@@ -47,29 +49,30 @@ namespace Mortens_Komeback_3.Menu
         }
 
 
-        public Vector2 Position { get; set; } 
-        public Vector2 screenCenter;
+        public Vector2 Position { get; set; }
+        //public Vector2 screenCenter;
 
 
         public Texture2D Sprite { get; set; }
         #endregion
 
         #region Constructor
-        public Button(ButtonSpriteType type, Vector2 spawnPos, string buttonText, ICommand command) 
+        public Button(ButtonSpriteType type, Vector2 spawnPos, string buttonText, ButtonAction action) 
         {
             this.Type = type;
             this.Position = spawnPos;
             this.ButtonText = buttonText;
             Layer = 0.9f;
-            this.OnClick = () => Command.Execute();
-            if (command != null)
-            {
-                this.OnClick = () => Command.Execute();
-            }
-            else
-            {
-                Console.WriteLine($"Advarsel: Button '{buttonText}' har ikke nogen kommando.");
-            }
+            Action = action;
+            //this.OnClick = () => Command.Execute();
+            //if (command != null)
+            //{
+            //    this.OnClick = () => Command.Execute();
+            //}
+            //else
+            //{
+            //    Console.WriteLine($"Advarsel: Button '{buttonText}' har ikke nogen kommando.");
+            //}
 
             if (GameWorld.Instance.Sprites.TryGetValue(type, out var spriteArray))
             {
@@ -88,19 +91,23 @@ namespace Mortens_Komeback_3.Menu
 
         public void Update(Vector2 mousePos, bool isClicking)
         {
-            Hovering = CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
+            //Hovering = CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
 
+
+            //if (Hovering && isClicking)
+            //{
+            //    //OnClick?.Invoke();
+            //    Command?.Execute();
+            //}
+
+            Hovering = CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
 
             if (Hovering && isClicking)
             {
-                //OnClick?.Invoke();
-                Command?.Execute();
+                GameWorld.Instance.HandleButtonAction(Action);
             }
-            
 
         }
-      
-
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
@@ -126,6 +133,8 @@ namespace Mortens_Komeback_3.Menu
         {
             throw new NotImplementedException();
         }
+
+        
         #endregion
     }
 }

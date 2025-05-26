@@ -23,55 +23,52 @@ namespace Mortens_Komeback_3.Menu
 
         private Dictionary<MenuType, Menu> menus = new Dictionary<MenuType, Menu>();
 
-        public MenuManager()
-        {
-            //switch (text)
-            //{
-            //    case "Start":
+        //public MenuManager()
+        //{
+        //    //switch (text)
+        //    //{
+        //    //    case "Start":
 
-            //        break;
-            //    case "Quit":
-            //        break;
-            //    case "Resume":
-            //        //CloseMenu();
-            //        break;
-            //    case "Try again":
-            //        break;
-            //    case "Music On/Off":
-            //        break;
-            //    case "Sound On/Off":
-            //        break;
-            //}
+        //    //        break;
+        //    //    case "Quit":
+        //    //        break;
+        //    //    case "Resume":
+        //    //        //CloseMenu();
+        //    //        break;
+        //    //    case "Try again":
+        //    //        break;
+        //    //    case "Music On/Off":
+        //    //        break;
+        //    //    case "Sound On/Off":
+        //    //        break;
+        //    //}
 
-        }
+        //}
 
         public void CreateMenus()
         {
-
-
             var mainMenu = new Menu(MenuType.MainMenu);
             mainMenu.Sprite = GameWorld.Instance.Sprites[MenuType.MainMenu][0];
-            mainMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 300), "Start", new StartGameCommand()));
-            mainMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 400), "Quit", new ExitCommand()));
+            mainMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 300), "Start", ButtonAction.StartGame));
+            mainMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 400), "Quit", ButtonAction.QuitGame));
 
             var gameOverMenu = new Menu(MenuType.GameOver);
             gameOverMenu.Sprite = GameWorld.Instance.Sprites[MenuType.GameOver][0];
-            gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 400), "Try Again!!", new ClearSaveCommand()));
-            gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 500), "Quit!!", new ExitCommand()));
-            gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 100f), "Resume!", new ResumeCommand()));
-
+            gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 400), "Try Again", ButtonAction.TryAgain));
+            gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 500), "Quit", ButtonAction.QuitGame));
+            gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 100f), "Resume", ButtonAction.ResumeGame));
 
             var winMenu = new Menu(MenuType.Win);
             winMenu.Sprite = GameWorld.Instance.Sprites[MenuType.Win][0];
-            gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 400), "Try Again", new ClearSaveCommand()));
-            gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 500), "Quit", new ExitCommand()));
+            winMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 400), "Try Again", ButtonAction.TryAgain));
+            winMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 500), "Quit", ButtonAction.QuitGame));
 
             var pauseMenu = new Menu(MenuType.Pause);
             pauseMenu.Sprite = GameWorld.Instance.Sprites[MenuType.Pause][0];
-            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 100f), "Resume", new ResumeCommand()));
-            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 200f), "Quit", new ExitCommand()));
-            pauseMenu.AddButtons(new Button(ButtonSpriteType.ButtonSquare, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 220f), "Music", new ExitCommand())); // music toggle square
-            pauseMenu.AddButtons(new Button(ButtonSpriteType.ButtonSquare, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 230f), "Sound", new ExitCommand())); // sound toggle square
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 100f), "Resume", ButtonAction.ResumeGame));
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 200f), "Quit", ButtonAction.QuitGame));
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.ButtonSquare, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 300f), "Music", ButtonAction.ToggleMusic));
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.ButtonSquare, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 400f), "Sound", ButtonAction.ToggleSound));
 
             menus.Add(MenuType.MainMenu, mainMenu);
             menus.Add(MenuType.GameOver, gameOverMenu);
@@ -81,18 +78,9 @@ namespace Mortens_Komeback_3.Menu
 
 
 
-
-
-
         public void Update(Vector2 mousePos, bool isClicking)
         {
             currentMenu?.Update(InputHandler.Instance.MousePosition, isClicking);
-
-            //if (InputHandler.Instance.LeftClick)
-            //{
-            //    GameWorld.Instance.MenuManager.CloseMenu();
-            //}
-
 
         }
 

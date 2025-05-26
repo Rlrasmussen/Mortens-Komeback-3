@@ -85,13 +85,14 @@ namespace Mortens_Komeback_3
         Cursor,
         Playing
     }
-    public enum ButtonType
+    public enum ButtonAction
     {
-        QuitButton,
-        StartButton,
-        ResumeButton,
-        MusicButton,
-        SoundButton
+        StartGame,
+        QuitGame,
+        TryAgain,
+        ResumeGame,
+        ToggleMusic,
+        ToggleSound
     }
 
     public enum ButtonSpriteType

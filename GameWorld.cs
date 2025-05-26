@@ -161,7 +161,7 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new ClearSaveCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
 #endif
-            //CurrentMenu = MenuType.Playing;
+            CurrentMenu = MenuType.Playing;
 
             MenuManager = new MenuManager();
             MenuManager.CreateMenus();
@@ -280,36 +280,36 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
-            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+           
 
-            if (gamePaused)
-            {
-                switch (CurrentMenu)
-                {
-                    case MenuType.MainMenu:
-                        MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-                        GameWorld.Instance.MenuManager.OpenMenu(MenuType.MainMenu);
-                        break;
-                    case MenuType.GameOver:
-                        MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+            //if (gamePaused)
+            //{
+            //    switch (CurrentMenu)
+            //    {
+            //        case MenuType.MainMenu:
+            //            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+            //            GameWorld.Instance.MenuManager.OpenMenu(MenuType.MainMenu);
+            //            break;
+            //        case MenuType.GameOver:
+            //            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
 
-                        break;
-                    case MenuType.Pause:
-                        MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-                        break;
-                    case MenuType.Inventory: //Fjern
-                        break;
-                    case MenuType.Win:
-                        MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-                        break;
-                    case MenuType.Cursor: //Fjern
-                        break;
-                    case MenuType.Playing:
-                        break;
-                    default:
-                        break;
-                }
-            }
+            //            break;
+            //        case MenuType.Pause:
+            //            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+            //            break;
+            //        case MenuType.Inventory: //Fjern
+            //            break;
+            //        case MenuType.Win:
+            //            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
+            //            break;
+            //        case MenuType.Cursor: //Fjern
+            //            break;
+            //        case MenuType.Playing:
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
 
             //SpawnEnemies();
 
@@ -445,7 +445,7 @@ namespace Mortens_Komeback_3
 
             #region Rooms
 
-            Sprites.Add(RoomType.PopeRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.PopeRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\poperoomlight_") });
             Sprites.Add(RoomType.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
             Sprites.Add(RoomType.CatacombesA, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
             Sprites.Add(RoomType.CatacombesB, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
@@ -880,7 +880,63 @@ namespace Mortens_Komeback_3
 
         #endregion
 
+        #region menu metoder
+        public void HandleButtonAction(ButtonAction action)
+        {
+            switch (action)
+            {
+                case ButtonAction.StartGame:
+                    GameWorld.Instance.StartGame();
+                    break;
 
+                case ButtonAction.QuitGame:
+                    GameWorld.Instance.ExitGame();
+                    break;
+
+                case ButtonAction.TryAgain:
+                    GameWorld.Instance.ClearSaveAndRestart();
+                    break;
+
+                case ButtonAction.ResumeGame:
+                    GameWorld.Instance.ResumeGame();
+                    break;
+
+                //case ButtonAction.ToggleMusic:
+                //    AudioManager.Instance.ToggleMusic();
+                //    break;
+
+                //case ButtonAction.ToggleSound:
+                //    AudioManager.Instance.ToggleSound();
+                //    break;
+            }
+        }
+
+        public void StartGame()
+        {
+            // Sætter spillet i gang – fx ved at skifte til spilverden
+            CurrentMenu = MenuType.Playing;
+            MediaPlayer.Play(Music[MusicTrack.Background]); // Eksempel på baggrundsmusik
+        }
+
+        public void ExitGame()
+        {
+            GameWorld.Instance.Exit(); // Lukker spillet
+        }
+
+        public void ClearSaveAndRestart()
+        {
+            // Sletter evt. gemt data (hvis relevant)
+            new ClearSaveCommand(); // Hvis du har en save manager
+            StartGame(); // Genstarter spillet
+        }
+
+        public void ResumeGame()
+        {
+            CurrentMenu = MenuType.Playing;
+            MediaPlayer.Resume(); // Fortsætter musikken, hvis den blev pauset
+            gamePaused = false;
+        }
+        #endregion
 
         #endregion
     }
