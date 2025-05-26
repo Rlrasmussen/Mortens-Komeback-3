@@ -181,7 +181,7 @@ namespace Mortens_Komeback_3
 
             status = new Status();
 
-            gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
+
 
             //SafePoint.SaveGame(Location.Spawn);
 
@@ -254,12 +254,15 @@ namespace Mortens_Komeback_3
             }
             #endregion
 
+            gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
+
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
 
             #region buttons and menu
 
             #endregion
+
 
             SavePoint.LoadSave();
 
