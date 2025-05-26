@@ -27,7 +27,7 @@ namespace Mortens_Komeback_3.Environment
             Room popeRoom = new Room(RoomType.PopeRoom, new Vector2(0, 0));
             Room stairs = new Room(RoomType.Stairs, new Vector2(0, 2000));
             Room catacombesA = new Room(RoomType.CatacombesA, new Vector2(0, 4000));
-            Room catacombesA1 = new Room(RoomType.CatacombesA1, new Vector2(2650, 4000));
+            Room catacombesA1 = new Room(RoomType.CatacombesA1, new Vector2(2695, 4000));
             Room catacombesB = new Room(RoomType.CatacombesB, new Vector2(0, 6000));
             Room catacombesC = new Room(RoomType.CatacombesC, new Vector2(0, 8000));
             Room catacombesD = new Room(RoomType.CatacombesD, new Vector2(0, 10000));
@@ -45,7 +45,7 @@ namespace Mortens_Komeback_3.Environment
             Door doorA2 = new Door(new Vector2(-1190, 2000), DoorDirection.Left);
             Door doorB1 = new Door(new Vector2(1190, 2000), DoorDirection.Right, DoorType.StairsLocked);
             Door doorB2 = new Door(new Vector2(-1190, 4000), DoorDirection.Left, DoorType.Stairs);
-            Door doorC1 = new Door(new Vector2(1190 * 3 + 275, 4000), DoorDirection.Right); //catacombesA
+            Door doorC1 = new Door(new Vector2(1190 * 3 + 320, 4000), DoorDirection.Right); //catacombesA
             Door doorC2 = new Door(new Vector2(-1190, 6000), DoorDirection.Left);
             Door doorD1 = new Door(new Vector2(1190, 6000), DoorDirection.Right); //shoot puzzle
             Door doorD2 = new Door(new Vector2(-1190, 8000), DoorDirection.Left);
@@ -133,6 +133,7 @@ namespace Mortens_Komeback_3.Environment
             Rooms.Add(popeRoom);
             Rooms.Add(stairs);
             Rooms.Add(catacombesA);
+            Rooms.Add(catacombesA1);
             Rooms.Add(catacombesB);
             Rooms.Add(catacombesC);
             Rooms.Add(catacombesD);
