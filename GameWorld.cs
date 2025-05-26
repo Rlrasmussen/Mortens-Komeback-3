@@ -201,7 +201,7 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop)); //Used for testing - To be removed
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(50, 3600), rotationTop)); //Used for testing - To be removed
 
-            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447,-430), rotationTop)); //Under the painting in PopeRoom
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447, -430), rotationTop)); //Under the painting in PopeRoom
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
 
 
@@ -222,7 +222,7 @@ namespace Mortens_Komeback_3
             OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(DoorManager.doorList["doorB1"].Position.X - 500, DoorManager.doorList["doorB1"].Position.Y + 500), DoorManager.doorList["doorB1"], new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X-400, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI*0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X-800, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X - 400, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X - 800, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             PathfindingPuzzle pathfindingPuzzle = new PathfindingPuzzle(PuzzleType.PathfindingPuzzle,
@@ -243,9 +243,7 @@ namespace Mortens_Komeback_3
             #region NPC + Bible & Rosary
             //Player.Instance.Position = new Vector2(600, 3400);
 
-
-            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 22000)));
-            gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
+            
 
             NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
             NPC coffin = new NPC(NPCType.Coffin, new Vector2(600, 2300));
@@ -267,6 +265,15 @@ namespace Mortens_Komeback_3
             foreach (GameObject npc in npcs)
             {
                 gameObjects.Add(npc);
+            }
+
+            if (Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
+            {
+                gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 22000)));
+            }
+            if (Player.Instance.Inventory.Find(x => x is WeaponMelee) != null)
+            {
+                gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
             }
             #endregion
 
@@ -325,6 +332,7 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.Death];
                 MediaPlayer.Play(backgroundMusic);
             }
+
             //else if (backgroundMusic != Music[MusicTrack.Win] && Player.Instance.IsAlive == false) //Player win
             //{
             //    backgroundMusic = Music[MusicTrack.Win];
@@ -1019,7 +1027,8 @@ namespace Mortens_Komeback_3
         public void ResumeGame()
         {
             CurrentMenu = MenuType.Playing;
-            MediaPlayer.Resume(); // Fortsætter musikken, hvis den blev pauset
+            //MediaPlayer.Resume(); // Fortsætter musikken, hvis den blev pauset
+            MediaPlayer.Play(Music[MusicTrack.Background]);
             gamePaused = false;
         }
         #endregion

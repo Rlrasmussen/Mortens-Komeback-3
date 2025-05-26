@@ -204,6 +204,12 @@ namespace Mortens_Komeback_3
         /// </summary>
         public void MonkDialogue()
         {
+            if (Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
+            {
+                happy = true;
+                Sprite = happyMonk;
+            }
+
             if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) != null && happy == true)
             {
                 StartConversation();

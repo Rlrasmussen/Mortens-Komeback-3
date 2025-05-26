@@ -123,7 +123,7 @@ namespace Mortens_Komeback_3.Observer
             //For melee
             spriteBatch.Draw(weaponBox, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width / 2, weaponBox.Height * 0.25f), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
             spriteBatch.DrawString(GameWorld.Instance.GameFont, "1", Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width * 1.5f, weaponBox.Height * 0.5f), Color.White, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
-            if (melee == true)
+            if (melee == true || Player.Instance.Inventory.Find(x => x is WeaponMelee) != null)
             {
                 spriteBatch.Draw(weaponMelee, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width / 2, weaponBox.Height / 3), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layer + 0.01f);
             }
@@ -131,7 +131,7 @@ namespace Mortens_Komeback_3.Observer
             //For ranged
             spriteBatch.Draw(weaponBox, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width / 2, weaponBox.Height * 1.25f), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
             spriteBatch.DrawString(GameWorld.Instance.GameFont, "2", Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width * 1.5f, weaponBox.Height * 1.4f), Color.White, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
-            if (ranged == true)
+            if (ranged == true || Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
             {
                 spriteBatch.Draw(weaponRanged, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width / 2, weaponBox.Height * 4 / 3), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layer + 0.01f);
             }
