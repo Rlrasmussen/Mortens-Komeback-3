@@ -34,7 +34,7 @@ namespace Mortens_Komeback_3
         private bool interact = true; //Showing the interact/textBubble
         private bool talk = false; //Showing the dialogBox
         private bool canada = false; //2 different for Canada Goose dialogue
-        private bool animate = true; //Either the NPC is animated or only has 1 sprite
+        private bool animate; //Either the NPC is animated or only has 1 sprite
         private bool happy = false; //Monk/nun is happy to recive their item back
         private bool nunPuzzle = false; //If true the Player is ready for the puzzle 
 
@@ -42,7 +42,7 @@ namespace Mortens_Komeback_3
 
         #region Properties
         public bool Canada { get => canada; set => canada = value; }
-        public float FPS { get; set; } = 6;
+        public float FPS { get; set; } = 8;
         public Texture2D[] Sprites { get; set; }
         public float ElapsedTime { get; set; }
         public int CurrentIndex { get; set; }
@@ -56,6 +56,8 @@ namespace Mortens_Komeback_3
                 Sprites = sprites;
             else
                 Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
+
+            animate = true;
 
             layer = 0.6f;
 
@@ -161,11 +163,19 @@ namespace Mortens_Komeback_3
         /// </summary>
         public void PopeDialogue()
         {
-            if (reply == 0)
+            if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponMelee) != null)
             {
                 StartConversation();
                 npcText = "God bless your quest";
                 reply++;
+            }
+            else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponMelee) == null)
+            {
+                StartConversation();
+                npcText = "Here take this sword and figth those geese";
+                reply++;
+                GameWorld.Instance.SpawnObject(new WeaponMelee(WeaponType.Melee, Player.Instance.Position - new Vector2(0, 150)));
+                GameWorld.Instance.Notify(StatusType.Delivered);
             }
             else
             {

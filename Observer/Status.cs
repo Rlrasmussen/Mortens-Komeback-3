@@ -106,7 +106,7 @@ namespace Mortens_Komeback_3.Observer
             #region Player health/hearts
             for (int i = 1; i < hearts + 1; i++)
             {
-                spriteBatch.Draw(heart, Player.Instance.Position + new Vector2(GameWorld.Instance.ScreenSize.X / 2 - weaponBox.Width, -GameWorld.Instance.ScreenSize.Y / 2) + (new Vector2(-weaponBox.Width / 2 * i, weaponBox.Height)), null, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, layer);
+                spriteBatch.Draw(heart, Player.Instance.Position + new Vector2(GameWorld.Instance.ScreenSize.X / 2 - weaponBox.Width, -GameWorld.Instance.ScreenSize.Y / 2) + (new Vector2(-weaponBox.Width / 2 * i, 0)), null, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, layer);
             }
 
             spriteBatch.DrawString(GameWorld.Instance.GameFont, playerHealth.ToString(), Player.Instance.Position + new Vector2(GameWorld.Instance.ScreenSize.X / 2 - weaponBox.Width, -GameWorld.Instance.ScreenSize.Y / 2) + (new Vector2(-weaponBox.Width / 2, weaponBox.Height * 2)), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
@@ -115,11 +115,11 @@ namespace Mortens_Komeback_3.Observer
 
             #region WeaponBox + ItemBox
             //For melee
-            spriteBatch.Draw(weaponBox, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width, weaponBox.Height), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
+            spriteBatch.Draw(weaponBox, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width,weaponBox.Height * 0.25f), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
             spriteBatch.DrawString(GameWorld.Instance.GameFont, "1", Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width * 2, weaponBox.Height * 1.25f), Color.White, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
             if (melee == true)
             {
-                spriteBatch.Draw(weaponMelee, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width, weaponBox.Height), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layer + 0.01f);
+                spriteBatch.Draw(weaponMelee, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width, 0), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layer + 0.01f);
             }
 
             //For ranged
