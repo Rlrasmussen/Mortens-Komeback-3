@@ -238,7 +238,7 @@ namespace Mortens_Komeback_3
         Cobweb,
         Light,
         Cross,
-        Plaqueholder,
+        Coffin,
         Splash
     }
 

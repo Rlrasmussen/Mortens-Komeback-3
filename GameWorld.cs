@@ -194,7 +194,7 @@ namespace Mortens_Komeback_3
             //gameObjects.Add(new Item(ItemType.GeesusBlood, Vector2.Zero));
 
             #region Decorations
-            gameObjects.Add(new Decoration(DecorationType.Plaqueholder, new Vector2(0, -600), rotationTop)); //Used for testing - To be removed
+            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(100, 600), rotationTop)); //Used for testing - To be removed
 
             #endregion
 
@@ -611,7 +611,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(DecorationType.Splash, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\splash") });
             Sprites.Add(DecorationType.Cobweb, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\cobweb") });
             Sprites.Add(DecorationType.Cross, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\cross") });
-            Sprites.Add(DecorationType.Plaqueholder, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\plaqueholder") });
+            Sprites.Add(DecorationType.Coffin, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\coffin") });
             Sprites.Add(DecorationType.Light, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Light0"), Content.Load<Texture2D>("Sprites\\Environment\\Light1"), Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
 
             #endregion

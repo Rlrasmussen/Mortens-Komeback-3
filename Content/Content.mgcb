@@ -1910,6 +1910,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/cobweb.png
 
+#begin Sprites/Environment/coffin.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Environment/coffin.png
+
 #begin Sprites/Environment/cross.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3290,7 +3302,7 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Rooms/square.png
 
-#begin Sprites/VFX/fireball.png
+#begin Sprites/VFX/Fireball.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -3300,7 +3312,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Sprites/VFX/fireball.png
+/build:Sprites/VFX/Fireball.png
 
 #begin Sprites/VFX/swing0.png
 /importer:TextureImporter
