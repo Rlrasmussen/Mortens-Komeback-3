@@ -50,7 +50,7 @@ namespace Mortens_Komeback_3.Environment
             Door doorB1 = new Door(new Vector2(1190, 2000), DoorDirection.Right, DoorType.StairsLocked);
             Door doorB2 = new Door(new Vector2(-1190, 4000), DoorDirection.Left, DoorType.Stairs);
             Door doorC1 = new Door(new Vector2(1190 * 3 + 275, 4000), DoorDirection.Right); //catacombesA
-            Door doorC2 = new Door(new Vector2(-1190, 6000), DoorDirection.Left);
+            Door doorC2 = new Door(new Vector2(-1190, 6000), DoorDirection.Left);   
             Door doorD1 = new Door(new Vector2(1190, 6000), DoorDirection.Right); //shoot puzzle
             Door doorD2 = new Door(new Vector2(-1190, 8000), DoorDirection.Left);
             Door doorE1 = new Door(new Vector2(1190, 8000), DoorDirection.Right);
@@ -105,8 +105,8 @@ namespace Mortens_Komeback_3.Environment
             catacombesD.AddDoor(doorE2);
             catacombesD1.AddDoor(doorF1);
             catacombesE.AddDoor(doorF2);
-            catacombesF.AddDoor(doorG1);
-            catacombesG.AddDoor(doorH1);
+            catacombesE.AddDoor(doorG1);
+            catacombesE.AddDoor(doorH1);
 
             trapRoom.AddDoor(doorG2);
             trapRoom.AddDoor(doorG3);
