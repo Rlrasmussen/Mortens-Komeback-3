@@ -277,6 +277,10 @@ namespace Mortens_Komeback_3
 
             foreach (GameObject gameObject in gameObjects)
             {
+
+                if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1000))
+                    continue;
+
                 gameObject.Update(gameTime);
                 DoCollisionCheck(gameObject);
             }
@@ -618,6 +622,8 @@ namespace Mortens_Komeback_3
                 swordSwoosh[i] = Content.Load<Texture2D>($"Sprites\\VFX\\swing{i}");
             }
             Sprites.Add(AttackType.Swing, swordSwoosh);
+
+            Sprites.Add(SurfaceType.Fireball, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\VFX\\Fireball") });
 
             #endregion
             #region Debug

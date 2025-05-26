@@ -120,7 +120,7 @@ namespace Mortens_Komeback_3.State
                     int enemyRightAmount = 10;
                     for (int i = 0; i < enemyRightAmount; i++)
                     {
-                        GameObject enemy = EnemyPool.Instance.GetObject(EnemyType.AggroGoose, parent.InRoom.Position + new Vector2(parent.InRoom.Sprite.Width / 2 + 200, -(parent.InRoom.Sprite.Height / 2) + increment + 100));
+                        GameObject enemy = EnemyPool.Instance.GetObject(EnemyType.AggroGoose, parent.InRoom.Position + new Vector2(parent.InRoom.Sprite.Width / 2 + 75, -(parent.InRoom.Sprite.Height / 2) + increment + 75));
                         GameWorld.Instance.SpawnObject(enemy);
                         ChargeState chargePlayer = new ChargeState(new Vector2(-1, 0));
                         chargePlayer.Enter(enemy as Enemy);
@@ -131,7 +131,7 @@ namespace Mortens_Komeback_3.State
                     int enemyTopAmount = 15;
                     for (int i = 0; i < enemyTopAmount; i++)
                     {
-                        GameObject enemy = EnemyPool.Instance.GetObject(EnemyType.AggroGoose, parent.InRoom.Position + new Vector2(-(parent.InRoom.Sprite.Width / 2 + 200) + increment, -(parent.InRoom.Sprite.Height / 2 + 200)));
+                        GameObject enemy = EnemyPool.Instance.GetObject(EnemyType.AggroGoose, parent.InRoom.Position + new Vector2(-(parent.InRoom.Sprite.Width / 2 + 75) + increment, -(parent.InRoom.Sprite.Height / 2 + 75)));
                         GameWorld.Instance.SpawnObject(enemy);
                         ChargeState chargePlayer = new ChargeState(new Vector2(0, 1));
                         chargePlayer.Enter(enemy as Enemy);
@@ -151,7 +151,7 @@ namespace Mortens_Komeback_3.State
         {
 
             spewFire = 0;
-            GameWorld.Instance.SpawnObject(new GoosiferFire(OverlayObjects.Heart, parent.Position, 0f, parent.Damage));
+            GameWorld.Instance.SpawnObject(new GoosiferFire(SurfaceType.Fireball, parent.Position, 0, parent.Damage));
 
         }
 
