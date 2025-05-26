@@ -109,7 +109,7 @@ namespace Mortens_Komeback_3.Observer
                 spriteBatch.Draw(heart, Player.Instance.Position + new Vector2(GameWorld.Instance.ScreenSize.X / 2 - weaponBox.Width, -GameWorld.Instance.ScreenSize.Y / 2) + (new Vector2(-weaponBox.Width / 2 * i, weaponBox.Height)), null, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, layer);
             }
 
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, playerHealth.ToString(), Player.Instance.Position + new Vector2(GameWorld.Instance.ScreenSize.X / 2 - weaponBox.Width, -GameWorld.Instance.ScreenSize.Y / 2) + (new Vector2(-weaponBox.Width / 2, weaponBox.Height * 2)), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
+            //spriteBatch.DrawString(GameWorld.Instance.GameFont, playerHealth.ToString(), Player.Instance.Position + new Vector2(GameWorld.Instance.ScreenSize.X / 2 - weaponBox.Width, -GameWorld.Instance.ScreenSize.Y / 2) + (new Vector2(-weaponBox.Width / 2, weaponBox.Height * 2)), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
 
             #endregion
 
