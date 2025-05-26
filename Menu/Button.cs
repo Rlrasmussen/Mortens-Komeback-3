@@ -91,15 +91,6 @@ namespace Mortens_Komeback_3.Menu
 
         public void Update(Vector2 mousePos, bool isClicking)
         {
-            //Hovering = CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
-
-
-            //if (Hovering && isClicking)
-            //{
-            //    //OnClick?.Invoke();
-            //    Command?.Execute();
-            //}
-
             Hovering = CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint());
 
             if (Hovering && isClicking)

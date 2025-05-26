@@ -31,7 +31,8 @@ namespace Mortens_Komeback_3
         Locked,
         Unlocked,
         Stairs,
-        StairsLocked
+        StairsLocked,
+        StairsUp
     }
 
     /// <summary>
@@ -237,7 +238,7 @@ namespace Mortens_Komeback_3
         Cobweb,
         Light,
         Cross,
-        Painting,
+        Plaqueholder,
         Splash
     }
 
