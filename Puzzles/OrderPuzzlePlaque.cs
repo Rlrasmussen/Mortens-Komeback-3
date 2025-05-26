@@ -42,7 +42,7 @@ namespace Mortens_Komeback_3.Puzzles
             base.Draw(spriteBatch);
             if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
             {
-                spriteBatch.Draw(textBubble, new Vector2(Position.X, Position.Y - Sprite.Height / 2 - textBubble.Height / 2), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+                spriteBatch.Draw(textBubble, new Vector2(Position.X, Position.Y - Sprite.Height/3), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             }
         }
 

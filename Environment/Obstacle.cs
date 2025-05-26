@@ -14,7 +14,7 @@ namespace Mortens_Komeback_3.Environment
         private bool movable;
         private Vector2 velocity;
         private float moveTimer;
-        private float moveTimerStop = 0.3f;
+        private float moveTimerStop = 0.2f;
         private int speed = 500;
         private Room obstacleRoom;
 
@@ -45,7 +45,6 @@ namespace Mortens_Komeback_3.Environment
             if (moveTimer < moveTimerStop && Movable)
             {
                 //Only moves, if move doesn't move obstacle out of room
-                // OBS!! Change to current room when available!!!
                 if (!((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > obstacleRoom.CollisionBox.Right)
                     && !((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < obstacleRoom.CollisionBox.Left)
                     && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < obstacleRoom.CollisionBox.Top)
