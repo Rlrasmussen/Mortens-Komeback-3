@@ -242,8 +242,14 @@ namespace Mortens_Komeback_3
 
             velocity.Normalize();
 
-            Position += velocity * Speed * GameWorld.Instance.DeltaTime;
+            if (!((Position.X + Sprite.Width/2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right)
+                   && !((Position.X - Sprite.Width/2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left)
+                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top)
+                   && !((Position.Y + Sprite.Height/2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom))
 
+            {
+                Position += velocity * Speed * GameWorld.Instance.DeltaTime;
+            }
             velocity = Vector2.Zero;
 
         }
