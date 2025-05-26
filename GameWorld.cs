@@ -177,7 +177,7 @@ namespace Mortens_Komeback_3
 
             status = new Status();
 
-            gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
+            //gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
 
             //SafePoint.SaveGame(Location.Spawn);
 
