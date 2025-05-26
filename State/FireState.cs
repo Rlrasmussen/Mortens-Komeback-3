@@ -70,7 +70,7 @@ namespace Mortens_Komeback_3.State
 
         private GoosiferFire parent;
         private Vector2 direction;
-        private float lifetime = -15f;
+        private float lifetime = -5f;
         private float speed = 700f;
 
         /// <summary>
