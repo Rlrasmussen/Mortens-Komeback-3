@@ -213,7 +213,7 @@ namespace Mortens_Komeback_3
             OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(DoorManager.doorList["doorB1"].Position.X - 500, DoorManager.doorList["doorB1"].Position.Y + 500), DoorManager.doorList["doorB1"], new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(0, 5700), 0, new Vector2(0, 6300), 0, 1);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X-400, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI*0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X-800, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             PathfindingPuzzle pathfindingPuzzle = new PathfindingPuzzle(PuzzleType.PathfindingPuzzle,

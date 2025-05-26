@@ -42,7 +42,7 @@ namespace Mortens_Komeback_3.Environment
         #region Constructor
         public AvSurface(Enum type, Vector2 spawnPos, float rotation) : base(type, spawnPos)
         {
-            this.scale = 0.5f;
+            this.scale = 0.4f;
             FPS = 8;
             Sprites = GameWorld.Instance.Sprites[SurfaceType.AvSurface];
             Rotation = rotation;
@@ -89,35 +89,37 @@ namespace Mortens_Komeback_3.Environment
                     }
 
                     float distanceThrown = 150f; //"Throws" Player away from the fire
-                    if (player.Position.X > Position.X)
+                    if (Rotation == 0) //There is a problem with throwing the player, when fire is rotatet - Philip
                     {
-                        if (!(player.Position.X + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Left))
+                        if (player.Position.X > Position.X)
                         {
-                            player.Position = new Vector2(player.Position.X + distanceThrown, player.Position.Y);
+                            if (!(player.Position.X + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Left))
+                            {
+                                player.Position = new Vector2(player.Position.X + distanceThrown, player.Position.Y);
+                            }
+                        }
+                        else
+                        {
+                            if (!(player.Position.X + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Left))
+                            {
+                                player.Position = new Vector2(player.Position.X - distanceThrown, player.Position.Y);
+                            }
+                        }
+                        if (player.Position.Y > Position.Y)
+                        {
+                            if (!(player.Position.Y + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom))
+                            {
+                                player.Position = new Vector2(player.Position.X, player.Position.Y + distanceThrown);
+                            }
+                        }
+                        else
+                        {
+                            if (!(player.Position.Y - distanceThrown < GameWorld.Instance.CurrentRoom.CollisionBox.Top))
+                            {
+                                player.Position = new Vector2(player.Position.X, player.Position.Y - distanceThrown);
+                            }
                         }
                     }
-                    else
-                    {
-                        if (!(player.Position.X + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Left))
-                        {
-                            player.Position = new Vector2(player.Position.X - distanceThrown, player.Position.Y);
-                        }
-                    }
-                    if (player.Position.Y > Position.Y)
-                    {
-                        if (!(player.Position.Y + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom))
-                        {
-                            player.Position = new Vector2(player.Position.X, player.Position.Y + distanceThrown);
-                        }
-                    }
-                    else
-                    {
-                        if (!(player.Position.Y - distanceThrown < GameWorld.Instance.CurrentRoom.CollisionBox.Top))
-                        {
-                            player.Position = new Vector2(player.Position.X, player.Position.Y - distanceThrown);
-                        }
-                    }
-
                     break;
                 default:
                     break;
