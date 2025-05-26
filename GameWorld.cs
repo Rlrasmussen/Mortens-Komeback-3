@@ -181,7 +181,7 @@ namespace Mortens_Komeback_3
 
             status = new Status();
 
-            gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
+
 
             //SafePoint.SaveGame(Location.Spawn);
 
@@ -217,15 +217,15 @@ namespace Mortens_Komeback_3
             OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(DoorManager.doorList["doorB1"].Position.X - 500, DoorManager.doorList["doorB1"].Position.Y + 500), DoorManager.doorList["doorB1"], new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(0, 5700), 0, new Vector2(0, 6300), 0, 1);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X-400, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI*0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X-800, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             PathfindingPuzzle pathfindingPuzzle = new PathfindingPuzzle(PuzzleType.PathfindingPuzzle,
                 new Vector2(DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Right - 200, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Bottom - 500), //Puzzlelever
                 DoorManager.doorList["doorI1"], //Door
                 2, //ID
-                new Vector2(-200, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Bottom - 200), //Path start
-                new Vector2(500, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Top + 300), //Path end
+                new Vector2(-150, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Bottom - 150), //Path start
+                new Vector2(450, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Top + 150), //Path end
                 new Vector2(-100, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).Position.Y - 200), //Path Goal
                 DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF)); //Room
             gameObjects.Add(pathfindingPuzzle);
@@ -260,12 +260,16 @@ namespace Mortens_Komeback_3
             }
             #endregion
 
+
+            GameWorld.Instance.SpawnObject(EnemyPool.Instance.GetObject(EnemyType.WalkingGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
+
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
 
             #region buttons and menu
 
             #endregion
+
 
             SavePoint.LoadSave();
 
@@ -606,7 +610,7 @@ namespace Mortens_Komeback_3
             Content.Load<Texture2D>("Sprites\\Environment\\plaqueLeaves"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueStar"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueMoon"),
             Content.Load<Texture2D>("Sprites\\Environment\\plaqueAnchor"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueWine"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueCandle")});
             Sprites.Add(PuzzleType.ShootPuzzle, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
-            Sprites.Add(PuzzleType.PuzzleObstacle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\mirrorx300") });
+            Sprites.Add(PuzzleType.PuzzleObstacle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\sqaure200x200") });
             Sprites.Add(PuzzleType.PathfindingPuzzle, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
 
 

@@ -287,14 +287,18 @@ namespace Mortens_Komeback_3
                 if (happy == true && nunPuzzle == false) //Happy
                 {
                     npcText = "Thank you Morten take this\n" +
-                        "Can you help me with these stones";
+                        "Can you help me with these mirrors?\n" +
+                        "I wish the light from the cracks in the walls\n"+
+                        "would shine on the holy cross";
                     GameWorld.Instance.SpawnObject(new Item(ItemType.GeesusBlood, Player.Instance.Position - new Vector2(0, 150)));
                     nunPuzzle = true;
                     GameWorld.Instance.Notify(StatusType.Delivered);
                 }
                 else if (happy == true && nunPuzzle == true)
                 {
-                    npcText = "I need a strong and handsome man to help me move these stones";
+                    npcText = "I need a strong and handsome man to help me move these these mirrors?\n" +
+                        "I wish the light from the cracks in the walls\n" +
+                        "would shine on the holy cross";
                 }
                 else //Sad
                 {

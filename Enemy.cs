@@ -133,14 +133,21 @@ namespace Mortens_Komeback_3
                 Damage = stats.damage;
                 speed = stats.speed;
             }
-
-            Thread aStarThread = new Thread(() => RunAStar(this, Player.Instance, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.PopeRoom).Tiles)); //Philip
-            aStarThread.IsBackground = true;
-            aStarThread.Start();
-
+            //Defines temp room for enemy to use for getting astar tiles, and adds tiles if they are not already there.
+            Room enemyRoom = DoorManager.Rooms.Find(x => this.CollisionBox.Intersects(x.CollisionBox));
+            if (!(enemyRoom == null))
+            {
+                if (enemyRoom.Tiles.Count == 0)
+                {
+                    enemyRoom.AddTiles();
+                }
+                Thread aStarThread = new Thread(() => RunAStar(this, Player.Instance, enemyRoom.Tiles)); //Philip
+                aStarThread.IsBackground = true;
+                aStarThread.Start();
+            }
             if (!IgnoreState) //Simon - for setting a default State
             {
-                BossFightState patrol = new BossFightState();
+                PatrolState patrol = new PatrolState();
                 patrol.Enter(this);
             }
 
