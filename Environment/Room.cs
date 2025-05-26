@@ -44,6 +44,7 @@ namespace Mortens_Komeback_3.Environment
         public void AddDoor(Door door)
         {
             Doors.Add(door);
+            door.room = this;
         }
 
 

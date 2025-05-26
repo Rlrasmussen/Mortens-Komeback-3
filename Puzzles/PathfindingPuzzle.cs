@@ -39,10 +39,13 @@ namespace Mortens_Komeback_3.Puzzles
 
         public override void Update(GameTime gameTime)
         {
-            pathUpdateTimer += GameWorld.Instance.DeltaTime;
-            if (pathUpdateTimer > pathUpdateCountdown)
+            if (this.CollisionBox.Intersects(GameWorld.Instance.CurrentRoom.CollisionBox))
             {
-                aStarPaused = false;
+                pathUpdateTimer += GameWorld.Instance.DeltaTime;
+                if (pathUpdateTimer > pathUpdateCountdown)
+                {
+                    aStarPaused = false;
+                }
             }
         }
 
@@ -70,7 +73,7 @@ namespace Mortens_Komeback_3.Puzzles
         {
             foreach (Tile step in puzzlePath)
             {
-                if (step.CollisionBox.Intersects(pathGoal.CollisionBox)) 
+                if (step.CollisionBox.Intersects(pathGoal.CollisionBox))
                 {
                     SolvePuzzle();
                     return;
