@@ -70,7 +70,7 @@ namespace Mortens_Komeback_3
         /// ID-tag for objects
         /// Simon
         /// </summary>
-        public virtual Enum Type { get => type; }
+        public virtual Enum Type { get => type; set => type = value; }
 
         /// <summary>
         /// CollisionBox for objects

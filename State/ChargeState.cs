@@ -66,10 +66,10 @@ namespace Mortens_Komeback_3.State
 
             if ((
                 parent.InRoom != null && (
-                parent.Position.Y >= parent.InRoom.Position.Y + (parent.InRoom.Sprite.Height * 0.75f) || 
-                parent.Position.Y <= parent.InRoom.Position.Y - (parent.InRoom.Sprite.Height * 0.75f) || 
-                parent.Position.X >= parent.InRoom.Position.X + (parent.InRoom.Sprite.Width * 0.75f) || 
-                parent.Position.X <= parent.InRoom.Position.X - (parent.InRoom.Sprite.Width * 0.75f))
+                parent.Position.Y >= parent.InRoom.Position.Y + (parent.InRoom.Sprite.Height * 0.55f) || 
+                parent.Position.Y <= parent.InRoom.Position.Y - (parent.InRoom.Sprite.Height * 0.55f) || 
+                parent.Position.X >= parent.InRoom.Position.X + (parent.InRoom.Sprite.Width * 0.55f) || 
+                parent.Position.X <= parent.InRoom.Position.X - (parent.InRoom.Sprite.Width * 0.55f))
                 ) || 
                 duration >= 9.5f
                 )
