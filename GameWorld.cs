@@ -591,6 +591,11 @@ namespace Mortens_Komeback_3
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD2"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD3"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD4") });
+
+            Sprites.Add(SurfaceType.Spikes, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\spike0"),
+                Content.Load<Texture2D>("Sprites\\Environment\\spike1"),
+                Content.Load<Texture2D>("Sprites\\Environment\\spike2") });
+
             Sprites.Add(DoorType.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stair1") });
             Sprites.Add(DoorType.StairsLocked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stair0") });
             Sprites.Add(DoorType.StairsUp, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stairsup") });
