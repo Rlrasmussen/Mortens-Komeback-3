@@ -63,10 +63,8 @@ namespace Mortens_Komeback_3
         #region Method
         public override void Update(GameTime gameTime)
         {
-            if (CollisionBox.Intersects(GameWorld.Instance.CurrentRoom.CollisionBox))
-            {
-                (this as IAnimate).Animate();
-                (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
+            //if (CollisionBox.Intersects(GameWorld.Instance.CurrentRoom.CollisionBox))
+            //{}
 
             float maxDistance = 1600f;
             foreach (Room room in DoorManager.Rooms) //Simon - checks for closest room
@@ -77,6 +75,8 @@ namespace Mortens_Komeback_3
                     maxDistance = distance;
                     InRoom = room;
                 }
+                if (distance < 500)
+                    break;
             }
 
             (this as IAnimate).Animate();

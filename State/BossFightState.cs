@@ -120,10 +120,10 @@ namespace Mortens_Komeback_3.State
                     int enemyRightAmount = 10;
                     for (int i = 0; i < enemyRightAmount; i++)
                     {
-                        Enemy enemy = EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, parent.InRoom.Position + new Vector2(parent.InRoom.Sprite.Width / 2 + 200, -(parent.InRoom.Sprite.Height / 2) + increment + 100));
+                        GameObject enemy = EnemyPool.Instance.GetObject(EnemyType.AggroGoose, parent.InRoom.Position + new Vector2(parent.InRoom.Sprite.Width / 2 + 200, -(parent.InRoom.Sprite.Height / 2) + increment + 100));
                         GameWorld.Instance.SpawnObject(enemy);
                         ChargeState chargePlayer = new ChargeState(new Vector2(-1, 0));
-                        chargePlayer.Enter(enemy);
+                        chargePlayer.Enter(enemy as Enemy);
                         increment += (float)(parent.InRoom.Sprite.Height / enemyRightAmount);
                     }
                     break;
@@ -131,10 +131,10 @@ namespace Mortens_Komeback_3.State
                     int enemyTopAmount = 15;
                     for (int i = 0; i < enemyTopAmount; i++)
                     {
-                        Enemy enemy = EnemyPool.Instance.CreateSpecificGoose(EnemyType.AggroGoose, parent.InRoom.Position + new Vector2(-(parent.InRoom.Sprite.Width / 2 + 200) + increment, -(parent.InRoom.Sprite.Height / 2 + 200)));
+                        GameObject enemy = EnemyPool.Instance.GetObject(EnemyType.AggroGoose, parent.InRoom.Position + new Vector2(-(parent.InRoom.Sprite.Width / 2 + 200) + increment, -(parent.InRoom.Sprite.Height / 2 + 200)));
                         GameWorld.Instance.SpawnObject(enemy);
                         ChargeState chargePlayer = new ChargeState(new Vector2(0, 1));
-                        chargePlayer.Enter(enemy);
+                        chargePlayer.Enter(enemy as Enemy);
                         increment += (float)(parent.InRoom.Sprite.Width / enemyTopAmount) + 35;
                     }
                     break;
