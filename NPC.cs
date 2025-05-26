@@ -125,7 +125,7 @@ namespace Mortens_Komeback_3
                 spriteBatch.DrawString(GameWorld.Instance.GameFont, npcText, Player.Instance.Position - new Vector2(dialogueBox.Width / 2 - 50, -dialogueBox.Height + 120), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.2f);
             }
 
-            base.Draw(spriteBatch);
+            //base.Draw(spriteBatch);
         }
 
         /// <summary>
