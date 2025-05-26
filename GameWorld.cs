@@ -254,7 +254,8 @@ namespace Mortens_Komeback_3
             }
             #endregion
 
-            gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
+            //gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
+            GameWorld.Instance.SpawnObject(EnemyPool.Instance.GetObject(EnemyType.WalkingGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();

@@ -133,7 +133,7 @@ namespace Mortens_Komeback_3
                 Damage = stats.damage;
                 speed = stats.speed;
             }
-            //Defines room for enemy, and adds tiles if they are not already there.
+            //Defines temp room for enemy to use for getting astar tiles, and adds tiles if they are not already there.
             Room enemyRoom = DoorManager.Rooms.Find(x => this.CollisionBox.Intersects(x.CollisionBox));
             if (!(enemyRoom == null))
             {
