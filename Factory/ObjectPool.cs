@@ -50,6 +50,8 @@ namespace Mortens_Komeback_3.Factory
                 gameObject.Position = spawnPosition;
             }
 
+            gameObject.Type = type;
+
             //Adding the GameObject to the active List
             active.Add(gameObject);
 

@@ -51,10 +51,7 @@ namespace Mortens_Komeback_3
         #region Constructor
         public Enemy(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
-            if (GameWorld.Instance.Sprites.TryGetValue(type, out var sprites))
-                Sprites = sprites;
-            else
-                Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
+
         }
 
 
@@ -79,8 +76,11 @@ namespace Mortens_Komeback_3
                     break;
             }
 
-            (this as IAnimate).Animate();
-            (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
+            if (Sprites != null)
+            {
+                (this as IAnimate).Animate();
+                (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
+            }
 
             if (state != null) //Simon - movement logic
                 state.Execute();
@@ -114,6 +114,18 @@ namespace Mortens_Komeback_3
         /// </summary>
         public override void Load()
         {
+
+            if (Sprites == null || Sprites != GameWorld.Instance.Sprites[type])
+            {
+                if (GameWorld.Instance.Sprites.TryGetValue(type, out var sprites))
+                    Sprites = sprites;
+                else
+                    Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
+
+                Sprite = Sprites[0];
+
+                Rectangles = (this as IPPCollidable).CreateRectangles();
+            }
 
             if (GameWorld.Instance.EnemyStats.TryGetValue((EnemyType)type, out var stats)) //Simon - Does a TryGetValue according to objects type against a dictionary, and retrieves a named tuple containing relevant data if successful
             {
