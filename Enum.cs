@@ -70,7 +70,8 @@ namespace Mortens_Komeback_3
     /// </summary>
     public enum SurfaceType
     {
-        AvSurface
+        AvSurface,
+        Fireball
     }
 
     /// <summary>

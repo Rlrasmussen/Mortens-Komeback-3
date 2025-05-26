@@ -27,11 +27,15 @@ namespace Mortens_Komeback_3.Environment
             Room popeRoom = new Room(RoomType.PopeRoom, new Vector2(0, 0));
             Room stairs = new Room(RoomType.Stairs, new Vector2(0, 2000));
             Room catacombesA = new Room(RoomType.CatacombesA, new Vector2(0, 4000));
+            catacombesA.LeftSideOfBigRoom = true;
             Room catacombesA1 = new Room(RoomType.CatacombesA1, new Vector2(2695, 4000));
+            catacombesA1.RightSideOfBigRoom = true;
             Room catacombesB = new Room(RoomType.CatacombesB, new Vector2(0, 6000));
             Room catacombesC = new Room(RoomType.CatacombesC, new Vector2(0, 8000));
             Room catacombesD = new Room(RoomType.CatacombesD, new Vector2(0, 10000));
+            catacombesD.TopSideOfBigRoom = true;
             Room catacombesD1 = new Room(RoomType.CatacombesD, new Vector2(0, 11500));
+            catacombesD1.ButtomSideOfBigRoom = true;
             Room catacombesE = new Room(RoomType.CatacombesE, new Vector2(0, 14000));
             Room catacombesF = new Room(RoomType.CatacombesF, new Vector2(0, 16000));
             Room catacombesG = new Room(RoomType.CatacombesG, new Vector2(0, 18000));
@@ -55,15 +59,15 @@ namespace Mortens_Komeback_3.Environment
             Door doorF2 = new Door(new Vector2(-800, 13400), DoorDirection.Top);    //tilbage til catacombesD fra catacombesE
             Door doorG1 = new Door(new Vector2(600, 13400), DoorDirection.Top);     //catacombesE til traproom
             Door doorH1 = new Door(new Vector2(1190, 14000), DoorDirection.Right);  //catacombesE til catacombesF //////
-            Door doorH2 = new Door(new Vector2(-1190, 18000), DoorDirection.Left);  //pathfinding
+            Door doorH2 = new Door(new Vector2(-1190, 16000), DoorDirection.Left);  //pathfinding
             //Door doorG3 = new Door(new Vector2(-800, 16600), DoorDirection.Bottom);  //videre
             //Door doorG2 = new Door(new Vector2(600, 16000), DoorDirection.Top);  //traproom
-            Door doorG3 = new Door(new Vector2(-800, 16600), DoorDirection.Bottom);  //videre
-            Door doorG2 = new Door(new Vector2(600, 16000), DoorDirection.Top);  //traproom
-            Door doorI1 = new Door(new Vector2(1190, 18000), DoorDirection.Right); //ud af pathfinding I1
-            Door doorI2 = new Door(new Vector2(-1190, 20000), DoorDirection.Left);
-            Door doorJ1 = new Door(new Vector2(1190, 20000), DoorDirection.Right);
-            Door doorJ2 = new Door(new Vector2(-1190, 22000), DoorDirection.Left);
+            Door doorG3 = new Door(new Vector2(-800, 22600), DoorDirection.Bottom);  //videre
+            Door doorG2 = new Door(new Vector2(600, 22000), DoorDirection.Top);  //traproom
+            Door doorI1 = new Door(new Vector2(1190, 16000), DoorDirection.Right); //ud af pathfinding I1
+            Door doorI2 = new Door(new Vector2(-1190, 18000), DoorDirection.Left);
+            Door doorJ1 = new Door(new Vector2(1190, 18000), DoorDirection.Right);
+            Door doorJ2 = new Door(new Vector2(-1190, 20000), DoorDirection.Left);
 
             doorList.Add("doorA1", doorA1);
             doorList.Add("doorA2", doorA2);
@@ -101,8 +105,8 @@ namespace Mortens_Komeback_3.Environment
             catacombesD.AddDoor(doorE2);
             catacombesD1.AddDoor(doorF1);
             catacombesE.AddDoor(doorF2);
-            catacombesF.AddDoor(doorG1);
-            catacombesG.AddDoor(doorH1);
+            catacombesE.AddDoor(doorG1);
+            catacombesE.AddDoor(doorH1);
 
             trapRoom.AddDoor(doorG2);
             trapRoom.AddDoor(doorG3);
@@ -111,6 +115,7 @@ namespace Mortens_Komeback_3.Environment
             catacombesF.AddDoor(doorI1);
             catacombesG.AddDoor(doorI2);
             catacombesG.AddDoor(doorJ1);
+            catacombesH.AddDoor(doorJ2);
 
             // Link doors
             doorA1.LinkTo(doorA2);

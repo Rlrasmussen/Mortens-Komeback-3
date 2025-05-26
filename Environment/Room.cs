@@ -15,12 +15,21 @@ namespace Mortens_Komeback_3.Environment
         private Room currentRoom;
         private RoomType roomType;
         private Dictionary<Vector2, Tile> tiles = new Dictionary<Vector2, Tile>();
+        private bool leftSideOfBigRoom = false;
+        private bool rightSideOfBigRoom = false;
+        private bool topSideOfBigRoom = false;
+        private bool buttomSideOfBigRoom = false;
+
         #endregion
 
         #region Properties
         public RoomType RoomType { get; private set; }
         public List<Door> Doors { get; private set; }
         public Dictionary<Vector2, Tile> Tiles { get => tiles; set => tiles = value; }
+        public bool LeftSideOfBigRoom { get => leftSideOfBigRoom; set => leftSideOfBigRoom = value; }
+        public bool RightSideOfBigRoom { get => rightSideOfBigRoom; set => rightSideOfBigRoom = value; }
+        public bool TopSideOfBigRoom { get => topSideOfBigRoom; set => topSideOfBigRoom = value; }
+        public bool ButtomSideOfBigRoom { get => buttomSideOfBigRoom; set => buttomSideOfBigRoom = value; }
 
         #endregion
         #region Constructor

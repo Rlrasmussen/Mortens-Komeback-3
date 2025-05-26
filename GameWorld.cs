@@ -13,6 +13,7 @@ using Mortens_Komeback_3.Factory;
 using Mortens_Komeback_3.Puzzles;
 using Mortens_Komeback_3.Environment;
 using Mortens_Komeback_3.Menu;
+using Mortens_Komeback_3.State;
 using Microsoft.Data.Sqlite;
 using Mortens_Komeback_3.Observer;
 
@@ -180,7 +181,7 @@ namespace Mortens_Komeback_3
 
             status = new Status();
 
-            //gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
+            gameObjects.Add(EnemyPool.Instance.GetObject(EnemyType.AggroGoose, Vector2.Zero));
 
             //SafePoint.SaveGame(Location.Spawn);
 
@@ -236,9 +237,9 @@ namespace Mortens_Komeback_3
 
             NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
             NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
-            NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 18000));
+            NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16000));
             NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
-            NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 20000));
+            NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 18000));
             canadaGoose2.Canada = true;
 
             npcs.Add(pope);
@@ -276,11 +277,15 @@ namespace Mortens_Komeback_3
 
             foreach (GameObject gameObject in gameObjects)
             {
+
+                if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1000))
+                    continue;
+
                 gameObject.Update(gameTime);
                 DoCollisionCheck(gameObject);
             }
 
-           
+
 
             //if (gamePaused)
             //{
@@ -312,6 +317,16 @@ namespace Mortens_Komeback_3
             //}
 
             //SpawnEnemies();
+
+            //Sets the right current room, if the room consist of two rooms, and therefore are not set by going through doors. - Philip
+            if ((CurrentRoom.LeftSideOfBigRoom && Player.Instance.Position.X > CurrentRoom.CollisionBox.Right)
+                || (CurrentRoom.RightSideOfBigRoom && Player.Instance.Position.X < CurrentRoom.CollisionBox.Left)
+                || (CurrentRoom.TopSideOfBigRoom && Player.Instance.Position.Y > CurrentRoom.CollisionBox.Bottom)
+                || (CurrentRoom.ButtomSideOfBigRoom && Player.Instance.Position.Y < CurrentRoom.CollisionBox.Top)
+                )
+            {
+                CurrentRoom = DoorManager.Rooms.Find(x => Player.Instance.CollisionBox.Intersects(x.CollisionBox));
+            }
 
             status.Update(gameTime);
 
@@ -609,6 +624,8 @@ namespace Mortens_Komeback_3
             }
             Sprites.Add(AttackType.Swing, swordSwoosh);
 
+            Sprites.Add(SurfaceType.Fireball, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\VFX\\Fireball") });
+
             #endregion
             #region Debug
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
@@ -721,6 +738,7 @@ namespace Mortens_Komeback_3
                         other.Type.GetType() == typeof(PuzzleType) ||
                         other.Type.GetType() == typeof(WeaponType) ||
                         other.GetType() == typeof(AvSurface) ||
+                        other.GetType() == typeof(GoosiferFire) ||
                         other.Type.GetType() == typeof(DoorType) //test remove
 
                         ))
@@ -862,7 +880,7 @@ namespace Mortens_Komeback_3
 
         }
 
-      
+
 
         #region Observer - Rikke
         public void Attach(IObserver observer)
@@ -911,13 +929,13 @@ namespace Mortens_Komeback_3
                     GameWorld.Instance.ResumeGame();
                     break;
 
-                //case ButtonAction.ToggleMusic:
-                //    AudioManager.Instance.ToggleMusic();
-                //    break;
+                    //case ButtonAction.ToggleMusic:
+                    //    AudioManager.Instance.ToggleMusic();
+                    //    break;
 
-                //case ButtonAction.ToggleSound:
-                //    AudioManager.Instance.ToggleSound();
-                //    break;
+                    //case ButtonAction.ToggleSound:
+                    //    AudioManager.Instance.ToggleSound();
+                    //    break;
             }
         }
 

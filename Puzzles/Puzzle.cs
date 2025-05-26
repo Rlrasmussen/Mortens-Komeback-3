@@ -21,6 +21,7 @@ namespace Mortens_Komeback_3.Puzzles
         protected Door puzzleDoor;
         protected int id;
         protected Location location;
+        private Texture2D textBubble;
 
 
         #endregion
@@ -80,6 +81,7 @@ namespace Mortens_Komeback_3.Puzzles
                     break;
             }
 
+            textBubble = GameWorld.Instance.Sprites[OverlayObjects.InteractBubble][0];
         }
 
         #endregion
@@ -130,6 +132,15 @@ namespace Mortens_Komeback_3.Puzzles
             else if (puzzleDoor.DoorStatus == DoorType.Stairs)
             {
                 puzzleDoor.DoorStatus = DoorType.StairsLocked;
+            }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+            if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
+            {
+                spriteBatch.Draw(textBubble, new Vector2(Position.X, Position.Y - Sprite.Height / 2), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             }
         }
 
