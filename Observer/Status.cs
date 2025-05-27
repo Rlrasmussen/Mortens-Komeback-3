@@ -47,6 +47,7 @@ namespace Mortens_Komeback_3.Observer
         public Status()
         {
             GameWorld.Instance.Attach(this);
+            layer = 0.75f;
         }
 
         #endregion
@@ -63,10 +64,6 @@ namespace Mortens_Komeback_3.Observer
             {
                 case StatusType.EnemiesKilled:
                     enemiesKilled++;
-                    break;
-                case StatusType.ExUp:
-                    break;
-                case StatusType.LevelUp:
                     break;
                 case StatusType.WeaponMelee:
                     melee = true;
@@ -90,6 +87,16 @@ namespace Mortens_Komeback_3.Observer
                 case StatusType.Rosary:
                     npcItem = 2;
                     break;
+                case StatusType.GoosiferFigth:
+                    //MediaPlayer.Pause();
+                    MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.GoosiferFigth]);
+                    MediaPlayer.IsRepeating = true;
+                    break;
+                case StatusType.BackGroundMusic:
+                    //MediaPlayer.Pause();
+                    MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Background]);
+                    MediaPlayer.IsRepeating = true;
+                    break;
                 default:
                     break;
             }
@@ -106,7 +113,7 @@ namespace Mortens_Komeback_3.Observer
             #region Player health/hearts
             for (int i = 1; i < hearts + 1; i++)
             {
-                spriteBatch.Draw(heart, Player.Instance.Position + new Vector2(GameWorld.Instance.ScreenSize.X / 2 - (weaponBox.Width /2), -GameWorld.Instance.ScreenSize.Y / 2) + (new Vector2(-weaponBox.Width / 2 * i, 0)), null, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, layer);
+                spriteBatch.Draw(heart, Player.Instance.Position + new Vector2(GameWorld.Instance.ScreenSize.X / 2 - (weaponBox.Width / 2), -GameWorld.Instance.ScreenSize.Y / 2) + (new Vector2(-weaponBox.Width / 2 * i, 0)), null, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, layer);
             }
 
             //spriteBatch.DrawString(GameWorld.Instance.GameFont, playerHealth.ToString(), Player.Instance.Position + new Vector2(GameWorld.Instance.ScreenSize.X / 2 - weaponBox.Width, -GameWorld.Instance.ScreenSize.Y / 2) + (new Vector2(-weaponBox.Width / 2, weaponBox.Height * 2)), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
@@ -115,32 +122,30 @@ namespace Mortens_Komeback_3.Observer
 
             #region WeaponBox + ItemBox
             //For melee
-            spriteBatch.Draw(weaponBox, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width / 2,weaponBox.Height * 0.25f), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, "1", Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width *1.5f, weaponBox.Height * 0.5f), Color.White, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
-            if (melee == true)
+            spriteBatch.Draw(weaponBox, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width / 2, weaponBox.Height * 0.25f), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, "1", Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width * 1.5f, weaponBox.Height * 0.5f), Color.White, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
+            if (melee == true || Player.Instance.Inventory.Find(x => x is WeaponMelee) != null)
             {
                 spriteBatch.Draw(weaponMelee, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width / 2, weaponBox.Height / 3), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layer + 0.01f);
             }
 
             //For ranged
-            spriteBatch.Draw(weaponBox, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width/2, weaponBox.Height * 1.25f), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
+            spriteBatch.Draw(weaponBox, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width / 2, weaponBox.Height * 1.25f), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
             spriteBatch.DrawString(GameWorld.Instance.GameFont, "2", Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width * 1.5f, weaponBox.Height * 1.4f), Color.White, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer);
-            if (ranged == true)
+            if (ranged == true || Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
             {
-                spriteBatch.Draw(weaponRanged, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width/2, weaponBox.Height*4/3), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layer + 0.01f);
+                spriteBatch.Draw(weaponRanged, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width / 2, weaponBox.Height * 4 / 3), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layer + 0.01f);
             }
 
             //For item
-            spriteBatch.Draw(weaponBox, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width/2, weaponBox.Height * 2.25f), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
+            spriteBatch.Draw(weaponBox, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width / 2, weaponBox.Height * 2.25f), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, layer);
             if (npcItem == 1)
             {
-                spriteBatch.Draw(bible, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width/2, weaponBox.Height * 2.3f), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layer + 0.01f);
-
+                spriteBatch.Draw(bible, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width / 2, weaponBox.Height * 2.3f), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layer + 0.01f);
             }
             else if (npcItem == 2)
             {
                 spriteBatch.Draw(rosary, Player.Instance.Position - (GameWorld.Instance.ScreenSize / 2) + new Vector2(weaponBox.Width / 2, weaponBox.Height * 2.3f), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layer + 0.01f);
-
             }
             #endregion
         }

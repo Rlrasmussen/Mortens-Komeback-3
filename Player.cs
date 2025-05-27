@@ -65,10 +65,11 @@ namespace Mortens_Komeback_3
             {
 
                 if (value >= health)
+                {
                     health = value;
+                }
                 else
                 {
-
                     if (value <= 0)
                     {
                         IsAlive = false;
@@ -80,8 +81,9 @@ namespace Mortens_Komeback_3
                     }
                     health = value;
                     colorTimer = 0f;
-
                 }
+
+                GameWorld.Instance.Notify(StatusType.Health);
 
             }
 
@@ -183,7 +185,6 @@ namespace Mortens_Komeback_3
             base.Load();
 
             health = MaxHealth;
-            GameWorld.Instance.Notify(StatusType.Health);
         }
 
         /// <summary>
@@ -209,7 +210,8 @@ namespace Mortens_Komeback_3
 
             if (velocity != Vector2.Zero && !attacking)
             {
-                (this as IAnimate).Animate();
+                if (Sprites != null)
+                    (this as IAnimate).Animate();
                 Move();
                 PlayWalkSound();
             }
@@ -332,7 +334,6 @@ namespace Mortens_Komeback_3
             if (other.Type.GetType() == typeof(EnemyType) && damageTimer > damageGracePeriode) //Rikke
             {
                 Health -= (other as Enemy).Damage;
-                GameWorld.Instance.Notify(StatusType.Health);
                 GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
                 damageTimer = 0f;
             }
@@ -368,7 +369,6 @@ namespace Mortens_Komeback_3
                     case ItemType.GeesusBlood:
                         (other as Item).IsAlive = false;
                         Health += portionHelath;
-                        GameWorld.Instance.Notify(StatusType.Health);
                         break;
                     default:
                         break;
@@ -381,7 +381,6 @@ namespace Mortens_Komeback_3
         /// </summary>
         private void Attack()
         {
-
             if (!GameWorld.Instance.GamePaused && equippedWeapon != null && !attacking)
             {
                 equippedWeapon.Attack();
@@ -396,8 +395,6 @@ namespace Mortens_Komeback_3
                     meleeAttackDirection = InputHandler.Instance.MousePosition - Position;
                 }
             }
-
-
         }
 
         /// <summary>
@@ -468,15 +465,12 @@ namespace Mortens_Komeback_3
                     (gameObject as PathfindingPuzzle).TrySolve();
                     break;
                 case NPCType.Pope:
-                    (gameObject as NPC).Speak();
-                    break;
                 case NPCType.CanadaGoose:
-                    (gameObject as NPC).Speak();
-                    break;
                 case NPCType.Monk:
-                    (gameObject as NPC).Speak();
-                    break;
                 case NPCType.Nun:
+                case NPCType.Coffin:
+                case NPCType.Hole0:
+                case NPCType.Ghost:
                     (gameObject as NPC).Speak();
                     break;
                 default:

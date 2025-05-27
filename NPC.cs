@@ -22,12 +22,14 @@ namespace Mortens_Komeback_3
         #region Fields
         private Texture2D textBubble = GameWorld.Instance.Sprites[OverlayObjects.Dialog][0];
         private Texture2D dialogueBox = GameWorld.Instance.Sprites[OverlayObjects.DialogBox][0];
-        
+
         //Texture2D for the sad and happy monknun
         private Texture2D happyNun = GameWorld.Instance.Sprites[NPCType.Nun][0];
         private Texture2D sadNun = GameWorld.Instance.Sprites[NPCType.Nun][1];
         private Texture2D happyMonk = GameWorld.Instance.Sprites[NPCType.Monk][0];
         private Texture2D sadMonk = GameWorld.Instance.Sprites[NPCType.Monk][1];
+        private Texture2D giveSwordPope = GameWorld.Instance.Sprites[NPCType.Pope][1];
+        private Texture2D sadPope = GameWorld.Instance.Sprites[NPCType.Pope][0];
 
         private int reply = 0; //Number of reply
         private string npcText;
@@ -71,7 +73,11 @@ namespace Mortens_Komeback_3
                 Sprite = sadNun;
                 animate = false;
             }
-
+            else if (type is NPCType.Pope)
+            {
+                Sprite = sadPope;
+                animate = false;
+            }
         }
 
         #endregion
@@ -107,7 +113,7 @@ namespace Mortens_Komeback_3
             {
                 spriteBatch.Draw(Sprite, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             }
-            else if (Sprites != null )
+            else if (Sprites != null)
             {
                 spriteBatch.Draw(Sprites[CurrentIndex], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             }
@@ -121,11 +127,9 @@ namespace Mortens_Komeback_3
             //DialogueBox 
             if (talk == true && (this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
             {
-                spriteBatch.Draw(dialogueBox, Player.Instance.Position + new Vector2(-dialogueBox.Width / 2 + 72.5f, dialogueBox.Height *0.5f + 35), null, drawColor, Rotation, origin, 1, spriteEffect, layer);
+                spriteBatch.Draw(dialogueBox, Player.Instance.Position + new Vector2(-dialogueBox.Width / 2 + 72.5f, dialogueBox.Height * 0.5f + 35), null, drawColor, Rotation, origin, 1, spriteEffect, layer);
                 spriteBatch.DrawString(GameWorld.Instance.GameFont, npcText, Player.Instance.Position - new Vector2(dialogueBox.Width / 2 - 50, -dialogueBox.Height + 120), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.2f);
             }
-
-            //base.Draw(spriteBatch);
         }
 
         /// <summary>
@@ -145,6 +149,7 @@ namespace Mortens_Komeback_3
                 case NPCType.GreyGoose:
                     break;
                 case NPCType.Pope:
+                    Player.Instance.Position = Position + new Vector2(100, 0);
                     PopeDialogue();
                     break;
                 case NPCType.Monk:
@@ -153,9 +158,20 @@ namespace Mortens_Komeback_3
                 case NPCType.Nun:
                     NunDialogue();
                     break;
+                case NPCType.Coffin:
+                    Player.Instance.Position = Position - new Vector2(150, 0);
+                    CoffinDialogue();
+                    break;
+                case NPCType.Hole0:
+                    Holo0Dialogue();
+                    break;
+                case NPCType.Ghost:
+                    GhostDialogoue();
+                    break;
             }
 
         }
+
 
         /// <summary>
         /// NPCType Pope dialogue
@@ -167,18 +183,21 @@ namespace Mortens_Komeback_3
             {
                 StartConversation();
                 npcText = "God bless your quest";
+                Sprite = giveSwordPope;
                 reply++;
             }
             else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponMelee) == null)
             {
                 StartConversation();
                 npcText = "Here take this sword and figth those geese";
+                Sprite = giveSwordPope;
                 reply++;
                 GameWorld.Instance.SpawnObject(new WeaponMelee(WeaponType.Melee, Player.Instance.Position - new Vector2(0, 150)));
                 GameWorld.Instance.Notify(StatusType.Delivered);
             }
             else
             {
+                Sprite = sadPope;
                 EndConversation();
             }
         }
@@ -189,6 +208,12 @@ namespace Mortens_Komeback_3
         /// </summary>
         public void MonkDialogue()
         {
+            if (Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
+            {
+                happy = true;
+                Sprite = happyMonk;
+            }
+
             if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) != null && happy == true)
             {
                 StartConversation();
@@ -213,6 +238,12 @@ namespace Mortens_Komeback_3
 
                 reply++;
             }
+            else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
+            {
+                StartConversation();
+                npcText = "Try press left mouse to shoot \nBless you Morten and your courag";
+                reply++;
+            }
             else
             {
                 EndConversation();
@@ -231,7 +262,7 @@ namespace Mortens_Komeback_3
                 if (reply == 0)
                 {
                     StartConversation();
-                    npcText = "No stop I'm not with the other geese \nYou can trust me";
+                    npcText = "No stop I'm not with the other geese \nYou can trust me - I'm a canada goose";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
                 }
                 else if (reply == 1)
@@ -300,7 +331,7 @@ namespace Mortens_Komeback_3
                         "I wish the light from the cracks in the walls\n" +
                         "would shine on the holy cross";
                 }
-                else //Sad
+                else
                 {
                     npcText = "Oh no my rosary is gone, can you find it?";
                 }
@@ -310,6 +341,59 @@ namespace Mortens_Komeback_3
             {
                 EndConversation();
             }
+        }
+
+        /// <summary>
+        /// NPCType Coffin dialogue
+        /// Rikke
+        /// </summary>
+        private void CoffinDialogue()
+        {
+            if (reply == 0)
+            {
+                StartConversation();
+                npcText = "Did you talk to the pope?";
+                reply++;
+            }
+            else
+            {
+                EndConversation();
+            }
+        }
+
+        /// <summary>
+        /// NPCType Holo0 dialogue
+        /// Rikke
+        /// </summary>
+        private void Holo0Dialogue()
+        {
+            if (reply == 0)
+            {
+                StartConversation();
+                reply++;
+                GameWorld.Instance.Sounds[Sound.GooseSound].Play();
+                npcText = "Have you heard about our lord and savior AntiGeesus";
+            }
+            else
+            {
+                EndConversation();
+            }
+        }
+
+
+        private void GhostDialogoue()
+        {
+
+                StartConversation();
+                npcText = "";
+                reply++;
+
+
+                Player.Instance.Position = new Vector2(-250, 250);
+                //GameObject kage = GameWorld.Instance.GameObjects.Find((x => x.Type is CutSceneRoom.CutsceneMovie));
+                //GameWorld.Instance.GameObjects.Remove(kage);
+                EndConversation();
+
         }
 
         /// <summary>

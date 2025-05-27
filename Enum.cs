@@ -9,7 +9,7 @@ namespace Mortens_Komeback_3
     {
         Morten,
         MortenAngriber,
-        MortenSkyder
+        MortenSling
     }
 
     /// <summary>
@@ -190,7 +190,8 @@ namespace Mortens_Komeback_3
         CatacombesF,
         CatacombesG,
         CatacombesH,
-        TrapRoom
+        TrapRoom,
+        Curscene
 
     }
 
@@ -204,7 +205,9 @@ namespace Mortens_Komeback_3
         Pope,
         Monk,
         Nun,
-        Hole0
+        Hole0,
+        Coffin,
+        Ghost
     }
 
     /// <summary>
@@ -279,14 +282,19 @@ namespace Mortens_Komeback_3
     public enum StatusType
     {
         EnemiesKilled,
-        ExUp,
-        LevelUp,
         WeaponMelee,
         WeaponRanged,
         Health,
         PlayerDead,
         Bible,
         Rosary,
-        Delivered
+        Delivered,
+        GoosiferFigth,
+        BackGroundMusic
+    }
+
+    public enum CutSceneRoom
+    {
+        CutsceneMovie
     }
 }
