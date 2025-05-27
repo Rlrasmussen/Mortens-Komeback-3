@@ -134,7 +134,10 @@ namespace Mortens_Komeback_3
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            IsMouseVisible = false;
+#if DEBUG
             IsMouseVisible = true;
+#endif
         }
 
         #endregion
@@ -749,6 +752,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(DecorationType.Hole1, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole1") });
             Sprites.Add(DecorationType.Candle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\candle") });
             Sprites.Add(DecorationType.Tomb, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tomb") });
+            Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
 
 
             #endregion
@@ -767,7 +771,6 @@ namespace Mortens_Komeback_3
             #region Debug
 #if DEBUG
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
-            Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
 #endif
             #endregion
             #region Cutscene
