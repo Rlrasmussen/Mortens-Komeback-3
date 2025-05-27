@@ -241,9 +241,6 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC + Bible & Rosary
-            //Player.Instance.Position = new Vector2(600, 3400);
-
-
             NPC ghost = new NPC(NPCType.Ghost, new Vector2(0, -2000));
             NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
             NPC coffin = new NPC(NPCType.Coffin, new Vector2(600, 2300));
@@ -268,10 +265,6 @@ namespace Mortens_Komeback_3
                 gameObjects.Add(npc);
             }
 
-            //if (Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
-            //{
-            //    gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 22000)));
-            //}
             if (Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
             {
                 gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
@@ -371,8 +364,6 @@ namespace Mortens_Komeback_3
             //            break;
             //    }
             //}
-
-            //SpawnCutscene();
 
             //Sets the right current room, if the room consist of two rooms, and therefore are not set by going through doors. - Philip
             if ((CurrentRoom.LeftSideOfBigRoom && Player.Instance.Position.X > CurrentRoom.CollisionBox.Right)
@@ -874,17 +865,17 @@ namespace Mortens_Komeback_3
         }
 
 
-        private void SpawnCutscene()
-        {
-            int i = 0;
+        //private void SpawnCutscene()
+        //{
+        //    int i = 0;
 
-            lastSpawnCutscene += DeltaTime;
+        //    lastSpawnCutscene += DeltaTime;
 
-            if (lastSpawnCutscene > spawnCutsceneTime)
-            {
-                //SpawnObject(new );
-            }
-        }
+        //    if (lastSpawnCutscene > spawnCutsceneTime)
+        //    {
+        //        //SpawnObject(new );
+        //    }
+        //}
 
         /// <summary>
         /// Method for returning a HashSet of enemies near Player
