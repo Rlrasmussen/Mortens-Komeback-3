@@ -63,6 +63,7 @@ namespace Mortens_Komeback_3
         private bool soundOn = true;
 
         private Song backgroundMusic;
+        private bool trap = false;
 
         #endregion
 
@@ -228,7 +229,7 @@ namespace Mortens_Komeback_3
             OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(DoorManager.doorList["doorB1"].Position.X - 500, DoorManager.doorList["doorB1"].Position.Y + 500), DoorManager.doorList["doorB1"], new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X-500, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X - 300, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X - 700, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X - 500, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X - 300, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X - 700, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             PathfindingPuzzle pathfindingPuzzle = new PathfindingPuzzle(PuzzleType.PathfindingPuzzle,
@@ -248,7 +249,7 @@ namespace Mortens_Komeback_3
 
             #region NPC + Bible & Rosary
             NPC empty = new NPC(NPCType.Empty, new Vector2(0, -2000));
-            NPC ghost = new NPC(NPCType.Ghost, new Vector2(0, 22000));
+            NPC ghost = new NPC(NPCType.Ghost, new Vector2(-823, 21648));
             NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
             NPC coffin = new NPC(NPCType.Coffin, new Vector2(600, 2300));
             NPC hole0 = new NPC(NPCType.Hole0, new Vector2(600, 3400));
@@ -273,13 +274,20 @@ namespace Mortens_Komeback_3
                 gameObjects.Add(npc);
             }
 
-            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 22000))); 
+            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(-1071, 21800)));
             if (Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
             {
                 gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
             }
             #endregion
 
+            #region Traproom
+            gameObjects.Add(new Decoration(DecorationType.Tomb, new Vector2(-823 +84, 21648 + 100), 0));
+            for (int i = 0; i < 3; i++)
+            {
+                gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(-815 + (815 * i), 22020), 0));
+            }
+            #endregion
 
             //GameWorld.Instance.SpawnObject(EnemyPool.Instance.GetObject(EnemyType.WalkingGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
 
@@ -300,6 +308,7 @@ namespace Mortens_Komeback_3
 
             gameObjects.Add(new CutScene(CutSceneRoom.CutsceneMovie, new Vector2(0, -2000)));
         }
+
 
         /// <summary>
         /// Handles update logic
@@ -337,6 +346,15 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.Death];
                 MediaPlayer.Play(backgroundMusic);
             }
+
+            if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && trap == false)
+            {
+                SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(-400, 22120 + 18), 0));
+                SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(400, 21510), 0));
+
+                trap = true;
+            }
+
             MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
 
             //else if (backgroundMusic != Music[MusicTrack.Win] && Player.Instance.IsAlive == false) //Player win
@@ -391,7 +409,7 @@ namespace Mortens_Komeback_3
 
             base.Update(gameTime);
 
-            
+
 
         }
 
@@ -617,7 +635,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(ItemType.Bible, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\bible") });
             Sprites.Add(ItemType.Rosary, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\rosary") });
             Sprites.Add(ItemType.GeesusBlood, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\potion") });
-            Sprites.Add(ItemType.Grail, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\gral")});
+            Sprites.Add(ItemType.Grail, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\gral") });
 
             #endregion
             #region Menu
@@ -720,6 +738,7 @@ namespace Mortens_Komeback_3
             //Sprites.Add(DecorationType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
             Sprites.Add(DecorationType.Hole1, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole1") });
             Sprites.Add(DecorationType.Candle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\candle") });
+            Sprites.Add(DecorationType.Tomb, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tomb") });
 
 
             #endregion
@@ -740,7 +759,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
             Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
 #endif
-#endregion
+            #endregion
             #region Cutscene
             Texture2D[] cutscene = new Texture2D[56];
             for (int i = 0; i < cutscene.Length; i++)
@@ -903,19 +922,6 @@ namespace Mortens_Komeback_3
 
         }
 
-
-        //private void SpawnCutscene()
-        //{
-        //    int i = 0;
-
-        //    lastSpawnCutscene += DeltaTime;
-
-        //    if (lastSpawnCutscene > spawnCutsceneTime)
-        //    {
-        //        //SpawnObject(new );
-        //    }
-        //}
-
         /// <summary>
         /// Method for returning a HashSet of enemies near Player
         /// Simon
@@ -1002,9 +1008,7 @@ namespace Mortens_Komeback_3
 
         }
 
-
-
-        #region Observer - Rikke
+        #region Observer
         public void Attach(IObserver observer)
         {
             listeners.Add(observer);

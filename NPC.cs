@@ -393,7 +393,6 @@ namespace Mortens_Komeback_3
                 npcText = "";
                 reply++;
             Player.Instance.Position = new Vector2(-250, 250);
-            //Player.Instance.Position = new Vector2(0, 22000);
             EndConversation();
 
         }
