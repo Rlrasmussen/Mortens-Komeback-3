@@ -80,6 +80,11 @@ namespace Mortens_Komeback_3
                 Sprite = sadPope;
                 animate = false;
             }
+
+            if (type is NPCType.Hole0)
+            {
+                layer = 0.5f;
+            }
         }
 
         #endregion
