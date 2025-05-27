@@ -50,7 +50,7 @@ namespace Mortens_Komeback_3.Environment
                 Sprites = sprites;
 
             Rotation = rotation;
-            damage = 10;
+            damage = 1;
         }
 
         #endregion
