@@ -121,9 +121,9 @@ namespace Mortens_Komeback_3.State
         /// <returns>Radians - Pi</returns>
         private float GetAngle()
         {
-            Vector2 direction = Player.Instance.Position - parent.Position;
+            Vector2 direction = parent.Position - Player.Instance.Position;
             float angleRadians = (float)Math.Atan2(direction.Y, direction.X);
-            return angleRadians - (float)Math.PI;
+            return angleRadians;
         }
 
     }
