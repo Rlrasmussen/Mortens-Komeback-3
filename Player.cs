@@ -395,7 +395,6 @@ namespace Mortens_Komeback_3
         {
             if (!GameWorld.Instance.GamePaused && equippedWeapon != null && !(swordAttacking || slingAttacking))
             {
-                equippedWeapon.Attack();
                 if ((WeaponType)equippedWeapon.Type == WeaponType.Melee && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) //Skal rykkes ind i samme loop som equippedWeapon.Attack();
                 {
                     Sprites = sprites;
@@ -408,12 +407,16 @@ namespace Mortens_Komeback_3
                 }
                 else if ((WeaponType)equippedWeapon.Type == WeaponType.Ranged && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenSling, out var slingsprites)) //Philip
                 {
-                    Sprites = slingsprites;
-                    slingAttacking = true;
-                    CurrentIndex = 0;
-                    ElapsedTime = 0;
-                    FPS = 3;
+                    if ((equippedWeapon as WeaponRanged).RefireRate >= 1f)
+                    {
+                        Sprites = slingsprites;
+                        slingAttacking = true;
+                        CurrentIndex = 0;
+                        ElapsedTime = 0;
+                        FPS = 3;
+                    }
                 }
+                equippedWeapon.Attack();
             }
         }
 
@@ -522,6 +525,18 @@ namespace Mortens_Komeback_3
             if (item is Weapon && equippedWeapon == null)
             {
                 equippedWeapon = (Weapon)item;
+                switch (equippedWeapon.Type) //Changes sprites, depending on weapon type - Philip
+                {
+                    case WeaponType.Melee:
+                        GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var meleeSprites);
+                        Sprites = meleeSprites;
+                        break;
+                    case WeaponType.Ranged:
+                        GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenMunk, out var rangedSprites);
+                        Sprites = rangedSprites;
+                        break;
+                    default: break;
+                }
             }
 
             inventory.Add(item);
