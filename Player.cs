@@ -184,7 +184,8 @@ namespace Mortens_Komeback_3
 
             base.Load();
 
-            health = MaxHealth;
+            Health = MaxHealth;
+
         }
 
         /// <summary>
