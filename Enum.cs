@@ -72,7 +72,8 @@ namespace Mortens_Komeback_3
     {
         AvSurface,
         Fireball,
-        Spikes
+        Spikes,
+        BigSpikes
     }
 
     /// <summary>

@@ -491,7 +491,7 @@ namespace Mortens_Komeback_3
             Texture2D[] crusaderWalk = new Texture2D[5];
             for (int i = 0; i < crusaderWalk.Length; i++)
             {
-                crusaderWalk[i] = Content.Load<Texture2D>($"Sprites\\Player\\mortenCrusader{i}");
+                crusaderWalk[i] = Content.Load<Texture2D>($"Sprites\\Player\\MortenWalk{i}");
             }
             Sprites.Add(PlayerType.Morten, crusaderWalk);
 
@@ -591,6 +591,10 @@ namespace Mortens_Komeback_3
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD2"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD3"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD4") });
+
+            Sprites.Add(SurfaceType.BigSpikes, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes0"),
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes1"),
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes2") });
 
             Sprites.Add(SurfaceType.Spikes, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\spike0"),
                 Content.Load<Texture2D>("Sprites\\Environment\\spike1"),
