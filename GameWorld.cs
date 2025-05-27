@@ -211,7 +211,7 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447, -430), rotationTop)); //Under the painting in PopeRoom
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
 
-
+            gameObjects.Add(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), 0));
             #endregion
 
 
@@ -356,7 +356,7 @@ namespace Mortens_Komeback_3
 
             if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && trap == false)
             {
-                gameObjects.Add(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), 0));
+                
                 for (int i = 0; i < 3; i++)
                 {
                     gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(-815 + (815 * i), 22020), 0));
@@ -678,7 +678,7 @@ namespace Mortens_Komeback_3
             }
             Sprites.Add(NPCType.CanadaGoose, canadaGoose);
 
-            Texture2D[] ghost = new Texture2D[3];
+            Texture2D[] ghost = new Texture2D[7];
             for (int i = 0; i < ghost.Length; i++)
             {
                 ghost[i] = Content.Load<Texture2D>($"Sprites\\NPC\\ghost{i}");
