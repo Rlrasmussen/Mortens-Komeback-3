@@ -197,7 +197,7 @@ namespace Mortens_Komeback_3
             //gameObjects.Add(new Item(ItemType.GeesusBlood, Vector2.Zero));
 
             #region Decorations
-            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(100, 600), rotationTop));
+            //gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(100, 600), rotationTop));
             //gameObjects.Add(new Decoration(DecorationType.Hole0, new Vector2(600, 3500), rotationTop)); //Used for testing - To be removed
             gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop));
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(50, 3600), rotationTop));
