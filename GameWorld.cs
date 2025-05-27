@@ -702,9 +702,11 @@ namespace Mortens_Komeback_3
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD3"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD4") });
 
-            Sprites.Add(SurfaceType.BigSpikes, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes0"),
+            Sprites.Add(SurfaceType.BigSpikes, new Texture2D[5] { Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes0"),
                 Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes1"),
-                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes2") });
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes2"),
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes3"),
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes4") });
 
             Sprites.Add(SurfaceType.Spikes, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\spike0"),
                 Content.Load<Texture2D>("Sprites\\Environment\\spike1"),
