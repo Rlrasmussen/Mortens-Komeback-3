@@ -19,7 +19,7 @@ namespace Mortens_Komeback_3
         private bool walkable = true;
         private bool discovered = false;
         private Tile parent;
-      
+
 
         public int G { get; set; }
         public int H { get; set; }
@@ -76,7 +76,7 @@ namespace Mortens_Komeback_3
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+                base.Draw(spriteBatch);
         }
     }
 }

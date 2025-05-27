@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Mortens_Komeback_3.Environment;
 using SharpDX.Direct2D1.Effects;
 using System;
@@ -24,7 +25,7 @@ namespace Mortens_Komeback_3.Puzzles
         private Vector2 goalPosition;
         private Decoration pathGoal;
         private float pathUpdateTimer = 0;
-        private float pathUpdateCountdown = 1;
+        private float pathUpdateCountdown = 0.5f;
 
         public PathfindingPuzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id, Vector2 pathStartPos, Vector2 pathEndPos, Vector2 pathGoalPoint, Room puzzleRoom) : base(type, spawnPos, puzzleDoor, id)
         {
@@ -103,20 +104,11 @@ namespace Mortens_Komeback_3.Puzzles
                     List<Tile> path = puzzleAStar.AStarFindPath(startObject, endObject, tiles);
                     if (path != null)
                     {
-                            foreach (Tile step in puzzlePath)
-                            {
-                            step.ShowTile = false;
-                            }
-                            puzzlePath.Clear();
-                            for( int i = 0; i < path.Count; i++)
-                            {
-                            puzzlePath[i] = path[i];
-                            }
-                            foreach (Tile step in puzzlePath)
-                            {
-                            step.ShowTile = true;
-                            }
-                        
+                        puzzlePath.Clear();
+                        foreach (Tile step in path)
+                        {
+                            puzzlePath.Add(step);
+                        }
                     }
                     aStarPaused = true;
                     pathUpdateTimer = 0;
@@ -125,7 +117,14 @@ namespace Mortens_Komeback_3.Puzzles
 
         }
 
-
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+            foreach (Tile tile in puzzlePath)
+            {
+                tile.Draw(spriteBatch);
+            }
+        }
 
     }
 }
