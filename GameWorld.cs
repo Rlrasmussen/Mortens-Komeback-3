@@ -179,6 +179,8 @@ namespace Mortens_Komeback_3
         /// </summary>
         protected override void LoadContent()
         {
+            SavePoint.LoadSave();
+
             gameObjects.Add(Player.Instance);
 
             status = new Status();
@@ -195,11 +197,11 @@ namespace Mortens_Komeback_3
             //gameObjects.Add(new Item(ItemType.GeesusBlood, Vector2.Zero));
 
             #region Decorations
-            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(100, 600), rotationTop)); 
+            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(100, 600), rotationTop));
             //gameObjects.Add(new Decoration(DecorationType.Hole0, new Vector2(600, 3500), rotationTop)); //Used for testing - To be removed
-            gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop)); 
-            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(50, 3600), rotationTop)); 
-            gameObjects.Add(new Decoration(DecorationType.Cobweb, new Vector2(-1160, 16500), rotationTop)); 
+            gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop));
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(50, 3600), rotationTop));
+            gameObjects.Add(new Decoration(DecorationType.Cobweb, new Vector2(-1160, 16500), rotationTop));
 
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447, -430), rotationTop)); //Under the painting in PopeRoom
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
@@ -209,14 +211,18 @@ namespace Mortens_Komeback_3
 
 
             DoorManager.Initialize();
-            GameWorld.Instance.CurrentRoom = DoorManager.Rooms[0];
 
             foreach (var room in DoorManager.Rooms)
                 gameObjects.Add(room);
 
             foreach (var door in DoorManager.Doors)
                 gameObjects.Add(door);
-            CurrentRoom = DoorManager.Rooms[0]; // Start i første rum
+            if (Player.Instance.Position == Locations[Location.Spawn])
+            { CurrentRoom = DoorManager.Rooms[0]; } // Start i første rum
+            else
+            {
+                CurrentRoom = DoorManager.Rooms.Find(x => Player.Instance.CollisionBox.Intersects(x.CollisionBox));
+            }
 
             #region Puzzles
             OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(DoorManager.doorList["doorB1"].Position.X - 500, DoorManager.doorList["doorB1"].Position.Y + 500), DoorManager.doorList["doorB1"], new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
@@ -265,7 +271,8 @@ namespace Mortens_Komeback_3
                 gameObjects.Add(npc);
             }
 
-            if (Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
+            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 22000))); 
+            if (Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
             {
                 gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
             }
@@ -282,7 +289,7 @@ namespace Mortens_Komeback_3
             #endregion
 
 
-            SavePoint.LoadSave();
+
 
             //Music
             backgroundMusic = Music[MusicTrack.Background];
@@ -328,6 +335,7 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.Death];
                 MediaPlayer.Play(backgroundMusic);
             }
+            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
 
             //else if (backgroundMusic != Music[MusicTrack.Win] && Player.Instance.IsAlive == false) //Player win
             //{
@@ -542,6 +550,19 @@ namespace Mortens_Komeback_3
             }
             Sprites.Add(PlayerType.MortenAngriber, crusaderAttack);
 
+            Texture2D[] monkWalk = new Texture2D[5];
+            for (int i = 0; i < monkWalk.Length; i++)
+            {
+                monkWalk[i] = Content.Load<Texture2D>($"Sprites\\Player\\MortenMonk{i}");
+            }
+            Sprites.Add(PlayerType.MortenMunk, monkWalk);
+
+            Texture2D[] monkAttack = new Texture2D[1];
+            for (int i = 0; i < monkAttack.Length; i++)
+            {
+                monkAttack[i] = Content.Load<Texture2D>($"Sprites\\Player\\monkSling{i}");
+            }
+            Sprites.Add(PlayerType.MortenSling, monkAttack);
             //Texture2D[] holyWalk = new Texture2D[4];
             //for (int i = 0; i < holyWalk.Length; i++)
             //{
@@ -787,12 +808,10 @@ namespace Mortens_Komeback_3
         {
             Locations.Add(Location.Spawn, new Vector2(0, -2000));
 
-            
-            //Locations.Add(Location.Spawn, new Vector2(-250, 250));
             Locations.Add(Location.Test, new Vector2(500, 0));
-            Locations.Add(Location.PuzzleOne, new Vector2(-1050, 2000));
-            Locations.Add(Location.PuzzleTwo, new Vector2(-1050, 6000));
-            Locations.Add(Location.PuzzleThree, new Vector2(-1050, 18000));
+            Locations.Add(Location.PuzzleOne, new Vector2(900, 2000));
+            Locations.Add(Location.PuzzleTwo, new Vector2(900, 6000));
+            Locations.Add(Location.PuzzleThree, new Vector2(900, 16000));
 
         }
 

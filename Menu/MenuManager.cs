@@ -23,27 +23,7 @@ namespace Mortens_Komeback_3.Menu
 
         private Dictionary<MenuType, Menu> menus = new Dictionary<MenuType, Menu>();
 
-        //public MenuManager()
-        //{
-        //    //switch (text)
-        //    //{
-        //    //    case "Start":
-
-        //    //        break;
-        //    //    case "Quit":
-        //    //        break;
-        //    //    case "Resume":
-        //    //        //CloseMenu();
-        //    //        break;
-        //    //    case "Try again":
-        //    //        break;
-        //    //    case "Music On/Off":
-        //    //        break;
-        //    //    case "Sound On/Off":
-        //    //        break;
-        //    //}
-
-        //}
+      
 
         public void CreateMenus()
         {

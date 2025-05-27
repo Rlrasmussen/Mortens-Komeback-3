@@ -64,15 +64,7 @@ namespace Mortens_Komeback_3.Menu
             this.ButtonText = buttonText;
             Layer = 0.9f;
             Action = action;
-            //this.OnClick = () => Command.Execute();
-            //if (command != null)
-            //{
-            //    this.OnClick = () => Command.Execute();
-            //}
-            //else
-            //{
-            //    Console.WriteLine($"Advarsel: Button '{buttonText}' har ikke nogen kommando.");
-            //}
+      
 
             if (GameWorld.Instance.Sprites.TryGetValue(type, out var spriteArray))
             {
