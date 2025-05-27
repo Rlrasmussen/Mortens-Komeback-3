@@ -561,10 +561,10 @@ namespace Mortens_Komeback_3
             }
             Sprites.Add(PlayerType.MortenMunk, monkWalk);
 
-            Texture2D[] monkAttack = new Texture2D[1];
+            Texture2D[] monkAttack = new Texture2D[3];
             for (int i = 0; i < monkAttack.Length; i++)
             {
-                monkAttack[i] = Content.Load<Texture2D>($"Sprites\\Player\\monkSling{i}");
+                monkAttack[i] = Content.Load<Texture2D>($"Sprites\\Player\\monkSling0");
             }
             Sprites.Add(PlayerType.MortenSling, monkAttack);
             //Texture2D[] holyWalk = new Texture2D[4];
