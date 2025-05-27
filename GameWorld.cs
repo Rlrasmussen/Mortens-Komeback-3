@@ -45,8 +45,8 @@ namespace Mortens_Komeback_3
         private string dbBasePath = AppDomain.CurrentDomain.BaseDirectory;
         public SqliteConnection Connection;
 
-        private float spawnEnemyTime = 5f;
-        private float lastSpawnEnemy = 0f;
+        private float spawnCutsceneTime = 5f;
+        private float lastSpawnCutscene = 0f;
         private List<IObserver> listeners = new List<IObserver>();
         private Status status;
 
@@ -186,7 +186,6 @@ namespace Mortens_Komeback_3
             status = new Status();
 
 
-
             //SafePoint.SaveGame(Location.Spawn);
 
             //gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
@@ -251,7 +250,7 @@ namespace Mortens_Komeback_3
             //Player.Instance.Position = new Vector2(600, 3400);
 
 
-
+            NPC ghost = new NPC(NPCType.Ghost, new Vector2(0, -2000));
             NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
             NPC coffin = new NPC(NPCType.Coffin, new Vector2(600, 2300));
             NPC hole0 = new NPC(NPCType.Hole0, new Vector2(600, 3400));
@@ -261,6 +260,7 @@ namespace Mortens_Komeback_3
             NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 18000));
             canadaGoose2.Canada = true;
 
+            npcs.Add(ghost);
             npcs.Add(pope);
             npcs.Add(coffin);
             npcs.Add(monk);
@@ -298,6 +298,8 @@ namespace Mortens_Komeback_3
             backgroundMusic = Music[MusicTrack.Background];
             MediaPlayer.Play(Music[MusicTrack.Background]);
             MediaPlayer.IsRepeating = true;
+
+            gameObjects.Add(new CutScene(CutSceneRoom.CutsceneMovie, new Vector2(0, -2000)));
         }
 
         /// <summary>
@@ -373,7 +375,7 @@ namespace Mortens_Komeback_3
             //    }
             //}
 
-            //SpawnEnemies();
+            //SpawnCutscene();
 
             //Sets the right current room, if the room consist of two rooms, and therefore are not set by going through doors. - Philip
             if ((CurrentRoom.LeftSideOfBigRoom && Player.Instance.Position.X > CurrentRoom.CollisionBox.Right)
@@ -390,6 +392,8 @@ namespace Mortens_Komeback_3
             CleanUp();
 
             base.Update(gameTime);
+
+            
 
         }
 
@@ -530,6 +534,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(RoomType.CatacombesG, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
             Sprites.Add(RoomType.CatacombesH, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
             Sprites.Add(RoomType.TrapRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
+            Sprites.Add(RoomType.Curscene, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
 
 
             #endregion
@@ -617,6 +622,8 @@ namespace Mortens_Komeback_3
             Sprites.Add(NPCType.Pope, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\pope0"), Content.Load<Texture2D>("Sprites\\NPC\\pope1") });
             Sprites.Add(NPCType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
             Sprites.Add(NPCType.Coffin, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\coffin") });
+            Sprites.Add(NPCType.Ghost, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\sqaure200x200") });
+
 
             Texture2D[] canadaGoose = new Texture2D[6];
             for (int i = 0; i < canadaGoose.Length; i++)
@@ -710,6 +717,14 @@ namespace Mortens_Komeback_3
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
             Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
             #endregion
+            #region Cutscene
+            Texture2D[] cutscene = new Texture2D[56];
+            for (int i = 0; i < cutscene.Length; i++)
+            {
+                cutscene[i] = Content.Load<Texture2D>($"Sprites\\Cutscenes\\StartCutscene{i + 1}");
+            }
+            Sprites.Add(CutSceneRoom.CutsceneMovie, cutscene);
+            #endregion
 
         }
 
@@ -764,7 +779,7 @@ namespace Mortens_Komeback_3
 
             Music.Add(MusicTrack.Death, Content.Load<Song>("Music\\Funeral March for Brass"));
 
-            //Music.Add(MusicTrack.Pope, Content.Load<Song>("Music\\Virtutes Vocis"));
+            Music.Add(MusicTrack.Pope, Content.Load<Song>("Music\\bgMusic"));
 
             Music.Add(MusicTrack.TrapRoom, Content.Load<Song>("Music\\intense-gritty-hard-rock-270016"));
 
@@ -782,8 +797,8 @@ namespace Mortens_Komeback_3
         /// </summary>
         private void AddLocations()
         {
+            Locations.Add(Location.Spawn, new Vector2(0, -2000));
 
-            Locations.Add(Location.Spawn, new Vector2(-250, 250));
             Locations.Add(Location.Test, new Vector2(500, 0));
             Locations.Add(Location.PuzzleOne, new Vector2(900, 2000));
             Locations.Add(Location.PuzzleTwo, new Vector2(900, 6000));
@@ -860,16 +875,15 @@ namespace Mortens_Komeback_3
         }
 
 
-        private void SpawnEnemies()
+        private void SpawnCutscene()
         {
+            int i = 0;
 
+            lastSpawnCutscene += DeltaTime;
 
-            lastSpawnEnemy += DeltaTime;
-
-            if (lastSpawnEnemy > spawnEnemyTime)
+            if (lastSpawnCutscene > spawnCutsceneTime)
             {
-                SpawnObject(EnemyPool.Instance.Create(EnemyType.WalkingGoose, Vector2.Zero));
-                lastSpawnEnemy = 0f;
+                //SpawnObject(new );
             }
         }
 

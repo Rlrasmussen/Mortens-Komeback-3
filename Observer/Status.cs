@@ -47,6 +47,7 @@ namespace Mortens_Komeback_3.Observer
         public Status()
         {
             GameWorld.Instance.Attach(this);
+            layer = 0.75f;
         }
 
         #endregion

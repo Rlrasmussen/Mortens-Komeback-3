@@ -165,9 +165,13 @@ namespace Mortens_Komeback_3
                 case NPCType.Hole0:
                     Holo0Dialogue();
                     break;
+                case NPCType.Ghost:
+                    GhostDialogoue();
+                    break;
             }
 
         }
+
 
         /// <summary>
         /// NPCType Pope dialogue
@@ -376,6 +380,21 @@ namespace Mortens_Komeback_3
             }
         }
 
+
+        private void GhostDialogoue()
+        {
+
+                StartConversation();
+                npcText = "";
+                reply++;
+
+
+                Player.Instance.Position = new Vector2(-250, 250);
+                //GameObject kage = GameWorld.Instance.GameObjects.Find((x => x.Type is CutSceneRoom.CutsceneMovie));
+                //GameWorld.Instance.GameObjects.Remove(kage);
+                EndConversation();
+
+        }
 
         /// <summary>
         /// Starting the conversation by setting talk = true and interact = false
