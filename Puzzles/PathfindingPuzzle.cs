@@ -80,6 +80,7 @@ namespace Mortens_Komeback_3.Puzzles
                     return;
                 }
             }
+            GameWorld.Instance.Sounds[Sound.PuzzleFail].Play();
         }
 
         public override void SolvePuzzle()

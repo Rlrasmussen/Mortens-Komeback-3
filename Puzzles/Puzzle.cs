@@ -110,6 +110,7 @@ namespace Mortens_Komeback_3.Puzzles
         {
             Solved = true;
             puzzleDoor.UnlockDoor();
+            GameWorld.Instance.Sounds[Sound.PuzzleSucces].Play();
         }
 
         /// <summary>

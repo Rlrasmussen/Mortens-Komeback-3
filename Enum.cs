@@ -142,7 +142,9 @@ namespace Mortens_Komeback_3
         PlayerChange,
         Fire,
         Click,
-        CatacombDoor
+        CatacombDoor,
+        PuzzleFail,
+        PuzzleSucces
     }
 
     /// <summary>

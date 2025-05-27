@@ -762,6 +762,8 @@ namespace Mortens_Komeback_3
             Sounds.Add(Sound.Fire, Content.Load<SoundEffect>("Sounds\\Environment\\fire-sound"));
             Sounds.Add(Sound.Click, Content.Load<SoundEffect>("Sounds\\Environment\\click"));
             Sounds.Add(Sound.CatacombDoor, Content.Load<SoundEffect>("Sounds\\Environment\\Door"));
+            Sounds.Add(Sound.PuzzleFail, Content.Load<SoundEffect>("Sounds\\Environment\\puzzleFailSound"));
+            Sounds.Add(Sound.PuzzleSucces, Content.Load<SoundEffect>("Sounds\\Environment\\puzzleSuccesSound"));
 
 
             #endregion
