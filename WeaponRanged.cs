@@ -15,9 +15,11 @@ namespace Mortens_Komeback_3
 
         private float refireRate = 1f;
 
+
         #endregion
 
         #region Properties
+        public float RefireRate { get => refireRate; private set => refireRate = value; }
 
         #endregion
 
@@ -46,7 +48,7 @@ namespace Mortens_Komeback_3
         public override void Update(GameTime gameTime)
         {
 
-            refireRate += GameWorld.Instance.DeltaTime;
+            RefireRate += GameWorld.Instance.DeltaTime;
 
             base.Update(gameTime);
 
@@ -59,9 +61,9 @@ namespace Mortens_Komeback_3
         public override void Attack()
         {
             
-            if (refireRate >= 1f)
+            if (RefireRate >= 1f)
             {
-                refireRate = 0f;
+                RefireRate = 0f;
                 GameWorld.Instance.Sounds[Sound.PlayerShoot].Play();
                 GameWorld.Instance.SpawnObject(ProjectilePool.Instance.GetObject(AttackType.Egg, Player.Instance.Position));
             }
