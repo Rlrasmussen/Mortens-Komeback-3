@@ -207,11 +207,19 @@ namespace Mortens_Komeback_3
         /// <param name="tiles">A dictionary of tiles, in the current room. </param>
         public void RunAStar(GameObject enemy, GameObject destinationObject, Dictionary<Vector2, Tile> tiles)
         {
+
+            Dictionary<Vector2, Tile> privateDictionary = new Dictionary<Vector2, Tile>();
+
+            foreach (var item in tiles)
+            {
+                privateDictionary.Add(item.Key, new Tile(item.Value.Type, item.Value.Position));
+            }
+
             while (IsAlive) //Thread Runs as long as Enemy is alive.
             {
                 if (pauseAStar == false)
                 {
-                    List<Tile> path = aStar.AStarFindPath(enemy, destinationObject, tiles);
+                    List<Tile> path = aStar.AStarFindPath(enemy, destinationObject, privateDictionary);
                     if (path != null)
                     {
                         destinationsIndex = 0;

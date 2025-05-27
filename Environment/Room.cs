@@ -124,6 +124,14 @@ namespace Mortens_Komeback_3.Environment
                         case RoomType.CatacombesC:
                             switch (i)
                             {
+                                //case 0:
+                                //    List<Vector2> test = new List<Vector2>();
+                                //    test.Add(new Vector2(850, 8420));
+                                //    test.Add(new Vector2(850, 7575));
+                                //    spawnThis.IgnoreState = true;
+                                //    waypoint = new PatrolState(test);
+                                //    waypoint.Enter(spawnThis);
+                                //    break;
                                 case 2:
                                     List<Vector2> path2 = new List<Vector2>();
                                     path2.Add(new Vector2(850, 8420));
