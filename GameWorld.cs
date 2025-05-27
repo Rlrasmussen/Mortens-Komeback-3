@@ -341,11 +341,18 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.TrapRoom];
                 MediaPlayer.Play(backgroundMusic);
             }
+            else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom) && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
+            {
+                backgroundMusic = Music[MusicTrack.Background];
+                MediaPlayer.Play(backgroundMusic);
+            }
             else if (backgroundMusic != Music[MusicTrack.Death] && Player.Instance.IsAlive == false) //Player is dead
             {
                 backgroundMusic = Music[MusicTrack.Death];
                 MediaPlayer.Play(backgroundMusic);
             }
+            
+
 
             if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && trap == false)
             {
