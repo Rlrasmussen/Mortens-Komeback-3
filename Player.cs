@@ -28,13 +28,13 @@ namespace Mortens_Komeback_3
         private float speed = 500f;
         private float walkTimer = 0.5f;
         private int health;
-        private int maxHealth = 50;
+        private int maxHealth = 6;
         private bool attacking = false;
         private float colorTimer = 2f;
 
         private float damageTimer = 2f;
         private float damageGracePeriode = 2f;
-        private int portionHelath = 10;
+        private int portionHelath = 1;
         #endregion
 
         #region Properties
