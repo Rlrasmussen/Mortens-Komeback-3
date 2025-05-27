@@ -30,6 +30,8 @@ namespace Mortens_Komeback_3
         private IState<Enemy> state;
         private Thread aStarThread;
         private bool disablePPCollision = false;
+        private float damageTaken = 0.5f;
+        private int health;
 
         #endregion
 
@@ -39,7 +41,16 @@ namespace Mortens_Komeback_3
         public Texture2D[] Sprites { get; set; }
         public float ElapsedTime { get; set; }
         public int CurrentIndex { get; set; }
-        public int Health { get; set; }
+        public int Health 
+        { 
+            get => health; 
+            set
+            {
+                health = value;
+                damageTaken = 0f;
+                drawColor = Color.Pink;
+            } 
+        }
         public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
         public float Speed { get => speed; }
         public IState<Enemy> State { get => state; set => state = value; }
@@ -54,6 +65,10 @@ namespace Mortens_Komeback_3
             set
             {
                 base.IsAlive = value;
+
+                if (!value)
+                    GameWorld.Instance.Sounds[Sound.GooseSound].Play();
+
                 if (State is BossFightState)
                     State.Exit();
             }
@@ -79,6 +94,11 @@ namespace Mortens_Komeback_3
             //    disablePPCollision = true;
             //else
             //    disablePPCollision = false;
+
+            damageTaken += GameWorld.Instance.DeltaTime;
+
+            if (damageTaken >= 0.5f && drawColor != Color.White)
+                drawColor = Color.White;
 
             float maxDistance = 1600f;
             foreach (Room room in DoorManager.Rooms) //Simon - checks for closest room
@@ -157,6 +177,8 @@ namespace Mortens_Komeback_3
                 Damage = stats.damage;
                 speed = stats.speed;
             }
+
+            damageTaken = 0.5f;
             //Defines temp room for enemy to use for getting astar tiles, and adds tiles if they are not already there.
             if (!IgnoreState) //Simon - for setting a default State
             {
