@@ -73,7 +73,7 @@ namespace Mortens_Komeback_3.Observer
                     break;
                 case StatusType.Health:
                     playerHealth = Player.Instance.Health;
-                    hearts = (int)(playerHealth / 10 + 1); //Visuel reprensation of life
+                    hearts = (int)(playerHealth); //Visuel reprensation of life
                     break;
                 case StatusType.PlayerDead:
                     //Kald dead screan

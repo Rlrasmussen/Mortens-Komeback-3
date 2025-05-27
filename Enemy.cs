@@ -27,6 +27,7 @@ namespace Mortens_Komeback_3
         private Vector2 playerPreviousPos;
         private bool waitforAStar = false; //Used for making sure that player doens't move before a star proces is done.
         private IState<Enemy> state;
+        private Thread aStarThread;
 
         #endregion
 
@@ -151,7 +152,7 @@ namespace Mortens_Komeback_3
                 {
                     enemyRoom.AddTiles();
                 }
-                Thread aStarThread = new Thread(() => RunAStar(this, Player.Instance, enemyRoom.Tiles)); //Philip
+                aStarThread = new Thread(() => RunAStar(this, Player.Instance, enemyRoom.Tiles)); //Philip
                 aStarThread.IsBackground = true;
                 aStarThread.Start();
             }
@@ -208,21 +209,21 @@ namespace Mortens_Komeback_3
         {
             while (IsAlive) //Thread Runs as long as Enemy is alive.
             {
-                while (pauseAStar == true) //Pause astar is managed by the Move method - makes sure the Astar thread doesn't use unnessecary resources
+                if (pauseAStar == false)
                 {
-                    Thread.Sleep(10);
+                    List<Tile> path = aStar.AStarFindPath(enemy, destinationObject, tiles);
+                    if (path != null)
+                    {
+                        destinationsIndex = 0;
+                        destinations = path;
+                        pauseAStar = true;
+                    }
                 }
-                List<Tile> path = aStar.AStarFindPath(enemy, destinationObject, tiles);
-                if (path != null)
-                {
-                    destinationsIndex = 0;
-                    destinations = path;
-                    pauseAStar = true;
-                }
-
-                //waitforAStar = false;
             }
+
+            //waitforAStar = false;
         }
+
         /// <summary>
         /// Moves the enemy through it's list of destinations. --- Deprecated into PatrolState that can also take a preset path
         /// Philip 

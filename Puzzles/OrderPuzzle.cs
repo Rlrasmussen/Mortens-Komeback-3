@@ -64,6 +64,10 @@ namespace Mortens_Komeback_3.Puzzles
                 {
                     this.SolvePuzzle();
                 }
+                else
+                {
+                    GameWorld.Instance.Sounds[Sound.PuzzleFail].Play();
+                }
 
             }
 

@@ -228,16 +228,16 @@ namespace Mortens_Komeback_3
             OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(DoorManager.doorList["doorB1"].Position.X - 500, DoorManager.doorList["doorB1"].Position.Y + 500), DoorManager.doorList["doorB1"], new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X - 400, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X - 800, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X-500, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X - 300, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X - 700, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             PathfindingPuzzle pathfindingPuzzle = new PathfindingPuzzle(PuzzleType.PathfindingPuzzle,
-                new Vector2(DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Right - 200, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Bottom - 500), //Puzzlelever
+                new Vector2(DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Right - 320, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Bottom - 500), //Puzzlelever
                 DoorManager.doorList["doorI1"], //Door
                 2, //ID
                 new Vector2(-150, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Bottom - 150), //Path start
                 new Vector2(450, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).CollisionBox.Top + 150), //Path end
-                new Vector2(-100, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).Position.Y - 200), //Path Goal
+                new Vector2(-150, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF).Position.Y - 150), //Path Goal
                 DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF)); //Room
             gameObjects.Add(pathfindingPuzzle);
             gamePuzzles.Add(pathfindingPuzzle);
@@ -247,7 +247,8 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC + Bible & Rosary
-            NPC ghost = new NPC(NPCType.Ghost, new Vector2(0, -2000));
+            NPC empty = new NPC(NPCType.Empty, new Vector2(0, -2000));
+            NPC ghost = new NPC(NPCType.Ghost, new Vector2(0, 22000));
             NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
             NPC coffin = new NPC(NPCType.Coffin, new Vector2(600, 2300));
             NPC hole0 = new NPC(NPCType.Hole0, new Vector2(600, 3400));
@@ -257,6 +258,7 @@ namespace Mortens_Komeback_3
             NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 18000));
             canadaGoose2.Canada = true;
 
+            npcs.Add(empty);
             npcs.Add(ghost);
             npcs.Add(pope);
             npcs.Add(coffin);
@@ -561,18 +563,12 @@ namespace Mortens_Komeback_3
             }
             Sprites.Add(PlayerType.MortenMunk, monkWalk);
 
-            Texture2D[] monkAttack = new Texture2D[1];
+            Texture2D[] monkAttack = new Texture2D[3];
             for (int i = 0; i < monkAttack.Length; i++)
             {
-                monkAttack[i] = Content.Load<Texture2D>($"Sprites\\Player\\monkSling{i}");
+                monkAttack[i] = Content.Load<Texture2D>($"Sprites\\Player\\monkSling0");
             }
             Sprites.Add(PlayerType.MortenSling, monkAttack);
-            //Texture2D[] holyWalk = new Texture2D[4];
-            //for (int i = 0; i < holyWalk.Length; i++)
-            //{
-            //    holyWalk[i] = Content.Load<Texture2D>($"Sprites\\Player\\helligMortenHvid{i}");
-            //}
-            //Sprites.Add(PlayerType.MortenSling, holyWalk);
 
             #endregion
             #region Enemy
@@ -635,8 +631,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(NPCType.Pope, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\pope0"), Content.Load<Texture2D>("Sprites\\NPC\\pope1") });
             Sprites.Add(NPCType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
             Sprites.Add(NPCType.Coffin, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\coffin") });
-            Sprites.Add(NPCType.Ghost, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\sqaure200x200") });
-
+            Sprites.Add(NPCType.Empty, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\sqaure200x200") });
 
             Texture2D[] canadaGoose = new Texture2D[6];
             for (int i = 0; i < canadaGoose.Length; i++)
@@ -645,7 +640,12 @@ namespace Mortens_Komeback_3
             }
             Sprites.Add(NPCType.CanadaGoose, canadaGoose);
 
-
+            Texture2D[] ghost = new Texture2D[3];
+            for (int i = 0; i < ghost.Length; i++)
+            {
+                ghost[i] = Content.Load<Texture2D>($"Sprites\\NPC\\ghost{i}");
+            }
+            Sprites.Add(NPCType.Ghost, ghost);
             #endregion
             #region Overlay
 
@@ -694,7 +694,7 @@ namespace Mortens_Komeback_3
             Content.Load<Texture2D>("Sprites\\Environment\\plaqueLeaves"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueStar"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueMoon"),
             Content.Load<Texture2D>("Sprites\\Environment\\plaqueAnchor"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueWine"), Content.Load<Texture2D>("Sprites\\Environment\\plaqueCandle")});
             Sprites.Add(PuzzleType.ShootPuzzle, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
-            Sprites.Add(PuzzleType.PuzzleObstacle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\sqaure200x200") });
+            Sprites.Add(PuzzleType.PuzzleObstacle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\boulder1") });
             Sprites.Add(PuzzleType.PathfindingPuzzle, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Lever0"), Content.Load<Texture2D>("Sprites\\Environment\\Lever1"), Content.Load<Texture2D>("Sprites\\Environment\\Lever2") });
 
 
@@ -762,6 +762,9 @@ namespace Mortens_Komeback_3
             Sounds.Add(Sound.Fire, Content.Load<SoundEffect>("Sounds\\Environment\\fire-sound"));
             Sounds.Add(Sound.Click, Content.Load<SoundEffect>("Sounds\\Environment\\click"));
             Sounds.Add(Sound.CatacombDoor, Content.Load<SoundEffect>("Sounds\\Environment\\Door"));
+            Sounds.Add(Sound.PuzzleFail, Content.Load<SoundEffect>("Sounds\\Environment\\puzzleFailSound"));
+            Sounds.Add(Sound.PuzzleSucces, Content.Load<SoundEffect>("Sounds\\Environment\\puzzleSuccesSound"));
+            Sounds.Add(Sound.Ghost, Content.Load<SoundEffect>("Sounds\\Environment\\ghost sound"));
 
 
             #endregion
@@ -811,7 +814,6 @@ namespace Mortens_Komeback_3
         private void AddLocations()
         {
             Locations.Add(Location.Spawn, new Vector2(0, -2000));
-
             Locations.Add(Location.Test, new Vector2(500, 0));
             Locations.Add(Location.PuzzleOne, new Vector2(900, 2000));
             Locations.Add(Location.PuzzleTwo, new Vector2(900, 6000));
