@@ -89,12 +89,13 @@ namespace Mortens_Komeback_3.Menu
         {
             foreach (Button button in buttonList)
             {
-                if (button.CollisionBox.Contains(InputHandler.Instance.MousePosition.ToPoint()))
+                if (button.CollisionBox.Intersects(InputHandler.Instance.CollisionBox))
                 {
                     if (button.IsEnabled)
                     {
                         button.Command?.Execute();
                         button.OnClick?.Invoke();
+
                         break; // Klik kun én knap
                     }
                 }

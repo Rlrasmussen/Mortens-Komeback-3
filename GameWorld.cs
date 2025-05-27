@@ -295,6 +295,7 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
+            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
 
 
             //if (gamePaused)
