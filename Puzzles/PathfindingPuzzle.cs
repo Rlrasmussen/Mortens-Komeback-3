@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Mortens_Komeback_3.Environment;
+using SharpDX.Direct2D1.Effects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,7 @@ namespace Mortens_Komeback_3.Puzzles
         private Vector2 goalPosition;
         private Decoration pathGoal;
         private float pathUpdateTimer = 0;
-        private float pathUpdateCountdown = 1;
+        private float pathUpdateCountdown = 0.5f;
 
         public PathfindingPuzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id, Vector2 pathStartPos, Vector2 pathEndPos, Vector2 pathGoalPoint, Room puzzleRoom) : base(type, spawnPos, puzzleDoor, id)
         {
@@ -31,11 +33,11 @@ namespace Mortens_Komeback_3.Puzzles
             this.pathStart = new Decoration(DecorationType.Splash, pathStartPos, 0);
             this.puzzleRoom = puzzleRoom;
             pathfindingObstacle1 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(puzzleRoom.Position.X - 400, puzzleRoom.Position.Y), true, puzzleRoom);
-            pathfindingObstacle2 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(pathfindingObstacle1.Position.X, pathfindingObstacle1.Position.Y + pathfindingObstacle1.Sprite.Height+10), true, puzzleRoom);
+            pathfindingObstacle2 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(pathfindingObstacle1.Position.X, pathfindingObstacle1.Position.Y + pathfindingObstacle1.Sprite.Height + 10), true, puzzleRoom);
             pathfindingObstacle3 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(pathfindingObstacle2.Position.X, pathfindingObstacle2.Position.Y + pathfindingObstacle2.Sprite.Height + 10), true, puzzleRoom);
             goalPosition = pathGoalPoint;
             pathGoal = new Decoration(DecorationType.Cross, pathGoalPoint, 0);
-            pathGoal.Rotation = (float)Math.PI*0.5f;
+            pathGoal.Rotation = (float)Math.PI * 0.5f;
         }
 
         public override void Update(GameTime gameTime)
@@ -93,41 +95,36 @@ namespace Mortens_Komeback_3.Puzzles
         {
             while (IsAlive)
             {
-                while (aStarPaused)
+                if (aStarPaused == false)
                 {
-                    Thread.Sleep(10);
-                }
-                foreach (var tile in tiles)
-                {
-                    tile.Value.SetWalkable();
-                }
-                List<Tile> path = puzzleAStar.AStarFindPath(startObject, endObject, tiles);
-                if (path != null)
-                {
-                    if (path != puzzlePath)
+                    foreach (var tile in tiles)
                     {
-                        foreach (Tile step in puzzlePath)
-                        {
-                            step.IsAlive = false;
-                        }
+                        tile.Value.SetWalkable();
+                    }
+                    List<Tile> path = puzzleAStar.AStarFindPath(startObject, endObject, tiles);
+                    if (path != null)
+                    {
                         puzzlePath.Clear();
-                        foreach (Tile tile in path)
+                        foreach (Tile step in path)
                         {
-                            puzzlePath.Add(tile);
-                        }
-                        foreach (Tile step in puzzlePath)
-                        {
-                            GameWorld.Instance.SpawnObject(step);
+                            puzzlePath.Add(step);
                         }
                     }
+                    aStarPaused = true;
+                    pathUpdateTimer = 0;
                 }
-                aStarPaused = true;
-                pathUpdateTimer = 0;
             }
 
         }
 
-
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+            foreach (Tile tile in puzzlePath)
+            {
+                tile.Draw(spriteBatch);
+            }
+        }
 
     }
 }
