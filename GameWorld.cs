@@ -280,6 +280,7 @@ namespace Mortens_Komeback_3
 
 
             GameWorld.Instance.SpawnObject(EnemyPool.Instance.GetObject(EnemyType.WalkingGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
+            GameWorld.Instance.SpawnObject(EnemyPool.Instance.GetObject(EnemyType.WalkingGoose, (DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position)- new Vector2(300,0)));
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
