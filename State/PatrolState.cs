@@ -86,7 +86,7 @@ namespace Mortens_Komeback_3.State
                 target = waypoints.Dequeue();
             else if (waypoints.Count == 0 && parent.PauseAStar && parent.Destinations.Count == 0)
             {
-                if (patrolPath.Count > 0)
+                if (patrolPath != null && patrolPath.Count > 0)
                 {
                     foreach (Vector2 waypoint in patrolPath)
                         waypoints.Enqueue(waypoint);
