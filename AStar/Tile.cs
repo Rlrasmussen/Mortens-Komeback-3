@@ -40,6 +40,7 @@ namespace Mortens_Komeback_3
 
         public Tile(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
+            layer = 0.65f;
         }
 
 
