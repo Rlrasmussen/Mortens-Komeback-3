@@ -185,6 +185,7 @@ namespace Mortens_Komeback_3
             base.Load();
 
             Health = MaxHealth;
+            colorTimer = 2f;
 
         }
 
