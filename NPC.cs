@@ -135,7 +135,7 @@ namespace Mortens_Komeback_3
             if (talk == true && (this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
             {
                 spriteBatch.Draw(dialogueBox, Player.Instance.Position + new Vector2(-dialogueBox.Width / 2 + 72.5f, dialogueBox.Height * 0.5f + 35), null, drawColor, Rotation, origin, 1, spriteEffect, layer);
-                spriteBatch.DrawString(GameWorld.Instance.GameFont, npcText, Player.Instance.Position - new Vector2(dialogueBox.Width / 2 - 70, -dialogueBox.Height + 120), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.2f);
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, npcText, Player.Instance.Position - new Vector2(dialogueBox.Width / 2 - 70, -dialogueBox.Height + 120), Color.LightGray, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.2f);
             }
         }
 
@@ -236,7 +236,7 @@ namespace Mortens_Komeback_3
 
                 if (happy == true) //Happy
                 {
-                    npcText = "I don't need this slingshot anymore, maybe you can use it for something \nPress left mouse to shoot";
+                    npcText = "I don't need this slingshot anymore, maybe you can use it  \nPress left mouse to shoot";
                     GameWorld.Instance.SpawnObject(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position - new Vector2(0, 150)));
                     GameWorld.Instance.Notify(StatusType.Delivered);
                 }
