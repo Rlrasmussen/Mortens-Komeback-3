@@ -210,7 +210,8 @@ namespace Mortens_Komeback_3
 
             if (velocity != Vector2.Zero && !attacking)
             {
-                (this as IAnimate).Animate();
+                if (Sprites != null)
+                    (this as IAnimate).Animate();
                 Move();
                 PlayWalkSound();
             }

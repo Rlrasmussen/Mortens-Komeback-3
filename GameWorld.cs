@@ -195,10 +195,11 @@ namespace Mortens_Komeback_3
             //gameObjects.Add(new Item(ItemType.GeesusBlood, Vector2.Zero));
 
             #region Decorations
-            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(100, 600), rotationTop)); //Used for testing - To be removed
+            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(100, 600), rotationTop)); 
             //gameObjects.Add(new Decoration(DecorationType.Hole0, new Vector2(600, 3500), rotationTop)); //Used for testing - To be removed
-            gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop)); //Used for testing - To be removed
-            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(50, 3600), rotationTop)); //Used for testing - To be removed
+            gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop)); 
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(50, 3600), rotationTop)); 
+            gameObjects.Add(new Decoration(DecorationType.Cobweb, new Vector2(-1160, 16500), rotationTop)); 
 
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447, -430), rotationTop)); //Under the painting in PopeRoom
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
@@ -523,8 +524,8 @@ namespace Mortens_Komeback_3
             Sprites.Add(RoomType.CatacombesA1, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\baggrundDobbelt_right") });
             Sprites.Add(RoomType.CatacombesB, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
             Sprites.Add(RoomType.CatacombesC, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
-            Sprites.Add(RoomType.CatacombesD, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
-            Sprites.Add(RoomType.CatacombesD1, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
+            Sprites.Add(RoomType.CatacombesD, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\rumT") });
+            Sprites.Add(RoomType.CatacombesD1, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\rumB") });
             Sprites.Add(RoomType.CatacombesE, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_single") });
             Sprites.Add(RoomType.CatacombesF, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
             Sprites.Add(RoomType.CatacombesG, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
@@ -539,7 +540,7 @@ namespace Mortens_Komeback_3
             Texture2D[] crusaderWalk = new Texture2D[5];
             for (int i = 0; i < crusaderWalk.Length; i++)
             {
-                crusaderWalk[i] = Content.Load<Texture2D>($"Sprites\\Player\\mortenCrusader{i}");
+                crusaderWalk[i] = Content.Load<Texture2D>($"Sprites\\Player\\MortenWalk{i}");
             }
             Sprites.Add(PlayerType.Morten, crusaderWalk);
 
@@ -649,6 +650,15 @@ namespace Mortens_Komeback_3
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD2"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD3"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD4") });
+
+            Sprites.Add(SurfaceType.BigSpikes, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes0"),
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes1"),
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes2") });
+
+            Sprites.Add(SurfaceType.Spikes, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\spike0"),
+                Content.Load<Texture2D>("Sprites\\Environment\\spike1"),
+                Content.Load<Texture2D>("Sprites\\Environment\\spike2") });
+
             Sprites.Add(DoorType.Stairs, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stair1") });
             Sprites.Add(DoorType.StairsLocked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stair0") });
             Sprites.Add(DoorType.StairsUp, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stairsup") });
@@ -684,7 +694,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(DecorationType.Light, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Light0"), Content.Load<Texture2D>("Sprites\\Environment\\Light1"), Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
             //Sprites.Add(DecorationType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
             Sprites.Add(DecorationType.Hole1, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole1") });
-            Sprites.Add(DecorationType.Candle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\candle0") });
+            Sprites.Add(DecorationType.Candle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\candle") });
 
 
             #endregion
