@@ -77,6 +77,10 @@ namespace Mortens_Komeback_3
                 Sprite = sadNun;
                 animate = false;
             }
+            if (type is NPCType.Hole0)
+            {
+                layer = 0.5f;
+            }
             else if (type is NPCType.Pope)
             {
                 Sprite = sadPope;

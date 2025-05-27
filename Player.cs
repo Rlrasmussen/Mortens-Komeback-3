@@ -432,18 +432,19 @@ namespace Mortens_Komeback_3
 
             if (!swordAttacking)
                 equippedWeapon = (Weapon)inventory.Find(x => (WeaponType)x.Type == weapon);
-            switch (equippedWeapon.Type) //Changes sprites, depending on weapon type - Philip
-            {
-                case WeaponType.Melee:
-                    GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var meleeSprites);
-                    Sprites = meleeSprites;
-                    break;
-                case WeaponType.Ranged:
-                    GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenMunk, out var rangedSprites);
-                    Sprites = rangedSprites;
-                    break;
-                default: break;
-            }
+            if (inventory.Contains(inventory.Find(x => (WeaponType)x.Type == weapon)))
+                switch (equippedWeapon.Type) //Changes sprites, depending on weapon type - Philip
+                {
+                    case WeaponType.Melee:
+                        GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var meleeSprites);
+                        Sprites = meleeSprites;
+                        break;
+                    case WeaponType.Ranged:
+                        GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenMunk, out var rangedSprites);
+                        Sprites = rangedSprites;
+                        break;
+                    default: break;
+                }
         }
 
         /// <summary>

@@ -35,6 +35,7 @@ namespace Mortens_Komeback_3
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
         public Dictionary<EnemyType, (int health, int damage, float speed)> EnemyStats = new Dictionary<EnemyType, (int health, int damage, float speed)>();
+        public Dictionary<Enum, List<RectangleData>> RectangleDatas = new Dictionary<Enum, List<RectangleData>>();
         public SpriteFont GameFont;
         private float deltaTime;
         private bool gamePaused = false;
@@ -133,7 +134,10 @@ namespace Mortens_Komeback_3
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            IsMouseVisible = false;
+#if DEBUG
             IsMouseVisible = true;
+#endif
         }
 
         #endregion
@@ -340,7 +344,7 @@ namespace Mortens_Komeback_3
             foreach (GameObject gameObject in gameObjects)
             {
 
-                if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1000))
+                if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1300))
                     continue;
 
                 gameObject.Update(gameTime);
@@ -768,6 +772,8 @@ namespace Mortens_Komeback_3
             Sprites.Add(DecorationType.Hole2, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole2") });
             Sprites.Add(DecorationType.Candle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\candle") });
             Sprites.Add(DecorationType.Tomb, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tomb") });
+            Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
+
             Sprites.Add(DecorationType.Barrel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\barrel") });
 
             #endregion
@@ -786,7 +792,6 @@ namespace Mortens_Komeback_3
             #region Debug
 #if DEBUG
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
-            Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
 #endif
             #endregion
             #region Cutscene
@@ -910,18 +915,27 @@ namespace Mortens_Komeback_3
                         other.Type.GetType() == typeof(WeaponType) ||
                         other.GetType() == typeof(AvSurface) ||
                         other.GetType() == typeof(GoosiferFire) ||
-                        other.Type.GetType() == typeof(DoorType) //test remove
-
+                        other.Type.GetType() == typeof(DoorType)
                         ))
                     {
                         if ((gameObject as ICollidable).CheckCollision(other as ICollidable))
                         {
                             bool handledCollision = false;
                             if ((gameObject is IPPCollidable && other is IPPCollidable))
-                                if ((gameObject as IPPCollidable).PPCheckCollision(other as IPPCollidable))
-                                    handledCollision = true;
+                                if (other is Enemy && (other as Enemy).DisablePPCollision)
+                                {
+                                    if ((gameObject as IPPCollidable).DoHybridCheck((other as ICollidable).CollisionBox))
+                                        handledCollision = true;
+                                    else
+                                        continue;
+                                }
                                 else
-                                    continue;
+                                {
+                                    if ((gameObject as IPPCollidable).PPCheckCollision(other as IPPCollidable))
+                                        handledCollision = true;
+                                    else
+                                        continue;
+                                }
                             else if (gameObject is IPPCollidable && other is ICollidable)
                                 if ((gameObject as IPPCollidable).DoHybridCheck((other as ICollidable).CollisionBox))
                                     handledCollision = true;

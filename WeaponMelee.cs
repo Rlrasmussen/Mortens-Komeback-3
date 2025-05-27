@@ -63,11 +63,22 @@ namespace Mortens_Komeback_3
         /// </summary>
         public override void Attack()
         {
-
-            foreach (Enemy enemy in GameWorld.Instance.EnemiesNearPlayer(range))
+            switch (GameWorld.Instance.CurrentRoom.RoomType)
             {
-                if (IsInCone(Player.Instance.Position, InputHandler.Instance.MousePosition, enemy.Position, 45f))
-                    enemy.TakeDamage(this);
+                case RoomType.CatacombesH:
+                    foreach (Enemy enemy in GameWorld.Instance.EnemiesNearPlayer(400))
+                    {
+                        if (IsInCone(Player.Instance.Position, InputHandler.Instance.MousePosition, enemy.Position, 60f))
+                            enemy.TakeDamage(this);
+                    }
+                    break;
+                default:
+                    foreach (Enemy enemy in GameWorld.Instance.EnemiesNearPlayer(range))
+                    {
+                        if (IsInCone(Player.Instance.Position, InputHandler.Instance.MousePosition, enemy.Position, 45f))
+                            enemy.TakeDamage(this);
+                    }
+                    break;
             }
 
         }
