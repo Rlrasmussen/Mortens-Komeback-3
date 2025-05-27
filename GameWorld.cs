@@ -407,6 +407,10 @@ namespace Mortens_Komeback_3
 
             foreach (GameObject gameObject in gameObjects)
             {
+
+                if ((float)Math.Abs(gameObject.Position.Y - Camera.Instance.Position.Y) > 1700)
+                    continue;
+
                 gameObject.Draw(_spriteBatch);
 
 #if DEBUG
