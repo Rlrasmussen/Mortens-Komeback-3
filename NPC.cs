@@ -159,7 +159,7 @@ namespace Mortens_Komeback_3
                     NunDialogue();
                     break;
                 case NPCType.Coffin:
-                    Player.Instance.Position = Position - new Vector2(150, 0);
+                    Player.Instance.Position = Position - new Vector2(125, 0);
                     CoffinDialogue();
                     break;
                 case NPCType.Hole0:
