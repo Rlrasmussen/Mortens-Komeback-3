@@ -322,7 +322,7 @@ namespace Mortens_Komeback_3
                 {
                     npcText = "Thank you Morten take this\n" +
                         "Can you help me with these mirrors?\n" +
-                        "I wish the light from the cracks in the walls\n"+
+                        "I wish the light from the cracks in the walls\n" +
                         "would shine on the holy cross";
                     GameWorld.Instance.SpawnObject(new Item(ItemType.GeesusBlood, Player.Instance.Position - new Vector2(0, 150)));
                     nunPuzzle = true;
@@ -387,11 +387,10 @@ namespace Mortens_Komeback_3
         private void EmptyDialogoue()
         {
 
-                StartConversation();
-                npcText = "";
-                reply++;
-            Player.Instance.Position = new Vector2(-250, 250);
-            //Player.Instance.Position = new Vector2(0, 22000);
+            StartConversation();
+            npcText = "";
+            reply++;
+            Player.Instance.Position = new Vector2(0, 22000);
             EndConversation();
 
         }

@@ -280,6 +280,9 @@ namespace Mortens_Komeback_3
             }
             #endregion
 
+            #region Traproom
+            gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(0, -2000), 0));
+            #endregion
 
             GameWorld.Instance.SpawnObject(EnemyPool.Instance.GetObject(EnemyType.WalkingGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
 
@@ -335,6 +338,11 @@ namespace Mortens_Komeback_3
             else if (backgroundMusic != Music[MusicTrack.Death] && Player.Instance.IsAlive == false) //Player is dead
             {
                 backgroundMusic = Music[MusicTrack.Death];
+                MediaPlayer.Play(backgroundMusic);
+            }
+            else if (CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) || CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom))
+            {
+                backgroundMusic = Music[MusicTrack.Background];
                 MediaPlayer.Play(backgroundMusic);
             }
             MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
@@ -1064,6 +1072,7 @@ namespace Mortens_Komeback_3
             // Sletter evt. gemt data (hvis relevant)
             new ClearSaveCommand(); // Hvis du har en save manager
             StartGame(); // Genstarter spillet
+            MediaPlayer.Play(Music[MusicTrack.Background]);
         }
 
         public void ResumeGame()
