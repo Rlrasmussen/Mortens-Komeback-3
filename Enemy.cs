@@ -11,6 +11,7 @@ using Mortens_Komeback_3.Factory;
 using System.Threading;
 using Mortens_Komeback_3.Environment;
 using Mortens_Komeback_3.State;
+using SharpDX.Direct3D9;
 
 namespace Mortens_Komeback_3
 {
@@ -28,6 +29,7 @@ namespace Mortens_Komeback_3
         private bool waitforAStar = false; //Used for making sure that player doens't move before a star proces is done.
         private IState<Enemy> state;
         private Thread aStarThread;
+        private bool disablePPCollision = false;
 
         #endregion
 
@@ -56,6 +58,7 @@ namespace Mortens_Komeback_3
                     State.Exit();
             }
         }
+        public bool DisablePPCollision { get => disablePPCollision; }
 
         #endregion
 
@@ -71,8 +74,11 @@ namespace Mortens_Komeback_3
         #region Method
         public override void Update(GameTime gameTime)
         {
-            //if (CollisionBox.Intersects(GameWorld.Instance.CurrentRoom.CollisionBox))
-            //{}
+
+            //if (State is ChargeState)
+            //    disablePPCollision = true;
+            //else
+            //    disablePPCollision = false;
 
             float maxDistance = 1600f;
             foreach (Room room in DoorManager.Rooms) //Simon - checks for closest room
@@ -90,7 +96,8 @@ namespace Mortens_Komeback_3
             if (Sprites != null)
             {
                 (this as IAnimate).Animate();
-                (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
+                if (!disablePPCollision)
+                    (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
             }
 
             if (state != null) //Simon - movement logic
@@ -126,6 +133,8 @@ namespace Mortens_Komeback_3
         public override void Load()
         {
 
+            spriteEffect = SpriteEffects.None;
+
             if (Sprites == null || Sprites != GameWorld.Instance.Sprites[type])
             {
                 if (GameWorld.Instance.Sprites.TryGetValue(type, out var sprites))
@@ -140,6 +149,8 @@ namespace Mortens_Komeback_3
                 Rectangles = (this as IPPCollidable).CreateRectangles();
             }
 
+            origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
+
             if (GameWorld.Instance.EnemyStats.TryGetValue((EnemyType)type, out var stats)) //Simon - Does a TryGetValue according to objects type against a dictionary, and retrieves a named tuple containing relevant data if successful
             {
                 Health = stats.health;
@@ -147,8 +158,13 @@ namespace Mortens_Komeback_3
                 speed = stats.speed;
             }
             //Defines temp room for enemy to use for getting astar tiles, and adds tiles if they are not already there.
+            if (!IgnoreState) //Simon - for setting a default State
+            {
+                PatrolState patrol = new PatrolState();
+                patrol.Enter(this);
+            }
             Room enemyRoom = DoorManager.Rooms.Find(x => this.CollisionBox.Intersects(x.CollisionBox));
-            if (!(enemyRoom == null))
+            if (!(enemyRoom == null) && !((State is ChargeState) || (State is BossFightState)))
             {
                 if (enemyRoom.Tiles.Count == 0)
                 {
@@ -157,11 +173,6 @@ namespace Mortens_Komeback_3
                 aStarThread = new Thread(() => RunAStar(this, Player.Instance, enemyRoom.Tiles)); //Philip
                 aStarThread.IsBackground = true;
                 aStarThread.Start();
-            }
-            if (!IgnoreState) //Simon - for setting a default State
-            {
-                PatrolState patrol = new PatrolState();
-                patrol.Enter(this);
             }
 
             base.Load();

@@ -35,6 +35,7 @@ namespace Mortens_Komeback_3
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
         public Dictionary<EnemyType, (int health, int damage, float speed)> EnemyStats = new Dictionary<EnemyType, (int health, int damage, float speed)>();
+        public Dictionary<Enum, List<RectangleData>> RectangleDatas = new Dictionary<Enum, List<RectangleData>>();
         public SpriteFont GameFont;
         private float deltaTime;
         private bool gamePaused = false;
@@ -228,7 +229,7 @@ namespace Mortens_Komeback_3
             OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(DoorManager.doorList["doorB1"].Position.X - 500, DoorManager.doorList["doorB1"].Position.Y + 500), DoorManager.doorList["doorB1"], new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X-500, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X - 300, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X - 700, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X - 500, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X - 300, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X - 700, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             PathfindingPuzzle pathfindingPuzzle = new PathfindingPuzzle(PuzzleType.PathfindingPuzzle,
@@ -273,7 +274,7 @@ namespace Mortens_Komeback_3
                 gameObjects.Add(npc);
             }
 
-            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 22000))); 
+            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 22000)));
             if (Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
             {
                 gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
@@ -314,7 +315,7 @@ namespace Mortens_Komeback_3
             foreach (GameObject gameObject in gameObjects)
             {
 
-                if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1000))
+                if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1300))
                     continue;
 
                 gameObject.Update(gameTime);
@@ -391,7 +392,7 @@ namespace Mortens_Komeback_3
 
             base.Update(gameTime);
 
-            
+
 
         }
 
@@ -617,7 +618,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(ItemType.Bible, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\bible") });
             Sprites.Add(ItemType.Rosary, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\rosary") });
             Sprites.Add(ItemType.GeesusBlood, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\potion") });
-            Sprites.Add(ItemType.Grail, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\gral")});
+            Sprites.Add(ItemType.Grail, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\gral") });
 
             #endregion
             #region Menu
@@ -740,7 +741,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
             Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
 #endif
-#endregion
+            #endregion
             #region Cutscene
             Texture2D[] cutscene = new Texture2D[56];
             for (int i = 0; i < cutscene.Length; i++)
@@ -847,8 +848,8 @@ namespace Mortens_Komeback_3
                     if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || (gameObject.Type.GetType() == other.Type.GetType() && !((PuzzleType)gameObject.Type == PuzzleType.PuzzleObstacle)) || !(other is ICollidable) || !gameObject.IsAlive || !other.IsAlive)
                         continue;
 
-                    if (!(gameObject as ICollidable).IsNear((other as ICollidable), 0f))
-                        continue;
+                    //if (!(gameObject as ICollidable).IsNear((other as ICollidable), 0f))
+                    //    continue;
 
                     if ((
                         gameObject.Type.GetType() == typeof(PlayerType) ||
@@ -870,10 +871,20 @@ namespace Mortens_Komeback_3
                         {
                             bool handledCollision = false;
                             if ((gameObject is IPPCollidable && other is IPPCollidable))
-                                if ((gameObject as IPPCollidable).PPCheckCollision(other as IPPCollidable))
-                                    handledCollision = true;
+                                if (other is Enemy && (other as Enemy).DisablePPCollision)
+                                {
+                                    if ((gameObject as IPPCollidable).DoHybridCheck((other as ICollidable).CollisionBox))
+                                        handledCollision = true;
+                                    else
+                                        continue;
+                                }
                                 else
-                                    continue;
+                                {
+                                    if ((gameObject as IPPCollidable).PPCheckCollision(other as IPPCollidable))
+                                        handledCollision = true;
+                                    else
+                                        continue;
+                                }
                             else if (gameObject is IPPCollidable && other is ICollidable)
                                 if ((gameObject as IPPCollidable).DoHybridCheck((other as ICollidable).CollisionBox))
                                     handledCollision = true;
