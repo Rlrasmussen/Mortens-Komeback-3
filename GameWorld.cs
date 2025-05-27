@@ -35,6 +35,7 @@ namespace Mortens_Komeback_3
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
         public Dictionary<EnemyType, (int health, int damage, float speed)> EnemyStats = new Dictionary<EnemyType, (int health, int damage, float speed)>();
+        public Dictionary<Enum, List<RectangleData>> RectangleDatas = new Dictionary<Enum, List<RectangleData>>();
         public SpriteFont GameFont;
         private float deltaTime;
         private bool gamePaused = false;
@@ -63,6 +64,7 @@ namespace Mortens_Komeback_3
         private bool soundOn = true;
 
         private Song backgroundMusic;
+        private bool trap = false;
 
         #endregion
 
@@ -132,7 +134,10 @@ namespace Mortens_Komeback_3
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            IsMouseVisible = false;
+#if DEBUG
             IsMouseVisible = true;
+#endif
         }
 
         #endregion
@@ -228,7 +233,7 @@ namespace Mortens_Komeback_3
             OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(DoorManager.doorList["doorB1"].Position.X - 500, DoorManager.doorList["doorB1"].Position.Y + 500), DoorManager.doorList["doorB1"], new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X-500, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X - 300, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X - 700, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X - 500, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X - 300, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X - 700, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             PathfindingPuzzle pathfindingPuzzle = new PathfindingPuzzle(PuzzleType.PathfindingPuzzle,
@@ -248,11 +253,11 @@ namespace Mortens_Komeback_3
 
             #region NPC + Bible & Rosary
             NPC empty = new NPC(NPCType.Empty, new Vector2(0, -2000));
-            NPC ghost = new NPC(NPCType.Ghost, new Vector2(0, 22000));
+            NPC ghost = new NPC(NPCType.Ghost, new Vector2(-823, 21648));
             NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
             NPC coffin = new NPC(NPCType.Coffin, new Vector2(600, 2300));
             NPC hole0 = new NPC(NPCType.Hole0, new Vector2(600, 3400));
-            NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
+            NPC monk = new NPC(NPCType.Monk, new Vector2(-500, 6200));
             NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16000));
             NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
             NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 18000));
@@ -273,13 +278,16 @@ namespace Mortens_Komeback_3
                 gameObjects.Add(npc);
             }
 
-            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 22000))); 
+            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(-1071, 21800)));
             if (Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
             {
                 gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
             }
             #endregion
 
+            #region Traproom
+            
+            #endregion
 
             //GameWorld.Instance.SpawnObject(EnemyPool.Instance.GetObject(EnemyType.WalkingGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
 
@@ -301,6 +309,7 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new CutScene(CutSceneRoom.CutsceneMovie, new Vector2(0, -2000)));
         }
 
+
         /// <summary>
         /// Handles update logic
         /// Simon
@@ -314,7 +323,7 @@ namespace Mortens_Komeback_3
             foreach (GameObject gameObject in gameObjects)
             {
 
-                if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1000))
+                if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1300))
                     continue;
 
                 gameObject.Update(gameTime);
@@ -332,11 +341,31 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.TrapRoom];
                 MediaPlayer.Play(backgroundMusic);
             }
+            else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom) && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
+            {
+                backgroundMusic = Music[MusicTrack.Background];
+                MediaPlayer.Play(backgroundMusic);
+            }
             else if (backgroundMusic != Music[MusicTrack.Death] && Player.Instance.IsAlive == false) //Player is dead
             {
                 backgroundMusic = Music[MusicTrack.Death];
                 MediaPlayer.Play(backgroundMusic);
             }
+            
+
+
+            if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && trap == false)
+            {
+                gameObjects.Add(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), 0));
+                for (int i = 0; i < 3; i++)
+                {
+                    gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(-815 + (815 * i), 22020), 0));
+                }
+                SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(-400, 22120 + 18), 0));
+                SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(400, 21510), 0));
+                trap = true;
+            }
+
             MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
 
             //else if (backgroundMusic != Music[MusicTrack.Win] && Player.Instance.IsAlive == false) //Player win
@@ -391,7 +420,7 @@ namespace Mortens_Komeback_3
 
             base.Update(gameTime);
 
-            
+
 
         }
 
@@ -617,7 +646,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(ItemType.Bible, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\bible") });
             Sprites.Add(ItemType.Rosary, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\rosary") });
             Sprites.Add(ItemType.GeesusBlood, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\potion") });
-            Sprites.Add(ItemType.Grail, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\gral")});
+            Sprites.Add(ItemType.Grail, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\gral") });
 
             #endregion
             #region Menu
@@ -676,9 +705,11 @@ namespace Mortens_Komeback_3
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD3"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD4") });
 
-            Sprites.Add(SurfaceType.BigSpikes, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes0"),
+            Sprites.Add(SurfaceType.BigSpikes, new Texture2D[5] { Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes0"),
                 Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes1"),
-                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes2") });
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes2"),
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes3"),
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes4") });
 
             Sprites.Add(SurfaceType.Spikes, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\spike0"),
                 Content.Load<Texture2D>("Sprites\\Environment\\spike1"),
@@ -720,6 +751,8 @@ namespace Mortens_Komeback_3
             //Sprites.Add(DecorationType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
             Sprites.Add(DecorationType.Hole1, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole1") });
             Sprites.Add(DecorationType.Candle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\candle") });
+            Sprites.Add(DecorationType.Tomb, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tomb") });
+            Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
 
 
             #endregion
@@ -738,9 +771,8 @@ namespace Mortens_Komeback_3
             #region Debug
 #if DEBUG
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
-            Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
 #endif
-#endregion
+            #endregion
             #region Cutscene
             Texture2D[] cutscene = new Texture2D[56];
             for (int i = 0; i < cutscene.Length; i++)
@@ -862,18 +894,27 @@ namespace Mortens_Komeback_3
                         other.Type.GetType() == typeof(WeaponType) ||
                         other.GetType() == typeof(AvSurface) ||
                         other.GetType() == typeof(GoosiferFire) ||
-                        other.Type.GetType() == typeof(DoorType) //test remove
-
+                        other.Type.GetType() == typeof(DoorType)
                         ))
                     {
                         if ((gameObject as ICollidable).CheckCollision(other as ICollidable))
                         {
                             bool handledCollision = false;
                             if ((gameObject is IPPCollidable && other is IPPCollidable))
-                                if ((gameObject as IPPCollidable).PPCheckCollision(other as IPPCollidable))
-                                    handledCollision = true;
+                                if (other is Enemy && (other as Enemy).DisablePPCollision)
+                                {
+                                    if ((gameObject as IPPCollidable).DoHybridCheck((other as ICollidable).CollisionBox))
+                                        handledCollision = true;
+                                    else
+                                        continue;
+                                }
                                 else
-                                    continue;
+                                {
+                                    if ((gameObject as IPPCollidable).PPCheckCollision(other as IPPCollidable))
+                                        handledCollision = true;
+                                    else
+                                        continue;
+                                }
                             else if (gameObject is IPPCollidable && other is ICollidable)
                                 if ((gameObject as IPPCollidable).DoHybridCheck((other as ICollidable).CollisionBox))
                                     handledCollision = true;
@@ -902,19 +943,6 @@ namespace Mortens_Komeback_3
                 }
 
         }
-
-
-        //private void SpawnCutscene()
-        //{
-        //    int i = 0;
-
-        //    lastSpawnCutscene += DeltaTime;
-
-        //    if (lastSpawnCutscene > spawnCutsceneTime)
-        //    {
-        //        //SpawnObject(new );
-        //    }
-        //}
 
         /// <summary>
         /// Method for returning a HashSet of enemies near Player
@@ -1002,9 +1030,7 @@ namespace Mortens_Komeback_3
 
         }
 
-
-
-        #region Observer - Rikke
+        #region Observer
         public void Attach(IObserver observer)
         {
             listeners.Add(observer);
