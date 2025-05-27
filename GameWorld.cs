@@ -332,7 +332,7 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.GoosiferFigth];
                 MediaPlayer.Play(backgroundMusic);
             }
-            else if (backgroundMusic != Music[MusicTrack.TrapRoom] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom))
+            else if (backgroundMusic != Music[MusicTrack.TrapRoom] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom) && trap == true)
             {
                 backgroundMusic = Music[MusicTrack.TrapRoom];
                 MediaPlayer.Play(backgroundMusic);
