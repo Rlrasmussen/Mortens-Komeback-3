@@ -139,7 +139,7 @@ namespace Mortens_Komeback_3
         public void Speak()
         {
             Player.Instance.Speed = 0f;
-            Player.Instance.Position = Position - new Vector2(100, 0);
+            Player.Instance.Position = Position - new Vector2(50, 0);
 
             switch (type)
             {
@@ -149,7 +149,7 @@ namespace Mortens_Komeback_3
                 case NPCType.GreyGoose:
                     break;
                 case NPCType.Pope:
-                    Player.Instance.Position = Position + new Vector2(100, 0);
+                    Player.Instance.Position = Position + new Vector2(75, 0);
                     PopeDialogue();
                     break;
                 case NPCType.Monk:
