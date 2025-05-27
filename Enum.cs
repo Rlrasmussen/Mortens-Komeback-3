@@ -213,7 +213,8 @@ namespace Mortens_Komeback_3
         Hole0,
         Coffin,
         Empty,
-        Ghost
+        Ghost,
+        Chest
     }
 
     /// <summary>
@@ -255,7 +256,9 @@ namespace Mortens_Komeback_3
         Splash,
         //Hole0,
         Hole1,
-        Tomb
+        Hole2,
+        Tomb,
+        Barrel
 
     }
 

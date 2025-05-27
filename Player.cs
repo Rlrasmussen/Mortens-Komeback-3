@@ -508,6 +508,7 @@ namespace Mortens_Komeback_3
                 case NPCType.Hole0:
                 case NPCType.Empty:
                 case NPCType.Ghost:
+                case NPCType.Chest:
                     (gameObject as NPC).Speak();
                     break;
                 default:
