@@ -10,6 +10,7 @@ namespace Mortens_Komeback_3.Command
     {
         public void Execute()
         {
+#if DEBUG
             switch (GameWorld.Instance.DrawCollision)
             {
                 case true:
@@ -19,6 +20,7 @@ namespace Mortens_Komeback_3.Command
                     GameWorld.Instance.DrawCollision = true;
                     break;
             }
+#endif
         }
     }
 }

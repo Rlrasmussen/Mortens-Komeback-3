@@ -113,9 +113,10 @@ namespace Mortens_Komeback_3
 
             if (GameWorld.Instance.Sprites.TryGetValue(type, out var sprites))
                 Sprite = sprites[0];
+#if DEBUG
             else
                 Debug.WriteLine("Kunne ikke sætte sprite for " + ToString());
-
+#endif
             if (sprite != null)
                 origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
 

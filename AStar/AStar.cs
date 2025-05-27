@@ -33,8 +33,9 @@ namespace Mortens_Komeback_3
             //Clears old data
             openList.Clear();
             closedList.Clear();
-
+#if DEBUG
             Debug.WriteLine("Astar calls playerpos: " + end.Position + "Enemy pos: " + start.Position);
+#endif
             //Converts the position of start and end objects to position of tiles
             Vector2 startVector = AStarTranslatePosition(start, tiles);
             Vector2 endVector = AStarTranslatePosition(end, tiles);

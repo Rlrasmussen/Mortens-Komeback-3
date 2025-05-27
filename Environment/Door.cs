@@ -67,7 +67,9 @@ namespace Mortens_Komeback_3.Environment
             if (DoorStatus == DoorType.Locked)
             {
                 DoorStatus = DoorType.Closed;
+#if DEBUG
                 Debug.WriteLine("room unlocked");
+#endif
                 Sprite = GameWorld.Instance.Sprites[DoorStatus][0];
             }
             else if (DoorStatus == DoorType.StairsLocked)
@@ -86,7 +88,9 @@ namespace Mortens_Komeback_3.Environment
             if (DoorStatus == DoorType.Closed)
             {
                 DoorStatus = DoorType.Open;
+#if DEBUG
                 Debug.WriteLine("room open");
+#endif
             }
         }
 
