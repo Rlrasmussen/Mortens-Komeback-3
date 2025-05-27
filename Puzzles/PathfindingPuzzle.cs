@@ -35,6 +35,7 @@ namespace Mortens_Komeback_3.Puzzles
             pathfindingObstacle3 = new Obstacle(PuzzleType.PuzzleObstacle, new Vector2(pathfindingObstacle2.Position.X, pathfindingObstacle2.Position.Y + pathfindingObstacle2.Sprite.Height + 10), true, puzzleRoom);
             goalPosition = pathGoalPoint;
             pathGoal = new Decoration(DecorationType.Cross, pathGoalPoint, 0);
+            pathGoal.Rotation = (float)Math.PI*0.5f;
         }
 
         public override void Update(GameTime gameTime)
@@ -79,6 +80,7 @@ namespace Mortens_Komeback_3.Puzzles
                     return;
                 }
             }
+            GameWorld.Instance.Sounds[Sound.PuzzleFail].Play();
         }
 
         public override void SolvePuzzle()

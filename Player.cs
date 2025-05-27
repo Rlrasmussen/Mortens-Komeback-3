@@ -28,13 +28,14 @@ namespace Mortens_Komeback_3
         private float speed = 500f;
         private float walkTimer = 0.5f;
         private int health;
-        private int maxHealth = 50;
-        private bool attacking = false;
+        private int maxHealth = 6;
+        private bool swordAttacking = false;
+        private bool slingAttacking = false;
         private float colorTimer = 2f;
 
         private float damageTimer = 2f;
         private float damageGracePeriode = 2f;
-        private int portionHelath = 10;
+        private int portionHelath = 1;
         #endregion
 
         #region Properties
@@ -184,7 +185,8 @@ namespace Mortens_Komeback_3
 
             base.Load();
 
-            health = MaxHealth;
+            Health = MaxHealth;
+
         }
 
         /// <summary>
@@ -208,15 +210,17 @@ namespace Mortens_Komeback_3
             else
                 spriteEffect = SpriteEffects.None;
 
-            if (velocity != Vector2.Zero && !attacking)
+            if (velocity != Vector2.Zero && !swordAttacking)
             {
                 if (Sprites != null)
                     (this as IAnimate).Animate();
                 Move();
                 PlayWalkSound();
             }
-            else if (attacking)
+            else if (swordAttacking)
                 (this as IAnimate).Animate();
+            else if (slingAttacking)
+            { (this as IAnimate).Animate(); }
 
             foreach (GameObject go in inventory)
                 go.Update(gameTime);
@@ -287,7 +291,7 @@ namespace Mortens_Komeback_3
 
             Vector2 correction = Vector2.Zero; //Attack animation is 40'ish pixels higher than regular sprites
 
-            if (attacking && equippedWeapon != null && (WeaponType)equippedWeapon.Type == WeaponType.Melee)
+            if (swordAttacking && equippedWeapon != null && (WeaponType)equippedWeapon.Type == WeaponType.Melee)
             {
                 correction.Y = 40;
                 // 1. Calculate angle of attack
@@ -313,10 +317,18 @@ namespace Mortens_Komeback_3
             if (GameWorld.Instance.DrawCollision)
                 spriteBatch.DrawString(GameWorld.Instance.GameFont, $"X: {Position.X}\nY: {Position.Y}", Position + new Vector2(0, 100), Color.Green, 0f, Vector2.Zero, 2f, SpriteEffects.None, 1f);
 #endif
-            if (attacking && CurrentIndex >= Sprites.Length - 1 && GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var sprites))
+            if (swordAttacking && CurrentIndex >= Sprites.Length - 1 && GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var sprites))
             {
                 Sprites = sprites;
-                attacking = false;
+                swordAttacking = false;
+                CurrentIndex = 0;
+                ElapsedTime = 0;
+                FPS = 8;
+            }
+            if (slingAttacking && CurrentIndex >= Sprites.Length - 1 && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenMunk, out var monksprites))
+            {
+                Sprites = monksprites;
+                slingAttacking = false;
                 CurrentIndex = 0;
                 ElapsedTime = 0;
                 FPS = 8;
@@ -381,18 +393,26 @@ namespace Mortens_Komeback_3
         /// </summary>
         private void Attack()
         {
-            if (!GameWorld.Instance.GamePaused && equippedWeapon != null && !attacking)
+            if (!GameWorld.Instance.GamePaused && equippedWeapon != null && !(swordAttacking || slingAttacking))
             {
                 equippedWeapon.Attack();
                 if ((WeaponType)equippedWeapon.Type == WeaponType.Melee && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) //Skal rykkes ind i samme loop som equippedWeapon.Attack();
                 {
                     Sprites = sprites;
-                    attacking = true;
+                    swordAttacking = true;
                     CurrentIndex = 0;
                     ElapsedTime = 0;
                     FPS = 22;
                     GameWorld.Instance.Sounds[Sound.PlayerSwordAttack].Play();
                     meleeAttackDirection = InputHandler.Instance.MousePosition - Position;
+                }
+                else if ((WeaponType)equippedWeapon.Type == WeaponType.Ranged && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenSling, out var slingsprites)) //Philip
+                {
+                    Sprites = slingsprites;
+                    slingAttacking = true;
+                    CurrentIndex = 0;
+                    ElapsedTime = 0;
+                    FPS = 3;
                 }
             }
         }
@@ -405,9 +425,20 @@ namespace Mortens_Komeback_3
         public void ChangeWeapon(WeaponType weapon)
         {
 
-            if (!attacking)
+            if (!swordAttacking)
                 equippedWeapon = (Weapon)inventory.Find(x => (WeaponType)x.Type == weapon);
-
+            switch (equippedWeapon.Type) //Changes sprites, depending on weapon type - Philip
+            {
+                case WeaponType.Melee:
+                    GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var meleeSprites);
+                    Sprites = meleeSprites;
+                    break;
+                case WeaponType.Ranged:
+                    GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenMunk, out var rangedSprites);
+                    Sprites = rangedSprites;
+                    break;
+                default: break;
+            }
         }
 
         /// <summary>
