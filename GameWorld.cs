@@ -889,8 +889,7 @@ namespace Mortens_Komeback_3
                         other.Type.GetType() == typeof(WeaponType) ||
                         other.GetType() == typeof(AvSurface) ||
                         other.GetType() == typeof(GoosiferFire) ||
-                        other.Type.GetType() == typeof(DoorType) //test remove
-
+                        other.Type.GetType() == typeof(DoorType)
                         ))
                     {
                         if ((gameObject as ICollidable).CheckCollision(other as ICollidable))
