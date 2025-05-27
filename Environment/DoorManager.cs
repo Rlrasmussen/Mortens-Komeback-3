@@ -34,7 +34,7 @@ namespace Mortens_Komeback_3.Environment
             Room catacombesC = new Room(RoomType.CatacombesC, new Vector2(0, 8000));
             Room catacombesD = new Room(RoomType.CatacombesD, new Vector2(0, 10000));
             catacombesD.TopSideOfBigRoom = true;
-            Room catacombesD1 = new Room(RoomType.CatacombesD, new Vector2(0, 11500));
+            Room catacombesD1 = new Room(RoomType.CatacombesD1, new Vector2(0, 11515));
             catacombesD1.ButtomSideOfBigRoom = true;
             Room catacombesE = new Room(RoomType.CatacombesE, new Vector2(0, 14000));
             Room catacombesF = new Room(RoomType.CatacombesF, new Vector2(0, 16000));
@@ -55,12 +55,12 @@ namespace Mortens_Komeback_3.Environment
             Door doorD2 = new Door(new Vector2(-1190, 8000), DoorDirection.Left);
             Door doorE1 = new Door(new Vector2(1190, 8000), DoorDirection.Right);
             Door doorE2 = new Door(new Vector2(-1190, 10000), DoorDirection.Left);
-            Door doorF1 = new Door(new Vector2(0, 12100), DoorDirection.Bottom);
+            Door doorF1 = new Door(new Vector2(0, 12118), DoorDirection.Bottom);
             Door doorF2 = new Door(new Vector2(-800, 13400), DoorDirection.Top);    //tilbage til catacombesD fra catacombesE
             Door doorG1 = new Door(new Vector2(600, 13400), DoorDirection.Top);     //catacombesE til traproom
             Door doorH1 = new Door(new Vector2(1190, 14000), DoorDirection.Right);  //catacombesE til catacombesF //////
             Door doorH2 = new Door(new Vector2(-1190, 16000), DoorDirection.Left);  //pathfinding
-            //Door doorG3 = new Door(new Vector2(-800, 16600), DoorDirection.Bottom);  //videre
+            //Door doorG3 = new Door(new Vector2(-800, 16600), DoorDirection.Bottom);  //videsre
             //Door doorG2 = new Door(new Vector2(600, 16000), DoorDirection.Top);  //traproom
             Door doorG3 = new Door(new Vector2(-800, 22600), DoorDirection.Bottom);  //videre
             Door doorG2 = new Door(new Vector2(600, 22600), DoorDirection.Bottom);  //traproom
