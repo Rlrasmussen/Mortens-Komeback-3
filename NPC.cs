@@ -165,13 +165,15 @@ namespace Mortens_Komeback_3
                 case NPCType.Hole0:
                     Holo0Dialogue();
                     break;
+                case NPCType.Empty:
+                    EmptyDialogoue();
+                    break;
                 case NPCType.Ghost:
-                    GhostDialogoue();
+                    GhostDialogue();
                     break;
             }
 
         }
-
 
         /// <summary>
         /// NPCType Pope dialogue
@@ -382,19 +384,32 @@ namespace Mortens_Komeback_3
         }
 
 
-        private void GhostDialogoue()
+        private void EmptyDialogoue()
         {
 
                 StartConversation();
                 npcText = "";
                 reply++;
+            Player.Instance.Position = new Vector2(-250, 250);
+            //Player.Instance.Position = new Vector2(0, 22000);
+            EndConversation();
+
+        }
 
 
-                Player.Instance.Position = new Vector2(-250, 250);
-                //GameObject kage = GameWorld.Instance.GameObjects.Find((x => x.Type is CutSceneRoom.CutsceneMovie));
-                //GameWorld.Instance.GameObjects.Remove(kage);
+        private void GhostDialogue()
+        {
+            if (reply == 0)
+            {
+                StartConversation();
+                reply++;
+                GameWorld.Instance.Sounds[Sound.Ghost].Play();
+                npcText = "It's a trap";
+            }
+            else
+            {
                 EndConversation();
-
+            }
         }
 
         /// <summary>

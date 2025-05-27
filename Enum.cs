@@ -144,7 +144,8 @@ namespace Mortens_Komeback_3
         Click,
         CatacombDoor,
         PuzzleFail,
-        PuzzleSucces
+        PuzzleSucces,
+        Ghost
     }
 
     /// <summary>
@@ -210,6 +211,7 @@ namespace Mortens_Komeback_3
         Nun,
         Hole0,
         Coffin,
+        Empty,
         Ghost
     }
 
