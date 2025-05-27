@@ -64,13 +64,13 @@ namespace Mortens_Komeback_3
             get => base.IsAlive;
             set
             {
-                base.IsAlive = value;
-
-                if (!value)
+                if (!value && IsAlive)
                     GameWorld.Instance.Sounds[Sound.GooseSound].Play();
 
-                if (State is BossFightState)
+                if (State is BossFightState && !value && IsAlive)
                     State.Exit();
+
+                base.IsAlive = value;
             }
         }
         public bool DisablePPCollision { get => disablePPCollision; }
