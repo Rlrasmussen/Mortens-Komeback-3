@@ -282,11 +282,7 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region Traproom
-            gameObjects.Add(new Decoration(DecorationType.Tomb, new Vector2(-823 +84, 21648 + 100), 0));
-            for (int i = 0; i < 3; i++)
-            {
-                gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(-815 + (815 * i), 22020), 0));
-            }
+            
             #endregion
 
             //GameWorld.Instance.SpawnObject(EnemyPool.Instance.GetObject(EnemyType.WalkingGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
@@ -358,7 +354,11 @@ namespace Mortens_Komeback_3
             {
                 SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(-400, 22120 + 18), 0));
                 SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(400, 21510), 0));
-
+                gameObjects.Add(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), 0));
+                for (int i = 0; i < 3; i++)
+                {
+                    gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(-815 + (815 * i), 22020), 0));
+                }
                 trap = true;
             }
 
