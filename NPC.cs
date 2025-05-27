@@ -75,16 +75,16 @@ namespace Mortens_Komeback_3
                 Sprite = sadNun;
                 animate = false;
             }
+            if (type is NPCType.Hole0)
+            {
+                layer = 0.5f;
+            }
             else if (type is NPCType.Pope)
             {
                 Sprite = sadPope;
                 animate = false;
             }
 
-            if (type is NPCType.Hole0)
-            {
-                layer = 0.5f;
-            }
         }
 
         #endregion
@@ -198,7 +198,7 @@ namespace Mortens_Komeback_3
             else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponMelee) == null)
             {
                 StartConversation();
-                npcText = "Here take this sword and fight those geese";
+                npcText = "Here take this sword and slay the fowl geese!";
                 Sprite = giveSwordPope;
                 reply++;
                 GameWorld.Instance.SpawnObject(new WeaponMelee(WeaponType.Melee, Player.Instance.Position - new Vector2(0, 150)));
@@ -236,7 +236,7 @@ namespace Mortens_Komeback_3
 
                 if (happy == true) //Happy
                 {
-                    npcText = "I don't need this slingshot anymore, maybe you can use it for something \nPress left mouse to shoot";
+                    npcText = "I don't need this slingshot anymore, maybe you can use it for something";
                     GameWorld.Instance.SpawnObject(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position - new Vector2(0, 150)));
                     GameWorld.Instance.Notify(StatusType.Delivered);
                 }
@@ -250,7 +250,7 @@ namespace Mortens_Komeback_3
             else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponRanged) != null)
             {
                 StartConversation();
-                npcText = "Try pressing left mouse to shoot \nBless you Morten and your courag";
+                npcText = "Try pressing left mouse to shoot \nBless you Morten and your courage";
                 reply++;
             }
             else
@@ -271,12 +271,12 @@ namespace Mortens_Komeback_3
                 if (reply == 0)
                 {
                     StartConversation();
-                    npcText = "No stop I'm not with the other geese \nYou can trust me - I'm a Canada goose";
+                    npcText = "Stop, don't attack me! I'm not like the other geese \nTrust me - I'm a Canada goose aye";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
                 }
                 else if (reply == 1)
                 {
-                    npcText = "I saw a goose running through here with something in its beak";
+                    npcText = "I saw a goose running through here with something shiny in its beak";
                 }
                 else if (reply == 2)
                 {
@@ -292,12 +292,12 @@ namespace Mortens_Komeback_3
                 if (reply == 0)
                 {
                     StartConversation();
-                    npcText = "It just went through here! No need to be afraid ...";
+                    npcText = "It went right trough here! No need to be afraid ...";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
                 }
                 else if (reply == 1)
                 {
-                    npcText = "Good luck";
+                    npcText = "Good luck, you'll need it";
                 }
                 else
                 {
@@ -327,8 +327,8 @@ namespace Mortens_Komeback_3
                 StartConversation();
                 if (happy == true && nunPuzzle == false) //Happy
                 {
-                    npcText = "Thank you Morten take this\n" +
-                        "Can you help me with these rocks?\n";
+                    npcText = "To show my gratitude, here is something for your wounds\n" +
+                        "Can you help me with these big rocks?\n";
                     GameWorld.Instance.SpawnObject(new Item(ItemType.GeesusBlood, Player.Instance.Position - new Vector2(0, 150)));
                     nunPuzzle = true;
                     GameWorld.Instance.Notify(StatusType.Delivered);
@@ -346,7 +346,7 @@ namespace Mortens_Komeback_3
             else if(reply ==1)
             {
                 npcText = "I wish the light from the cracks in the walls\n" +
-                    "would shine on the holy cross!\n" +
+                    "would shine upon the holy cross!\n" +
                     "The light doesn't seem to like shining on the rocks...";
                 reply++;
             }
@@ -365,7 +365,7 @@ namespace Mortens_Komeback_3
             if (reply == 0)
             {
                 StartConversation();
-                npcText = "Did you talk to the pope?";
+                npcText = "Did you talk to the pope yet?";
                 reply++;
             }
             else
