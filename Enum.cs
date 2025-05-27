@@ -151,7 +151,7 @@ namespace Mortens_Komeback_3
         Background,
         Death,
         Win,
-        //Pope,
+        Pope,
         GoosiferFigth,
         TrapRoom,
         Menu
@@ -188,7 +188,8 @@ namespace Mortens_Komeback_3
         CatacombesF,
         CatacombesG,
         CatacombesH,
-        TrapRoom
+        TrapRoom,
+        Curscene
 
     }
 
@@ -203,7 +204,8 @@ namespace Mortens_Komeback_3
         Monk,
         Nun,
         Hole0,
-        Coffin
+        Coffin,
+        Ghost
     }
 
     /// <summary>
@@ -287,5 +289,10 @@ namespace Mortens_Komeback_3
         Delivered,
         GoosiferFigth,
         BackGroundMusic
+    }
+
+    public enum CutSceneRoom
+    {
+        CutsceneMovie
     }
 }

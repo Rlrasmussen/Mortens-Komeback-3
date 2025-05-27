@@ -42,6 +42,8 @@ namespace Mortens_Komeback_3.Environment
             Room catacombesH = new Room(RoomType.CatacombesH, new Vector2(0, 20000));
             Room trapRoom = new Room(RoomType.TrapRoom, new Vector2(0, 22000));
 
+            Room cutscene = new Room(RoomType.Curscene, new Vector2(0,-2000));
+
             popeRoom.AddTiles();
 
             // Create Doors
@@ -148,6 +150,7 @@ namespace Mortens_Komeback_3.Environment
             Rooms.Add(catacombesG);
             Rooms.Add(catacombesH);
             Rooms.Add(trapRoom);
+            Rooms.Add(cutscene);
 
             Doors.Add(doorA1);
             Doors.Add(doorA2);
