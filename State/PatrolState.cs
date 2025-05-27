@@ -89,8 +89,12 @@ namespace Mortens_Komeback_3.State
                 if (patrolPath == null || patrolPath.Count == 0)
                     parent.PauseAStar = false;
                 else
+                {
                     foreach (Vector2 waypoint in patrolPath)
                         waypoints.Enqueue(waypoint);
+                    if (target == Vector2.Zero)
+                        target = waypoints.Dequeue();
+                }
             }
 
             if (target != Vector2.Zero && Vector2.Distance(parent.Position, Player.Instance.Position) > 15)

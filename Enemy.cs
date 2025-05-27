@@ -27,6 +27,7 @@ namespace Mortens_Komeback_3
         private Vector2 playerPreviousPos;
         private bool waitforAStar = false; //Used for making sure that player doens't move before a star proces is done.
         private IState<Enemy> state;
+        private Thread aStarThread;
 
         #endregion
 
@@ -45,6 +46,16 @@ namespace Mortens_Komeback_3
         public Vector2 Direction { get; set; }
         public Room InRoom { get; set; }
         public bool IgnoreState { get; set; } = false;
+        public override bool IsAlive 
+        { 
+            get => base.IsAlive;
+            set
+            {
+                base.IsAlive = value;
+                if (State is BossFightState)
+                    State.Exit();
+            } 
+        }
 
         #endregion
 
@@ -141,7 +152,7 @@ namespace Mortens_Komeback_3
                 {
                     enemyRoom.AddTiles();
                 }
-                Thread aStarThread = new Thread(() => RunAStar(this, Player.Instance, enemyRoom.Tiles)); //Philip
+                aStarThread = new Thread(() => RunAStar(this, Player.Instance, enemyRoom.Tiles)); //Philip
                 aStarThread.IsBackground = true;
                 aStarThread.Start();
             }
@@ -196,23 +207,31 @@ namespace Mortens_Komeback_3
         /// <param name="tiles">A dictionary of tiles, in the current room. </param>
         public void RunAStar(GameObject enemy, GameObject destinationObject, Dictionary<Vector2, Tile> tiles)
         {
+
+            Dictionary<Vector2, Tile> privateDictionary = new Dictionary<Vector2, Tile>();
+
+            foreach (var item in tiles)
+            {
+                privateDictionary.Add(item.Key, new Tile(item.Value.Type, item.Value.Position));
+            }
+
             while (IsAlive) //Thread Runs as long as Enemy is alive.
             {
-                while (pauseAStar == true) //Pause astar is managed by the Move method - makes sure the Astar thread doesn't use unnessecary resources
+                if (pauseAStar == false)
                 {
-                    Thread.Sleep(10);
+                    List<Tile> path = aStar.AStarFindPath(enemy, destinationObject, privateDictionary);
+                    if (path != null)
+                    {
+                        destinationsIndex = 0;
+                        destinations = path;
+                        pauseAStar = true;
+                    }
                 }
-                List<Tile> path = aStar.AStarFindPath(enemy, destinationObject, tiles);
-                if (path != null)
-                {
-                    destinationsIndex = 0;
-                    destinations = path;
-                    pauseAStar = true;
-                }
-
-                //waitforAStar = false;
             }
+
+            //waitforAStar = false;
         }
+
         /// <summary>
         /// Moves the enemy through it's list of destinations. --- Deprecated into PatrolState that can also take a preset path
         /// Philip 

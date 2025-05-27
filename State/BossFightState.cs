@@ -100,7 +100,7 @@ namespace Mortens_Komeback_3.State
         public void Exit()
         {
 
-
+            GameWorld.Instance.SpawnObject(new Item(ItemType.Grail, new Vector2(1060, 20000)));
 
         }
 

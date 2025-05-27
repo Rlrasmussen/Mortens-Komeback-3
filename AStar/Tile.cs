@@ -20,6 +20,7 @@ namespace Mortens_Komeback_3
         private bool discovered = false;
         private Tile parent;
 
+
         public int G { get; set; }
         public int H { get; set; }
         public int F => G + H;
@@ -37,6 +38,8 @@ namespace Mortens_Komeback_3
                 }
             }
         }
+
+        public bool ShowTile { get; set; } = false;
 
         public Tile(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
@@ -73,7 +76,7 @@ namespace Mortens_Komeback_3
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+                base.Draw(spriteBatch);
         }
     }
 }
