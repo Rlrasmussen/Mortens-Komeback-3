@@ -45,6 +45,16 @@ namespace Mortens_Komeback_3
         public Vector2 Direction { get; set; }
         public Room InRoom { get; set; }
         public bool IgnoreState { get; set; } = false;
+        public override bool IsAlive 
+        { 
+            get => base.IsAlive;
+            set
+            {
+                base.IsAlive = value;
+                if (State is BossFightState)
+                    State.Exit();
+            } 
+        }
 
         #endregion
 
