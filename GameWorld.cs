@@ -134,7 +134,10 @@ namespace Mortens_Komeback_3
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            IsMouseVisible = false;
+#if DEBUG
             IsMouseVisible = true;
+#endif
         }
 
         #endregion
