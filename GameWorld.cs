@@ -479,7 +479,9 @@ namespace Mortens_Komeback_3
         public void SpawnObject(GameObject gameObject)
         {
             newGameObjects.Add(gameObject);
+#if DEBUG
             Debug.WriteLine(gameObject.ToString() + " added to spawnlist");
+#endif
 
         }
 
@@ -489,13 +491,17 @@ namespace Mortens_Komeback_3
         /// </summary>
         private void CleanUp()
         {
+#if DEBUG
             foreach (GameObject go in gameObjects.FindAll(x => !x.IsAlive))
             {
                 Debug.WriteLine("Removed" + go.Type);
             }
+#endif
             int remove = gameObjects.RemoveAll(x => !x.IsAlive);
+#if DEBUG
             if (remove > 0)
                 Debug.WriteLine($"{remove} objects removed from gameObjects");
+#endif
 
             if (newGameObjects.Count > 0)
             {
@@ -504,7 +510,9 @@ namespace Mortens_Komeback_3
                     gameObject.Load();
 
                 gameObjects.AddRange(newGameObjects);
+#if DEBUG
                 Debug.WriteLine($"{newGameObjects.Count} objects added to gameObjects");
+#endif
                 newGameObjects.Clear();
 
             }
@@ -609,6 +617,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(ItemType.Bible, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\bible") });
             Sprites.Add(ItemType.Rosary, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\rosary") });
             Sprites.Add(ItemType.GeesusBlood, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Items\\potion") });
+            Sprites.Add(ItemType.Grail, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\gral")});
 
             #endregion
             #region Menu
@@ -727,9 +736,11 @@ namespace Mortens_Komeback_3
 
             #endregion
             #region Debug
+#if DEBUG
             Sprites.Add(DebugEnum.Pixel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Debug\\pixel") });
             Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
-            #endregion
+#endif
+#endregion
             #region Cutscene
             Texture2D[] cutscene = new Texture2D[56];
             for (int i = 0; i < cutscene.Length; i++)

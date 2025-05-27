@@ -120,9 +120,10 @@ namespace Mortens_Komeback_3.Command
 
             if (GameWorld.Instance.Sprites.TryGetValue(type, out var sprites))
                 sprite = sprites[0];
+#if DEBUG
             else
                 Debug.WriteLine("Kunne ikke sætte sprite for " + ToString());
-
+#endif
             inputThread = new Thread(HandleInput);
             inputThread.IsBackground = true;
             inputThread.Start();

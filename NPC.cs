@@ -56,8 +56,10 @@ namespace Mortens_Komeback_3
         {
             if (GameWorld.Instance.Sprites.TryGetValue(type, out var sprites))
                 Sprites = sprites;
+#if DEBUG
             else
                 Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
+#endif
 
             animate = true;
 
