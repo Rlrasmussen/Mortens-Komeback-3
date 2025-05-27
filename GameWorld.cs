@@ -62,6 +62,8 @@ namespace Mortens_Komeback_3
         private bool musicOn = true;
         private bool soundOn = true;
 
+        private Song backgroundMusic;
+
         #endregion
 
         #region Properties
@@ -200,6 +202,10 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(50, 3600), rotationTop)); 
             gameObjects.Add(new Decoration(DecorationType.Cobweb, new Vector2(-1160, 16500), rotationTop)); 
 
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447, -430), rotationTop)); //Under the painting in PopeRoom
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
+
+
             #endregion
 
 
@@ -217,7 +223,7 @@ namespace Mortens_Komeback_3
             OrderPuzzle orderPuzzle = new OrderPuzzle(PuzzleType.OrderPuzzle, new Vector2(DoorManager.doorList["doorB1"].Position.X - 500, DoorManager.doorList["doorB1"].Position.Y + 500), DoorManager.doorList["doorB1"], new Vector2(300, 2000), new Vector2(100, 2000), new Vector2(-100, 2000), 0);
             gameObjects.Add(orderPuzzle);
             gamePuzzles.Add(orderPuzzle);
-            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X-400, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI*0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X-800, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
+            ShootPuzzle shootPuzzle2 = new ShootPuzzle(PuzzleType.ShootPuzzle, new Vector2(DoorManager.doorList["doorD1"].Position.X, DoorManager.doorList["doorD1"].Position.Y - 400), DoorManager.doorList["doorD1"], new Vector2(DoorManager.doorList["doorD1"].Position.X - 400, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, new Vector2(DoorManager.doorList["doorD1"].Position.X - 800, DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesB).Position.Y), (float)Math.PI * 0.5f, 1);
             gameObjects.Add(shootPuzzle2);
             gamePuzzles.Add(shootPuzzle2);
             PathfindingPuzzle pathfindingPuzzle = new PathfindingPuzzle(PuzzleType.PathfindingPuzzle,
@@ -236,10 +242,12 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC + Bible & Rosary
-            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 16000)));
-            gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
+            //Player.Instance.Position = new Vector2(600, 3400);
 
-            NPC pope = new NPC(NPCType.Pope, new Vector2(200, 200));
+            
+
+            NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
+            NPC coffin = new NPC(NPCType.Coffin, new Vector2(600, 2300));
             NPC hole0 = new NPC(NPCType.Hole0, new Vector2(600, 3400));
             NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
             NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16000));
@@ -248,6 +256,7 @@ namespace Mortens_Komeback_3
             canadaGoose2.Canada = true;
 
             npcs.Add(pope);
+            npcs.Add(coffin);
             npcs.Add(monk);
             npcs.Add(nun);
             npcs.Add(canadaGoose1);
@@ -257,6 +266,15 @@ namespace Mortens_Komeback_3
             foreach (GameObject npc in npcs)
             {
                 gameObjects.Add(npc);
+            }
+
+            if (Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
+            {
+                gameObjects.Add(new Item(ItemType.Rosary, new Vector2(0, 22000)));
+            }
+            if (Player.Instance.Inventory.Find(x => x is WeaponMelee) != null)
+            {
+                gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
             }
             #endregion
 
@@ -273,8 +291,12 @@ namespace Mortens_Komeback_3
 
             SavePoint.LoadSave();
 
-
+            //Music
+            backgroundMusic = Music[MusicTrack.Background];
+            MediaPlayer.Play(Music[MusicTrack.Background]);
+            MediaPlayer.IsRepeating = true;
         }
+
         /// <summary>
         /// Handles update logic
         /// Simon
@@ -295,7 +317,29 @@ namespace Mortens_Komeback_3
                 DoCollisionCheck(gameObject);
             }
 
+            #region Chances of background music in some rooms
+            if (backgroundMusic != Music[MusicTrack.GoosiferFigth] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
+            {
+                backgroundMusic = Music[MusicTrack.GoosiferFigth];
+                MediaPlayer.Play(backgroundMusic);
+            }
+            else if (backgroundMusic != Music[MusicTrack.TrapRoom] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom))
+            {
+                backgroundMusic = Music[MusicTrack.TrapRoom];
+                MediaPlayer.Play(backgroundMusic);
+            }
+            else if (backgroundMusic != Music[MusicTrack.Death] && Player.Instance.IsAlive == false) //Player is dead
+            {
+                backgroundMusic = Music[MusicTrack.Death];
+                MediaPlayer.Play(backgroundMusic);
+            }
 
+            //else if (backgroundMusic != Music[MusicTrack.Win] && Player.Instance.IsAlive == false) //Player win
+            //{
+            //    backgroundMusic = Music[MusicTrack.Win];
+            //    MediaPlayer.Play(backgroundMusic);
+            //}
+            #endregion
 
             //if (gamePaused)
             //{
@@ -502,6 +546,13 @@ namespace Mortens_Komeback_3
             }
             Sprites.Add(PlayerType.MortenAngriber, crusaderAttack);
 
+            //Texture2D[] holyWalk = new Texture2D[4];
+            //for (int i = 0; i < holyWalk.Length; i++)
+            //{
+            //    holyWalk[i] = Content.Load<Texture2D>($"Sprites\\Player\\helligMortenHvid{i}");
+            //}
+            //Sprites.Add(PlayerType.MortenSling, holyWalk);
+
             #endregion
             #region Enemy
 
@@ -562,6 +613,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(NPCType.Nun, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\nunNPCrosary2"), Content.Load<Texture2D>("Sprites\\NPC\\nunNPC") });
             Sprites.Add(NPCType.Pope, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\pope0"), Content.Load<Texture2D>("Sprites\\NPC\\pope1") });
             Sprites.Add(NPCType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
+            Sprites.Add(NPCType.Coffin, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\coffin") });
 
             Texture2D[] canadaGoose = new Texture2D[6];
             for (int i = 0; i < canadaGoose.Length; i++)
@@ -705,15 +757,15 @@ namespace Mortens_Komeback_3
 
             Music.Add(MusicTrack.Battle, Content.Load<Song>("Music\\battleMusic"));
 
-            Music.Add(MusicTrack.Background, Content.Load<Song>("Music\\bgMusic"));
+            Music.Add(MusicTrack.Background, Content.Load<Song>("Music\\Virtutes Vocis"));
 
             Music.Add(MusicTrack.Death, Content.Load<Song>("Music\\Funeral March for Brass"));
 
-            Music.Add(MusicTrack.Pope, Content.Load<Song>("Music\\Virtutes Vocis"));
+            //Music.Add(MusicTrack.Pope, Content.Load<Song>("Music\\Virtutes Vocis"));
 
-            Music.Add(MusicTrack.GoosiferFigth, Content.Load<Song>("Music\\intense-gritty-hard-rock-270016"));
+            Music.Add(MusicTrack.TrapRoom, Content.Load<Song>("Music\\intense-gritty-hard-rock-270016"));
 
-            Music.Add(MusicTrack.TrapRoom, Content.Load<Song>("Music\\Trap room"));
+            Music.Add(MusicTrack.GoosiferFigth, Content.Load<Song>("Music\\Trap room"));
 
             Music.Add(MusicTrack.Menu, Content.Load<Song>("Music\\menu"));
 
@@ -985,7 +1037,8 @@ namespace Mortens_Komeback_3
         public void ResumeGame()
         {
             CurrentMenu = MenuType.Playing;
-            MediaPlayer.Resume(); // Fortsætter musikken, hvis den blev pauset
+            //MediaPlayer.Resume(); // Fortsætter musikken, hvis den blev pauset
+            MediaPlayer.Play(Music[MusicTrack.Background]);
             gamePaused = false;
         }
         #endregion
