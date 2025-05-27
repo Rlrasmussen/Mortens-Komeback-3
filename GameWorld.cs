@@ -247,7 +247,8 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region NPC + Bible & Rosary
-            NPC ghost = new NPC(NPCType.Ghost, new Vector2(0, -2000));
+            NPC empty = new NPC(NPCType.Empty, new Vector2(0, -2000));
+            NPC ghost = new NPC(NPCType.Ghost, new Vector2(0, 22000));
             NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
             NPC coffin = new NPC(NPCType.Coffin, new Vector2(600, 2300));
             NPC hole0 = new NPC(NPCType.Hole0, new Vector2(600, 3400));
@@ -257,6 +258,7 @@ namespace Mortens_Komeback_3
             NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 18000));
             canadaGoose2.Canada = true;
 
+            npcs.Add(empty);
             npcs.Add(ghost);
             npcs.Add(pope);
             npcs.Add(coffin);
@@ -568,12 +570,6 @@ namespace Mortens_Komeback_3
                 monkAttack[i] = Content.Load<Texture2D>($"Sprites\\Player\\monkSling0");
             }
             Sprites.Add(PlayerType.MortenSling, monkAttack);
-            //Texture2D[] holyWalk = new Texture2D[4];
-            //for (int i = 0; i < holyWalk.Length; i++)
-            //{
-            //    holyWalk[i] = Content.Load<Texture2D>($"Sprites\\Player\\helligMortenHvid{i}");
-            //}
-            //Sprites.Add(PlayerType.MortenSling, holyWalk);
 
             #endregion
             #region Enemy
@@ -636,8 +632,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(NPCType.Pope, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\NPC\\pope0"), Content.Load<Texture2D>("Sprites\\NPC\\pope1") });
             Sprites.Add(NPCType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
             Sprites.Add(NPCType.Coffin, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\coffin") });
-            Sprites.Add(NPCType.Ghost, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\sqaure200x200") });
-
+            Sprites.Add(NPCType.Empty, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\sqaure200x200") });
 
             Texture2D[] canadaGoose = new Texture2D[6];
             for (int i = 0; i < canadaGoose.Length; i++)
@@ -646,7 +641,12 @@ namespace Mortens_Komeback_3
             }
             Sprites.Add(NPCType.CanadaGoose, canadaGoose);
 
-
+            Texture2D[] ghost = new Texture2D[3];
+            for (int i = 0; i < ghost.Length; i++)
+            {
+                ghost[i] = Content.Load<Texture2D>($"Sprites\\NPC\\ghost{i}");
+            }
+            Sprites.Add(NPCType.Ghost, ghost);
             #endregion
             #region Overlay
 
@@ -765,6 +765,7 @@ namespace Mortens_Komeback_3
             Sounds.Add(Sound.CatacombDoor, Content.Load<SoundEffect>("Sounds\\Environment\\Door"));
             Sounds.Add(Sound.PuzzleFail, Content.Load<SoundEffect>("Sounds\\Environment\\puzzleFailSound"));
             Sounds.Add(Sound.PuzzleSucces, Content.Load<SoundEffect>("Sounds\\Environment\\puzzleSuccesSound"));
+            Sounds.Add(Sound.Ghost, Content.Load<SoundEffect>("Sounds\\Environment\\ghost sound"));
 
 
             #endregion
@@ -814,7 +815,6 @@ namespace Mortens_Komeback_3
         private void AddLocations()
         {
             Locations.Add(Location.Spawn, new Vector2(0, -2000));
-
             Locations.Add(Location.Test, new Vector2(500, 0));
             Locations.Add(Location.PuzzleOne, new Vector2(900, 2000));
             Locations.Add(Location.PuzzleTwo, new Vector2(900, 6000));
