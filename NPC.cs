@@ -299,6 +299,7 @@ namespace Mortens_Komeback_3
             if (reply > 2)
             {
                 reply = 0;
+                EndConversation();
             }
             else
             {
