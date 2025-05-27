@@ -46,15 +46,15 @@ namespace Mortens_Komeback_3
         public Vector2 Direction { get; set; }
         public Room InRoom { get; set; }
         public bool IgnoreState { get; set; } = false;
-        public override bool IsAlive 
-        { 
+        public override bool IsAlive
+        {
             get => base.IsAlive;
             set
             {
                 base.IsAlive = value;
                 if (State is BossFightState)
                     State.Exit();
-            } 
+            }
         }
 
         #endregion
@@ -130,10 +130,12 @@ namespace Mortens_Komeback_3
             {
                 if (GameWorld.Instance.Sprites.TryGetValue(type, out var sprites))
                     Sprites = sprites;
+#if DEBUG
                 else
                     Debug.WriteLine("Kunne ikke sætte sprites for " + ToString());
-
-                Sprite = Sprites[0];
+#endif
+                if (Sprites != null)
+                    Sprite = Sprites[0];
 
                 Rectangles = (this as IPPCollidable).CreateRectangles();
             }
@@ -257,16 +259,24 @@ namespace Mortens_Komeback_3
             }
             else if (destinationsIndex < destinations.Count - 1 && !waitforAStar) //If destination is reached, and there are more destinations, sets the next
             {
+#if DEBUG
                 Debug.WriteLine("Enemy reached destination" + destination);
+#endif
                 destinationsIndex += 1; //NOTICE: first destination is ignored. 
                 destination = destinations[destinationsIndex].Position;
+#if DEBUG
                 Debug.WriteLine("New destination:" + destination);
+#endif
             }
             else if (!CollisionBox.Intersects(Player.Instance.CollisionBox) && !(playerPreviousPos == Player.Instance.Position) && !waitforAStar) //If destination is reached, there are no more, and enemy has not reached the player, a new path is set to be calculated by astar
             {
+#if DEBUG
                 Debug.WriteLine("Enemy reached final destination");
+#endif
                 playerPreviousPos = Player.Instance.Position;
+#if DEBUG
                 Debug.WriteLine("Enemy calls playerpos: " + Player.Instance.Position + "Enemy pos: " + Position);
+#endif
                 waitforAStar = true; //Make sure enemy doens't move until RunAstar-Method is done
                 pauseAStar = false; //Makes the aStar thread not sleep
             }

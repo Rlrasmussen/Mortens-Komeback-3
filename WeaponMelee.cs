@@ -43,9 +43,10 @@ namespace Mortens_Komeback_3
 
             if (GameWorld.Instance.Sprites.TryGetValue(AttackType.Swing, out Texture2D[] sprites))
                 vfx = sprites;
+#if DEBUG
             else
                 Debug.WriteLine("Kunne ikke sætte VFX");
-
+#endif
             damage = 10;
             range = 300f;
 

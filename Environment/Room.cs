@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using SharpDX.Direct2D1;
 using Mortens_Komeback_3.Factory;
 using Mortens_Komeback_3.State;
 using System.IO;

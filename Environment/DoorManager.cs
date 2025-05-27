@@ -198,9 +198,9 @@ namespace Mortens_Komeback_3.Environment
                     enemies.Add((EnemyType.AggroGoose, new Vector2(850, 8420)));
                     break;
                 case RoomType.CatacombesD:
-                    enemies.Add((EnemyType.AggroGoose, new Vector2(-300, 9700)));
+                    enemies.Add((EnemyType.WalkingGoose, new Vector2(-300, 9700)));
                     enemies.Add((EnemyType.AggroGoose, new Vector2(-260, 10550)));
-                    enemies.Add((EnemyType.AggroGoose, new Vector2(350, 10400)));
+                    enemies.Add((EnemyType.WalkingGoose, new Vector2(350, 10400)));
                     enemies.Add((EnemyType.AggroGoose, new Vector2(330, 9580)));
                     enemies.Add((EnemyType.AggroGoose, new Vector2(430, 11000)));
                     enemies.Add((EnemyType.AggroGoose, new Vector2(-800, 11330)));
