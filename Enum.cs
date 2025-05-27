@@ -8,7 +8,8 @@ namespace Mortens_Komeback_3
     public enum PlayerType
     {
         Morten,
-        MortenAngriber
+        MortenAngriber,
+        MortenSkyder
     }
 
     /// <summary>

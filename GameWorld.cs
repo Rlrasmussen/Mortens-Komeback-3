@@ -503,6 +503,19 @@ namespace Mortens_Komeback_3
             }
             Sprites.Add(PlayerType.MortenAngriber, crusaderAttack);
 
+            Texture2D[] monkWalk = new Texture2D[5];
+            for (int i = 0; i < monkWalk.Length; i++)
+            {
+                monkWalk[i] = Content.Load<Texture2D>($"Sprites\\Player\\MortenMonk{i}");
+            }
+            Sprites.Add(PlayerType.Morten, monkWalk);
+
+            Texture2D[] monkAttack = new Texture2D[11];
+            for (int i = 0; i < monkAttack.Length; i++)
+            {
+                monkAttack[i] = Content.Load<Texture2D>($"Sprites\\Player\\MonkSling{i}");
+            }
+            Sprites.Add(PlayerType.MortenSkyder, monkAttack);
             #endregion
             #region Enemy
 
