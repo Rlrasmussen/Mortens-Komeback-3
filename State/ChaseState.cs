@@ -51,12 +51,16 @@ namespace Mortens_Komeback_3.State
         public void Execute()
         {
 
+            float distance = Vector2.Distance(parent.Position, Player.Instance.Position);
+
             Vector2 direction = Player.Instance.Position - parent.Position;
             direction.Normalize();
             parent.Direction = direction;
-            parent.Position += direction * parent.Speed * GameWorld.Instance.DeltaTime;
 
-            if (Vector2.Distance(parent.Position, Player.Instance.Position) > 300)
+            if (distance > 30)
+                parent.Position += direction * parent.Speed * GameWorld.Instance.DeltaTime;
+
+            if (distance > 300)
                 Exit();
 
         }

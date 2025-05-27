@@ -836,6 +836,9 @@ namespace Mortens_Komeback_3
                     if (gameObject == other || collisions.Contains((gameObject, other)) || collisions.Contains((other, gameObject)) || (gameObject.Type.GetType() == other.Type.GetType() && !((PuzzleType)gameObject.Type == PuzzleType.PuzzleObstacle)) || !(other is ICollidable) || !gameObject.IsAlive || !other.IsAlive)
                         continue;
 
+                    if (!(gameObject as ICollidable).IsNear((other as ICollidable), 0f))
+                        continue;
+
                     if ((
                         gameObject.Type.GetType() == typeof(PlayerType) ||
                         gameObject.Type.GetType() == typeof(AttackType) ||

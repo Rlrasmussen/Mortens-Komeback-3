@@ -82,19 +82,19 @@ namespace Mortens_Komeback_3.State
                 parent.Destinations.Clear();
             }
 
-            if (Vector2.Distance(parent.Position, target) < 15 && waypoints.Count > 0)
+            if (Vector2.Distance(parent.Position, target) < 30 && waypoints.Count > 0)
                 target = waypoints.Dequeue();
             else if (waypoints.Count == 0 && parent.PauseAStar && parent.Destinations.Count == 0)
             {
-                if (patrolPath == null || patrolPath.Count == 0)
-                    parent.PauseAStar = false;
-                else
+                if (patrolPath.Count > 0)
                 {
                     foreach (Vector2 waypoint in patrolPath)
                         waypoints.Enqueue(waypoint);
                     if (target == Vector2.Zero)
                         target = waypoints.Dequeue();
                 }
+                else //(patrolPath == null || patrolPath.Count == 0)
+                    parent.PauseAStar = false;
             }
 
             if (target != Vector2.Zero && Vector2.Distance(parent.Position, Player.Instance.Position) > 15)
@@ -117,7 +117,7 @@ namespace Mortens_Komeback_3.State
         public void Exit()
         {
 
-            waypoints.Clear();
+            //waypoints.Clear();
             chasePlayer.Enter(parent);
 
         }
