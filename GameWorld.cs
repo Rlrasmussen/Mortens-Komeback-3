@@ -307,9 +307,9 @@ namespace Mortens_Komeback_3
 
             #endregion
             #region CatacombD
-            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 10300), 0));
-            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(380, 10900), 0));
-            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 11500), 0));
+            //gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 10300), 0));
+            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 10900), 0));
+            //gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 11500), 0));
             //gameObjects.Add(/*new Item(ItemType.GeesusBlood, new Vector2(-700, 11777))*/);
             for (int i = 0; i < 5; i++)
             {
