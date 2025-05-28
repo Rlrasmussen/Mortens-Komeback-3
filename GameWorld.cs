@@ -205,13 +205,12 @@ namespace Mortens_Komeback_3
             //gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(100, 600), rotationTop));
             //gameObjects.Add(new Decoration(DecorationType.Hole0, new Vector2(600, 3500), rotationTop)); //Used for testing - To be removed
             gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop));
-            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(50, 3600), rotationTop));
             gameObjects.Add(new Decoration(DecorationType.Cobweb, new Vector2(-1160, 16500), rotationTop));
 
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447, -430), rotationTop)); //Under the painting in PopeRoom
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
 
-
+         
             #endregion
 
 
@@ -262,6 +261,7 @@ namespace Mortens_Komeback_3
             NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
             NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 18000));
             canadaGoose2.Canada = true;
+            NPC chest = new NPC(NPCType.Chest, new Vector2(-650, 11810));
 
             npcs.Add(empty);
             npcs.Add(ghost);
@@ -271,7 +271,8 @@ namespace Mortens_Komeback_3
             npcs.Add(nun);
             npcs.Add(canadaGoose1);
             npcs.Add(canadaGoose2);
-            npcs.Add(hole0); //test
+            npcs.Add(hole0);
+            npcs.Add(chest);
 
             foreach (GameObject npc in npcs)
             {
@@ -285,21 +286,38 @@ namespace Mortens_Komeback_3
             }
             #endregion
 
-            #region Traproom
-            
-            #endregion
-
             //GameWorld.Instance.SpawnObject(EnemyPool.Instance.GetObject(EnemyType.WalkingGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
 
-            foreach (GameObject gameObject in gameObjects)
-                gameObject.Load();
 
             #region buttons and menu
 
             #endregion
+            #region CatecombA
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(600, 3450), rotationTop));
+            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(-976, 3636), 150));
+            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(-976 + 200, 3636), 150));
 
+            for (int i = 0; i < 5; i++)
+            {
+                gameObjects.Add(new Decoration(DecorationType.Barrel, new Vector2(1148 + i * 135, 4364), 0));
+            }
+            #endregion
+            #region CatacombC
+            gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(0, 8000), 0));
 
+            #endregion
+            #region CatacombD
+            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 10300), 0));
+            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(380, 10900), 0));
+            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 11500), 0));
+            //gameObjects.Add(/*new Item(ItemType.GeesusBlood, new Vector2(-700, 11777))*/);
+            for (int i = 0; i < 5; i++)
+            {
+            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(900, 9600 + i * 150), 0));
 
+            }
+
+            #endregion
 
             //Music
             backgroundMusic = Music[MusicTrack.Background];
@@ -307,6 +325,9 @@ namespace Mortens_Komeback_3
             MediaPlayer.IsRepeating = true;
 
             gameObjects.Add(new CutScene(CutSceneRoom.CutsceneMovie, new Vector2(0, -2000)));
+
+            foreach (GameObject gameObject in gameObjects)
+                gameObject.Load();
         }
 
 
@@ -336,7 +357,7 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.GoosiferFigth];
                 MediaPlayer.Play(backgroundMusic);
             }
-            else if (backgroundMusic != Music[MusicTrack.TrapRoom] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom))
+            else if (backgroundMusic != Music[MusicTrack.TrapRoom] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom) && trap == true)
             {
                 backgroundMusic = Music[MusicTrack.TrapRoom];
                 MediaPlayer.Play(backgroundMusic);
@@ -351,7 +372,7 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.Death];
                 MediaPlayer.Play(backgroundMusic);
             }
-            
+
 
 
             if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && trap == false)
@@ -366,8 +387,6 @@ namespace Mortens_Komeback_3
                 trap = true;
             }
 
-            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-
             //else if (backgroundMusic != Music[MusicTrack.Win] && Player.Instance.IsAlive == false) //Player win
             //{
             //    backgroundMusic = Music[MusicTrack.Win];
@@ -375,6 +394,7 @@ namespace Mortens_Komeback_3
             //}
             #endregion
 
+            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
             //if (gamePaused)
             //{
             //    switch (CurrentMenu)
@@ -670,6 +690,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(NPCType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
             Sprites.Add(NPCType.Coffin, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\coffin") });
             Sprites.Add(NPCType.Empty, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\sqaure200x200") });
+            Sprites.Add(NPCType.Chest, new Texture2D[2] { Content.Load<Texture2D>("Sprites\\Environment\\chestClosed"), Content.Load<Texture2D>("Sprites\\Environment\\chestOpen") });
 
             Texture2D[] canadaGoose = new Texture2D[6];
             for (int i = 0; i < canadaGoose.Length; i++)
@@ -750,10 +771,12 @@ namespace Mortens_Komeback_3
             Sprites.Add(DecorationType.Light, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\Light0"), Content.Load<Texture2D>("Sprites\\Environment\\Light1"), Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
             //Sprites.Add(DecorationType.Hole0, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole") });
             Sprites.Add(DecorationType.Hole1, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole1") });
+            Sprites.Add(DecorationType.Hole2, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hole2") });
             Sprites.Add(DecorationType.Candle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\candle") });
             Sprites.Add(DecorationType.Tomb, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tomb") });
             Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
 
+            Sprites.Add(DecorationType.Barrel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\barrel") });
 
             #endregion
             #region VFX

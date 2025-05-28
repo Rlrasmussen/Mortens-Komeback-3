@@ -30,6 +30,8 @@ namespace Mortens_Komeback_3
         private Texture2D sadMonk = GameWorld.Instance.Sprites[NPCType.Monk][1];
         private Texture2D giveSwordPope = GameWorld.Instance.Sprites[NPCType.Pope][1];
         private Texture2D sadPope = GameWorld.Instance.Sprites[NPCType.Pope][0];
+        private Texture2D chestClose = GameWorld.Instance.Sprites[NPCType.Chest][0];
+        private Texture2D chestOpen = GameWorld.Instance.Sprites[NPCType.Chest][1];
 
         private int reply = 0; //Number of reply
         private string npcText;
@@ -39,7 +41,7 @@ namespace Mortens_Komeback_3
         private bool animate; //Either the NPC is animated or only has 1 sprite
         private bool happy = false; //Monk/nun is happy to recive their item back
         private bool nunPuzzle = false; //If true the Player is ready for the puzzle 
-
+        private bool close = true;
         #endregion
 
         #region Properties
@@ -84,7 +86,12 @@ namespace Mortens_Komeback_3
                 Sprite = sadPope;
                 animate = false;
             }
-
+            else if (type is NPCType.Chest)
+            {
+                Sprite = chestClose;
+                animate = false;
+                scale = 2f;
+            }
         }
 
         #endregion
@@ -177,6 +184,9 @@ namespace Mortens_Komeback_3
                     break;
                 case NPCType.Ghost:
                     GhostDialogue();
+                    break;
+                case NPCType.Chest:
+                    ChestDialogue();
                     break;
             }
 
@@ -367,6 +377,27 @@ namespace Mortens_Komeback_3
                 StartConversation();
                 npcText = "Did you talk to the pope?";
                 reply++;
+            }
+            else
+            {
+                EndConversation();
+            }
+        }
+
+
+        private void ChestDialogue()
+        {
+            if (reply == 0)
+            {
+                StartConversation();
+                npcText = "Have you heard Goosifer is back?";
+                reply++;
+                if (close == true)
+                {
+                    GameWorld.Instance.SpawnObject(new Item(ItemType.GeesusBlood, Player.Instance.Position - new Vector2(0, 150)));
+                    close = false;
+                    Sprite = chestOpen;
+                }
             }
             else
             {
