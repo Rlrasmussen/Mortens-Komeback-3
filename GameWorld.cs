@@ -1043,6 +1043,7 @@ namespace Mortens_Komeback_3
                 case ButtonAction.TryAgain:
                     GameWorld.Instance.ClearSaveAndRestart();
                     GameWorld.Instance.ResumeGame();
+                    RestartGame = true;
 
 
                     break;
@@ -1076,7 +1077,7 @@ namespace Mortens_Komeback_3
         public void ClearSaveAndRestart()
         {
             // Sletter evt. gemt data (hvis relevant)
-            new ClearSaveCommand(); // Hvis du har en save manager
+            //new ClearSaveCommand(); // Hvis du har en save manager
             StartGame(); // Genstarter spillet
         }
 
