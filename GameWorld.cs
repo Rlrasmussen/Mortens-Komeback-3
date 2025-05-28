@@ -1097,11 +1097,11 @@ namespace Mortens_Komeback_3
             newGameObjects.Clear();
             gamePuzzles.Clear();
             DoorManager.doorList.Clear();
-            LoadContent();
             SavePoint.ClearSave();
             Player.Instance.Inventory.Clear();
             Player.Instance.EquippedWeapon = null;
             Player.Instance.Position = Locations[Location.Spawn];
+            LoadContent();
             RestartGame = false;
 
         }
