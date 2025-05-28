@@ -77,6 +77,7 @@ namespace Mortens_Komeback_3.Observer
                     break;
                 case StatusType.PlayerDead:
                     //Kald dead screan
+                    GameWorld.Instance.MenuManager.OpenMenu(MenuType.GameOver);
                     break;
                 case StatusType.Bible:
                     npcItem = 1;
@@ -93,6 +94,11 @@ namespace Mortens_Komeback_3.Observer
                     MediaPlayer.IsRepeating = true;
                     break;
                 case StatusType.BackGroundMusic:
+                    //MediaPlayer.Pause();
+                    MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Background]);
+                    MediaPlayer.IsRepeating = true;
+                    break;
+                case StatusType.Win:
                     //MediaPlayer.Pause();
                     MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Background]);
                     MediaPlayer.IsRepeating = true;
