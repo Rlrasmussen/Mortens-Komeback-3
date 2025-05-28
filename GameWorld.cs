@@ -172,8 +172,8 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddButtonDownCommand(Keys.Space, new DrawCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.M, new SaveCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new ClearSaveCommand());
-            InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
 #endif
+            InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
             CurrentMenu = MenuType.Playing;
 
             MenuManager = new MenuManager();
@@ -320,6 +320,12 @@ namespace Mortens_Komeback_3
         /// <param name="gameTime">DeltaTime</param>
         protected override void Update(GameTime gameTime)
         {
+
+            if (WinGame)
+            {
+                WinGame = false;
+                status.OnNotify(StatusType.Win);
+            }
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
