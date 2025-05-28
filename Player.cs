@@ -110,7 +110,7 @@ namespace Mortens_Komeback_3
         /// Returns which weapon (if any) is currently equipped for save-functionality
         /// Simon
         /// </summary>
-        public Weapon EquippedWeapon { get => equippedWeapon; }
+        public Weapon EquippedWeapon { get => equippedWeapon; set => equippedWeapon = value; }
 
         /// <summary>
         /// Used for movement
@@ -383,6 +383,9 @@ namespace Mortens_Komeback_3
                     case ItemType.GeesusBlood:
                         (other as Item).IsAlive = false;
                         Health += portionHelath;
+                        break;
+                    case ItemType.Grail:
+
                         break;
                     default:
                         break;
