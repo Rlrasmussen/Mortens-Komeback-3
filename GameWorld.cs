@@ -66,6 +66,8 @@ namespace Mortens_Komeback_3
         private Song backgroundMusic;
         private bool trap = false;
 
+        private bool win = false;
+
         #endregion
 
         #region Properties
@@ -382,11 +384,15 @@ namespace Mortens_Komeback_3
                 {
                     gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(-815 + (815 * i), 22020), 0));
                 }
-                SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(-400, 22120 + 18), 0));
+                SpawnObject(new AvSurface(SurfaceType.AvSurface, new (-400, 22120 + 18), 0));
                 SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(400, 21510), 0));
                 trap = true;
             }
 
+            if (win)
+            {
+                GameWorld.Instance.Notify(StatusType.Win);
+            }
             //else if (backgroundMusic != Music[MusicTrack.Win] && Player.Instance.IsAlive == false) //Player win
             //{
             //    backgroundMusic = Music[MusicTrack.Win];
@@ -1089,11 +1095,16 @@ namespace Mortens_Komeback_3
                     break;
 
                 case ButtonAction.QuitGame:
+                    gameRunning = false;
                     GameWorld.Instance.ExitGame();
+
                     break;
 
                 case ButtonAction.TryAgain:
                     GameWorld.Instance.ClearSaveAndRestart();
+                    GameWorld.Instance.ResumeGame();
+
+
                     break;
 
                 case ButtonAction.ResumeGame:
