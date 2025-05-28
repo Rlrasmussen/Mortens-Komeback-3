@@ -165,9 +165,9 @@ namespace Mortens_Komeback_3
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
             // this should be illegal
-            InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
 
 #if DEBUG
+            InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.R, new RestartCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.Space, new DrawCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.M, new SaveCommand());
