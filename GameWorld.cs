@@ -256,7 +256,7 @@ namespace Mortens_Komeback_3
             NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
             NPC coffin = new NPC(NPCType.Coffin, new Vector2(600, 2300));
             NPC hole0 = new NPC(NPCType.Hole0, new Vector2(600, 3400));
-            NPC monk = new NPC(NPCType.Monk, new Vector2(-800, 6000));
+            NPC monk = new NPC(NPCType.Monk, new Vector2(-500, 6200));
             NPC nun = new NPC(NPCType.Nun, new Vector2(-600, 16000));
             NPC canadaGoose1 = new NPC(NPCType.CanadaGoose, new Vector2(0, 14000));
             NPC canadaGoose2 = new NPC(NPCType.CanadaGoose, new Vector2(0, 18000));
@@ -726,9 +726,11 @@ namespace Mortens_Komeback_3
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD3"),
                 Content.Load<Texture2D>("Sprites\\Environment\\avsurfaceILD4") });
 
-            Sprites.Add(SurfaceType.BigSpikes, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes0"),
+            Sprites.Add(SurfaceType.BigSpikes, new Texture2D[5] { Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes0"),
                 Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes1"),
-                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes2") });
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes2"),
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes3"),
+                Content.Load<Texture2D>("Sprites\\Environment\\bigSpikes4") });
 
             Sprites.Add(SurfaceType.Spikes, new Texture2D[3] { Content.Load<Texture2D>("Sprites\\Environment\\spike0"),
                 Content.Load<Texture2D>("Sprites\\Environment\\spike1"),
