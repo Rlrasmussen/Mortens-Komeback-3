@@ -1160,18 +1160,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/bigSpikes0.png
 
-#begin Sprites/Environment/bigSpikes0.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/bigSpikes0.png
-
 #begin Sprites/Environment/bigSpikes1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1183,30 +1171,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/bigSpikes1.png
-
-#begin Sprites/Environment/bigSpikes1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/bigSpikes1.png
-
-#begin Sprites/Environment/bigSpikes2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/bigSpikes2.png
 
 #begin Sprites/Environment/bigSpikes2.png
 /importer:TextureImporter
@@ -1928,6 +1892,30 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Menu/buttonPressed.png
 
+#begin Sprites/Menu/buttontoggleOFF.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Menu/buttontoggleOFF.png
+
+#begin Sprites/Menu/buttontoggleON.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Menu/buttontoggleON.png
+
 #begin Sprites/Menu/gameover.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2024,18 +2012,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/CG0.png
 
-#begin Sprites/NPC/CG0.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/CG0.png
-
 #begin Sprites/NPC/CG1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2047,30 +2023,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/CG1.png
-
-#begin Sprites/NPC/CG1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/CG1.png
-
-#begin Sprites/NPC/CG2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/CG2.png
 
 #begin Sprites/NPC/CG2.png
 /importer:TextureImporter
@@ -2096,18 +2048,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/CG3.png
 
-#begin Sprites/NPC/CG3.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/CG3.png
-
 #begin Sprites/NPC/CG4.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2119,30 +2059,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/CG4.png
-
-#begin Sprites/NPC/CG4.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/CG4.png
-
-#begin Sprites/NPC/CG5.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/CG5.png
 
 #begin Sprites/NPC/CG5.png
 /importer:TextureImporter
@@ -2168,18 +2084,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/ghost0.png
 
-#begin Sprites/NPC/ghost0.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/ghost0.png
-
 #begin Sprites/NPC/ghost1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2191,30 +2095,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/ghost1.png
-
-#begin Sprites/NPC/ghost1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/ghost1.png
-
-#begin Sprites/NPC/ghost2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/ghost2.png
 
 #begin Sprites/NPC/ghost2.png
 /importer:TextureImporter
@@ -2288,18 +2168,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/goose0.png
 
-#begin Sprites/NPC/goose0.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/goose0.png
-
 #begin Sprites/NPC/monkNPC.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2311,30 +2179,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/monkNPC.png
-
-#begin Sprites/NPC/monkNPC.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/monkNPC.png
-
-#begin Sprites/NPC/monkNPCbible.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/monkNPCbible.png
 
 #begin Sprites/NPC/monkNPCbible.png
 /importer:TextureImporter
@@ -2360,30 +2204,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/nunNPC.png
 
-#begin Sprites/NPC/nunNPC.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/nunNPC.png
-
-#begin Sprites/NPC/nunNPCrosary2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/nunNPCrosary2.png
-
 #begin Sprites/NPC/nunNPCrosary2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2408,18 +2228,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/pope0.png
 
-#begin Sprites/NPC/pope0.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/pope0.png
-
 #begin Sprites/NPC/pope1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2431,30 +2239,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/NPC/pope1.png
-
-#begin Sprites/NPC/pope1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/pope1.png
-
-#begin Sprites/NPC/Testing Morten.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/NPC/Testing Morten.png
 
 #begin Sprites/NPC/Testing Morten.png
 /importer:TextureImporter

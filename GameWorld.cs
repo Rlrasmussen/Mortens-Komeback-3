@@ -169,8 +169,6 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new ClearSaveCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
 #endif
-            CurrentMenu = MenuType.Playing;
-
             MenuManager = new MenuManager();
             MenuManager.CreateMenus();
 
@@ -189,6 +187,8 @@ namespace Mortens_Komeback_3
             gameObjects.Add(Player.Instance);
 
             status = new Status();
+
+
 
 
             //SafePoint.SaveGame(Location.Spawn);
@@ -286,7 +286,7 @@ namespace Mortens_Komeback_3
             #endregion
 
             #region Traproom
-            
+
             #endregion
 
             //GameWorld.Instance.SpawnObject(EnemyPool.Instance.GetObject(EnemyType.WalkingGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
@@ -345,18 +345,19 @@ namespace Mortens_Komeback_3
             {
                 backgroundMusic = Music[MusicTrack.Background];
                 MediaPlayer.Play(backgroundMusic);
+
             }
             else if (backgroundMusic != Music[MusicTrack.Death] && Player.Instance.IsAlive == false) //Player is dead
             {
                 backgroundMusic = Music[MusicTrack.Death];
                 MediaPlayer.Play(backgroundMusic);
             }
-            
+
 
 
             if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && trap == false)
             {
-                
+
                 for (int i = 0; i < 3; i++)
                 {
                     gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(-815 + (815 * i), 22020), 0));
@@ -375,34 +376,6 @@ namespace Mortens_Komeback_3
             //}
             #endregion
 
-            //if (gamePaused)
-            //{
-            //    switch (CurrentMenu)
-            //    {
-            //        case MenuType.MainMenu:
-            //            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-            //            GameWorld.Instance.MenuManager.OpenMenu(MenuType.MainMenu);
-            //            break;
-            //        case MenuType.GameOver:
-            //            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-
-            //            break;
-            //        case MenuType.Pause:
-            //            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-            //            break;
-            //        case MenuType.Inventory: //Fjern
-            //            break;
-            //        case MenuType.Win:
-            //            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-            //            break;
-            //        case MenuType.Cursor: //Fjern
-            //            break;
-            //        case MenuType.Playing:
-            //            break;
-            //        default:
-            //            break;
-            //    }
-            //}
 
             //Sets the right current room, if the room consist of two rooms, and therefore are not set by going through doors. - Philip
             if ((CurrentRoom.LeftSideOfBigRoom && Player.Instance.Position.X > CurrentRoom.CollisionBox.Right)
@@ -413,6 +386,8 @@ namespace Mortens_Komeback_3
             {
                 CurrentRoom = DoorManager.Rooms.Find(x => Player.Instance.CollisionBox.Intersects(x.CollisionBox));
             }
+
+            SetCurrentMenu();
 
             status.Update(gameTime);
 
@@ -658,8 +633,8 @@ namespace Mortens_Komeback_3
 
             Sprites.Add(ButtonSpriteType.Button, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\button") });
             Sprites.Add(ButtonSpriteType.ButtonPressed, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\buttonPressed") });
-            Sprites.Add(ButtonSpriteType.ButtonSquare, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\Square") });
-            Sprites.Add(ButtonSpriteType.ButtonSquareChecked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\buttonPressed") });
+            Sprites.Add(ButtonSpriteType.ButtonSquare, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\buttontoggleOFF") });
+            Sprites.Add(ButtonSpriteType.ButtonSquareChecked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\buttontoggleON") });
 
             #endregion
             #region NPC
@@ -1077,13 +1052,13 @@ namespace Mortens_Komeback_3
                     GameWorld.Instance.ResumeGame();
                     break;
 
-                    //case ButtonAction.ToggleMusic:
-                    //    AudioManager.Instance.ToggleMusic();
-                    //    break;
+                case ButtonAction.ToggleMusic:
+                    GameWorld.Instance.ToggleMusic();
+                    break;
 
-                    //case ButtonAction.ToggleSound:
-                    //    AudioManager.Instance.ToggleSound();
-                    //    break;
+                case ButtonAction.ToggleSound:
+                    GameWorld.Instance.ToggleSound();
+                    break;
             }
         }
 
@@ -1092,6 +1067,8 @@ namespace Mortens_Komeback_3
             // Sætter spillet i gang – fx ved at skifte til spilverden
             CurrentMenu = MenuType.Playing;
             MediaPlayer.Play(Music[MusicTrack.Background]); // Eksempel på baggrundsmusik
+            
+
         }
 
         public void ExitGame()
@@ -1113,7 +1090,93 @@ namespace Mortens_Komeback_3
             MediaPlayer.Play(Music[MusicTrack.Background]);
             gamePaused = false;
         }
+
+        public void ToggleMusic()
+        {
+            GameWorld.Instance.musicOn = !GameWorld.Instance.musicOn;
+
+            if (!GameWorld.Instance.musicOn)
+            {
+                
+                MediaPlayer.Volume = 1.0f; // Tænd lyd
+
+                var pauseMenu = GameWorld.Instance.MenuManager.menus[MenuType.Pause];
+                foreach (var button in pauseMenu.buttonList)
+                {
+                    if (button.Action == ButtonAction.ToggleMusic)
+                    {
+                        button.ButtonText = "Music ON";
+                    }
+                }
+            }
+            else
+            {
+                
+                MediaPlayer.Volume = 0.0f; // Sluk lyd
+                var pauseMenu = GameWorld.Instance.MenuManager.menus[MenuType.Pause];
+
+                foreach (var button in pauseMenu.buttonList)
+                {
+                    if (button.Action == ButtonAction.ToggleMusic)
+                    {
+                        button.ButtonText = "Music OFF";
+                    }
+                }
+            }
+        }
+
+        public void ToggleSound()
+        {
+            GameWorld.Instance.soundOn = !GameWorld.Instance.soundOn;
+
+            if (!GameWorld.Instance.soundOn)
+            {
+
+                MediaPlayer.Volume = 1.0f; // Tænd lyd
+
+                var pauseMenu = GameWorld.Instance.MenuManager.menus[MenuType.Pause];
+                foreach (var button in pauseMenu.buttonList)
+                {
+                    if (button.Action == ButtonAction.ToggleSound)
+                    {
+                        button.ButtonText = "Sound ON";
+                        //button.Sprite = GameWorld.Instance.buttonList.ButtonSpriteType.ButtonSquareChecked; //hilfe
+                    }
+                }
+            }
+            else
+            {
+
+                MediaPlayer.Volume = 0.0f; // Sluk lyd
+                var pauseMenu = GameWorld.Instance.MenuManager.menus[MenuType.Pause];
+
+                foreach (var button in pauseMenu.buttonList)
+                {
+                    if (button.Action == ButtonAction.ToggleSound)
+                    {
+                        button.ButtonText = "Sound OFF";
+                        //button.Sprite = GameWorld.Instance.buttonList.ButtonSpriteType.ButtonSquareChecked; //hilfe
+                    }
+                }
+                GameWorld.Instance.Sounds[Sound.PlayerDamage].Play();
+            }
+        }
+
+        public void SetCurrentMenu()
+        {
+            CurrentMenu = MenuType.MainMenu;
+
+            if(Player.Instance.IsAlive == false)
+            {
+                CurrentMenu = MenuType.GameOver;
+
+            }
+
+
+        }
         #endregion
+
+
 
         #endregion
     }

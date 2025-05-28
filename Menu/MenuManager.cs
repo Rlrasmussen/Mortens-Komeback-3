@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SharpDX.Direct3D9;
 using Microsoft.Xna.Framework.Media;
 
 namespace Mortens_Komeback_3.Menu
@@ -21,12 +20,14 @@ namespace Mortens_Komeback_3.Menu
 
         private Menu currentMenu;
 
-        private Dictionary<MenuType, Menu> menus = new Dictionary<MenuType, Menu>();
+        public Dictionary<MenuType, Menu> menus { get; } = new Dictionary<MenuType, Menu>();
 
       
 
         public void CreateMenus()
         {
+            
+
             var mainMenu = new Menu(MenuType.MainMenu);
             mainMenu.Sprite = GameWorld.Instance.Sprites[MenuType.MainMenu][0];
             mainMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 300), "Start", ButtonAction.StartGame));
@@ -45,15 +46,15 @@ namespace Mortens_Komeback_3.Menu
 
             var pauseMenu = new Menu(MenuType.Pause);
             pauseMenu.Sprite = GameWorld.Instance.Sprites[MenuType.Pause][0];
-            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 100f), "Resume", ButtonAction.ResumeGame));
-            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 200f), "Quit", ButtonAction.QuitGame));
-            pauseMenu.AddButtons(new Button(ButtonSpriteType.ButtonSquare, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 300f), "Music", ButtonAction.ToggleMusic));
-            pauseMenu.AddButtons(new Button(ButtonSpriteType.ButtonSquare, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 400f), "Sound", ButtonAction.ToggleSound));
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Player.Instance.Position.X + 65, Player.Instance.Position.Y + 000f), "Resume", ButtonAction.ResumeGame));
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Player.Instance.Position.X + 65, Player.Instance.Position.Y + 200f), "Quit", ButtonAction.QuitGame));
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2 (Player.Instance.Position.X - 65, Player.Instance.Position.Y + 400f), "Music ON", ButtonAction.ToggleMusic));
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Player.Instance.Position.X - 65, Player.Instance.Position.Y + 600f), "Sound ON", ButtonAction.ToggleSound));
 
             menus.Add(MenuType.MainMenu, mainMenu);
             menus.Add(MenuType.GameOver, gameOverMenu);
-            menus.Add(MenuType.Pause, pauseMenu);
             menus.Add(MenuType.Win, winMenu);
+            menus.Add(MenuType.Pause, pauseMenu);
         }
 
 
@@ -70,6 +71,7 @@ namespace Mortens_Komeback_3.Menu
             currentMenu?.Draw(spriteBatch, font);
         }
 
+
         public void OpenMenu(MenuType type)
         {
             if (menus.TryGetValue(type, out Menu menu))
@@ -83,113 +85,113 @@ namespace Mortens_Komeback_3.Menu
             currentMenu = null;
         }
 
-        /// <summary>
-        /// Irene
-        /// </summary>
-        public void Pause()
-        {
-            if (!GameWorld.Instance.GamePaused)
-            {
-                //gamePaused = false;
-                GameWorld.Instance.GamePaused = true;
-                OpenMenu(MenuType.Pause);
-            }
+        ///// <summary>
+        ///// Irene
+        ///// </summary>
+        //public void Pause()
+        //{
+        //    if (!GameWorld.Instance.GamePaused)
+        //    {
+        //        //gamePaused = false;
+        //        GameWorld.Instance.GamePaused = true;
+        //        OpenMenu(MenuType.Pause);
+        //    }
 
 
-        }
+        //}
 
-        public void ResumeGame()
-        {
-            if (GameWorld.Instance.GamePaused)
-            {
-                GameWorld.Instance.GamePaused = false;
-                CloseMenu();
-            }
-            else
-            {
-                GameWorld.Instance.GamePaused = true;
-                //MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Menu]);
-            }
+        //public void ResumeGame()
+        //{
+        //    if (GameWorld.Instance.GamePaused)
+        //    {
+        //        GameWorld.Instance.GamePaused = false;
+        //        CloseMenu();
+        //    }
+        //    else
+        //    {
+        //        GameWorld.Instance.GamePaused = true;
+        //        //MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Menu]);
+        //    }
 
-        }
+        //}
 
-        public void ShowMainMenu()
-        {
+        //public void ShowMainMenu()
+        //{
        
 
-        }
+        //}
 
-        public void GameOverMenu()
-        {
-            if (Player.Instance.IsAlive == false && !GameWorld.Instance.GamePaused)
-            {
-                GameWorld.Instance.GamePaused = true;
-                OpenMenu(MenuType.GameOver);
-            }
+        //public void GameOverMenu()
+        //{
+        //    if (Player.Instance.IsAlive == false && !GameWorld.Instance.GamePaused)
+        //    {
+        //        GameWorld.Instance.GamePaused = true;
+        //        OpenMenu(MenuType.GameOver);
+        //    }
 
-        }
+        //}
 
-        public void SoundToggle()
-        {
-            if (GameWorld.Instance.GamePaused && GameWorld.Instance.CurrentMenu == MenuType.Pause)
-            {
+        //public void SoundToggle()
+        //{
+        //    if (GameWorld.Instance.GamePaused && GameWorld.Instance.CurrentMenu == MenuType.Pause)
+        //    {
 
-                MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Background]);
-            }
-            else
-            {
-                GameWorld.Instance.GamePaused = true;
-                MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Menu]);
-            }
+        //        //MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Background]);
+        //    }
+        //    else
+        //    {
+        //        GameWorld.Instance.GamePaused = true;
+        //        //MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Menu]);
+        //    }
 
-        }
+        //}
 
-        public void ShowWinMenu()
-        {
-            if (GameWorld.Instance.GamePaused)
-            {
-                //gamePaused = false;
+        //public void ShowWinMenu()
+        //{
+        //    if (GameWorld.Instance.GamePaused)
+        //    {
+        //        //gamePaused = false;
 
-                MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Background]);
-            }
-            else
-            {
-                GameWorld.Instance.GamePaused = true;
-                MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Menu]);
-            }
+        //        //MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Background]);
+        //    }
+        //    else
+        //    {
+        //        GameWorld.Instance.GamePaused = true;
+        //        MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Menu]);
+        //    }
 
-        }
+        //}
 
-        public void StartGame()
-        {
-            if (GameWorld.Instance.GamePaused)
-            {
-                //gamePaused = false;
+        //public void StartGame()
+        //{
+        //    if (GameWorld.Instance.GamePaused)
+        //    {
+        //        //gamePaused = false;
 
-                MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Background]);
-            }
-            else
-            {
-                GameWorld.Instance.GamePaused = true;
-                MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Menu]);
-            }
+        //        MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Background]);
+        //    }
+        //    else
+        //    {
+        //        GameWorld.Instance.GamePaused = true;
+        //        MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Menu]);
+        //    }
 
-        }
+        //}
 
-        public void ExitGame()
-        {
-            if (GameWorld.Instance.GamePaused)
-            {
-                //gamePaused = false;
+        //public void ExitGame()
+        //{
+        //    if (GameWorld.Instance.GamePaused)
+        //    {
+        //        //gamePaused = false;
 
-                MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Background]);
-            }
-            else
-            {
-                GameWorld.Instance.GamePaused = true;
-                MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Menu]);
-            }
+        //        MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Background]);
+        //    }
+        //    else
+        //    {
+        //        GameWorld.Instance.GamePaused = true;
+        //        MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Menu]);
+        //    }
 
-        }
+        //}
     }
 }

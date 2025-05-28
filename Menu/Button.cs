@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Mortens_Komeback_3.Collider;
 using Mortens_Komeback_3.Command;
+using SharpDX.Direct3D9;
 
 namespace Mortens_Komeback_3.Menu
 {
@@ -104,6 +105,8 @@ namespace Mortens_Komeback_3.Menu
 
             // Tegn teksten centreret over knappen
             spriteBatch.DrawString(font, ButtonText, textPos, Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.92f);
+
+            
         }
             
 

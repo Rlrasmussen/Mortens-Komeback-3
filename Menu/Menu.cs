@@ -14,7 +14,7 @@ namespace Mortens_Komeback_3.Menu
     {
         #region Fields
         //private bool menuActive = false;
-        public List<Button> buttonList = new List<Button>();
+        public List<Button> buttonList { get; private set; } = new List<Button>();
         //public MenuType background { get; set; }
         //public Vector2 Position { get; set; } = Player.Instance.Position; 
         public Vector2 Position { get; set; }
@@ -105,7 +105,9 @@ namespace Mortens_Komeback_3.Menu
         {
             buttonList.Add(button);
         }
-       
+
+
+   
         #endregion
     }
 }
