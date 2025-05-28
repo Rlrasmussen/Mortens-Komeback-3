@@ -13,7 +13,12 @@ namespace Mortens_Komeback_3.Command
         {
             GameWorld.Instance.CurrentMenu = MenuType.Playing;
             GameWorld.Instance.GameRunning = true;
-            GameWorld.Instance.GamePaused = false;
+            Task.Run(() =>
+            {
+                // Avoid attacking right after resuming
+                Task.Delay(100);
+                GameWorld.Instance.GamePaused = false;
+            });
             GameWorld.Instance.MenuManager.CloseMenu();
         }
     }

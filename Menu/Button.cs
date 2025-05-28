@@ -57,11 +57,21 @@ namespace Mortens_Komeback_3.Menu
         #endregion
 
         #region Constructor
-        public Button(ButtonSpriteType type, Vector2 spawnPos, string buttonText, ButtonAction action) 
+        public Button(
+            ButtonSpriteType type,
+            Vector2 spawnPos,
+            string buttonText,
+            ButtonAction action,
+            ICommand command = null) 
         {
             this.Type = type;
             this.Position = spawnPos;
             this.ButtonText = buttonText;
+            this.IsEnabled = true;
+            if (command != null)
+            {
+                this.Command = command;
+            }
             Layer = 0.9f;
             Action = action;
       

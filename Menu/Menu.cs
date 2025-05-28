@@ -35,7 +35,7 @@ namespace Mortens_Komeback_3.Menu
         public Menu(MenuType type)
         {
             this.Type = type;
-
+            AddCommands();
         }
 
         #endregion
@@ -79,11 +79,10 @@ namespace Mortens_Komeback_3.Menu
             }
         }
 
-        //private void AddCommands()
-        //{
-
-        //    InputHandler.Instance.LeftClickEventHandler += HandleLeftClick;
-        //}
+        private void AddCommands()
+        {
+            InputHandler.Instance.LeftClickEventHandler += HandleLeftClick;
+        }
 
         public void HandleLeftClick()
         {

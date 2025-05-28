@@ -163,6 +163,7 @@ namespace Mortens_Komeback_3
             GetEnemyStats();
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
+            // this should be illegal
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
 
 #if DEBUG
@@ -309,9 +310,9 @@ namespace Mortens_Komeback_3
 
             #endregion
             #region CatacombD
-            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 10300), 0));
-            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(380, 10900), 0));
-            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 11500), 0));
+            //gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 10300), 0));
+            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 10900), 0));
+            //gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 11500), 0));
             //gameObjects.Add(/*new Item(ItemType.GeesusBlood, new Vector2(-700, 11777))*/);
             for (int i = 0; i < 5; i++)
             {
@@ -346,6 +347,8 @@ namespace Mortens_Komeback_3
             foreach (GameObject gameObject in gameObjects)
             {
 
+                if (GamePaused)
+                    continue;
                 if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1300))
                     continue;
 
