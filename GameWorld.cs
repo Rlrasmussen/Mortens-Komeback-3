@@ -66,6 +66,8 @@ namespace Mortens_Komeback_3
         private Song backgroundMusic;
         private bool trap = false;
 
+        private bool win = false;
+
         #endregion
 
         #region Properties
@@ -161,6 +163,7 @@ namespace Mortens_Komeback_3
             GetEnemyStats();
 
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
+            // this should be illegal
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
 
 #if DEBUG
@@ -311,9 +314,9 @@ namespace Mortens_Komeback_3
 
             #endregion
             #region CatacombD
-            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 10300), 0));
-            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(380, 10900), 0));
-            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 11500), 0));
+            //gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 10300), 0));
+            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 10900), 0));
+            //gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 11500), 0));
             //gameObjects.Add(/*new Item(ItemType.GeesusBlood, new Vector2(-700, 11777))*/);
             for (int i = 0; i < 5; i++)
             {
@@ -348,6 +351,8 @@ namespace Mortens_Komeback_3
             foreach (GameObject gameObject in gameObjects)
             {
 
+                if (GamePaused)
+                    continue;
                 if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1300))
                     continue;
 
@@ -387,11 +392,15 @@ namespace Mortens_Komeback_3
                 {
                     gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(-815 + (815 * i), 22020), 0));
                 }
-                SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(-400, 22120 + 18), 0));
+                SpawnObject(new AvSurface(SurfaceType.AvSurface, new (-400, 22120 + 18), 0));
                 SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(400, 21510), 0));
                 trap = true;
             }
 
+            if (win)
+            {
+                GameWorld.Instance.Notify(StatusType.Win);
+            }
             //else if (backgroundMusic != Music[MusicTrack.Win] && Player.Instance.IsAlive == false) //Player win
             //{
             //    backgroundMusic = Music[MusicTrack.Win];
@@ -1067,11 +1076,16 @@ namespace Mortens_Komeback_3
                     break;
 
                 case ButtonAction.QuitGame:
+                    gameRunning = false;
                     GameWorld.Instance.ExitGame();
+
                     break;
 
                 case ButtonAction.TryAgain:
                     GameWorld.Instance.ClearSaveAndRestart();
+                    GameWorld.Instance.ResumeGame();
+
+
                     break;
 
                 case ButtonAction.ResumeGame:

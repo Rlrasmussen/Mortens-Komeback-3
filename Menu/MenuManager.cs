@@ -35,8 +35,11 @@ namespace Mortens_Komeback_3.Menu
 
             var gameOverMenu = new Menu(MenuType.GameOver);
             gameOverMenu.Sprite = GameWorld.Instance.Sprites[MenuType.GameOver][0];
+            gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 100f), "Resume", ButtonAction.ResumeGame));
             gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 400), "Try Again", ButtonAction.TryAgain));
             gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 500), "Quit", ButtonAction.QuitGame));
+            
+            // Not sure if the resume command needs to be added here
             gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 100f), "Resume", ButtonAction.ResumeGame));
 
             var winMenu = new Menu(MenuType.Win);

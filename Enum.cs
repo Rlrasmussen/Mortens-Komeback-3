@@ -300,7 +300,8 @@ namespace Mortens_Komeback_3
         Rosary,
         Delivered,
         GoosiferFigth,
-        BackGroundMusic
+        BackGroundMusic,
+        Win
     }
 
     public enum CutSceneRoom
