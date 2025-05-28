@@ -122,7 +122,7 @@ namespace Mortens_Komeback_3
         /// </summary>
         public bool DrawCollision { get; set; } = false;
 #endif
-
+        public bool RestartGame { get; set; } = false;
 
         public Environment.Room CurrentRoom { get; set; }
 
@@ -167,6 +167,7 @@ namespace Mortens_Komeback_3
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
 
 #if DEBUG
+            InputHandler.Instance.AddButtonDownCommand(Keys.R, new RestartCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.Space, new DrawCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.M, new SaveCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new ClearSaveCommand());
@@ -193,30 +194,14 @@ namespace Mortens_Komeback_3
 
             status = new Status();
 
-
-            //SafePoint.SaveGame(Location.Spawn);
-
-            //gameObjects.Add(new WeaponMelee(WeaponType.Melee, Player.Instance.Position + new Vector2(-300, 0)));
-            //gameObjects.Add(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position + new Vector2(-300, -100)));
-
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //Test Item
-            //gameObjects.Add(new Item(ItemType.GeesusBlood, Vector2.Zero));
-
             #region Decorations
-            //gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(100, 600), rotationTop));
-            //gameObjects.Add(new Decoration(DecorationType.Hole0, new Vector2(600, 3500), rotationTop)); //Used for testing - To be removed
             gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop));
             gameObjects.Add(new Decoration(DecorationType.Cobweb, new Vector2(-1160, 16500), rotationTop));
-
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447, -430), rotationTop)); //Under the painting in PopeRoom
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
-
-         
             #endregion
-
-
             DoorManager.Initialize();
 
             foreach (var room in DoorManager.Rooms)
@@ -289,9 +274,6 @@ namespace Mortens_Komeback_3
             }
             #endregion
 
-            //GameWorld.Instance.SpawnObject(EnemyPool.Instance.GetObject(EnemyType.WalkingGoose, DoorManager.Rooms.Find(x => (RoomType)x.Type == RoomType.CatacombesA).Position));
-
-
             #region buttons and menu
 
             #endregion
@@ -310,14 +292,10 @@ namespace Mortens_Komeback_3
 
             #endregion
             #region CatacombD
-            //gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 10300), 0));
             gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 10900), 0));
-            //gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-380, 11500), 0));
-            //gameObjects.Add(/*new Item(ItemType.GeesusBlood, new Vector2(-700, 11777))*/);
             for (int i = 0; i < 5; i++)
             {
-            gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(900, 9600 + i * 150), 0));
-
+                gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(900, 9600 + i * 150), 0));
             }
 
             #endregion
@@ -378,8 +356,6 @@ namespace Mortens_Komeback_3
                 MediaPlayer.Play(backgroundMusic);
             }
 
-
-
             if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && trap == false)
             {
                 gameObjects.Add(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), 0));
@@ -387,7 +363,7 @@ namespace Mortens_Komeback_3
                 {
                     gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(-815 + (815 * i), 22020), 0));
                 }
-                SpawnObject(new AvSurface(SurfaceType.AvSurface, new (-400, 22120 + 18), 0));
+                SpawnObject(new AvSurface(SurfaceType.AvSurface, new(-400, 22120 + 18), 0));
                 SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(400, 21510), 0));
                 trap = true;
             }
@@ -396,44 +372,14 @@ namespace Mortens_Komeback_3
             {
                 GameWorld.Instance.Notify(StatusType.Win);
             }
-            //else if (backgroundMusic != Music[MusicTrack.Win] && Player.Instance.IsAlive == false) //Player win
-            //{
-            //    backgroundMusic = Music[MusicTrack.Win];
-            //    MediaPlayer.Play(backgroundMusic);
-            //}
+
+            if (RestartGame)
+                Restart();
+
             #endregion
 
             MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-            //if (gamePaused)
-            //{
-            //    switch (CurrentMenu)
-            //    {
-            //        case MenuType.MainMenu:
-            //            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-            //            GameWorld.Instance.MenuManager.OpenMenu(MenuType.MainMenu);
-            //            break;
-            //        case MenuType.GameOver:
-            //            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
 
-            //            break;
-            //        case MenuType.Pause:
-            //            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-            //            break;
-            //        case MenuType.Inventory: //Fjern
-            //            break;
-            //        case MenuType.Win:
-            //            MenuManager.Update(InputHandler.Instance.MousePosition, InputHandler.Instance.LeftClick);
-            //            break;
-            //        case MenuType.Cursor: //Fjern
-            //            break;
-            //        case MenuType.Playing:
-            //            break;
-            //        default:
-            //            break;
-            //    }
-            //}
-
-            //Sets the right current room, if the room consist of two rooms, and therefore are not set by going through doors. - Philip
             if ((CurrentRoom.LeftSideOfBigRoom && Player.Instance.Position.X > CurrentRoom.CollisionBox.Right)
                 || (CurrentRoom.RightSideOfBigRoom && Player.Instance.Position.X < CurrentRoom.CollisionBox.Left)
                 || (CurrentRoom.TopSideOfBigRoom && Player.Instance.Position.Y > CurrentRoom.CollisionBox.Bottom)
@@ -495,15 +441,6 @@ namespace Mortens_Komeback_3
 
             }
 
-            //myButton.Draw(_spriteBatch, GameFont);
-
-            ////foreach (Button button in buttonList)
-            ////{
-            ////    button.Draw(_spriteBatch, GameFont);
-
-            ////}
-
-            //GameWorld.Instance.buttonList.Draw(_spriteBatch, GameFont);
             MenuManager.Draw(_spriteBatch, GameFont);
 
             InputHandler.Instance.Draw(_spriteBatch);
@@ -1151,7 +1088,24 @@ namespace Mortens_Komeback_3
             GameWorld.Instance.MenuManager.CloseMenu();
             gamePaused = false;
         }
+
         #endregion
+
+        public void Restart()
+        {
+
+            gameObjects.Clear();
+            newGameObjects.Clear();
+            gamePuzzles.Clear();
+            DoorManager.doorList.Clear();
+            SavePoint.ClearSave();
+            Player.Instance.Inventory.Clear();
+            Player.Instance.EquippedWeapon = null;
+            Player.Instance.Position = Locations[Location.Spawn];
+            LoadContent();
+            RestartGame = false;
+
+        }
 
         #endregion
     }
