@@ -123,6 +123,7 @@ namespace Mortens_Komeback_3
         public bool DrawCollision { get; set; } = false;
 #endif
         public bool RestartGame { get; set; } = false;
+        public bool WinGame { get; set; } = false;
 
         public Environment.Room CurrentRoom { get; set; }
 
@@ -154,7 +155,7 @@ namespace Mortens_Komeback_3
 
             string dbPath = Path.Combine(dbBasePath, "Database", "mk3db.db");
             Connection = new SqliteConnection($"Data Source={dbPath}");
-
+            SavePoint.ClearSave();
             LoadSprites();
             LoadSoundEffects();
             LoadMusic();
@@ -1097,6 +1098,14 @@ namespace Mortens_Komeback_3
 
             gameObjects.Clear();
             newGameObjects.Clear();
+            foreach (var item in gamePuzzles)
+            {
+                if (item is Puzzle)
+                {
+                    (item as Puzzle).Solved = false;
+                    item.Load();
+                }
+            }
             gamePuzzles.Clear();
             DoorManager.doorList.Clear();
             SavePoint.ClearSave();
