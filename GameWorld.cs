@@ -133,16 +133,25 @@ namespace Mortens_Komeback_3
             set
             {
 
-                switch (currentRoom)
-                {
-
-                    default:
-                        break;
-                }
+                bool spawn = false;
                 if (currentRoom != value && currentRoom != null)
-                    currentRoom.DespawnEnemies();
+                    switch (currentRoom.RoomType)
+                    {
+                        case RoomType.CatacombesA when value.RoomType == RoomType.CatacombesA1:
+                        case RoomType.CatacombesA1 when value.RoomType == RoomType.CatacombesA:
+                        case RoomType.CatacombesD when value.RoomType == RoomType.CatacombesD1:
+                        case RoomType.CatacombesD1 when value.RoomType == RoomType.CatacombesD:
+                            break;
+                        default:
+                            currentRoom.DespawnEnemies();
+                            spawn = true;
+                            break;
+                    }
 
                 currentRoom = value;
+
+                if (spawn)
+                    currentRoom.SpawnEnemies();
 
             }
         }
@@ -500,7 +509,9 @@ namespace Mortens_Komeback_3
         /// <param name="gameObject"></param>
         public void SpawnObject(GameObject gameObject)
         {
-            newGameObjects.Add(gameObject);
+
+            if (!gameObjects.Contains(gameObject) && !newGameObjects.Contains(gameObject))
+                newGameObjects.Add(gameObject);
 #if DEBUG
             Debug.WriteLine(gameObject.ToString() + " added to spawnlist");
 #endif

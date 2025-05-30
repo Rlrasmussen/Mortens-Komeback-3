@@ -23,7 +23,7 @@ namespace Mortens_Komeback_3.Environment
         private bool buttomSideOfBigRoom = false;
         private bool enemiesSpawned = false;
         private List<(EnemyType Type, Vector2 Position)> spawnList;
-        private List<Enemy> enemiesInRoom = new List<Enemy>();
+        private static List<Enemy> enemiesInRoom = new List<Enemy>();
 
         #endregion
 
@@ -70,12 +70,66 @@ namespace Mortens_Komeback_3.Environment
         {
 
             enemiesSpawned = false;
+            enemiesInRoom.Clear();
 
             base.Load();
         }
 
 
-        public override void Update(GameTime gameTime)
+        public void AddDoor(Door door)
+        {
+            Doors.Add(door);
+            door.room = this;
+        }
+
+
+        /// <summary>
+        /// Adds a grid of tiles to the room, used by AStar algorithm. 
+        /// Philip
+        /// </summary>
+        public void AddTiles()
+        {
+            int tilesX = CollisionBox.Width / 150;
+            int tilesY = CollisionBox.Height / 150;
+            if (LeftSideOfBigRoom || RightSideOfBigRoom)
+            {
+                tilesX = (CollisionBox.Width * 2) / 150;
+            }
+            if (TopSideOfBigRoom || ButtomSideOfBigRoom)
+            {
+                tilesY = (CollisionBox.Height * 2) / 150;
+            }
+            for (int i = 1; i < tilesX - 1; i++)
+            {
+                for (int j = 1; j < tilesY; j++)
+                {
+                    Tile t = new Tile(TileEnum.Tile, new Vector2(CollisionBox.Left + (i * 150), CollisionBox.Top + (j * 150)));
+                    Tiles.Add(t.Position, t);
+                }
+            }
+            foreach (var tile in tiles)
+            {
+                tile.Value.SetWalkable();
+            }
+        }
+
+
+        public void DespawnEnemies()
+        {
+
+            if (spawnList != null)
+                foreach (Enemy enemy in enemiesInRoom)
+                {
+                    GameWorld.Instance.IgnoreSoundEffect = true;
+                    enemy.IsAlive = false;
+                }
+
+            enemiesInRoom.Clear();
+            enemiesSpawned = false;
+
+        }
+
+        public void SpawnEnemies()
         {
 
             if (GameWorld.Instance.CurrentRoom == this && !enemiesSpawned && spawnList != null)
@@ -203,61 +257,6 @@ namespace Mortens_Komeback_3.Environment
                     i++;
                 }
             }
-
-            base.Update(gameTime);
-
-        }
-
-        public void AddDoor(Door door)
-        {
-            Doors.Add(door);
-            door.room = this;
-        }
-
-
-        /// <summary>
-        /// Adds a grid of tiles to the room, used by AStar algorithm. 
-        /// Philip
-        /// </summary>
-        public void AddTiles()
-        {
-            int tilesX = CollisionBox.Width / 150;
-            int tilesY = CollisionBox.Height / 150;
-            if (LeftSideOfBigRoom || RightSideOfBigRoom)
-            {
-                tilesX = (CollisionBox.Width * 2) / 150;
-            }
-            if (TopSideOfBigRoom || ButtomSideOfBigRoom)
-            {
-                tilesY = (CollisionBox.Height * 2) / 150;
-            }
-            for (int i = 1; i < tilesX - 1; i++)
-            {
-                for (int j = 1; j < tilesY; j++)
-                {
-                    Tile t = new Tile(TileEnum.Tile, new Vector2(CollisionBox.Left + (i * 150), CollisionBox.Top + (j * 150)));
-                    Tiles.Add(t.Position, t);
-                }
-            }
-            foreach (var tile in tiles)
-            {
-                tile.Value.SetWalkable();
-            }
-        }
-
-
-        public void DespawnEnemies()
-        {
-
-            if (spawnList != null)
-                foreach (Enemy enemy in enemiesInRoom)
-                {
-                    GameWorld.Instance.IgnoreSoundEffect = true;
-                    enemy.IsAlive = false;
-                }
-
-            enemiesInRoom.Clear();
-            enemiesSpawned = false;
 
         }
         #endregion

@@ -29,13 +29,13 @@ namespace Mortens_Komeback_3.Environment
             Room stairs = new Room(RoomType.Stairs, new Vector2(0, 2000));
             Room catacombesA = new Room(RoomType.CatacombesA, new Vector2(0, 4000), GetEnemies(RoomType.CatacombesA));
             catacombesA.LeftSideOfBigRoom = true;
-            Room catacombesA1 = new Room(RoomType.CatacombesA1, new Vector2(2695, 4000));
+            Room catacombesA1 = new Room(RoomType.CatacombesA1, new Vector2(2695, 4000), GetEnemies(RoomType.CatacombesA1));
             catacombesA1.RightSideOfBigRoom = true;
             Room catacombesB = new Room(RoomType.CatacombesB, new Vector2(0, 6000));
             Room catacombesC = new Room(RoomType.CatacombesC, new Vector2(0, 8000), GetEnemies(RoomType.CatacombesC));
             Room catacombesD = new Room(RoomType.CatacombesD, new Vector2(0, 10000), GetEnemies(RoomType.CatacombesD));
             catacombesD.TopSideOfBigRoom = true;
-            Room catacombesD1 = new Room(RoomType.CatacombesD1, new Vector2(0, 11515));
+            Room catacombesD1 = new Room(RoomType.CatacombesD1, new Vector2(0, 11515), GetEnemies(RoomType.CatacombesD1));
             catacombesD1.ButtomSideOfBigRoom = true;
             Room catacombesE = new Room(RoomType.CatacombesE, new Vector2(0, 14000));
             Room catacombesF = new Room(RoomType.CatacombesF, new Vector2(0, 16000));
@@ -187,6 +187,7 @@ namespace Mortens_Komeback_3.Environment
             switch (room)
             {
                 case RoomType.CatacombesA:
+                case RoomType.CatacombesA1:
                     enemies.Add((EnemyType.WalkingGoose, new Vector2(900, 3540)));
                     enemies.Add((EnemyType.WalkingGoose, new Vector2(450, 4440)));
                     enemies.Add((EnemyType.WalkingGoose, new Vector2(3300, 3690)));
@@ -198,6 +199,7 @@ namespace Mortens_Komeback_3.Environment
                     enemies.Add((EnemyType.AggroGoose, new Vector2(850, 8420)));
                     break;
                 case RoomType.CatacombesD:
+                case RoomType.CatacombesD1:
                     enemies.Add((EnemyType.WalkingGoose, new Vector2(-300, 9700)));
                     enemies.Add((EnemyType.AggroGoose, new Vector2(-260, 10550)));
                     enemies.Add((EnemyType.WalkingGoose, new Vector2(350, 10400)));
