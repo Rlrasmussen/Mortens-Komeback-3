@@ -57,6 +57,18 @@ namespace Mortens_Komeback_3.Environment
 
         #region Method
 
+
+        public override void Update(GameTime gameTime)
+        {
+
+            if (EnemiesSpawned.Count > 0)
+                EnemiesSpawned.RemoveAll(x => !x.IsAlive);
+
+            base.Update(gameTime);
+
+        }
+
+
         public override void Load()
         {
 
@@ -285,14 +297,15 @@ namespace Mortens_Komeback_3.Environment
 
             EnemiesSpawned.RemoveAll(x => !x.IsAlive);
 
+            GameWorld.Instance.IgnoreSoundEffect = true;
+
             foreach (Enemy enemy in EnemiesSpawned)
             {
-
-                GameWorld.Instance.IgnoreSoundEffect = true;
                 enemy.IsAlive = false;
                 EnemyPool.Instance.ReleaseObject(enemy);
-
             }
+
+            GameWorld.Instance.IgnoreSoundEffect = false;
 
             EnemiesSpawned.Clear();
             enemiesSpawned = false;
