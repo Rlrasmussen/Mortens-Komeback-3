@@ -42,6 +42,7 @@ namespace Mortens_Komeback_3
         private bool happy = false; //Monk/nun is happy to recive their item back
         private bool nunPuzzle = false; //If true the Player is ready for the puzzle 
         private bool close = true;
+        private bool coffinHint = true;
         #endregion
 
         #region Properties
@@ -208,7 +209,7 @@ namespace Mortens_Komeback_3
             else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponMelee) == null)
             {
                 StartConversation();
-                npcText = "Here take this sword and fight those geese";
+                npcText = "Here take this sword and fight those geese and bring back the holy grail";
                 Sprite = giveSwordPope;
                 reply++;
                 GameWorld.Instance.SpawnObject(new WeaponMelee(WeaponType.Melee, Player.Instance.Position - new Vector2(0, 150)));
@@ -283,14 +284,17 @@ namespace Mortens_Komeback_3
                     StartConversation();
                     npcText = "No stop I'm not with the other geese \nYou can trust me - I'm a Canada goose";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
+                    reply++;
                 }
                 else if (reply == 1)
                 {
                     npcText = "I saw a goose running through here with something in its beak";
+                    reply++;
                 }
                 else if (reply == 2)
                 {
                     npcText = "The goose ran through the door to the rigth";
+                    reply++;
                 }
                 else
                 {
@@ -304,10 +308,12 @@ namespace Mortens_Komeback_3
                     StartConversation();
                     npcText = "It just went through here! No need to be afraid ...";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
+                    reply++;
                 }
                 else if (reply == 1)
                 {
                     npcText = "Good luck";
+                    reply++;
                 }
                 else
                 {
@@ -372,11 +378,17 @@ namespace Mortens_Komeback_3
         /// </summary>
         private void CoffinDialogue()
         {
-            if (reply == 0)
+            if (coffinHint == true)
             {
                 StartConversation();
                 npcText = "Did you talk to the pope?";
-                reply++;
+                coffinHint = false;
+            }
+            else if (coffinHint == false)
+            {
+                StartConversation();
+                npcText = "Have you seen ?";
+                coffinHint = true;
             }
             else
             {
