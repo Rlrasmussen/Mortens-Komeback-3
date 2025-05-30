@@ -109,7 +109,7 @@ namespace Mortens_Komeback_3.State
                 parent.Position += direction * parent.Speed * GameWorld.Instance.DeltaTime;
             }
 
-            if (Vector2.Distance(parent.Position, Player.Instance.Position) < 200)
+            if (Vector2.Distance(parent.Position, Player.Instance.Position) < 350)
                 Exit();
 
         }
