@@ -15,13 +15,13 @@ namespace Mortens_Komeback_3.Command
         {
             if (!GameWorld.Instance.GamePaused)
             {
-            GameWorld.Instance.MenuManager.OpenMenu(MenuType.Pause);
-                GameWorld.Instance.GamePaused = false;
+                GameWorld.Instance.MenuManager.OpenMenu(MenuType.Pause);
+                GameWorld.Instance.GamePaused = true;
 
             }
 
         }
 
-        
+
     }
 }

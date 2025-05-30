@@ -65,6 +65,14 @@ namespace Mortens_Komeback_3.Environment
 
         #region Method
 
+        public override void Load()
+        {
+
+            enemiesSpawned = false;
+
+            base.Load();
+        }
+
 
         public override void Update(GameTime gameTime)
         {

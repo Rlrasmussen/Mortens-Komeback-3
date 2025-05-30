@@ -34,9 +34,12 @@ namespace Mortens_Komeback_3.Menu
 
             var gameOverMenu = new Menu(MenuType.GameOver);
             gameOverMenu.Sprite = GameWorld.Instance.Sprites[MenuType.GameOver][0];
+            //gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 100f), "Resume", ButtonAction.ResumeGame));
             gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 400), "Try Again", ButtonAction.TryAgain));
             gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 500), "Quit", ButtonAction.QuitGame));
-            gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 100f), "Resume", ButtonAction.ResumeGame));
+            
+            // Not sure if the resume command needs to be added here
+            //gameOverMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 100f), "Resume", ButtonAction.ResumeGame));
 
             var winMenu = new Menu(MenuType.Win);
             winMenu.Sprite = GameWorld.Instance.Sprites[MenuType.Win][0];
@@ -45,10 +48,10 @@ namespace Mortens_Komeback_3.Menu
 
             var pauseMenu = new Menu(MenuType.Pause);
             pauseMenu.Sprite = GameWorld.Instance.Sprites[MenuType.Pause][0];
-            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 100f), "Resume", ButtonAction.ResumeGame));
-            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 200f), "Quit", ButtonAction.QuitGame));
-            pauseMenu.AddButtons(new Button(ButtonSpriteType.ButtonSquare, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 300f), "Music", ButtonAction.ToggleMusic));
-            pauseMenu.AddButtons(new Button(ButtonSpriteType.ButtonSquare, new Vector2(Camera.Instance.Position.X, Camera.Instance.Position.Y + 400f), "Sound", ButtonAction.ToggleSound));
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X - 500, Camera.Instance.Position.Y + 100f), "Resume", ButtonAction.ResumeGame));
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X - 500, Camera.Instance.Position.Y + 200f), "Quit", ButtonAction.QuitGame));
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.ButtonSquare, new Vector2(Camera.Instance.Position.X - 500, Camera.Instance.Position.Y + 300f), "Music", ButtonAction.ToggleMusic));
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.ButtonSquare, new Vector2(Camera.Instance.Position.X - 500, Camera.Instance.Position.Y + 400f), "Sound", ButtonAction.ToggleSound));
 
             menus.Add(MenuType.MainMenu, mainMenu);
             menus.Add(MenuType.GameOver, gameOverMenu);

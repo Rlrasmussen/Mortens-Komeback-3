@@ -213,7 +213,8 @@ namespace Mortens_Komeback_3
         Hole0,
         Coffin,
         Empty,
-        Ghost
+        Ghost,
+        Chest
     }
 
     /// <summary>
@@ -255,7 +256,9 @@ namespace Mortens_Komeback_3
         Splash,
         //Hole0,
         Hole1,
-        Painting
+        Hole2,
+        Tomb,
+        Barrel
 
     }
 
@@ -297,7 +300,8 @@ namespace Mortens_Komeback_3
         Rosary,
         Delivered,
         GoosiferFigth,
-        BackGroundMusic
+        BackGroundMusic,
+        Win
     }
 
     public enum CutSceneRoom

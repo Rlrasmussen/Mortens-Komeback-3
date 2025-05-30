@@ -79,7 +79,21 @@ namespace Mortens_Komeback_3.Collider
         {
 
             if (Rectangles == null || Rectangles.Count == 0)
-                Rectangles = CreateRectangles();
+            {
+                if (GameWorld.Instance.RectangleDatas.TryGetValue(Type, out List<RectangleData> rectangles))
+                {
+                    List<RectangleData> copy = new List<RectangleData>(rectangles.Count);
+                    foreach (RectangleData rect in rectangles)
+                    {
+                        RectangleData newRectangleData = new RectangleData(rect.X, rect.Y);
+                        newRectangleData.UpdatePosition(Position, Sprite.Width, Sprite.Height);
+                        copy.Add(newRectangleData);
+                    }
+                    Rectangles = copy;
+                }
+                else
+                    Rectangles = CreateRectangles();
+            }
 
             if (Rectangles != null)
                 foreach (RectangleData rectangle in Rectangles)
@@ -95,6 +109,18 @@ namespace Mortens_Komeback_3.Collider
         /// <exception cref="Exception">Throws exception if no sprite was found</exception>
         public List<RectangleData> CreateRectangles()
         {
+
+            if (GameWorld.Instance.RectangleDatas.TryGetValue(Type, out List<RectangleData> rectangles))
+            {
+                List<RectangleData> copy = new List<RectangleData>(rectangles.Count);
+                foreach (RectangleData rect in rectangles)
+                {
+                    RectangleData newRectangleData = new RectangleData(rect.X, rect.Y);
+                    newRectangleData.UpdatePosition(Position, Sprite.Width, Sprite.Height);
+                    copy.Add(newRectangleData);
+                }
+                return copy;
+            }
 
             if (Sprite == null)
                 throw new Exception($"No sprite set to do \"CreateRectangles()\" method on for {Type.ToString()}");
@@ -135,6 +161,9 @@ namespace Mortens_Komeback_3.Collider
 
                 }
             }
+
+            if (!GameWorld.Instance.RectangleDatas.ContainsKey(Type))
+                GameWorld.Instance.RectangleDatas.Add(Type, rectangleList);
 
             return rectangleList;
 

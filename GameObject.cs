@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharpDX.Direct3D9;
 
 namespace Mortens_Komeback_3
 {
@@ -148,7 +149,7 @@ namespace Mortens_Komeback_3
         {
 
             if (sprite != null)
-                spriteBatch.Draw(Sprite, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+                spriteBatch.Draw(Sprite, Position, null, drawColor, Rotation, new Vector2(Sprite.Width / 2, Sprite.Height / 2), scale, spriteEffect, layer);
 
         }
 

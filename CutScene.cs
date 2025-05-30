@@ -16,7 +16,7 @@ namespace Mortens_Komeback_3
         private bool animate = true;
 
         private string start = "Press E to start";
-        private string end = "Press ESC to stop playing";
+        private string end = "Press P to quit";
         #endregion
 
         #region Properties

@@ -110,7 +110,7 @@ namespace Mortens_Komeback_3
         /// Returns which weapon (if any) is currently equipped for save-functionality
         /// Simon
         /// </summary>
-        public Weapon EquippedWeapon { get => equippedWeapon; }
+        public Weapon EquippedWeapon { get => equippedWeapon; set => equippedWeapon = value; }
 
         /// <summary>
         /// Used for movement
@@ -384,6 +384,9 @@ namespace Mortens_Komeback_3
                         (other as Item).IsAlive = false;
                         Health += portionHelath;
                         break;
+                    case ItemType.Grail:
+                        GameWorld.Instance.WinGame = true;
+                        break;
                     default:
                         break;
                 }
@@ -395,31 +398,32 @@ namespace Mortens_Komeback_3
         /// </summary>
         private void Attack()
         {
-            if (!GameWorld.Instance.GamePaused && equippedWeapon != null && !(swordAttacking || slingAttacking))
-            {
-                if ((WeaponType)equippedWeapon.Type == WeaponType.Melee && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) //Skal rykkes ind i samme loop som equippedWeapon.Attack();
+            if (IsAlive && !GameWorld.Instance.GamePaused)
+                if (!GameWorld.Instance.GamePaused && equippedWeapon != null && !(swordAttacking || slingAttacking))
                 {
-                    Sprites = sprites;
-                    swordAttacking = true;
-                    CurrentIndex = 0;
-                    ElapsedTime = 0;
-                    FPS = 22;
-                    GameWorld.Instance.Sounds[Sound.PlayerSwordAttack].Play();
-                    meleeAttackDirection = InputHandler.Instance.MousePosition - Position;
-                }
-                else if ((WeaponType)equippedWeapon.Type == WeaponType.Ranged && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenSling, out var slingsprites)) //Philip
-                {
-                    if ((equippedWeapon as WeaponRanged).RefireRate >= 1f)
+                    if ((WeaponType)equippedWeapon.Type == WeaponType.Melee && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) //Skal rykkes ind i samme loop som equippedWeapon.Attack();
                     {
-                        Sprites = slingsprites;
-                        slingAttacking = true;
+                        Sprites = sprites;
+                        swordAttacking = true;
                         CurrentIndex = 0;
                         ElapsedTime = 0;
-                        FPS = 3;
+                        FPS = 22;
+                        GameWorld.Instance.Sounds[Sound.PlayerSwordAttack].Play();
+                        meleeAttackDirection = InputHandler.Instance.MousePosition - Position;
                     }
+                    else if ((WeaponType)equippedWeapon.Type == WeaponType.Ranged && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenSling, out var slingsprites)) //Philip
+                    {
+                        if ((equippedWeapon as WeaponRanged).RefireRate >= 1f)
+                        {
+                            Sprites = slingsprites;
+                            slingAttacking = true;
+                            CurrentIndex = 0;
+                            ElapsedTime = 0;
+                            FPS = 3;
+                        }
+                    }
+                    equippedWeapon.Attack();
                 }
-                equippedWeapon.Attack();
-            }
         }
 
         /// <summary>
@@ -432,18 +436,19 @@ namespace Mortens_Komeback_3
 
             if (!swordAttacking)
                 equippedWeapon = (Weapon)inventory.Find(x => (WeaponType)x.Type == weapon);
-            switch (equippedWeapon.Type) //Changes sprites, depending on weapon type - Philip
-            {
-                case WeaponType.Melee:
-                    GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var meleeSprites);
-                    Sprites = meleeSprites;
-                    break;
-                case WeaponType.Ranged:
-                    GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenMunk, out var rangedSprites);
-                    Sprites = rangedSprites;
-                    break;
-                default: break;
-            }
+            if (inventory.Contains(inventory.Find(x => (WeaponType)x.Type == weapon)))
+                switch (equippedWeapon.Type) //Changes sprites, depending on weapon type - Philip
+                {
+                    case WeaponType.Melee:
+                        GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var meleeSprites);
+                        Sprites = meleeSprites;
+                        break;
+                    case WeaponType.Ranged:
+                        GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenMunk, out var rangedSprites);
+                        Sprites = rangedSprites;
+                        break;
+                    default: break;
+                }
         }
 
         /// <summary>
@@ -508,6 +513,7 @@ namespace Mortens_Komeback_3
                 case NPCType.Hole0:
                 case NPCType.Empty:
                 case NPCType.Ghost:
+                case NPCType.Chest:
                     (gameObject as NPC).Speak();
                     break;
                 default:

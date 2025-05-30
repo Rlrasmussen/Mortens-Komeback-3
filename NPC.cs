@@ -30,6 +30,8 @@ namespace Mortens_Komeback_3
         private Texture2D sadMonk = GameWorld.Instance.Sprites[NPCType.Monk][1];
         private Texture2D giveSwordPope = GameWorld.Instance.Sprites[NPCType.Pope][1];
         private Texture2D sadPope = GameWorld.Instance.Sprites[NPCType.Pope][0];
+        private Texture2D chestClose = GameWorld.Instance.Sprites[NPCType.Chest][0];
+        private Texture2D chestOpen = GameWorld.Instance.Sprites[NPCType.Chest][1];
 
         private int reply = 0; //Number of reply
         private string npcText;
@@ -39,7 +41,7 @@ namespace Mortens_Komeback_3
         private bool animate; //Either the NPC is animated or only has 1 sprite
         private bool happy = false; //Monk/nun is happy to recive their item back
         private bool nunPuzzle = false; //If true the Player is ready for the puzzle 
-
+        private bool close = true;
         #endregion
 
         #region Properties
@@ -75,10 +77,20 @@ namespace Mortens_Komeback_3
                 Sprite = sadNun;
                 animate = false;
             }
+            if (type is NPCType.Hole0)
+            {
+                layer = 0.5f;
+            }
             else if (type is NPCType.Pope)
             {
                 Sprite = sadPope;
                 animate = false;
+            }
+            else if (type is NPCType.Chest)
+            {
+                Sprite = chestClose;
+                animate = false;
+                scale = 2f;
             }
         }
 
@@ -130,7 +142,7 @@ namespace Mortens_Komeback_3
             if (talk == true && (this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
             {
                 spriteBatch.Draw(dialogueBox, Player.Instance.Position + new Vector2(-dialogueBox.Width / 2 + 72.5f, dialogueBox.Height * 0.5f + 35), null, drawColor, Rotation, origin, 1, spriteEffect, layer);
-                spriteBatch.DrawString(GameWorld.Instance.GameFont, npcText, Player.Instance.Position - new Vector2(dialogueBox.Width / 2 - 70, -dialogueBox.Height + 120), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.2f);
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, npcText, Player.Instance.Position - new Vector2(dialogueBox.Width / 2 - 70, -dialogueBox.Height + 120), Color.LightGray, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.2f);
             }
         }
 
@@ -172,6 +184,9 @@ namespace Mortens_Komeback_3
                     break;
                 case NPCType.Ghost:
                     GhostDialogue();
+                    break;
+                case NPCType.Chest:
+                    ChestDialogue();
                     break;
             }
 
@@ -231,7 +246,7 @@ namespace Mortens_Komeback_3
 
                 if (happy == true) //Happy
                 {
-                    npcText = "I don't need this slingshot anymore, maybe you can use it for something \nPress left mouse to shoot";
+                    npcText = "I don't need this slingshot anymore, maybe you can use it  \nPress left mouse to shoot";
                     GameWorld.Instance.SpawnObject(new WeaponRanged(WeaponType.Ranged, Player.Instance.Position - new Vector2(0, 150)));
                     GameWorld.Instance.Notify(StatusType.Delivered);
                 }
@@ -369,6 +384,27 @@ namespace Mortens_Komeback_3
             }
         }
 
+
+        private void ChestDialogue()
+        {
+            if (reply == 0)
+            {
+                StartConversation();
+                npcText = "Have you heard Goosifer is back?";
+                reply++;
+                if (close == true)
+                {
+                    GameWorld.Instance.SpawnObject(new Item(ItemType.GeesusBlood, Player.Instance.Position - new Vector2(0, 150)));
+                    close = false;
+                    Sprite = chestOpen;
+                }
+            }
+            else
+            {
+                EndConversation();
+            }
+        }
+
         /// <summary>
         /// NPCType Holo0 dialogue
         /// Rikke
@@ -396,7 +432,6 @@ namespace Mortens_Komeback_3
                 npcText = "";
                 reply++;
             Player.Instance.Position = new Vector2(-250, 250);
-            //Player.Instance.Position = new Vector2(0, 22000);
             EndConversation();
 
         }
