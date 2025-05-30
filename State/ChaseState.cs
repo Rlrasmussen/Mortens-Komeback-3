@@ -62,7 +62,7 @@ namespace Mortens_Komeback_3.State
             if (distance > 30)
                 parent.Position += direction * parent.Speed * GameWorld.Instance.DeltaTime;
 
-            if (distance > 300)
+            if (distance > 400)
                 Exit();
 
         }

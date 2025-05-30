@@ -64,7 +64,10 @@ namespace Mortens_Komeback_3.State
                 this.parent = parent;
             this.parent.State = this;
             if (patrolPath != null)
+            {
                 parent.IgnoreState = true;
+                parent.PauseAStar = true;
+            }
 
         }
 
@@ -109,7 +112,7 @@ namespace Mortens_Komeback_3.State
                 parent.Position += direction * parent.Speed * GameWorld.Instance.DeltaTime;
             }
 
-            if (Vector2.Distance(parent.Position, Player.Instance.Position) < 200)
+            if (Vector2.Distance(parent.Position, Player.Instance.Position) < 400)
                 Exit();
 
         }

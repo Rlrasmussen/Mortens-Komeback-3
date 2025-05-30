@@ -71,7 +71,7 @@ namespace Mortens_Komeback_3
                     {
                         if (IsInCone(Player.Instance.Position, InputHandler.Instance.MousePosition, enemy.Position, 60f))
                             enemy.TakeDamage(this);
-                        if (enemy.CollisionBox.Intersects(Player.Instance.CollisionBox))
+                        else if (enemy.CollisionBox.Intersects(Player.Instance.CollisionBox))
                             enemy.TakeDamage(this);
                     }
                     break;
@@ -80,7 +80,7 @@ namespace Mortens_Komeback_3
                     {
                         if (IsInCone(Player.Instance.Position, InputHandler.Instance.MousePosition, enemy.Position, 45f))
                             enemy.TakeDamage(this);
-                        if (enemy.CollisionBox.Intersects(Player.Instance.CollisionBox))
+                        else if (enemy.CollisionBox.Intersects(Player.Instance.CollisionBox))
                             enemy.TakeDamage(this);
                     }
                     break;

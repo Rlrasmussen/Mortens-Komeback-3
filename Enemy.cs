@@ -92,11 +92,6 @@ namespace Mortens_Komeback_3
         public override void Update(GameTime gameTime)
         {
 
-            //if (State is ChargeState)
-            //    disablePPCollision = true;
-            //else
-            //    disablePPCollision = false;
-
             damageTaken += GameWorld.Instance.DeltaTime;
 
             if (damageTaken >= 0.5f && drawColor != Color.White)
@@ -181,12 +176,14 @@ namespace Mortens_Komeback_3
             }
 
             damageTaken = 0.5f;
-            //Defines temp room for enemy to use for getting astar tiles, and adds tiles if they are not already there.
+
             if (!IgnoreState) //Simon - for setting a default State
             {
                 PatrolState patrol = new PatrolState();
                 patrol.Enter(this);
             }
+
+            //Defines temp room for enemy to use for getting astar tiles, and adds tiles if they are not already there.
             Room enemyRoom = DoorManager.Rooms.Find(x => this.CollisionBox.Intersects(x.CollisionBox));
             if (!(enemyRoom == null) && !state.OverridesPathfinding)
             {
