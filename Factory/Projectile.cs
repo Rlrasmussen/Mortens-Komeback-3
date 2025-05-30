@@ -17,6 +17,7 @@ namespace Mortens_Komeback_3.Factory
         private Vector2 direction;
         private float speed = 1000f;
         private float rotateDirection;
+        private Room room;
 
         #endregion
 
@@ -57,6 +58,8 @@ namespace Mortens_Komeback_3.Factory
             else
                 rotateDirection = -0.15f;
 
+            room = GameWorld.Instance.CurrentRoom;
+
             base.Load();
 
         }
@@ -87,6 +90,18 @@ namespace Mortens_Komeback_3.Factory
 
             Position += direction * speed * GameWorld.Instance.DeltaTime;
             Rotation += rotateDirection;
+
+
+            if ((
+                Position.X > room.Position.X + (room.Sprite.Width / 2)) || (
+                Position.X < room.Position.X - (room.Sprite.Width / 2)) || (
+                Position.Y > room.Position.Y + (room.Sprite.Height / 2)) || (
+                Position.Y < room.Position.Y - (room.Sprite.Height / 2))
+                )
+            {
+                ProjectilePool.Instance.ReleaseObject(this);
+                IsAlive = false;
+            }
 
         }
 

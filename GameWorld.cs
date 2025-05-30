@@ -144,6 +144,11 @@ namespace Mortens_Komeback_3
                             break;
                         default:
                             currentRoom.DespawnEnemies();
+                            foreach (GameObject egg in gameObjects)
+                            {
+                                if (egg is Projectile)
+                                    (egg as Projectile).IsAlive = false;
+                            }
                             spawn = true;
                             break;
                     }
@@ -207,6 +212,7 @@ namespace Mortens_Komeback_3
 
             MenuManager = new MenuManager();
             MenuManager.CreateMenus();
+            DoorManager.Initialize();
 
 
             base.Initialize();
@@ -232,7 +238,6 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447, -430), rotationTop)); //Under the painting in PopeRoom
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
             #endregion
-            DoorManager.Initialize();
 
             foreach (var room in DoorManager.Rooms)
                 gameObjects.Add(room);
@@ -331,9 +336,9 @@ namespace Mortens_Komeback_3
             #endregion
 
             //Music
-            backgroundMusic = Music[MusicTrack.Background];
-            MediaPlayer.Play(Music[MusicTrack.Background]);
-            MediaPlayer.IsRepeating = true;
+            //backgroundMusic = Music[MusicTrack.Background];
+            //MediaPlayer.Play(Music[MusicTrack.Background]);
+            //MediaPlayer.IsRepeating = true;
 
             gameObjects.Add(new CutScene(CutSceneRoom.CutsceneMovie, new Vector2(0, -2000)));
 
@@ -510,7 +515,7 @@ namespace Mortens_Komeback_3
         public void SpawnObject(GameObject gameObject)
         {
 
-            if (!gameObjects.Contains(gameObject) && !newGameObjects.Contains(gameObject))
+            //if (!gameObjects.Contains(gameObject) && !newGameObjects.Contains(gameObject))
                 newGameObjects.Add(gameObject);
 #if DEBUG
             Debug.WriteLine(gameObject.ToString() + " added to spawnlist");
@@ -1133,18 +1138,18 @@ namespace Mortens_Komeback_3
         public void Restart()
         {
 
-            gameObjects.Clear();
-            newGameObjects.Clear();
             foreach (var item in gamePuzzles)
             {
                 if (item is Puzzle)
                 {
                     (item as Puzzle).Solved = false;
-                    item.Load();
+                    //item.Load();
                 }
             }
+            gameObjects.Clear();
+            newGameObjects.Clear();
             gamePuzzles.Clear();
-            DoorManager.doorList.Clear();
+            npcs.Clear();
             SavePoint.ClearSave();
             Player.Instance.Inventory.Clear();
             Player.Instance.EquippedWeapon = null;

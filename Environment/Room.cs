@@ -23,7 +23,7 @@ namespace Mortens_Komeback_3.Environment
         private bool buttomSideOfBigRoom = false;
         private bool enemiesSpawned = false;
         private List<(EnemyType Type, Vector2 Position)> spawnList;
-        private static List<Enemy> enemiesInRoom = new List<Enemy>();
+        private static List<Enemy> EnemiesSpawned = new List<Enemy>();
 
         #endregion
 
@@ -49,16 +49,7 @@ namespace Mortens_Komeback_3.Environment
             Doors = new List<Door>();
             //scale = 1.5F;
             layer = 0.1f;
-
-        }
-
-        public Room(RoomType type, Vector2 spawnPos, List<(EnemyType Type, Vector2 Position)> spawnThese) : base(type, spawnPos)
-        {
-            RoomType = type;
-            Doors = new List<Door>();
-            //scale = 1.5F;
-            layer = 0.1f;
-            spawnList = spawnThese;
+            spawnList = GetEnemies();
 
         }
 
@@ -70,7 +61,7 @@ namespace Mortens_Komeback_3.Environment
         {
 
             enemiesSpawned = false;
-            enemiesInRoom.Clear();
+            EnemiesSpawned.Clear();
 
             base.Load();
         }
@@ -114,20 +105,49 @@ namespace Mortens_Komeback_3.Environment
         }
 
 
-        public void DespawnEnemies()
+        private List<(EnemyType, Vector2)> GetEnemies()
         {
 
-            if (spawnList != null)
-                foreach (Enemy enemy in enemiesInRoom)
-                {
-                    GameWorld.Instance.IgnoreSoundEffect = true;
-                    enemy.IsAlive = false;
-                }
+            List<(EnemyType, Vector2)> enemies = new List<(EnemyType, Vector2)>();
 
-            enemiesInRoom.Clear();
-            enemiesSpawned = false;
+            switch (RoomType)
+            {
+                case RoomType.CatacombesA:
+                case RoomType.CatacombesA1:
+                    enemies.Add((EnemyType.WalkingGoose, new Vector2(900, 3540)));
+                    enemies.Add((EnemyType.WalkingGoose, new Vector2(450, 4440)));
+                    enemies.Add((EnemyType.WalkingGoose, new Vector2(3300, 3690)));
+                    break;
+                case RoomType.CatacombesC:
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(-210, 8375)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(0, 7630)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(850, 7575)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(850, 8420)));
+                    break;
+                case RoomType.CatacombesD:
+                case RoomType.CatacombesD1:
+                    enemies.Add((EnemyType.WalkingGoose, new Vector2(-300, 9700)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(-260, 10550)));
+                    enemies.Add((EnemyType.WalkingGoose, new Vector2(350, 10400)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(330, 9580)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(430, 11000)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(-800, 11330)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(670, 11825)));
+                    break;
+                case RoomType.CatacombesH:
+                    enemies.Add((EnemyType.Goosifer, new Vector2(0, 20200)));
+                    break;
+                default:
+                    break;
+            }
+
+            if (enemies.Count == 0)
+                return null;
+
+            return enemies;
 
         }
+
 
         public void SpawnEnemies()
         {
@@ -139,7 +159,7 @@ namespace Mortens_Komeback_3.Environment
                 foreach (var enemy in spawnList)
                 {
                     Enemy spawnThis = (Enemy)EnemyPool.Instance.GetObject(enemy.Type, enemy.Position);
-                    enemiesInRoom.Add(spawnThis);
+                    EnemiesSpawned.Add(spawnThis);
                     GameWorld.Instance.SpawnObject(spawnThis);
                     PatrolState waypoint;
                     switch (RoomType)
@@ -257,6 +277,25 @@ namespace Mortens_Komeback_3.Environment
                     i++;
                 }
             }
+        }
+
+
+        public void DespawnEnemies()
+        {
+
+            EnemiesSpawned.RemoveAll(x => !x.IsAlive);
+
+            foreach (Enemy enemy in EnemiesSpawned)
+            {
+
+                GameWorld.Instance.IgnoreSoundEffect = true;
+                enemy.IsAlive = false;
+                EnemyPool.Instance.ReleaseObject(enemy);
+
+            }
+
+            EnemiesSpawned.Clear();
+            enemiesSpawned = false;
 
         }
         #endregion

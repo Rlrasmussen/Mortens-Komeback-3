@@ -186,6 +186,31 @@ namespace Mortens_Komeback_3
 
             base.Load();
 
+            switch (equippedWeapon)
+            {
+                case null:
+                case WeaponMelee:
+                    if (GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var meleeSprites))
+                    {
+                        Sprites = meleeSprites;
+                        Sprite = Sprites[0];
+                        origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
+                    }
+                    Type = PlayerType.Morten;
+                    Rectangles = (this as IPPCollidable).CreateRectangles();
+                    break;
+                case WeaponRanged:
+                    if (GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenMunk, out var rangedSprites))
+                    {
+                        Sprites = rangedSprites;
+                        Sprite = Sprites[0];
+                        origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
+                    }
+                    Type = PlayerType.MortenMunk;
+                    Rectangles = (this as IPPCollidable).CreateRectangles();
+                    break;
+            }
+
             Health = MaxHealth;
             colorTimer = 2f;
 
@@ -293,9 +318,24 @@ namespace Mortens_Komeback_3
 
             Vector2 correction = Vector2.Zero; //Attack animation is 40'ish pixels higher than regular sprites
 
+            if (Sprites == GameWorld.Instance.Sprites[PlayerType.Morten])
+                switch (CurrentIndex)
+                {
+                    case 1 when spriteEffect == SpriteEffects.FlipHorizontally:
+                    case 3 when spriteEffect == SpriteEffects.FlipHorizontally:
+                        correction.X = 7;
+                        break;
+                    default:
+                        break;
+                }
+
             if (swordAttacking && equippedWeapon != null && (WeaponType)equippedWeapon.Type == WeaponType.Melee)
             {
                 correction.Y = 40;
+                if (spriteEffect == SpriteEffects.FlipHorizontally)
+                {
+                    correction.X = 40;
+                }
                 // 1. Calculate angle of attack
                 float angle = (float)Math.Atan2(meleeAttackDirection.Y, meleeAttackDirection.X);
 
@@ -437,18 +477,29 @@ namespace Mortens_Komeback_3
             if (!swordAttacking)
                 equippedWeapon = (Weapon)inventory.Find(x => (WeaponType)x.Type == weapon);
             if (inventory.Contains(inventory.Find(x => (WeaponType)x.Type == weapon)))
+            {
                 switch (equippedWeapon.Type) //Changes sprites, depending on weapon type - Philip
                 {
                     case WeaponType.Melee:
                         GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var meleeSprites);
                         Sprites = meleeSprites;
+                        Sprite = Sprites[0];
+                        Type = PlayerType.Morten;
+                        origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
                         break;
                     case WeaponType.Ranged:
                         GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenMunk, out var rangedSprites);
                         Sprites = rangedSprites;
+                        Sprite = Sprites[0];
+                        Type = PlayerType.MortenMunk;
+                        origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
                         break;
                     default: break;
                 }
+            }
+
+            Rectangles = (this as IPPCollidable).CreateRectangles();
+
         }
 
         /// <summary>
@@ -536,12 +587,22 @@ namespace Mortens_Komeback_3
                 switch (equippedWeapon.Type) //Changes sprites, depending on weapon type - Philip
                 {
                     case WeaponType.Melee:
-                        GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var meleeSprites);
-                        Sprites = meleeSprites;
+                        if (GameWorld.Instance.Sprites.TryGetValue(PlayerType.Morten, out var meleeSprites))
+                        {
+                            Sprites = meleeSprites;
+                            Sprite = Sprites[0];
+                            origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
+                            Rectangles = (this as IPPCollidable).CreateRectangles();
+                        }
                         break;
                     case WeaponType.Ranged:
-                        GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenMunk, out var rangedSprites);
-                        Sprites = rangedSprites;
+                        if (GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenMunk, out var rangedSprites))
+                        {
+                            Sprites = rangedSprites;
+                            Sprite = Sprites[0];
+                            origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
+                            Rectangles = (this as IPPCollidable).CreateRectangles();
+                        }
                         break;
                     default: break;
                 }

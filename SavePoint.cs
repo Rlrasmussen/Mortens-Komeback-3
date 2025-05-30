@@ -138,7 +138,7 @@ namespace Mortens_Komeback_3
 
                     commandText = "INSERT INTO Player (ID, RespawnPosition, CurrentHP, Equipped_Item) VALUES (@ID, @POSITION, @HP, @EQUIPPED) ON CONFLICT(ID) DO UPDATE SET RespawnPosition = excluded.RespawnPosition, CurrentHP = excluded.CurrentHP, Equipped_Item = excluded.Equipped_Item"; //INSERTs or UPDATEs data relevant to player including the currently equipped weapon
                     command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
-                    command.Parameters.AddWithValue("@ID", Player.Instance.Type);
+                    command.Parameters.AddWithValue("@ID", 0);
                     command.Parameters.AddWithValue("@HP", Player.Instance.Health);
                     command.Parameters.AddWithValue("@POSITION", location);
 
