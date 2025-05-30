@@ -36,7 +36,7 @@ namespace Mortens_Komeback_3.State
         #endregion
         #region Properties
 
-
+        public bool OverridesPathfinding { get; set; } = true;
 
         #endregion
         #region Constructor

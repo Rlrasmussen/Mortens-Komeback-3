@@ -18,6 +18,8 @@ namespace Mortens_Komeback_3.State
 
         #region Properties
 
+        public bool OverridesPathfinding { get; set; }
+
         public IState<Enemy> PreviousState { get; set; }
 
         #endregion

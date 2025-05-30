@@ -73,6 +73,9 @@ namespace Mortens_Komeback_3.State
         private float lifetime = -5f;
         private float speed = 700f;
 
+
+        public bool OverridesPathfinding { get; set; }
+
         /// <summary>
         /// Handles starting logic of the State
         /// Simon
@@ -116,7 +119,7 @@ namespace Mortens_Komeback_3.State
         }
 
         /// <summary>
-        /// Gets radians for rotation of object to simulate the direction of the fireball
+        /// Gets radians for rotation of object to simulate the direction of the fireball (Old bit from another issue ChatGPT helped with)
         /// </summary>
         /// <returns>Radians - Pi</returns>
         private float GetAngle()

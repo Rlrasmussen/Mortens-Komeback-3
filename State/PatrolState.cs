@@ -21,6 +21,8 @@ namespace Mortens_Komeback_3.State
 
         #region Properties
 
+        public bool OverridesPathfinding { get; set; } = false;
+
         #endregion
 
         #region Constructor
@@ -41,8 +43,10 @@ namespace Mortens_Komeback_3.State
 
             chasePlayer.PreviousState = this;
             patrolPath = waypoints;
+            OverridesPathfinding = true;
 
         }
+
 
         #endregion
 

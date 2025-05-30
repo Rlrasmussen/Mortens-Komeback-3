@@ -188,7 +188,7 @@ namespace Mortens_Komeback_3
                 patrol.Enter(this);
             }
             Room enemyRoom = DoorManager.Rooms.Find(x => this.CollisionBox.Intersects(x.CollisionBox));
-            if (!(enemyRoom == null) && !((State is ChargeState) || (State is BossFightState)))
+            if (!(enemyRoom == null) && !state.OverridesPathfinding)
             {
                 if (enemyRoom.Tiles.Count == 0)
                 {
