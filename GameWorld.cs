@@ -50,6 +50,7 @@ namespace Mortens_Komeback_3
         private float lastSpawnCutscene = 0f;
         private List<IObserver> listeners = new List<IObserver>();
         private Status status;
+        private Room currentRoom;
 
         //Rotation
         private float rotationTop = 0;
@@ -124,8 +125,27 @@ namespace Mortens_Komeback_3
 #endif
         public bool RestartGame { get; set; } = false;
         public bool WinGame { get; set; } = false;
+        public bool IgnoreSoundEffect { get; set; }
 
-        public Environment.Room CurrentRoom { get; set; }
+        public Room CurrentRoom
+        {
+            get => currentRoom;
+            set
+            {
+
+                switch (currentRoom)
+                {
+
+                    default:
+                        break;
+                }
+                if (currentRoom != value && currentRoom != null)
+                    currentRoom.DespawnEnemies();
+
+                currentRoom = value;
+
+            }
+        }
 
         #endregion
 

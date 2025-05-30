@@ -64,8 +64,10 @@ namespace Mortens_Komeback_3
             get => base.IsAlive;
             set
             {
-                if (!value && IsAlive)
+                if (!value && IsAlive && !GameWorld.Instance.IgnoreSoundEffect)
                     GameWorld.Instance.Sounds[Sound.GooseSound].Play();
+
+                GameWorld.Instance.IgnoreSoundEffect = false;
 
                 if (State is BossFightState && !value && IsAlive)
                     State.Exit();

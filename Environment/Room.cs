@@ -23,6 +23,7 @@ namespace Mortens_Komeback_3.Environment
         private bool buttomSideOfBigRoom = false;
         private bool enemiesSpawned = false;
         private List<(EnemyType Type, Vector2 Position)> spawnList;
+        private List<Enemy> enemiesInRoom = new List<Enemy>();
 
         #endregion
 
@@ -84,11 +85,13 @@ namespace Mortens_Komeback_3.Environment
                 foreach (var enemy in spawnList)
                 {
                     Enemy spawnThis = (Enemy)EnemyPool.Instance.GetObject(enemy.Type, enemy.Position);
+                    enemiesInRoom.Add(spawnThis);
                     GameWorld.Instance.SpawnObject(spawnThis);
                     PatrolState waypoint;
                     switch (RoomType)
                     {
                         case RoomType.CatacombesA:
+                        case RoomType.CatacombesA1:
                             switch (i)
                             {
                                 case 0:
@@ -152,6 +155,7 @@ namespace Mortens_Komeback_3.Environment
                             }
                             break;
                         case RoomType.CatacombesD:
+                        case RoomType.CatacombesD1:
                             switch (i)
                             {
                                 case 4:
@@ -239,6 +243,22 @@ namespace Mortens_Komeback_3.Environment
             {
                 tile.Value.SetWalkable();
             }
+        }
+
+
+        public void DespawnEnemies()
+        {
+
+            if (spawnList != null)
+                foreach (Enemy enemy in enemiesInRoom)
+                {
+                    GameWorld.Instance.IgnoreSoundEffect = true;
+                    enemy.IsAlive = false;
+                }
+
+            enemiesInRoom.Clear();
+            enemiesSpawned = false;
+
         }
         #endregion
     }
