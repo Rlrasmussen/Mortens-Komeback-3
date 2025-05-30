@@ -46,7 +46,7 @@ namespace Mortens_Komeback_3.Environment
             FPS = 8;
             Sprites = GameWorld.Instance.Sprites[SurfaceType.AvSurface];
             Rotation = rotation;
-            damage = 10;
+            damage = 1;
         }
 
         #endregion
