@@ -70,7 +70,9 @@ namespace Mortens_Komeback_3.Factory
             active.Remove(gameObject);
 
             //Pushing to the inactive
-            inactive.Push(gameObject);
+            if (!inactive.Contains(gameObject))
+                inactive.Push(gameObject);
+
             gameObject.IsAlive = false;
 
             //Notifying the Observer/Status an Enemy has been killed

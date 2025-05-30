@@ -55,6 +55,7 @@ namespace Mortens_Komeback_3
             }
         }
 
+
         /// <summary>
         /// Used for handling logic when Player takes damage
         /// Simon
@@ -211,6 +212,8 @@ namespace Mortens_Komeback_3
                     break;
             }
 
+            swordAttacking = false;
+            speed = 500f;
             Health = MaxHealth;
             colorTimer = 2f;
 
@@ -259,8 +262,6 @@ namespace Mortens_Komeback_3
 
             //Grace periode for attacks from Enemy
             damageTimer += GameWorld.Instance.DeltaTime;
-
-
 
             base.Update(gameTime);
 
@@ -318,7 +319,7 @@ namespace Mortens_Komeback_3
 
             Vector2 correction = Vector2.Zero; //Attack animation is 40'ish pixels higher than regular sprites
 
-            if (Sprites == GameWorld.Instance.Sprites[PlayerType.Morten])
+            if (Sprites == GameWorld.Instance.Sprites[PlayerType.Morten]) //Accidental auto-overtrimming of sprites
                 switch (CurrentIndex)
                 {
                     case 1 when spriteEffect == SpriteEffects.FlipHorizontally:
@@ -328,6 +329,9 @@ namespace Mortens_Komeback_3
                     default:
                         break;
                 }
+            else if (Sprites == GameWorld.Instance.Sprites[PlayerType.MortenSling] && spriteEffect == SpriteEffects.FlipHorizontally) //Accidental auto-overtrimming of sprites
+                correction.X = 30;
+
 
             if (swordAttacking && equippedWeapon != null && (WeaponType)equippedWeapon.Type == WeaponType.Melee)
             {
@@ -474,10 +478,10 @@ namespace Mortens_Komeback_3
         public void ChangeWeapon(WeaponType weapon)
         {
 
-            if (!swordAttacking)
-                equippedWeapon = (Weapon)inventory.Find(x => (WeaponType)x.Type == weapon);
             if (inventory.Contains(inventory.Find(x => (WeaponType)x.Type == weapon)))
             {
+                if (!swordAttacking)
+                    equippedWeapon = (Weapon)inventory.Find(x => (WeaponType)x.Type == weapon);
                 switch (equippedWeapon.Type) //Changes sprites, depending on weapon type - Philip
                 {
                     case WeaponType.Melee:
