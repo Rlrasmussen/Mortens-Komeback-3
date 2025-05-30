@@ -133,13 +133,13 @@ namespace Mortens_Komeback_3
             }
 
             //If there is a collision between Player and NPC there will spawn an talk textbubble
-            if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox) && interact == true)
+            if ((Vector2.Distance(Player.Instance.Position, Position) < 150) && interact == true)
             {
                 spriteBatch.Draw(textBubble, Position - new Vector2(0, 90), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             }
 
             //DialogueBox 
-            if (talk == true && (this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
+            if (talk == true )//&& (this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
             {
                 spriteBatch.Draw(dialogueBox, Player.Instance.Position + new Vector2(-dialogueBox.Width / 2 + 72.5f, dialogueBox.Height * 0.5f + 35), null, drawColor, Rotation, origin, 1, spriteEffect, layer);
                 spriteBatch.DrawString(GameWorld.Instance.GameFont, npcText, Player.Instance.Position - new Vector2(dialogueBox.Width / 2 - 70, -dialogueBox.Height + 120), Color.LightGray, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.2f);
@@ -153,8 +153,8 @@ namespace Mortens_Komeback_3
         public void Speak()
         {
             Player.Instance.Speed = 0f;
-            Player.Instance.Position = Position - new Vector2(50, 0);
-
+            Player.Instance.Position = Position - new Vector2(Sprite.Width/2 + Player.Instance.Sprite.Width/2, 0);
+             
             switch (type)
             {
                 case NPCType.CanadaGoose:
