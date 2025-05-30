@@ -105,6 +105,12 @@ namespace Mortens_Komeback_3.Factory
 
         }
 
+        public void DeepClear()
+        {
+            active.Clear();
+            inactive.Clear();
+        }
+
         #endregion
     }
 }

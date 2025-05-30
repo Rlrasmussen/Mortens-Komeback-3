@@ -160,6 +160,7 @@ namespace Mortens_Komeback_3
 
             }
         }
+        public bool Reload { get; set; }
 
         #endregion
 
@@ -336,9 +337,9 @@ namespace Mortens_Komeback_3
             #endregion
 
             //Music
-            //backgroundMusic = Music[MusicTrack.Background];
-            //MediaPlayer.Play(Music[MusicTrack.Background]);
-            //MediaPlayer.IsRepeating = true;
+            backgroundMusic = Music[MusicTrack.Background];
+            MediaPlayer.Play(Music[MusicTrack.Background]);
+            MediaPlayer.IsRepeating = true;
 
             gameObjects.Add(new CutScene(CutSceneRoom.CutsceneMovie, new Vector2(0, -2000)));
 
@@ -415,7 +416,7 @@ namespace Mortens_Komeback_3
             }
 
             if (RestartGame)
-                Restart();
+                Restart(Reload);
 
             #endregion
 
@@ -516,7 +517,7 @@ namespace Mortens_Komeback_3
         {
 
             //if (!gameObjects.Contains(gameObject) && !newGameObjects.Contains(gameObject))
-                newGameObjects.Add(gameObject);
+            newGameObjects.Add(gameObject);
 #if DEBUG
             Debug.WriteLine(gameObject.ToString() + " added to spawnlist");
 #endif
@@ -1135,7 +1136,7 @@ namespace Mortens_Komeback_3
 
         #endregion
 
-        public void Restart()
+        public void Restart(bool reload = false)
         {
 
             foreach (var item in gamePuzzles)
@@ -1143,19 +1144,26 @@ namespace Mortens_Komeback_3
                 if (item is Puzzle)
                 {
                     (item as Puzzle).Solved = false;
-                    //item.Load();
                 }
             }
             gameObjects.Clear();
             newGameObjects.Clear();
             gamePuzzles.Clear();
             npcs.Clear();
-            SavePoint.ClearSave();
+            foreach (Room room in DoorManager.Rooms)
+                room.DespawnEnemies();
+            EnemyPool.Instance.DeepClear();
+            ProjectilePool.Instance.DeepClear();
             Player.Instance.Inventory.Clear();
             Player.Instance.EquippedWeapon = null;
             Player.Instance.Position = Locations[Location.Spawn];
+
+            if (!reload)
+                SavePoint.ClearSave();
+
             LoadContent();
             RestartGame = false;
+            Reload = false;
 
         }
 
