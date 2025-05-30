@@ -258,7 +258,9 @@ namespace Mortens_Komeback_3
         Hole1,
         Hole2,
         Tomb,
-        Barrel
+        Barrel,
+        Painting
+
 
     }
 
