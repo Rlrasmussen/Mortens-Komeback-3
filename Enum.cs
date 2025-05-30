@@ -255,6 +255,7 @@ namespace Mortens_Komeback_3
         Splash,
         //Hole0,
         Hole1,
+        Painting
 
     }
 
