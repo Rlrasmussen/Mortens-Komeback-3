@@ -51,7 +51,6 @@ namespace Mortens_Komeback_3
         public Texture2D[] Sprites { get; set; }
         public float ElapsedTime { get; set; }
         public int CurrentIndex { get; set; }
-        public bool Talk { get => talk; set => talk = value; }
 
         #endregion
 
@@ -141,7 +140,7 @@ namespace Mortens_Komeback_3
             }
 
             //DialogueBox 
-            if (Talk == true && (this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
+            if (talk == true && (this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
             {
                 spriteBatch.Draw(dialogueBox, Player.Instance.Position + new Vector2(-dialogueBox.Width / 2 + 72.5f, dialogueBox.Height * 0.5f + 35), null, drawColor, Rotation, origin, 1, spriteEffect, layer);
                 spriteBatch.DrawString(GameWorld.Instance.GameFont, npcText, Player.Instance.Position - new Vector2(dialogueBox.Width / 2 - 70, -dialogueBox.Height + 120), Color.LightGray, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.2f);
@@ -255,7 +254,7 @@ namespace Mortens_Komeback_3
                 else //Sad
                 {
                     npcText = "Forgive me, I have lost my Bible. Can you help me find it?";
-                    GameWorld.Instance.SpawnObject(new Item(ItemType.Bible, new Vector2(2650, 4000)));
+                    GameWorld.Instance.SpawnObject(new Item(ItemType.Bible, new Vector2(600, 3500)));
                 }
 
                 reply++;
@@ -321,16 +320,6 @@ namespace Mortens_Komeback_3
                 {
                     EndConversation();
                 }
-            }
-
-            if (reply > 2)
-            {
-                reply = 0;
-                EndConversation();
-            }
-            else
-            {
-                reply++;
             }
         }
 
@@ -474,7 +463,7 @@ namespace Mortens_Komeback_3
         /// </summary>
         public void StartConversation()
         {
-            Talk = true;
+            talk = true;
             interact = false;
         }
 
@@ -485,7 +474,7 @@ namespace Mortens_Komeback_3
         /// </summary>
         public void EndConversation()
         {
-            Talk = false;
+            talk = false;
             interact = true;
             Player.Instance.Speed = 500f;
             reply = 0;

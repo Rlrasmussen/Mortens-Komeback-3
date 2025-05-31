@@ -285,7 +285,6 @@ namespace Mortens_Komeback_3
                 npcs.Add(empty);
             }
 
-            NPC ghost = new NPC(NPCType.Ghost, new Vector2(-823, 21648));
             NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
             NPC coffin = new NPC(NPCType.Coffin, new Vector2(600, 2300));
             NPC hole0 = new NPC(NPCType.Hole0, new Vector2(600, 3400));
@@ -296,7 +295,6 @@ namespace Mortens_Komeback_3
             canadaGoose2.Canada = true;
             NPC chest = new NPC(NPCType.Chest, new Vector2(-650, 11810));
 
-            npcs.Add(ghost);
             npcs.Add(pope);
             npcs.Add(coffin);
             npcs.Add(monk);
@@ -311,20 +309,20 @@ namespace Mortens_Komeback_3
                 gameObjects.Add(npc);
             }
 
-            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(-1071, 21800)));
-            if (Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
-            {
-                //gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
+            gameObjects.Add(new Item(ItemType.Rosary, new Vector2(-823, 21648)));
+            //if (Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
+            //{
+            //    monk.Happy = true;
                 
-                
-            }
+            //}
             #endregion
 
             #region buttons and menu
 
             #endregion
             #region CatecombA
-            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(600, 3450), rotationTop));
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(500, 3500), rotationTop));
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(700, 3500), rotationTop));
             gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(-976, 3636), 150));
             gameObjects.Add(new Decoration(DecorationType.Coffin, new Vector2(-976 + 200, 3636), 150));
 
@@ -397,11 +395,11 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.GoosiferFigth];
                 MediaPlayer.Play(backgroundMusic);
             }
-            else if (backgroundMusic != Music[MusicTrack.TrapRoom] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom) && trap == true)
-            {
-                backgroundMusic = Music[MusicTrack.TrapRoom];
-                MediaPlayer.Play(backgroundMusic);
-            }
+            //else if (backgroundMusic != Music[MusicTrack.TrapRoom] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom) && trap == true)
+            //{
+            //    backgroundMusic = Music[MusicTrack.TrapRoom];
+            //    MediaPlayer.Play(backgroundMusic);
+            //}
             else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom) && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
             {
                 backgroundMusic = Music[MusicTrack.Background];
@@ -415,14 +413,17 @@ namespace Mortens_Komeback_3
 
             if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && trap == false)
             {
-                gameObjects.Add(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), 0));
+                SpawnObject(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), 0));
                 for (int i = 0; i < 3; i++)
                 {
-                    gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(-815 + (815 * i), 22020), 0));
+                    SpawnObject(new AvSurface(SurfaceType.BigSpikes, new Vector2(-815 + (815 * i), 22020), 0));
                 }
                 SpawnObject(new AvSurface(SurfaceType.AvSurface, new(-400, 22120 + 18), 0));
                 SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(400, 21510), 0));
                 trap = true;
+                NPC ghost = new NPC(NPCType.Ghost, new Vector2(-823, 21648));
+                SpawnObject(ghost);
+                npcs.Add(ghost);
             }
 
             if (win)
