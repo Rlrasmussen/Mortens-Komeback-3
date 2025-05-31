@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Audio;
 using Mortens_Komeback_3.Puzzles;
 using Mortens_Komeback_3.Factory;
+using Microsoft.Xna.Framework.Media;
 
 namespace Mortens_Komeback_3
 {
@@ -28,14 +29,14 @@ namespace Mortens_Komeback_3
         private float speed = 500f;
         private float walkTimer = 0.5f;
         private int health;
-        private int maxHealth = 6;
+        private int maxHealth = 20;
         private bool swordAttacking = false;
         private bool slingAttacking = false;
         private float colorTimer = 2f;
 
         private float damageTimer = 2f;
         private float damageGracePeriode = 2f;
-        private int portionHelath = 1;
+        private int portionHelath = 2;
         #endregion
 
         #region Properties
@@ -430,6 +431,7 @@ namespace Mortens_Komeback_3
                         break;
                     case ItemType.Grail:
                         GameWorld.Instance.WinGame = true;
+                        (other as Item).IsAlive = false;
                         break;
                     default:
                         break;

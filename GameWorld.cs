@@ -370,10 +370,12 @@ namespace Mortens_Komeback_3
         protected override void Update(GameTime gameTime)
         {
 
-            if (WinGame)
+            if (WinGame == true && backgroundMusic != Music[MusicTrack.Win])
             {
                 WinGame = false;
                 status.OnNotify(StatusType.Win);
+                backgroundMusic = Music[MusicTrack.Win];
+                MediaPlayer.Play(backgroundMusic);
             }
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -397,7 +399,7 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.GoosiferFigth];
                 MediaPlayer.Play(backgroundMusic);
             }
-            else if (backgroundMusic != Music[MusicTrack.Background] /*&& CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom)*/ && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
+            else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
             {
                 backgroundMusic = Music[MusicTrack.Background];
                 MediaPlayer.Play(backgroundMusic);
@@ -430,10 +432,10 @@ namespace Mortens_Komeback_3
 
 
 
-            if (win)
-            {
-                GameWorld.Instance.Notify(StatusType.Win);
-            }
+            //if (win)
+            //{
+            //    GameWorld.Instance.Notify(StatusType.Win);
+            //}
 
             if (RestartGame)
                 Restart(Reload);
