@@ -430,6 +430,7 @@ namespace Mortens_Komeback_3
                 NPC ghost = new NPC(NPCType.Ghost, new Vector2(-823, 21648));
                 SpawnObject(ghost);
                 npcs.Add(ghost);
+
             }
 
             if (win)

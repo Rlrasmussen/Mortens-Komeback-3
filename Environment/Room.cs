@@ -69,7 +69,7 @@ namespace Mortens_Komeback_3.Environment
             //    UnlockDoors();
             //}
 
-            if (EnemiesSpawned.Count == 0 && GameWorld.Instance.CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.Stairs))
+            if (EnemiesSpawned.Count == 0 && GameWorld.Instance.CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.Stairs)  )
             {
                 foreach (Door door in Doors)
                 {
@@ -81,7 +81,7 @@ namespace Mortens_Komeback_3.Environment
 
             //}
 
-            if (GameWorld.Instance.CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
+            if (GameWorld.Instance.CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) || GameWorld.Instance.CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom))
             {
                 foreach (Door door in Doors)
                 {

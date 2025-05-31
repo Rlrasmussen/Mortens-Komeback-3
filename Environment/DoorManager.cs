@@ -65,8 +65,8 @@ namespace Mortens_Komeback_3.Environment
             Door doorH2 = new Door(new Vector2(-1190, 16000), DoorDirection.Left);  //pathfinding
             //Door doorG3 = new Door(new Vector2(-800, 16600), DoorDirection.Bottom);  //videsre
             //Door doorG2 = new Door(new Vector2(600, 16000), DoorDirection.Top);  //traproom
-            Door doorG3 = new Door(new Vector2(-800, 22600), DoorDirection.Bottom);  //videre
-            Door doorG2 = new Door(new Vector2(600, 22600), DoorDirection.Bottom);  //traproom
+            Door doorG3 = new Door(new Vector2(-800, 22600), DoorDirection.Bottom, DoorType.Locked);  //videre
+            Door doorG2 = new Door(new Vector2(600, 22600), DoorDirection.Bottom, DoorType.Locked);  //traproom
             Door doorI1 = new Door(new Vector2(1190, 16000), DoorDirection.Right); //ud af pathfinding I1
             Door doorI2 = new Door(new Vector2(-1190, 18000), DoorDirection.Left);
             Door doorJ1 = new Door(new Vector2(1190, 18000), DoorDirection.Right);
