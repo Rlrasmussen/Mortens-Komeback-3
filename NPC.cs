@@ -359,7 +359,7 @@ namespace Mortens_Komeback_3
                 }
                 reply++;
             }
-            else if(reply ==1)
+            else if (reply == 1)
             {
                 npcText = "I wish the light from the cracks in the walls\n" +
                     "would shine on the holy cross!\n" +
@@ -378,17 +378,19 @@ namespace Mortens_Komeback_3
         /// </summary>
         private void CoffinDialogue()
         {
-            if (coffinHint == true)
+            if (coffinHint == true && reply == 0)
             {
                 StartConversation();
                 npcText = "Did you talk to the pope?";
                 coffinHint = false;
+                reply++;
             }
-            else if (coffinHint == false)
+            else if (coffinHint == false && reply == 0)
             {
                 StartConversation();
-                npcText = "Have you seen ?";
+                npcText = "Have you seen the pretty painting?";
                 coffinHint = true;
+                reply++;
             }
             else
             {
@@ -440,10 +442,10 @@ namespace Mortens_Komeback_3
         private void EmptyDialogoue()
         {
 
-                StartConversation();
-                npcText = "";
-                reply++;
-            Player.Instance.Position = new Vector2(-250, 250);
+            StartConversation();
+            npcText = "";
+            reply++;
+            Player.Instance.Position = new Vector2(-250, -100);
             EndConversation();
 
         }

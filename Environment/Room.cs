@@ -77,128 +77,128 @@ namespace Mortens_Komeback_3.Environment
         public override void Update(GameTime gameTime)
         {
 
-            if (GameWorld.Instance.CurrentRoom == this && !enemiesSpawned && spawnList != null)
-            {
-                int i = 0;
-                enemiesSpawned = true;
-                foreach (var enemy in spawnList)
-                {
-                    Enemy spawnThis = (Enemy)EnemyPool.Instance.GetObject(enemy.Type, enemy.Position);
-                    GameWorld.Instance.SpawnObject(spawnThis);
-                    PatrolState waypoint;
-                    switch (RoomType)
-                    {
-                        case RoomType.CatacombesA:
-                            switch (i)
-                            {
-                                case 0:
-                                    List<Vector2> path0 = new List<Vector2>();
-                                    path0.Add(new Vector2(2100, 3980));
-                                    path0.Add(new Vector2(2550, 3540));
-                                    path0.Add(new Vector2(2400, 4130));
-                                    path0.Add(new Vector2(760, 3990));
-                                    path0.Add(new Vector2(900, 3540));
-                                    spawnThis.IgnoreState = true;
-                                    waypoint = new PatrolState(path0);
-                                    waypoint.Enter(spawnThis);
-                                    break;
-                                case 1:
-                                    List<Vector2> path1 = new List<Vector2>();
-                                    path1.Add(new Vector2(-150, 4440));
-                                    path1.Add(new Vector2(300, 3840));
-                                    path1.Add(new Vector2(1650, 4135));
-                                    path1.Add(new Vector2(2400, 4500));
-                                    path1.Add(new Vector2(450, 4440));
-                                    spawnThis.IgnoreState = true;
-                                    waypoint = new PatrolState(path1);
-                                    waypoint.Enter(spawnThis);
-                                    break;
-                                case 2:
-                                    List<Vector2> path2 = new List<Vector2>();
-                                    path2.Add(new Vector2(3300, 4440));
-                                    path2.Add(new Vector2(2250, 3540));
-                                    path2.Add(new Vector2(1950, 4300));
-                                    path2.Add(new Vector2(2400, 3840));
-                                    path2.Add(new Vector2(3300, 3690));
-                                    spawnThis.IgnoreState = true;
-                                    waypoint = new PatrolState(path2);
-                                    waypoint.Enter(spawnThis);
-                                    break;
-                                default:
-                                    break;
-                            }
-                            break;
-                        case RoomType.CatacombesC:
-                            switch (i)
-                            {
-                                case 2:
-                                    List<Vector2> path2 = new List<Vector2>();
-                                    path2.Add(new Vector2(850, 8420));
-                                    path2.Add(new Vector2(850, 7575));
-                                    spawnThis.IgnoreState = true;
-                                    waypoint = new PatrolState(path2);
-                                    waypoint.Enter(spawnThis);
-                                    break;
-                                case 3:
-                                    List<Vector2> path3 = new List<Vector2>();
-                                    path3.Add(new Vector2(850, 7575));
-                                    path3.Add(new Vector2(850, 8420));
-                                    spawnThis.IgnoreState = true;
-                                    waypoint = new PatrolState(path3);
-                                    waypoint.Enter(spawnThis);
-                                    break;
-                                default:
-                                    break;
-                            }
-                            break;
-                        case RoomType.CatacombesD:
-                            switch (i)
-                            {
-                                case 4:
-                                    List<Vector2> path4 = new List<Vector2>();
-                                    path4.Add(new Vector2(-800, 11330));
-                                    path4.Add(new Vector2(670, 11825));
-                                    path4.Add(new Vector2(0, 11300));
-                                    path4.Add(new Vector2(430, 11000));
-                                    spawnThis.IgnoreState = true;
-                                    waypoint = new PatrolState(path4);
-                                    waypoint.Enter(spawnThis);
-                                    break;
-                                case 5:
-                                    List<Vector2> path5 = new List<Vector2>();
-                                    path5.Add(new Vector2(670, 11825));
-                                    path5.Add(new Vector2(0, 11300));
-                                    path5.Add(new Vector2(430, 11000));
-                                    path5.Add(new Vector2(-800, 11330));
-                                    spawnThis.IgnoreState = true;
-                                    waypoint = new PatrolState(path5);
-                                    waypoint.Enter(spawnThis);
-                                    break;
-                                case 6:
-                                    List<Vector2> path6 = new List<Vector2>();
-                                    path6.Add(new Vector2(0, 11300));
-                                    path6.Add(new Vector2(430, 11000));
-                                    path6.Add(new Vector2(-800, 11330));
-                                    path6.Add(new Vector2(670, 11825));
-                                    spawnThis.IgnoreState = true;
-                                    waypoint = new PatrolState(path6);
-                                    waypoint.Enter(spawnThis);
-                                    break;
-                                default:
-                                    break;
-                            }
-                            break;
-                        case RoomType.CatacombesH:
-                            spawnThis.IgnoreState = true;
-                            BossFightState bossFight = new BossFightState();
-                            bossFight.Enter(spawnThis);
-                            break;
-                        default:
-                            break;
-                    }
-                    i++;
-                }
-            }
+            //if (GameWorld.Instance.CurrentRoom == this && !enemiesSpawned && spawnList != null)
+            //{
+            //    int i = 0;
+            //    enemiesSpawned = true;
+            //    foreach (var enemy in spawnList)
+            //    {
+            //        Enemy spawnThis = (Enemy)EnemyPool.Instance.GetObject(enemy.Type, enemy.Position);
+            //        GameWorld.Instance.SpawnObject(spawnThis);
+            //        PatrolState waypoint;
+            //        switch (RoomType)
+            //        {
+            //            case RoomType.CatacombesA:
+            //                switch (i)
+            //                {
+            //                    case 0:
+            //                        List<Vector2> path0 = new List<Vector2>();
+            //                        path0.Add(new Vector2(2100, 3980));
+            //                        path0.Add(new Vector2(2550, 3540));
+            //                        path0.Add(new Vector2(2400, 4130));
+            //                        path0.Add(new Vector2(760, 3990));
+            //                        path0.Add(new Vector2(900, 3540));
+            //                        spawnThis.IgnoreState = true;
+            //                        waypoint = new PatrolState(path0);
+            //                        waypoint.Enter(spawnThis);
+            //                        break;
+            //                    case 1:
+            //                        List<Vector2> path1 = new List<Vector2>();
+            //                        path1.Add(new Vector2(-150, 4440));
+            //                        path1.Add(new Vector2(300, 3840));
+            //                        path1.Add(new Vector2(1650, 4135));
+            //                        path1.Add(new Vector2(2400, 4500));
+            //                        path1.Add(new Vector2(450, 4440));
+            //                        spawnThis.IgnoreState = true;
+            //                        waypoint = new PatrolState(path1);
+            //                        waypoint.Enter(spawnThis);
+            //                        break;
+            //                    case 2:
+            //                        List<Vector2> path2 = new List<Vector2>();
+            //                        path2.Add(new Vector2(3300, 4440));
+            //                        path2.Add(new Vector2(2250, 3540));
+            //                        path2.Add(new Vector2(1950, 4300));
+            //                        path2.Add(new Vector2(2400, 3840));
+            //                        path2.Add(new Vector2(3300, 3690));
+            //                        spawnThis.IgnoreState = true;
+            //                        waypoint = new PatrolState(path2);
+            //                        waypoint.Enter(spawnThis);
+            //                        break;
+            //                    default:
+            //                        break;
+            //                }
+            //                break;
+            //            case RoomType.CatacombesC:
+            //                switch (i)
+            //                {
+            //                    case 2:
+            //                        List<Vector2> path2 = new List<Vector2>();
+            //                        path2.Add(new Vector2(850, 8420));
+            //                        path2.Add(new Vector2(850, 7575));
+            //                        spawnThis.IgnoreState = true;
+            //                        waypoint = new PatrolState(path2);
+            //                        waypoint.Enter(spawnThis);
+            //                        break;
+            //                    case 3:
+            //                        List<Vector2> path3 = new List<Vector2>();
+            //                        path3.Add(new Vector2(850, 7575));
+            //                        path3.Add(new Vector2(850, 8420));
+            //                        spawnThis.IgnoreState = true;
+            //                        waypoint = new PatrolState(path3);
+            //                        waypoint.Enter(spawnThis);
+            //                        break;
+            //                    default:
+            //                        break;
+            //                }
+            //                break;
+            //            case RoomType.CatacombesD:
+            //                switch (i)
+            //                {
+            //                    case 4:
+            //                        List<Vector2> path4 = new List<Vector2>();
+            //                        path4.Add(new Vector2(-800, 11330));
+            //                        path4.Add(new Vector2(670, 11825));
+            //                        path4.Add(new Vector2(0, 11300));
+            //                        path4.Add(new Vector2(430, 11000));
+            //                        spawnThis.IgnoreState = true;
+            //                        waypoint = new PatrolState(path4);
+            //                        waypoint.Enter(spawnThis);
+            //                        break;
+            //                    case 5:
+            //                        List<Vector2> path5 = new List<Vector2>();
+            //                        path5.Add(new Vector2(670, 11825));
+            //                        path5.Add(new Vector2(0, 11300));
+            //                        path5.Add(new Vector2(430, 11000));
+            //                        path5.Add(new Vector2(-800, 11330));
+            //                        spawnThis.IgnoreState = true;
+            //                        waypoint = new PatrolState(path5);
+            //                        waypoint.Enter(spawnThis);
+            //                        break;
+            //                    case 6:
+            //                        List<Vector2> path6 = new List<Vector2>();
+            //                        path6.Add(new Vector2(0, 11300));
+            //                        path6.Add(new Vector2(430, 11000));
+            //                        path6.Add(new Vector2(-800, 11330));
+            //                        path6.Add(new Vector2(670, 11825));
+            //                        spawnThis.IgnoreState = true;
+            //                        waypoint = new PatrolState(path6);
+            //                        waypoint.Enter(spawnThis);
+            //                        break;
+            //                    default:
+            //                        break;
+            //                }
+            //                break;
+            //            case RoomType.CatacombesH:
+            //                spawnThis.IgnoreState = true;
+            //                BossFightState bossFight = new BossFightState();
+            //                bossFight.Enter(spawnThis);
+            //                break;
+            //            default:
+            //                break;
+            //        }
+            //        i++;
+            //    }
+            //}
 
             base.Update(gameTime);
 
