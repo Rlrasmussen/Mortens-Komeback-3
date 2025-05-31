@@ -16,6 +16,7 @@ namespace Mortens_Komeback_3.State
         private Enemy parent;
         private Vector2 direction;
         private float duration;
+        private Enemy spawner;
 
         #endregion
         #region Properties
@@ -25,10 +26,11 @@ namespace Mortens_Komeback_3.State
         #endregion
         #region Constructor
 
-        public ChargeState(Vector2 direction)
+        public ChargeState(Vector2 direction, Enemy spawner)
         {
 
             this.direction = direction;
+            this.spawner = spawner;
 
         }
 
@@ -66,12 +68,13 @@ namespace Mortens_Komeback_3.State
 
             if ((
                 parent.InRoom != null && (
-                parent.Position.Y >= parent.InRoom.Position.Y + (parent.InRoom.Sprite.Height * 0.55f) || 
-                parent.Position.Y <= parent.InRoom.Position.Y - (parent.InRoom.Sprite.Height * 0.55f) || 
-                parent.Position.X >= parent.InRoom.Position.X + (parent.InRoom.Sprite.Width * 0.55f) || 
+                parent.Position.Y >= parent.InRoom.Position.Y + (parent.InRoom.Sprite.Height * 0.55f) ||
+                parent.Position.Y <= parent.InRoom.Position.Y - (parent.InRoom.Sprite.Height * 0.55f) ||
+                parent.Position.X >= parent.InRoom.Position.X + (parent.InRoom.Sprite.Width * 0.55f) ||
                 parent.Position.X <= parent.InRoom.Position.X - (parent.InRoom.Sprite.Width * 0.55f))
-                ) || 
-                duration >= 9.5f
+                ) ||
+                duration >= 9.5f ||
+                !spawner.IsAlive
                 )
             {
                 Exit();
