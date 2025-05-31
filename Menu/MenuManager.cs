@@ -128,8 +128,6 @@ namespace Mortens_Komeback_3.Menu
             {
                 GameWorld.Instance.GamePaused = true;
                 OpenMenu(MenuType.GameOver);
-                MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Death]);
-
             }
 
         }

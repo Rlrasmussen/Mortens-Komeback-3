@@ -369,15 +369,6 @@ namespace Mortens_Komeback_3
         /// <param name="gameTime">DeltaTime</param>
         protected override void Update(GameTime gameTime)
         {
-
-            if (WinGame == true && backgroundMusic != Music[MusicTrack.Win])
-            {
-                //WinGame = false;
-                status.OnNotify(StatusType.Win);
-                backgroundMusic = Music[MusicTrack.Win];
-                MediaPlayer.Play(backgroundMusic);
-            }
-
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             regularChecks += deltaTime;
 
@@ -394,24 +385,27 @@ namespace Mortens_Komeback_3
             }
 
             #region Chances of background music in some rooms
-            if (backgroundMusic != Music[MusicTrack.GoosiferFigth] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) && WinGame == false)
+            if (WinGame == true && backgroundMusic != Music[MusicTrack.Win])
+            {
+                //WinGame = false;
+                status.OnNotify(StatusType.Win);
+                backgroundMusic = Music[MusicTrack.Win];
+                MediaPlayer.Play(backgroundMusic);
+            }
+            else if (backgroundMusic != Music[MusicTrack.GoosiferFigth] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) && WinGame == false)
             {
                 backgroundMusic = Music[MusicTrack.GoosiferFigth];
                 MediaPlayer.Play(backgroundMusic);
             }
-            else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
+            else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) )
             {
                 backgroundMusic = Music[MusicTrack.Background];
                 MediaPlayer.Play(backgroundMusic);
             }
-
-            if (backgroundMusic == Music[MusicTrack.GoosiferFigth])
+            else if (Player.Instance.IsAlive == false && backgroundMusic != Music[MusicTrack.Death])
             {
-                MediaPlayer.Volume = 0.8f;
-            }
-            else
-            {
-                MediaPlayer.Volume = 1;
+                backgroundMusic = Music[MusicTrack.Death];
+                MediaPlayer.Play(backgroundMusic);
             }
 
             //Starting Traproom when the player is picking up the Rosary
@@ -1111,6 +1105,7 @@ namespace Mortens_Komeback_3
                 case ButtonAction.TryAgain:
                     GameWorld.Instance.ClearSaveAndRestart();
                     GameWorld.Instance.ResumeGame();
+                    WinGame = false;
                     RestartGame = true;
 
 
