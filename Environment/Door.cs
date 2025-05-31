@@ -46,13 +46,13 @@ namespace Mortens_Komeback_3.Environment
         #endregion
 
         #region Constructor
-        public Door(Vector2 spawnPos, DoorDirection direction, DoorType initialType = DoorType.Closed) : base(initialType, spawnPos)
+        public Door(Vector2 spawnPos, DoorDirection direction, DoorType initialType = DoorType.Locked) : base(initialType, spawnPos)
         {
-
             DoorStatus = initialType;
             Rotation = GetDoorDirection(direction); //Sprite rotation
             Direction = direction;
             layer = 0.11f;
+            
         }
 
         #endregion
@@ -77,6 +77,34 @@ namespace Mortens_Komeback_3.Environment
                 DoorStatus = DoorType.Stairs;
                 Sprite = GameWorld.Instance.Sprites[DoorType.Stairs][0];
             }
+            //else if (GameWorld.Instance.CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.PopeRoom))
+            //{
+            //    if (GameWorld.Instance.CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.Stairs))
+            //    {
+            //        DoorStatus = DoorType.Stairs;
+            //        Sprite = GameWorld.Instance.Sprites[DoorType.Stairs][0];
+            //    }
+            //    DoorStatus = DoorType.Open;
+            //    Sprite = GameWorld.Instance.Sprites[DoorStatus][0];
+
+            //}
+        }
+
+        public void LockDoors()
+        {
+            if (doorStatus == DoorType.Closed || doorStatus == DoorType.Open)
+            {
+
+            doorStatus = DoorType.Locked;
+            Sprite = GameWorld.Instance.Sprites[DoorType.Locked][0];
+            }
+
+            //else if (doorStatus == DoorType.Stairs)
+            //{
+            //    doorStatus = DoorType.StairsLocked;
+            //    Sprite = GameWorld.Instance.Sprites[DoorType.StairsLocked][0];
+            //}
+
         }
 
         /// <summary>

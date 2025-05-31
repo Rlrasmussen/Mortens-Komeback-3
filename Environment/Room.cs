@@ -64,7 +64,29 @@ namespace Mortens_Komeback_3.Environment
             if (EnemiesSpawned.Count > 0)
                 EnemiesSpawned.RemoveAll(x => !x.IsAlive);
 
-            base.Update(gameTime);
+
+            if (EnemiesSpawned.Count == 0 && GameWorld.Instance.CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.Stairs)) 
+            {
+                foreach (Door door in Doors)
+                {
+                    door.UnlockDoor();
+                }
+            }
+            else if (true)
+            {
+
+            }
+
+            if (GameWorld.Instance.CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
+            {
+                foreach (Door door in Doors)
+                {
+                    door.LockDoors();
+                }
+            }
+
+                base.Update(gameTime);
+
 
         }
 

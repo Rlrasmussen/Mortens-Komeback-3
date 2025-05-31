@@ -100,7 +100,7 @@ namespace Mortens_Komeback_3.State
         public void Exit()
         {
 
-            GameWorld.Instance.SpawnObject(new Item(ItemType.Grail, parent.Position));
+            GameWorld.Instance.SpawnObject(new Item(ItemType.Grail, new Vector2(0, 20000))); //Spawns in the middle of Catacombes H
 
         }
 

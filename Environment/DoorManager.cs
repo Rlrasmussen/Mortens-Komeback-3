@@ -48,11 +48,11 @@ namespace Mortens_Komeback_3.Environment
             popeRoom.AddTiles();
 
             // Create Doors
-            Door doorA1 = new Door(new Vector2(1190, 0), DoorDirection.Right);
-            Door doorA2 = new Door(new Vector2(-1190, 2000), DoorDirection.Left);
+            Door doorA1 = new Door(new Vector2(1190, 0), DoorDirection.Right, DoorType.Closed);
+            Door doorA2 = new Door(new Vector2(-1190, 2000), DoorDirection.Left, DoorType.Open);
             Door doorB1 = new Door(new Vector2(880, 2000), DoorDirection.Right, DoorType.StairsLocked);
             Door doorB2 = new Door(new Vector2(-945, 4000), DoorDirection.Left, DoorType.StairsUp);
-            Door doorC1 = new Door(new Vector2(1190 * 3 + 320, 4000), DoorDirection.Right); //catacombesA
+            Door doorC1 = new Door(new Vector2(1190 * 3 + 320, 4000), DoorDirection.Right, DoorType.Locked); //catacombesA
             Door doorC2 = new Door(new Vector2(-1190, 6000), DoorDirection.Left);
             Door doorD1 = new Door(new Vector2(1190, 6000), DoorDirection.Right); //shoot puzzle
             Door doorD2 = new Door(new Vector2(-1190, 8000), DoorDirection.Left);
@@ -70,7 +70,7 @@ namespace Mortens_Komeback_3.Environment
             Door doorI1 = new Door(new Vector2(1190, 16000), DoorDirection.Right); //ud af pathfinding I1
             Door doorI2 = new Door(new Vector2(-1190, 18000), DoorDirection.Left);
             Door doorJ1 = new Door(new Vector2(1190, 18000), DoorDirection.Right);
-            Door doorJ2 = new Door(new Vector2(-1190, 20000), DoorDirection.Left);
+            Door doorJ2 = new Door(new Vector2(-1190, 20000), DoorDirection.Left, DoorType.Locked);
 
             doorList.Add("doorA1", doorA1);
             doorList.Add("doorA2", doorA2);

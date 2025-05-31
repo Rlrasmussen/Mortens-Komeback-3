@@ -59,7 +59,7 @@ namespace Mortens_Komeback_3
         private float rotationBottom = (float)(Math.PI);
         private float rotationLeft = (float)(-Math.PI / 2);
 
-        private Button myButton;
+        //private Button myButton; test
         public List<Button> buttonList = new List<Button>();
         public MenuType CurrentMenu { get; set; }
         private bool musicOn = true;
@@ -343,6 +343,12 @@ namespace Mortens_Komeback_3
             }
 
             #endregion
+
+            #region Catacombes H
+            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-100, 19480), 0));
+            gameObjects.Add(new AvSurface(SurfaceType.AvSurface, new Vector2(-100, 20550), 0));
+
+            #endregion 
 
             //Music
             backgroundMusic = Music[MusicTrack.Background];
