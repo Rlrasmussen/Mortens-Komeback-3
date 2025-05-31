@@ -61,9 +61,6 @@ namespace Mortens_Komeback_3.Environment
         public override void Update(GameTime gameTime)
         {
 
-            if (EnemiesSpawned.Count > 0)
-                EnemiesSpawned.RemoveAll(x => !x.IsAlive);
-
             base.Update(gameTime);
 
         }
@@ -294,8 +291,6 @@ namespace Mortens_Komeback_3.Environment
 
         public void DespawnEnemies()
         {
-
-            EnemiesSpawned.RemoveAll(x => !x.IsAlive);
 
             GameWorld.Instance.IgnoreSoundEffect = true;
 

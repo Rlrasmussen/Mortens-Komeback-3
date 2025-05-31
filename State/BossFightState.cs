@@ -100,7 +100,8 @@ namespace Mortens_Komeback_3.State
         public void Exit()
         {
 
-            GameWorld.Instance.SpawnObject(new Item(ItemType.Grail, parent.Position));
+            if (parent.Health <= 0)
+                GameWorld.Instance.SpawnObject(new Item(ItemType.Grail, parent.Position));
 
         }
 
@@ -151,7 +152,7 @@ namespace Mortens_Komeback_3.State
         {
 
             spewFire = 0;
-            GameWorld.Instance.SpawnObject(new GoosiferFire(SurfaceType.Fireball, parent.Position, 0, parent.Damage));
+            GameWorld.Instance.SpawnObject(new GoosiferFire(SurfaceType.Fireball, parent.Position, 0, parent.Damage, parent));
 
         }
 

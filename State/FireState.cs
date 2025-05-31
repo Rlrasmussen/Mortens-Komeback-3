@@ -15,6 +15,7 @@ namespace Mortens_Komeback_3.State
     {
 
         private IState<GoosiferFire> movement;
+        private Enemy shooter;
 
         /// <summary>
         /// Constructor based of AvSurface
@@ -24,7 +25,7 @@ namespace Mortens_Komeback_3.State
         /// <param name="spawnPos">Objects starting position</param>
         /// <param name="rotation">Objects starting rotation</param>
         /// <param name="damage">Damage the object will "apply" if colliding with another object</param>
-        public GoosiferFire(Enum type, Vector2 spawnPos, float rotation, int damage) : base(type, spawnPos, rotation)
+        public GoosiferFire(Enum type, Vector2 spawnPos, float rotation, int damage, Enemy shooter) : base(type, spawnPos, rotation)
         {
 
             Damage = damage;
@@ -32,6 +33,7 @@ namespace Mortens_Komeback_3.State
             FireState attackMorten = new FireState();
             attackMorten.Enter(this);
             movement = attackMorten;
+            this.shooter = shooter;
 
         }
 
@@ -42,6 +44,9 @@ namespace Mortens_Komeback_3.State
         /// <param name="gameTime">DeltaTime (obsolete)</param>
         public override void Update(GameTime gameTime)
         {
+
+            if (shooter != null && !shooter.IsAlive)
+                movement.Exit();
 
             if (movement != null)
                 movement.Execute();
