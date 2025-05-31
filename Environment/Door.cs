@@ -183,7 +183,7 @@ namespace Mortens_Komeback_3.Environment
                 }
             }
 
-            OpenDoor();
+            
         }
 
         /// <summary>

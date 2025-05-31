@@ -163,6 +163,7 @@ namespace Mortens_Komeback_3
             }
         }
         public bool Reload { get; set; }
+        public bool Trap { get => trap; set => trap = value; }
 
         #endregion
 
@@ -417,7 +418,7 @@ namespace Mortens_Komeback_3
                 MediaPlayer.Play(backgroundMusic);
             }
 
-            if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && trap == false)
+            if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && Trap == false)
             {
                 SpawnObject(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), 0));
                 for (int i = 0; i < 3; i++)
@@ -426,11 +427,15 @@ namespace Mortens_Komeback_3
                 }
                 SpawnObject(new AvSurface(SurfaceType.AvSurface, new(-400, 22120 + 18), 0));
                 SpawnObject(new AvSurface(SurfaceType.AvSurface, new Vector2(400, 21510), 0));
-                trap = true;
+                Trap = true;
                 NPC ghost = new NPC(NPCType.Ghost, new Vector2(-823, 21648));
                 SpawnObject(ghost);
                 npcs.Add(ghost);
 
+                foreach (Door door in CurrentRoom.Doors)
+                {
+                    door.UnlockDoor();
+                }
             }
 
             if (win)

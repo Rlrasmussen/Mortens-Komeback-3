@@ -76,13 +76,19 @@ namespace Mortens_Komeback_3.Environment
                     door.UnlockDoor();
                 }
             }
-            //else if (true)
-            //{
 
-            //}
-
-            if (GameWorld.Instance.CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) || GameWorld.Instance.CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom))
+            if (GameWorld.Instance.Trap)
             {
+                foreach (Door doors in Doors)
+                {
+                    doors.UnlockDoor();
+
+                }
+            }
+
+
+            if (GameWorld.Instance.CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) /*|| GameWorld.Instance.CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom)*/)
+            { 
                 foreach (Door door in Doors)
                 {
                     door.LockDoors();
@@ -361,30 +367,30 @@ namespace Mortens_Komeback_3.Environment
             }
         }
 
-        public void UnlockDoors()
-        {
-            foreach (Door door in Doors)
-            {
-                if (door.DoorStatus == DoorType.Locked)
-                {
-                    door.DoorStatus = DoorType.Closed;
-                    Sprite = GameWorld.Instance.Sprites[DoorType.Closed][0];
+//        public void UnlockDoors()
+//        {
+//            foreach (Door door in Doors)
+//            {
+//                if (door.DoorStatus == DoorType.Locked)
+//                {
+//                    door.DoorStatus = DoorType.Closed;
+//                    Sprite = GameWorld.Instance.Sprites[DoorType.Closed][0];
 
-#if DEBUG
-                    Debug.WriteLine("Unlocked normal door");
-#endif
-                }
-                else if (door.DoorStatus == DoorType.StairsLocked)
-                {
-                    door.DoorStatus = DoorType.Stairs;
-                    Sprite = GameWorld.Instance.Sprites[DoorType.Stairs][0];
+//#if DEBUG
+//                    Debug.WriteLine("Unlocked normal door");
+//#endif
+//                }
+//                else if (door.DoorStatus == DoorType.StairsLocked)
+//                {
+//                    door.DoorStatus = DoorType.Stairs;
+//                    Sprite = GameWorld.Instance.Sprites[DoorType.Stairs][0];
 
-#if DEBUG
-                    Debug.WriteLine("Unlocked stairs door");
-#endif
-                }
-            }
-        }
+//#if DEBUG
+//                    Debug.WriteLine("Unlocked stairs door");
+//#endif
+//                }
+//            }
+//        }
         #endregion
     }
 }
