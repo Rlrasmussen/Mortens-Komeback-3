@@ -314,7 +314,9 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new Item(ItemType.Rosary, new Vector2(-1071, 21800)));
             if (Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
             {
-                gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
+                //gameObjects.Add(new Item(ItemType.Bible, new Vector2(2650, 4000)));
+                
+                
             }
             #endregion
 
