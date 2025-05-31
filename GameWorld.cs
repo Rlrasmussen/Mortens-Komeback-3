@@ -243,7 +243,8 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new Decoration(DecorationType.Cobweb, new Vector2(-1160, 16500), rotationTop));
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447, -430), rotationTop)); //Under the painting in PopeRoom
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
-            gameObjects.Add(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), 0)); //Traproom
+            gameObjects.Add(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), rotationTop)); //Traproom
+            gameObjects.Add(new Decoration(DecorationType.Pentagram, new Vector2(0, 20000), rotationTop));
             #endregion
 
             foreach (var room in DoorManager.Rooms)
@@ -346,7 +347,7 @@ namespace Mortens_Komeback_3
             #endregion
 
             //Music
-            backgroundMusic = Music[MusicTrack.Background];
+            //backgroundMusic = Music[MusicTrack.Background];
             MediaPlayer.Play(Music[MusicTrack.Background]);
             MediaPlayer.IsRepeating = true;
 
@@ -396,23 +397,13 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.GoosiferFigth];
                 MediaPlayer.Play(backgroundMusic);
             }
-            //else if (backgroundMusic != Music[MusicTrack.TrapRoom] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom) && trap == true)
-            //{
-            //    backgroundMusic = Music[MusicTrack.TrapRoom];
-            //    MediaPlayer.Play(backgroundMusic);
-            //}
-            else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom) && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
+            else if (backgroundMusic != Music[MusicTrack.Background] /*&& CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom)*/ && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
             {
                 backgroundMusic = Music[MusicTrack.Background];
                 MediaPlayer.Play(backgroundMusic);
             }
-            else if (backgroundMusic != Music[MusicTrack.Death] && Player.Instance.IsAlive == false) //Player is dead
-            {
-                backgroundMusic = Music[MusicTrack.Death];
-                MediaPlayer.Play(backgroundMusic);
-            }
 
-            if (backgroundMusic == Music[MusicTrack.Death])
+            if (backgroundMusic == Music[MusicTrack.GoosiferFigth])
             {
                 MediaPlayer.Volume = 0.8f;
             }
@@ -796,7 +787,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(DecorationType.Candle, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\candle") });
             Sprites.Add(DecorationType.Tomb, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tomb") });
             Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
-
+            Sprites.Add(DecorationType.Pentagram, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\pentagram") });
             Sprites.Add(DecorationType.Barrel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\barrel") });
 
             #endregion
