@@ -283,7 +283,7 @@ namespace Mortens_Komeback_3
                 if (reply == 0)
                 {
                     StartConversation();
-                    npcText = "No stop I'm not with the other geese \nI'm the Canada goose";
+                    npcText = "No stop I'm not with the other geese \nI'm the Canada goose friend";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
                     reply++;
                 }

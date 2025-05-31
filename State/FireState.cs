@@ -34,6 +34,7 @@ namespace Mortens_Komeback_3.State
             attackMorten.Enter(this);
             movement = attackMorten;
             this.shooter = shooter;
+            this.scale = 0.8f;
 
         }
 
