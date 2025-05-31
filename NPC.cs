@@ -91,7 +91,7 @@ namespace Mortens_Komeback_3
             {
                 Sprite = chestClose;
                 animate = false;
-                scale = 2f;
+                this.scale = 2f;
             }
         }
 
@@ -136,7 +136,7 @@ namespace Mortens_Komeback_3
             //If there is a collision between Player and NPC there will spawn an talk textbubble
             if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox) && interact == true)
             {
-                spriteBatch.Draw(textBubble, Position - new Vector2(0, 90), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+                spriteBatch.Draw(textBubble, Position - new Vector2(0, 90), null, drawColor, Rotation, origin, 1, spriteEffect, layer);
             }
 
             //DialogueBox 
