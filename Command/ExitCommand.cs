@@ -10,8 +10,11 @@ namespace Mortens_Komeback_3.Command
     {
         public void Execute()
         {
+            foreach (GameObject item in GameWorld.Instance.GameObjects)
+                item.IsAlive = false;
             GameWorld.Instance.GameRunning = false;
             GameWorld.Instance.Exit();
+            SavePoint.ClearSave();
         }
     }
 }

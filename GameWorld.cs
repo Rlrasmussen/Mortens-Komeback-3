@@ -16,6 +16,7 @@ using Mortens_Komeback_3.Menu;
 using Mortens_Komeback_3.State;
 using Microsoft.Data.Sqlite;
 using Mortens_Komeback_3.Observer;
+using System.Threading;
 
 namespace Mortens_Komeback_3
 {
@@ -50,6 +51,7 @@ namespace Mortens_Komeback_3
         private float lastSpawnCutscene = 0f;
         private List<IObserver> listeners = new List<IObserver>();
         private Status status;
+        private Room currentRoom;
 
         //Rotation
         private float rotationTop = 0;
@@ -67,6 +69,7 @@ namespace Mortens_Komeback_3
         private bool trap = false;
 
         private bool win = false;
+        private float regularChecks = 0f;
 
         #endregion
 
@@ -124,8 +127,42 @@ namespace Mortens_Komeback_3
 #endif
         public bool RestartGame { get; set; } = false;
         public bool WinGame { get; set; } = false;
+        public bool IgnoreSoundEffect { get; set; }
 
-        public Environment.Room CurrentRoom { get; set; }
+        public Room CurrentRoom
+        {
+            get => currentRoom;
+            set
+            {
+
+                bool spawn = false;
+                if (currentRoom != value && currentRoom != null)
+                    switch (currentRoom.RoomType)
+                    {
+                        case RoomType.CatacombesA when value.RoomType == RoomType.CatacombesA1:
+                        case RoomType.CatacombesA1 when value.RoomType == RoomType.CatacombesA:
+                        case RoomType.CatacombesD when value.RoomType == RoomType.CatacombesD1:
+                        case RoomType.CatacombesD1 when value.RoomType == RoomType.CatacombesD:
+                            break;
+                        default:
+                            currentRoom.DespawnEnemies();
+                            foreach (GameObject egg in gameObjects)
+                            {
+                                if (egg is Projectile)
+                                    (egg as Projectile).IsAlive = false;
+                            }
+                            spawn = true;
+                            break;
+                    }
+
+                currentRoom = value;
+
+                if (spawn)
+                    currentRoom.SpawnEnemies();
+
+            }
+        }
+        public bool Reload { get; set; }
 
         #endregion
 
@@ -155,6 +192,9 @@ namespace Mortens_Komeback_3
 
             string dbPath = Path.Combine(dbBasePath, "Database", "mk3db.db");
             Connection = new SqliteConnection($"Data Source={dbPath}");
+
+            Connection.Open();
+
             SavePoint.ClearSave();
             LoadSprites();
             LoadSoundEffects();
@@ -178,6 +218,7 @@ namespace Mortens_Komeback_3
 
             MenuManager = new MenuManager();
             MenuManager.CreateMenus();
+            DoorManager.Initialize();
 
 
             base.Initialize();
@@ -189,7 +230,7 @@ namespace Mortens_Komeback_3
         /// </summary>
         protected override void LoadContent()
         {
-            SavePoint.LoadSave();
+
 
             gameObjects.Add(Player.Instance);
 
@@ -203,7 +244,6 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447, -430), rotationTop)); //Under the painting in PopeRoom
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
             #endregion
-            DoorManager.Initialize();
 
             foreach (var room in DoorManager.Rooms)
                 gameObjects.Add(room);
@@ -236,11 +276,15 @@ namespace Mortens_Komeback_3
             gamePuzzles.Add(pathfindingPuzzle);
 
 
-
             #endregion
 
             #region NPC + Bible & Rosary
-            NPC empty = new NPC(NPCType.Empty, new Vector2(0, -2000));
+            if (!Reload)
+            {
+                NPC empty = new NPC(NPCType.Empty, new Vector2(0, -2000));
+                npcs.Add(empty);
+            }
+
             NPC ghost = new NPC(NPCType.Ghost, new Vector2(-823, 21648));
             NPC pope = new NPC(NPCType.Pope, new Vector2(-800, 0));
             NPC coffin = new NPC(NPCType.Coffin, new Vector2(600, 2300));
@@ -252,7 +296,6 @@ namespace Mortens_Komeback_3
             canadaGoose2.Canada = true;
             NPC chest = new NPC(NPCType.Chest, new Vector2(-650, 11810));
 
-            npcs.Add(empty);
             npcs.Add(ghost);
             npcs.Add(pope);
             npcs.Add(coffin);
@@ -306,10 +349,14 @@ namespace Mortens_Komeback_3
             MediaPlayer.Play(Music[MusicTrack.Background]);
             MediaPlayer.IsRepeating = true;
 
-            gameObjects.Add(new CutScene(CutSceneRoom.CutsceneMovie, new Vector2(0, -2000)));
+            if (!Reload)
+                gameObjects.Add(new CutScene(CutSceneRoom.CutsceneMovie, new Vector2(0, -2000)));
+
+            bool result = SavePoint.LoadSave();
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
+
         }
 
 
@@ -328,13 +375,14 @@ namespace Mortens_Komeback_3
             }
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            regularChecks += deltaTime;
 
             foreach (GameObject gameObject in gameObjects)
             {
 
                 if (GamePaused)
                     continue;
-                if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1300))
+                if (!(gameObject is Player) && (Math.Abs(gameObject.Position.Y - Player.Instance.Position.Y) > 1500))
                     continue;
 
                 gameObject.Update(gameTime);
@@ -381,7 +429,7 @@ namespace Mortens_Komeback_3
             }
 
             if (RestartGame)
-                Restart();
+                Restart(Reload);
 
             #endregion
 
@@ -391,8 +439,10 @@ namespace Mortens_Komeback_3
                 || (CurrentRoom.RightSideOfBigRoom && Player.Instance.Position.X < CurrentRoom.CollisionBox.Left)
                 || (CurrentRoom.TopSideOfBigRoom && Player.Instance.Position.Y > CurrentRoom.CollisionBox.Bottom)
                 || (CurrentRoom.ButtomSideOfBigRoom && Player.Instance.Position.Y < CurrentRoom.CollisionBox.Top)
+                || regularChecks >= 1.5f
                 )
             {
+                regularChecks = 0f;
                 CurrentRoom = DoorManager.Rooms.Find(x => Player.Instance.CollisionBox.Intersects(x.CollisionBox));
             }
 
@@ -480,6 +530,8 @@ namespace Mortens_Komeback_3
         /// <param name="gameObject"></param>
         public void SpawnObject(GameObject gameObject)
         {
+
+            //if (!gameObjects.Contains(gameObject) && !newGameObjects.Contains(gameObject))
             newGameObjects.Add(gameObject);
 #if DEBUG
             Debug.WriteLine(gameObject.ToString() + " added to spawnlist");
@@ -834,8 +886,8 @@ namespace Mortens_Komeback_3
         {
             Locations.Add(Location.Spawn, new Vector2(0, -2000));
             Locations.Add(Location.Test, new Vector2(500, 0));
-            Locations.Add(Location.PuzzleOne, new Vector2(900, 2000));
-            Locations.Add(Location.PuzzleTwo, new Vector2(900, 6000));
+            Locations.Add(Location.PuzzleOne, new Vector2(530, 2000));
+            Locations.Add(Location.PuzzleTwo, new Vector2(666, 6000));
             Locations.Add(Location.PuzzleThree, new Vector2(900, 16000));
 
         }
@@ -974,13 +1026,13 @@ namespace Mortens_Komeback_3
         private void GetEnemyStats()
         {
 
-            try
-            {
+            //try
+            //{
 
-                using (Connection)
-                {
+            //    using (Connection)
+            //    {
 
-                    Connection.Open();
+            //        Connection.Open();
 
                     string commandText = "SELECT * FROM EnemyTypes"; //Retrieves all data from all rows in the table EnemyTypes
                     SqliteCommand command = new SqliteCommand(commandText, Connection);
@@ -994,15 +1046,15 @@ namespace Mortens_Komeback_3
                     while (reader.Read())
                         EnemyStats.Add((EnemyType)reader.GetInt32(id), (reader.GetInt32(health), reader.GetInt32(damage), reader.GetFloat(speed))); //Puts all the data into a Dictionary with EnemyType as its key and a named tuple with all the values retrieved
 
-                }
+            //    }
 
-            }
-            catch
-            {
+            //}
+            //catch
+            //{
 
-                throw new Exception("Method GameWorld.GetEnemyStats didn't execute properly");
+            //    throw new Exception("Method GameWorld.GetEnemyStats didn't execute properly");
 
-            }
+            //}
 
         }
 
@@ -1099,27 +1151,42 @@ namespace Mortens_Komeback_3
 
         #endregion
 
-        public void Restart()
+        public void Restart(bool reload = false)
         {
 
-            gameObjects.Clear();
-            newGameObjects.Clear();
             foreach (var item in gamePuzzles)
             {
                 if (item is Puzzle)
                 {
                     (item as Puzzle).Solved = false;
-                    item.Load();
                 }
             }
+            foreach (GameObject go in gameObjects)
+            {
+                go.IsAlive = false;
+            }
+            gameObjects.Clear();
+            newGameObjects.Clear();
             gamePuzzles.Clear();
-            DoorManager.doorList.Clear();
-            SavePoint.ClearSave();
+            npcs.Clear();
+            foreach (Room room in DoorManager.Rooms)
+            {
+                room.DespawnEnemies();
+            }
+            EnemyPool.Instance.DeepClear();
+            ProjectilePool.Instance.DeepClear();
             Player.Instance.Inventory.Clear();
             Player.Instance.EquippedWeapon = null;
-            Player.Instance.Position = Locations[Location.Spawn];
+
+            if (!reload)
+            {
+                Player.Instance.Position = Locations[Location.Spawn];
+                SavePoint.ClearSave();
+            }
+
             LoadContent();
             RestartGame = false;
+            Reload = false;
 
         }
 

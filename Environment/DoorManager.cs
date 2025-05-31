@@ -27,20 +27,20 @@ namespace Mortens_Komeback_3.Environment
 
             Room popeRoom = new Room(RoomType.PopeRoom, new Vector2(0, 0));
             Room stairs = new Room(RoomType.Stairs, new Vector2(0, 2000));
-            Room catacombesA = new Room(RoomType.CatacombesA, new Vector2(0, 4000), GetEnemies(RoomType.CatacombesA));
+            Room catacombesA = new Room(RoomType.CatacombesA, new Vector2(0, 4000));
             catacombesA.LeftSideOfBigRoom = true;
             Room catacombesA1 = new Room(RoomType.CatacombesA1, new Vector2(2695, 4000));
             catacombesA1.RightSideOfBigRoom = true;
             Room catacombesB = new Room(RoomType.CatacombesB, new Vector2(0, 6000));
-            Room catacombesC = new Room(RoomType.CatacombesC, new Vector2(0, 8000), GetEnemies(RoomType.CatacombesC));
-            Room catacombesD = new Room(RoomType.CatacombesD, new Vector2(0, 10000), GetEnemies(RoomType.CatacombesD));
+            Room catacombesC = new Room(RoomType.CatacombesC, new Vector2(0, 8000));
+            Room catacombesD = new Room(RoomType.CatacombesD, new Vector2(0, 10000));
             catacombesD.TopSideOfBigRoom = true;
             Room catacombesD1 = new Room(RoomType.CatacombesD1, new Vector2(0, 11515));
             catacombesD1.ButtomSideOfBigRoom = true;
             Room catacombesE = new Room(RoomType.CatacombesE, new Vector2(0, 14000));
             Room catacombesF = new Room(RoomType.CatacombesF, new Vector2(0, 16000));
             Room catacombesG = new Room(RoomType.CatacombesG, new Vector2(0, 18000));
-            Room catacombesH = new Room(RoomType.CatacombesH, new Vector2(0, 20000), GetEnemies(RoomType.CatacombesH));
+            Room catacombesH = new Room(RoomType.CatacombesH, new Vector2(0, 20000));
             Room trapRoom = new Room(RoomType.TrapRoom, new Vector2(0, 22000));
 
             Room cutscene = new Room(RoomType.Curscene, new Vector2(0, -2000));
@@ -175,45 +175,6 @@ namespace Mortens_Komeback_3.Environment
             Doors.Add(doorJ1);
             Doors.Add(doorJ2);
 
-
-        }
-
-
-        private static List<(EnemyType, Vector2)> GetEnemies(RoomType room)
-        {
-
-            List<(EnemyType, Vector2)> enemies = new List<(EnemyType, Vector2)>();
-
-            switch (room)
-            {
-                case RoomType.CatacombesA:
-                    enemies.Add((EnemyType.WalkingGoose, new Vector2(900, 3540)));
-                    enemies.Add((EnemyType.WalkingGoose, new Vector2(450, 4440)));
-                    enemies.Add((EnemyType.WalkingGoose, new Vector2(3300, 3690)));
-                    break;
-                case RoomType.CatacombesC:
-                    enemies.Add((EnemyType.AggroGoose, new Vector2(-210, 8375)));
-                    enemies.Add((EnemyType.AggroGoose, new Vector2(0, 7630)));
-                    enemies.Add((EnemyType.AggroGoose, new Vector2(850, 7575)));
-                    enemies.Add((EnemyType.AggroGoose, new Vector2(850, 8420)));
-                    break;
-                case RoomType.CatacombesD:
-                    enemies.Add((EnemyType.WalkingGoose, new Vector2(-300, 9700)));
-                    enemies.Add((EnemyType.AggroGoose, new Vector2(-260, 10550)));
-                    enemies.Add((EnemyType.WalkingGoose, new Vector2(350, 10400)));
-                    enemies.Add((EnemyType.AggroGoose, new Vector2(330, 9580)));
-                    enemies.Add((EnemyType.AggroGoose, new Vector2(430, 11000)));
-                    enemies.Add((EnemyType.AggroGoose, new Vector2(-800, 11330)));
-                    enemies.Add((EnemyType.AggroGoose, new Vector2(670, 11825)));
-                    break;
-                case RoomType.CatacombesH:
-                    enemies.Add((EnemyType.Goosifer, new Vector2(0, 20200)));
-                    break;
-                default:
-                    break;
-            }
-
-            return enemies;
 
         }
 
