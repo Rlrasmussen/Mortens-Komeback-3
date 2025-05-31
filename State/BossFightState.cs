@@ -122,7 +122,7 @@ namespace Mortens_Komeback_3.State
                     {
                         GameObject enemy = EnemyPool.Instance.GetObject(EnemyType.AggroGoose, parent.InRoom.Position + new Vector2(parent.InRoom.Sprite.Width / 2 + 75, -(parent.InRoom.Sprite.Height / 2) + increment + 75));
                         GameWorld.Instance.SpawnObject(enemy);
-                        ChargeState chargePlayer = new ChargeState(new Vector2(-1, 0));
+                        ChargeState chargePlayer = new ChargeState(new Vector2(-1, 0), parent);
                         chargePlayer.Enter(enemy as Enemy);
                         increment += (float)(parent.InRoom.Sprite.Height / enemyRightAmount);
                     }
@@ -133,7 +133,7 @@ namespace Mortens_Komeback_3.State
                     {
                         GameObject enemy = EnemyPool.Instance.GetObject(EnemyType.AggroGoose, parent.InRoom.Position + new Vector2(-(parent.InRoom.Sprite.Width / 2 + 75) + increment, -(parent.InRoom.Sprite.Height / 2 + 75)));
                         GameWorld.Instance.SpawnObject(enemy);
-                        ChargeState chargePlayer = new ChargeState(new Vector2(0, 1));
+                        ChargeState chargePlayer = new ChargeState(new Vector2(0, 1), parent);
                         chargePlayer.Enter(enemy as Enemy);
                         increment += (float)(parent.InRoom.Sprite.Width / enemyTopAmount) + 35;
                     }
@@ -151,7 +151,7 @@ namespace Mortens_Komeback_3.State
         {
 
             spewFire = 0;
-            GameWorld.Instance.SpawnObject(new GoosiferFire(SurfaceType.Fireball, parent.Position, 0, parent.Damage));
+            GameWorld.Instance.SpawnObject(new GoosiferFire(SurfaceType.Fireball, parent.Position, 0, parent.Damage, parent));
 
         }
 

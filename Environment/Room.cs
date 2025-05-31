@@ -49,7 +49,7 @@ namespace Mortens_Komeback_3.Environment
             Doors = new List<Door>();
             //scale = 1.5F;
             layer = 0.1f;
-            spawnList = GetEnemies();
+            //spawnList = GetEnemies();
 
         }
 
@@ -316,8 +316,6 @@ namespace Mortens_Komeback_3.Environment
 
         public void DespawnEnemies()
         {
-
-            EnemiesSpawned.RemoveAll(x => !x.IsAlive);
 
             GameWorld.Instance.IgnoreSoundEffect = true;
 

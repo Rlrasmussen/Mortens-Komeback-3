@@ -166,7 +166,7 @@ namespace Mortens_Komeback_3.Environment
             Doors.Add(doorF1);
             Doors.Add(doorF2);
             Doors.Add(doorG1);
-            Doors.Add(doorG2);
+            //Doors.Add(doorG2);
             Doors.Add(doorG3);
             Doors.Add(doorH1);
             Doors.Add(doorH2);

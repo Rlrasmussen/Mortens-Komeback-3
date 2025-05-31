@@ -42,6 +42,7 @@ namespace Mortens_Komeback_3
         private bool happy = false; //Monk/nun is happy to recive their item back
         private bool nunPuzzle = false; //If true the Player is ready for the puzzle 
         private bool close = true;
+        private bool coffinHint = true;
         #endregion
 
         #region Properties
@@ -65,7 +66,7 @@ namespace Mortens_Komeback_3
 
             animate = true;
 
-            layer = 0.6f;
+            layer = 0.56f;
 
             if (type is NPCType.Monk)
             {
@@ -90,7 +91,7 @@ namespace Mortens_Komeback_3
             {
                 Sprite = chestClose;
                 animate = false;
-                scale = 2f;
+                this.scale = 2f;
             }
         }
 
@@ -135,7 +136,7 @@ namespace Mortens_Komeback_3
             //If there is a collision between Player and NPC there will spawn an talk textbubble
             if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox) && interact == true)
             {
-                spriteBatch.Draw(textBubble, Position - new Vector2(0, 90), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+                spriteBatch.Draw(textBubble, Position - new Vector2(0, 90), null, drawColor, Rotation, origin, 1, spriteEffect, layer);
             }
 
             //DialogueBox 
@@ -208,7 +209,7 @@ namespace Mortens_Komeback_3
             else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponMelee) == null)
             {
                 StartConversation();
-                npcText = "Here take this sword and fight those geese";
+                npcText = "Here take this sword and fight those geese and bring back the holy grail";
                 Sprite = giveSwordPope;
                 reply++;
                 GameWorld.Instance.SpawnObject(new WeaponMelee(WeaponType.Melee, Player.Instance.Position - new Vector2(0, 150)));
@@ -253,6 +254,7 @@ namespace Mortens_Komeback_3
                 else //Sad
                 {
                     npcText = "Forgive me, I have lost my Bible. Can you help me find it?";
+                    GameWorld.Instance.SpawnObject(new Item(ItemType.Bible, new Vector2(600, 3500)));
                 }
 
                 reply++;
@@ -283,14 +285,17 @@ namespace Mortens_Komeback_3
                     StartConversation();
                     npcText = "No stop I'm not with the other geese \nYou can trust me - I'm a Canada goose";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
+                    reply++;
                 }
                 else if (reply == 1)
                 {
                     npcText = "I saw a goose running through here with something in its beak";
+                    reply++;
                 }
                 else if (reply == 2)
                 {
                     npcText = "The goose ran through the door to the rigth";
+                    reply++;
                 }
                 else
                 {
@@ -304,25 +309,17 @@ namespace Mortens_Komeback_3
                     StartConversation();
                     npcText = "It just went through here! No need to be afraid ...";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
+                    reply++;
                 }
                 else if (reply == 1)
                 {
                     npcText = "Good luck";
+                    reply++;
                 }
                 else
                 {
                     EndConversation();
                 }
-            }
-
-            if (reply > 2)
-            {
-                reply = 0;
-                EndConversation();
-            }
-            else
-            {
-                reply++;
             }
         }
 
@@ -353,7 +350,7 @@ namespace Mortens_Komeback_3
                 }
                 reply++;
             }
-            else if(reply ==1)
+            else if (reply == 1)
             {
                 npcText = "I wish the light from the cracks in the walls\n" +
                     "would shine on the holy cross!\n" +
@@ -372,10 +369,18 @@ namespace Mortens_Komeback_3
         /// </summary>
         private void CoffinDialogue()
         {
-            if (reply == 0)
+            if (coffinHint == true && reply == 0)
             {
                 StartConversation();
                 npcText = "Did you talk to the pope?";
+                coffinHint = false;
+                reply++;
+            }
+            else if (coffinHint == false && reply == 0)
+            {
+                StartConversation();
+                npcText = "Have you seen the pretty painting?";
+                coffinHint = true;
                 reply++;
             }
             else
@@ -428,10 +433,10 @@ namespace Mortens_Komeback_3
         private void EmptyDialogoue()
         {
 
-                StartConversation();
-                npcText = "";
-                reply++;
-            Player.Instance.Position = new Vector2(-250, 250);
+            StartConversation();
+            npcText = "";
+            reply++;
+            Player.Instance.Position = new Vector2(-250, -100);
             EndConversation();
 
         }
