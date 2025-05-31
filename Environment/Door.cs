@@ -95,15 +95,14 @@ namespace Mortens_Komeback_3.Environment
             if (doorStatus == DoorType.Closed || doorStatus == DoorType.Open)
             {
 
-            doorStatus = DoorType.Locked;
-            Sprite = GameWorld.Instance.Sprites[DoorType.Locked][0];
+                doorStatus = DoorType.Locked;
+                Sprite = GameWorld.Instance.Sprites[DoorType.Locked][0];
             }
-
-            //else if (doorStatus == DoorType.Stairs)
-            //{
-            //    doorStatus = DoorType.StairsLocked;
-            //    Sprite = GameWorld.Instance.Sprites[DoorType.StairsLocked][0];
-            //}
+            else if (doorStatus == DoorType.Stairs)
+            {
+                doorStatus = DoorType.StairsLocked;
+                Sprite = GameWorld.Instance.Sprites[DoorType.StairsLocked][0];
+            }
 
         }
 

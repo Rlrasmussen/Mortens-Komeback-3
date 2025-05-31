@@ -49,7 +49,7 @@ namespace Mortens_Komeback_3.Environment
             Doors = new List<Door>();
             //scale = 1.5F;
             layer = 0.1f;
-            //spawnList = GetEnemies();
+            spawnList = GetEnemies();
 
         }
 
@@ -64,18 +64,22 @@ namespace Mortens_Komeback_3.Environment
             if (EnemiesSpawned.Count > 0)
                 EnemiesSpawned.RemoveAll(x => !x.IsAlive);
 
+            //if (enemiesSpawned == true && EnemiesSpawned.Count == 0)
+            //{
+            //    UnlockDoors();
+            //}
 
-            if (EnemiesSpawned.Count == 0 && GameWorld.Instance.CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.Stairs)) 
+            if (EnemiesSpawned.Count == 0 && GameWorld.Instance.CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.Stairs))
             {
                 foreach (Door door in Doors)
                 {
                     door.UnlockDoor();
                 }
             }
-            else if (true)
-            {
+            //else if (true)
+            //{
 
-            }
+            //}
 
             if (GameWorld.Instance.CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
             {
@@ -85,7 +89,7 @@ namespace Mortens_Komeback_3.Environment
                 }
             }
 
-                base.Update(gameTime);
+            base.Update(gameTime);
 
 
         }
@@ -96,6 +100,11 @@ namespace Mortens_Komeback_3.Environment
 
             enemiesSpawned = false;
             EnemiesSpawned.Clear();
+
+            if (spawnList != null && spawnList.Count > 0)
+            {
+                LockDoors();
+            }
 
             base.Load();
         }
@@ -330,6 +339,51 @@ namespace Mortens_Komeback_3.Environment
             EnemiesSpawned.Clear();
             enemiesSpawned = false;
 
+        }
+
+        public void LockDoors()
+        {
+            foreach (Door door in Doors)
+            {
+                // Lås almindelige åbne/lukkede døre
+                if (door.DoorStatus == DoorType.Open || door.DoorStatus == DoorType.Closed)
+                {
+                    door.DoorStatus = DoorType.Locked;
+                    Sprite = GameWorld.Instance.Sprites[DoorType.Locked][0];
+                }
+
+                // Lås trappe-døre hvis nødvendigt
+                else if (door.DoorStatus == DoorType.Stairs)
+                {
+                    door.DoorStatus = DoorType.StairsLocked;
+                    Sprite = GameWorld.Instance.Sprites[DoorType.StairsLocked][0];
+                }
+            }
+        }
+
+        public void UnlockDoors()
+        {
+            foreach (Door door in Doors)
+            {
+                if (door.DoorStatus == DoorType.Locked)
+                {
+                    door.DoorStatus = DoorType.Closed;
+                    Sprite = GameWorld.Instance.Sprites[DoorType.Closed][0];
+
+#if DEBUG
+                    Debug.WriteLine("Unlocked normal door");
+#endif
+                }
+                else if (door.DoorStatus == DoorType.StairsLocked)
+                {
+                    door.DoorStatus = DoorType.Stairs;
+                    Sprite = GameWorld.Instance.Sprites[DoorType.Stairs][0];
+
+#if DEBUG
+                    Debug.WriteLine("Unlocked stairs door");
+#endif
+                }
+            }
         }
         #endregion
     }
