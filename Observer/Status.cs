@@ -78,7 +78,7 @@ namespace Mortens_Komeback_3.Observer
                 case StatusType.PlayerDead:
                     //Kald dead screan
                     //MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Death]);
-                    //GameWorld.Instance.MenuManager.OpenMenu(MenuType.GameOver);
+                    GameWorld.Instance.MenuManager.OpenMenu(MenuType.GameOver);
                     break;
                 case StatusType.Bible:
                     npcItem = 1;

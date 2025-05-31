@@ -372,7 +372,7 @@ namespace Mortens_Komeback_3
 
             if (WinGame == true && backgroundMusic != Music[MusicTrack.Win])
             {
-                WinGame = false;
+                //WinGame = false;
                 status.OnNotify(StatusType.Win);
                 backgroundMusic = Music[MusicTrack.Win];
                 MediaPlayer.Play(backgroundMusic);
@@ -394,7 +394,7 @@ namespace Mortens_Komeback_3
             }
 
             #region Chances of background music in some rooms
-            if (backgroundMusic != Music[MusicTrack.GoosiferFigth] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
+            if (backgroundMusic != Music[MusicTrack.GoosiferFigth] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) && WinGame == false)
             {
                 backgroundMusic = Music[MusicTrack.GoosiferFigth];
                 MediaPlayer.Play(backgroundMusic);
