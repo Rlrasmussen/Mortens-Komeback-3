@@ -209,7 +209,7 @@ namespace Mortens_Komeback_3
             else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponMelee) == null)
             {
                 StartConversation();
-                npcText = "Here take this sword and fight those geese and bring back the holy grail";
+                npcText = "Here take this sword and fight those satanic geese and bring back the holy grail";
                 Sprite = giveSwordPope;
                 reply++;
                 GameWorld.Instance.SpawnObject(new WeaponMelee(WeaponType.Melee, Player.Instance.Position - new Vector2(0, 150)));
@@ -283,7 +283,7 @@ namespace Mortens_Komeback_3
                 if (reply == 0)
                 {
                     StartConversation();
-                    npcText = "No stop I'm not with the other geese \nYou can trust me - I'm a Canada goose";
+                    npcText = "No stop I'm not with the other geese \nI'm the Canada goose";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
                     reply++;
                 }
@@ -307,13 +307,13 @@ namespace Mortens_Komeback_3
                 if (reply == 0)
                 {
                     StartConversation();
-                    npcText = "It just went through here! No need to be afraid ...";
+                    npcText = "Hello again buddy";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
                     reply++;
                 }
                 else if (reply == 1)
                 {
-                    npcText = "Good luck";
+                    npcText = "It just went through here! No need to be afraid ...";
                     reply++;
                 }
                 else
@@ -335,14 +335,14 @@ namespace Mortens_Komeback_3
                 if (happy == true && nunPuzzle == false) //Happy
                 {
                     npcText = "Thank you Morten take this\n" +
-                        "Can you help me with these rocks?\n";
+                        "Can you help me with these rocks?";
                     GameWorld.Instance.SpawnObject(new Item(ItemType.GeesusBlood, Player.Instance.Position - new Vector2(0, 150)));
                     nunPuzzle = true;
                     GameWorld.Instance.Notify(StatusType.Delivered);
                 }
                 else if (happy == true && nunPuzzle == true)
                 {
-                    npcText = "I need a strong and handsome man to help me move these these rocks?\n";
+                    npcText = "I need a strong and handsome man to help me \nmove these these rocks?";
                 }
                 else
                 {
@@ -353,8 +353,8 @@ namespace Mortens_Komeback_3
             else if (reply == 1)
             {
                 npcText = "I wish the light from the cracks in the walls\n" +
-                    "would shine on the holy cross!\n" +
-                    "The light doesn't seem to like shining on the rocks...";
+                    "would shine on the holy cross!\n";
+                //"The light doesn't seem to like shining on the rocks...";
                 reply++;
             }
             else
@@ -379,7 +379,7 @@ namespace Mortens_Komeback_3
             else if (coffinHint == false && reply == 0)
             {
                 StartConversation();
-                npcText = "Have you seen the pretty painting?";
+                npcText = "I died painting that painting so enjoy while you still live";
                 coffinHint = true;
                 reply++;
             }
@@ -425,6 +425,7 @@ namespace Mortens_Komeback_3
             }
             else
             {
+                GameWorld.Instance.Sounds[Sound.GooseSound].Play();
                 EndConversation();
             }
         }
@@ -432,10 +433,8 @@ namespace Mortens_Komeback_3
 
         private void EmptyDialogoue()
         {
-
             StartConversation();
             npcText = "";
-            reply++;
             Player.Instance.Position = new Vector2(-250, -100);
             EndConversation();
 

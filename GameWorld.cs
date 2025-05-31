@@ -243,6 +243,7 @@ namespace Mortens_Komeback_3
             gameObjects.Add(new Decoration(DecorationType.Cobweb, new Vector2(-1160, 16500), rotationTop));
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447, -430), rotationTop)); //Under the painting in PopeRoom
             gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
+            gameObjects.Add(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), 0)); //Traproom
             #endregion
 
             foreach (var room in DoorManager.Rooms)
@@ -278,7 +279,7 @@ namespace Mortens_Komeback_3
 
             #endregion
 
-            #region NPC + Bible & Rosary
+            #region NPC + Rosary
             if (!Reload)
             {
                 NPC empty = new NPC(NPCType.Empty, new Vector2(0, -2000));
@@ -313,7 +314,7 @@ namespace Mortens_Komeback_3
             //if (Player.Instance.Inventory.Find(x => x is WeaponRanged) == null)
             //{
             //    monk.Happy = true;
-                
+
             //}
             #endregion
 
@@ -411,9 +412,18 @@ namespace Mortens_Komeback_3
                 MediaPlayer.Play(backgroundMusic);
             }
 
-            if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && trap == false)
+            if (backgroundMusic == Music[MusicTrack.Death])
             {
-                SpawnObject(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), 0));
+                MediaPlayer.Volume = 0.8f;
+            }
+            else
+            {
+                MediaPlayer.Volume = 1;
+            }
+
+            //Starting Traproom when the player is picking up the Rosary
+            if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && trap == false && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom))
+            {
                 for (int i = 0; i < 3; i++)
                 {
                     SpawnObject(new AvSurface(SurfaceType.BigSpikes, new Vector2(-815 + (815 * i), 22020), 0));
@@ -425,6 +435,9 @@ namespace Mortens_Komeback_3
                 SpawnObject(ghost);
                 npcs.Add(ghost);
             }
+
+
+
 
             if (win)
             {
@@ -1037,17 +1050,17 @@ namespace Mortens_Komeback_3
 
             //        Connection.Open();
 
-                    string commandText = "SELECT * FROM EnemyTypes"; //Retrieves all data from all rows in the table EnemyTypes
-                    SqliteCommand command = new SqliteCommand(commandText, Connection);
-                    SqliteDataReader reader = command.ExecuteReader();
+            string commandText = "SELECT * FROM EnemyTypes"; //Retrieves all data from all rows in the table EnemyTypes
+            SqliteCommand command = new SqliteCommand(commandText, Connection);
+            SqliteDataReader reader = command.ExecuteReader();
 
-                    int id = reader.GetOrdinal("ID");
-                    int damage = reader.GetOrdinal("Damage");
-                    int health = reader.GetOrdinal("Max_HP");
-                    int speed = reader.GetOrdinal("Speed");
+            int id = reader.GetOrdinal("ID");
+            int damage = reader.GetOrdinal("Damage");
+            int health = reader.GetOrdinal("Max_HP");
+            int speed = reader.GetOrdinal("Speed");
 
-                    while (reader.Read())
-                        EnemyStats.Add((EnemyType)reader.GetInt32(id), (reader.GetInt32(health), reader.GetInt32(damage), reader.GetFloat(speed))); //Puts all the data into a Dictionary with EnemyType as its key and a named tuple with all the values retrieved
+            while (reader.Read())
+                EnemyStats.Add((EnemyType)reader.GetInt32(id), (reader.GetInt32(health), reader.GetInt32(damage), reader.GetFloat(speed))); //Puts all the data into a Dictionary with EnemyType as its key and a named tuple with all the values retrieved
 
             //    }
 
