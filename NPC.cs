@@ -254,7 +254,7 @@ namespace Mortens_Komeback_3
                 else //Sad
                 {
                     npcText = "Forgive me, I have lost my Bible. Can you help me find it?";
-                    GameWorld.Instance.SpawnObject(new Item(ItemType.Bible, new Vector2(600, 3500)));
+                    GameWorld.Instance.SpawnObject(new Item(ItemType.Bible, new Vector2(600 + 1000, 3500)));
                 }
 
                 reply++;
