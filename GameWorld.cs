@@ -332,6 +332,9 @@ namespace Mortens_Komeback_3
             {
                 gameObjects.Add(new Decoration(DecorationType.Barrel, new Vector2(1148 + i * 135, 4364), 0));
             }
+            gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(2800, 4000), rotationTop));
+            gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(0, 4000), rotationTop));
+            
             #endregion
             #region CatacombC
             gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(0, 8000), 0));
@@ -397,7 +400,7 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.GoosiferFigth];
                 MediaPlayer.Play(backgroundMusic);
             }
-            else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) )
+            else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
             {
                 backgroundMusic = Music[MusicTrack.Background];
                 MediaPlayer.Play(backgroundMusic);
@@ -423,8 +426,15 @@ namespace Mortens_Komeback_3
                 npcs.Add(ghost);
             }
 
-
-
+            //Player stans still i Cutscene room
+            if (CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.Cutscene))
+            {
+                Player.Instance.Speed = 0f;
+            }
+            else
+            {
+                Player.Instance.Speed = 500f;
+            }
 
             //if (win)
             //{
@@ -601,7 +611,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(RoomType.CatacombesG, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
             Sprites.Add(RoomType.CatacombesH, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
             Sprites.Add(RoomType.TrapRoom, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
-            Sprites.Add(RoomType.Curscene, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
+            Sprites.Add(RoomType.Cutscene, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\room_dark") });
 
 
             #endregion

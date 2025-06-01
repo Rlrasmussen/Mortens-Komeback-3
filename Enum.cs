@@ -196,7 +196,7 @@ namespace Mortens_Komeback_3
         CatacombesG,
         CatacombesH,
         TrapRoom,
-        Curscene
+        Cutscene
 
     }
 
