@@ -206,7 +206,6 @@ namespace Mortens_Komeback_3
     public enum NPCType
     {
         CanadaGoose,
-        GreyGoose,
         Pope,
         Monk,
         Nun,

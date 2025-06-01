@@ -161,8 +161,6 @@ namespace Mortens_Komeback_3
                 case NPCType.CanadaGoose:
                     CanadaGooseDialogue();
                     break;
-                case NPCType.GreyGoose:
-                    break;
                 case NPCType.Pope:
                     Player.Instance.Position = Position + new Vector2(75, 0);
                     PopeDialogue();
