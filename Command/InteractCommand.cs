@@ -41,8 +41,7 @@ namespace Mortens_Komeback_3.Command
 
             foreach (GameObject npc in GameWorld.Instance.npcs)
             {
-                if (Vector2.Distance(Player.Instance.Position, npc.Position) < 150)//(npc as ICollidable).CheckCollision(Player.Instance))
-                                                                                  //if ((Player.Instance as IPPCollidable).DoHybridCheck(npc.CollisionBox))
+                if (Vector2.Distance(Player.Instance.Position, npc.Position) < 160 || (npc as NPC).Talk)
                 {
                     Player.Instance.Interact(npc);
                     break;
