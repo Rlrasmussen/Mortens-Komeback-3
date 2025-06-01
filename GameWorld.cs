@@ -807,6 +807,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(AttackType.Swing, swordSwoosh);
 
             Sprites.Add(SurfaceType.Fireball, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\VFX\\Fireball") });
+            Sprites.Add(SurfaceType.Spejlegg, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\VFX\\groundegg0") });
 
             #endregion
             #region Debug

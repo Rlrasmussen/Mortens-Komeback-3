@@ -75,7 +75,8 @@ namespace Mortens_Komeback_3
         AvSurface,
         Fireball,
         Spikes,
-        BigSpikes
+        BigSpikes,
+        Spejlegg
     }
 
     /// <summary>
