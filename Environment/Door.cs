@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mortens_Komeback_3.Collider;
 using System.Diagnostics;
+using Mortens_Komeback_3.Puzzles;
 
 
 namespace Mortens_Komeback_3.Environment
@@ -30,7 +31,7 @@ namespace Mortens_Komeback_3.Environment
                 {
                     Sprite = GameWorld.Instance.Sprites[DoorType.Locked][0];
                 }
-                if(value == DoorType.StairsLocked)
+                if (value == DoorType.StairsLocked)
                 {
                     Sprite = GameWorld.Instance.Sprites[DoorType.StairsLocked][0];
                 }
@@ -135,6 +136,14 @@ namespace Mortens_Komeback_3.Environment
 
             if (other == Player.Instance && (DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open || DoorStatus == DoorType.Stairs || DoorStatus == DoorType.StairsUp))
             {
+                if ((RoomType)room.Type == RoomType.CatacombesF)
+                {
+                    GameObject tempPathPuzzle = GameWorld.Instance.gamePuzzles.Find(x => (PuzzleType)x.Type == PuzzleType.PathfindingPuzzle);
+                    foreach (Obstacle obstacle in (tempPathPuzzle as PathfindingPuzzle).PuzzleObstacles)
+                    {
+                        obstacle.Position = obstacle.OriginalPosition;
+                    }
+                }
                 GameWorld.Instance.CurrentRoom = DestinationRoom;
 
                 switch (Direction)
@@ -142,11 +151,11 @@ namespace Mortens_Komeback_3.Environment
                     case DoorDirection.Top:
                         Player.Instance.Position = new Vector2(DestinationDoor.Position.X, DestinationDoor.Position.Y - 180);
                         break;
-                    case DoorDirection.Right :
+                    case DoorDirection.Right:
                         Player.Instance.Position = new Vector2(DestinationDoor.Position.X + 320, DestinationDoor.Position.Y);
                         break;
                     case DoorDirection.Bottom:
-                        Player.Instance.Position = new Vector2(DestinationDoor.Position.X , DestinationDoor.Position.Y +180);
+                        Player.Instance.Position = new Vector2(DestinationDoor.Position.X, DestinationDoor.Position.Y + 180);
                         break;
                     case DoorDirection.Left:
                         Player.Instance.Position = new Vector2(DestinationDoor.Position.X - 320, DestinationDoor.Position.Y);

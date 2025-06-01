@@ -13,12 +13,12 @@ namespace Mortens_Komeback_3.Environment
     {
         private bool movable;
         private Vector2 velocity;
-        private float moveTimer;
-        private float moveTimerStop = 0.2f;
         private int speed = 500;
         private Room obstacleRoom;
+        private Vector2 originalPosition;
 
         public bool Movable { get => movable; set => movable = value; }
+        public Vector2 OriginalPosition { get => originalPosition; set => originalPosition = value; }
 
         /// <summary>
         /// An obstacle that can be collided with, and potentialy moved.
@@ -30,30 +30,35 @@ namespace Mortens_Komeback_3.Environment
         {
             this.Movable = movable;
             this.obstacleRoom = room;
+            OriginalPosition = spawnPos;
         }
 
         public override void Update(GameTime gameTime)
         {
-            moveTimer += GameWorld.Instance.DeltaTime;
-            Move();
+            if (Movable)
+            {
+                Move();
+            }
+            if (GameWorld.Instance.CurrentRoom != obstacleRoom)
+            {
+                Position = OriginalPosition;
+            }
         }
         /// <summary>
         /// Slides the obstacle 
         /// </summary>
         public void Move()
         {
-            if (moveTimer < moveTimerStop && Movable)
-            {
-                //Only moves, if move doesn't move obstacle out of room
-                if (!((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > obstacleRoom.CollisionBox.Right)
-                    && !((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < obstacleRoom.CollisionBox.Left)
-                    && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < obstacleRoom.CollisionBox.Top)
-                    && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > obstacleRoom.CollisionBox.Bottom))
+            //Only moves, new position isn't out of room
+            if (!((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > obstacleRoom.CollisionBox.Right)
+                && !((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < obstacleRoom.CollisionBox.Left)
+                && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < obstacleRoom.CollisionBox.Top)
+                && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > obstacleRoom.CollisionBox.Bottom))
 
-                {
-                    Position += velocity * speed * GameWorld.Instance.DeltaTime;
-                }
+            {
+                Position += velocity * speed * GameWorld.Instance.DeltaTime;
             }
+            velocity = Vector2.Zero;
         }
 
         public void OnCollision(ICollidable other)
@@ -62,35 +67,56 @@ namespace Mortens_Komeback_3.Environment
             {
                 if (other is Player)
                 {
-                    Vector2 tempVelocity = (other as Player).Velocity;
-                    if (!(tempVelocity == Vector2.Zero))
+                    if (Player.Instance.Position.X < CollisionBox.Left)
                     {
-                        velocity = tempVelocity;
+                        velocity.X += 1;
+                    }
+                    else if (Player.Instance.Position.X > CollisionBox.Right)
+                    {
+                        velocity.X -= 1;
+                    }
+                    if (Player.Instance.Position.Y < CollisionBox.Top)
+                    {
+                        velocity.Y += 1;
+                    }
+                    else if (Player.Instance.Position.Y > CollisionBox.Bottom)
+                    {
+                        velocity.Y -= 1;
+                    }
+                    if (velocity != Vector2.Zero)
+                    {
                         velocity.Normalize();
-                        moveTimer = 0;
                     }
 
                 }
                 else if (other is Door)
                 {
-                   Position -= velocity * speed * GameWorld.Instance.DeltaTime;
+                    Position -= velocity * speed * GameWorld.Instance.DeltaTime;
                 }
                 if (other is Obstacle)
                 {
-                    if ((other as Obstacle).Movable ==  false)
+
+                    if (other.Position.X < CollisionBox.Left)
                     {
-                        Position -= velocity * speed * GameWorld.Instance.DeltaTime;
+                        velocity.X += 1;
                     }
-                    else
+                    else if (other.Position.X > CollisionBox.Right)
                     {
-                        Vector2 tempVelocity = (other as Obstacle).velocity;
-                        if (!(tempVelocity == Vector2.Zero))
-                        {
-                            velocity = tempVelocity;
-                            velocity.Normalize();
-                            moveTimer = 0;
-                        }
+                        velocity.X -= 1;
                     }
+                    if (other.Position.Y < CollisionBox.Top)
+                    {
+                        velocity.Y += 1;
+                    }
+                    else if (other.Position.Y > CollisionBox.Bottom)
+                    {
+                        velocity.Y -= 1;
+                    }
+                    if (velocity != Vector2.Zero)
+                    {
+                        velocity.Normalize();
+                    }
+
                 }
             }
         }
