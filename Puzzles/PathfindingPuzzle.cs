@@ -27,6 +27,9 @@ namespace Mortens_Komeback_3.Puzzles
         private float pathUpdateTimer = 0;
         private float pathUpdateCountdown = 0.5f;
 
+        private bool startAStar = false;
+        private bool keepAlive = true;
+
         public PathfindingPuzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id, Vector2 pathStartPos, Vector2 pathEndPos, Vector2 pathGoalPoint, Room puzzleRoom) : base(type, spawnPos, puzzleDoor, id)
         {
             this.pathEnd = new Decoration(DecorationType.Splash, pathEndPos, 0);
@@ -50,6 +53,15 @@ namespace Mortens_Komeback_3.Puzzles
                     aStarPaused = false;
                 }
             }
+
+            if (GameWorld.Instance.CurrentRoom == puzzleRoom && !startAStar)
+            {
+                startAStar = true;
+                Thread aStarThread = new Thread(() => AStarPath(pathStart, pathEnd, puzzleRoom.Tiles)); //TODO: change to current room when availble!
+                aStarThread.IsBackground = true;
+                aStarThread.Start();
+            }
+
         }
 
         public override void Load()
@@ -59,8 +71,6 @@ namespace Mortens_Komeback_3.Puzzles
             {
                 puzzleRoom.AddTiles();
             }
-            Thread aStarThread = new Thread(() => AStarPath(pathStart, pathEnd, puzzleRoom.Tiles)); //TODO: change to current room when availble!
-            aStarThread.IsBackground = true;
             GameWorld.Instance.SpawnObject(pathfindingObstacle1);
             GameWorld.Instance.SpawnObject(pathfindingObstacle2);
             GameWorld.Instance.SpawnObject(pathfindingObstacle3);
@@ -68,10 +78,9 @@ namespace Mortens_Komeback_3.Puzzles
             GameWorld.Instance.SpawnObject(pathEnd);
             GameWorld.Instance.SpawnObject(pathGoal);
 
-
-            aStarThread.Start();
-
         }
+
+
         public void TrySolve()
         {
             foreach (Tile step in puzzlePath)
@@ -79,6 +88,7 @@ namespace Mortens_Komeback_3.Puzzles
                 if (step.CollisionBox.Intersects(pathGoal.CollisionBox))
                 {
                     SolvePuzzle();
+                    keepAlive = false;
                     return;
                 }
             }
@@ -93,7 +103,7 @@ namespace Mortens_Komeback_3.Puzzles
 
         public void AStarPath(GameObject startObject, GameObject endObject, Dictionary<Vector2, Tile> tiles)
         {
-            while (IsAlive)
+            while (keepAlive && !Solved)
             {
                 if (aStarPaused == false)
                 {

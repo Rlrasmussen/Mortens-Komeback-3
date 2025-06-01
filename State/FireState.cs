@@ -15,6 +15,7 @@ namespace Mortens_Komeback_3.State
     {
 
         private IState<GoosiferFire> movement;
+        private Enemy shooter;
 
         /// <summary>
         /// Constructor based of AvSurface
@@ -24,7 +25,7 @@ namespace Mortens_Komeback_3.State
         /// <param name="spawnPos">Objects starting position</param>
         /// <param name="rotation">Objects starting rotation</param>
         /// <param name="damage">Damage the object will "apply" if colliding with another object</param>
-        public GoosiferFire(Enum type, Vector2 spawnPos, float rotation, int damage) : base(type, spawnPos, rotation)
+        public GoosiferFire(Enum type, Vector2 spawnPos, float rotation, int damage, Enemy shooter) : base(type, spawnPos, rotation)
         {
 
             Damage = damage;
@@ -32,6 +33,8 @@ namespace Mortens_Komeback_3.State
             FireState attackMorten = new FireState();
             attackMorten.Enter(this);
             movement = attackMorten;
+            this.shooter = shooter;
+            this.scale = 0.8f;
 
         }
 
@@ -42,6 +45,9 @@ namespace Mortens_Komeback_3.State
         /// <param name="gameTime">DeltaTime (obsolete)</param>
         public override void Update(GameTime gameTime)
         {
+
+            if (shooter != null && !shooter.IsAlive)
+                movement.Exit();
 
             if (movement != null)
                 movement.Execute();
@@ -72,6 +78,9 @@ namespace Mortens_Komeback_3.State
         private Vector2 direction;
         private float lifetime = -5f;
         private float speed = 700f;
+
+
+        public bool OverridesPathfinding { get; set; }
 
         /// <summary>
         /// Handles starting logic of the State
@@ -116,7 +125,7 @@ namespace Mortens_Komeback_3.State
         }
 
         /// <summary>
-        /// Gets radians for rotation of object to simulate the direction of the fireball
+        /// Gets radians for rotation of object to simulate the direction of the fireball (Old bit from another issue ChatGPT helped with)
         /// </summary>
         /// <returns>Radians - Pi</returns>
         private float GetAngle()

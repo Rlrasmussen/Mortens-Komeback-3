@@ -61,7 +61,7 @@ namespace Mortens_Komeback_3
         public override void Attack()
         {
             
-            if (RefireRate >= 1f)
+            if (RefireRate >= 0.5f)
             {
                 RefireRate = 0f;
                 GameWorld.Instance.Sounds[Sound.PlayerShoot].Play();

@@ -196,7 +196,7 @@ namespace Mortens_Komeback_3
         CatacombesG,
         CatacombesH,
         TrapRoom,
-        Curscene
+        Cutscene
 
     }
 
@@ -206,7 +206,6 @@ namespace Mortens_Komeback_3
     public enum NPCType
     {
         CanadaGoose,
-        GreyGoose,
         Pope,
         Monk,
         Nun,
@@ -259,8 +258,8 @@ namespace Mortens_Komeback_3
         Hole2,
         Tomb,
         Barrel,
-        Painting
-
+        Painting,
+        Pentagram
 
     }
 

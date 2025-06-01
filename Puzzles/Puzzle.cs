@@ -36,6 +36,7 @@ namespace Mortens_Komeback_3.Puzzles
                 solved = value;
                 if (value && !isChanged) //Simon
                 {
+                    SavePoint.ClearSave();
                     DatabaseUpdate();
                     if (location != Location.Spawn)
                         SavePoint.SaveGame(location);
@@ -153,13 +154,13 @@ namespace Mortens_Komeback_3.Puzzles
         public virtual void DatabaseUpdate()
         {
 
-            try
-            {
+            //try
+            //{
 
-                using (GameWorld.Instance.Connection)
-                {
+            //    using (GameWorld.Instance.Connection)
+            //    {
 
-                    GameWorld.Instance.Connection.Open();
+            //        GameWorld.Instance.Connection.Open();
 
                     string commandText = "INSERT INTO Puzzles (ID, Solved) VALUES (@ID, @SOLVED) ON CONFLICT(ID) DO UPDATE SET Solved = excluded.Solved";
                     SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
@@ -167,15 +168,15 @@ namespace Mortens_Komeback_3.Puzzles
                     command.Parameters.AddWithValue("@SOLVED", solved);
                     command.ExecuteScalar();
 
-                }
+            //    }
 
-            }
-            catch
-            {
+            //}
+            //catch
+            //{
 
-                throw new Exception("Couldn't execute Puzzle.DatabaseUpdate correctly");
+            //    throw new Exception("Couldn't execute Puzzle.DatabaseUpdate correctly");
 
-            }
+            //}
 
         }
 
@@ -186,13 +187,13 @@ namespace Mortens_Komeback_3.Puzzles
         public virtual void GetStatusFromDB()
         {
 
-            try
-            {
+            //try
+            //{
 
-                using (GameWorld.Instance.Connection)
-                {
+            //    using (GameWorld.Instance.Connection)
+            //    {
 
-                    GameWorld.Instance.Connection.Open();
+            //        GameWorld.Instance.Connection.Open();
 
                     string commandText = "SELECT * FROM Puzzles WHERE ID = @ID"; //Retrieves all data from the row where ID matches the puzzles id, could also just have been "SELECT Solved"
                     SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
@@ -204,15 +205,15 @@ namespace Mortens_Komeback_3.Puzzles
                         solved = reader.GetBoolean(reader.GetOrdinal("Solved")); //Sets "solved" to what data from database is
                     }
 
-                }
+            //    }
 
-            }
-            catch
-            {
+            //}
+            //catch
+            //{
 
-                throw new Exception("Couldn't execute Puzzle.GetStatusFromDB correctly");
+            //    throw new Exception("Couldn't execute Puzzle.GetStatusFromDB correctly");
 
-            }
+            //}
 
         }
 

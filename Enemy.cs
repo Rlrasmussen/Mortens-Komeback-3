@@ -41,15 +41,15 @@ namespace Mortens_Komeback_3
         public Texture2D[] Sprites { get; set; }
         public float ElapsedTime { get; set; }
         public int CurrentIndex { get; set; }
-        public int Health 
-        { 
-            get => health; 
+        public int Health
+        {
+            get => health;
             set
             {
                 health = value;
                 damageTaken = 0f;
                 drawColor = Color.Pink;
-            } 
+            }
         }
         public List<RectangleData> Rectangles { get; set; } = new List<RectangleData>();
         public float Speed { get => speed; }
@@ -64,7 +64,7 @@ namespace Mortens_Komeback_3
             get => base.IsAlive;
             set
             {
-                if (!value && IsAlive)
+                if (!value && IsAlive && !GameWorld.Instance.IgnoreSoundEffect)
                     GameWorld.Instance.Sounds[Sound.GooseSound].Play();
 
                 if (State is BossFightState && !value && IsAlive)
@@ -89,11 +89,6 @@ namespace Mortens_Komeback_3
         #region Method
         public override void Update(GameTime gameTime)
         {
-
-            //if (State is ChargeState)
-            //    disablePPCollision = true;
-            //else
-            //    disablePPCollision = false;
 
             damageTaken += GameWorld.Instance.DeltaTime;
 
@@ -179,22 +174,27 @@ namespace Mortens_Komeback_3
             }
 
             damageTaken = 0.5f;
-            //Defines temp room for enemy to use for getting astar tiles, and adds tiles if they are not already there.
+
             if (!IgnoreState) //Simon - for setting a default State
             {
                 PatrolState patrol = new PatrolState();
                 patrol.Enter(this);
             }
-            Room enemyRoom = DoorManager.Rooms.Find(x => this.CollisionBox.Intersects(x.CollisionBox));
-            if (!(enemyRoom == null) && !((State is ChargeState) || (State is BossFightState)))
+
+            //Defines temp room for enemy to use for getting astar tiles, and adds tiles if they are not already there.
+            if (state != null && !state.OverridesPathfinding)
             {
-                if (enemyRoom.Tiles.Count == 0)
+                Room enemyRoom = DoorManager.Rooms.Find(x => this.CollisionBox.Intersects(x.CollisionBox));
+                if (!(enemyRoom == null))
                 {
-                    enemyRoom.AddTiles();
+                    if (enemyRoom.Tiles.Count == 0)
+                    {
+                        enemyRoom.AddTiles();
+                    }
+                    aStarThread = new Thread(() => RunAStar(this, Player.Instance, enemyRoom.Tiles)); //Philip
+                    aStarThread.IsBackground = true;
+                    aStarThread.Start();
                 }
-                aStarThread = new Thread(() => RunAStar(this, Player.Instance, enemyRoom.Tiles)); //Philip
-                aStarThread.IsBackground = true;
-                aStarThread.Start();
             }
 
             base.Load();

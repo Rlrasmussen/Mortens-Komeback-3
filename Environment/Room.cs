@@ -23,6 +23,7 @@ namespace Mortens_Komeback_3.Environment
         private bool buttomSideOfBigRoom = false;
         private bool enemiesSpawned = false;
         private List<(EnemyType Type, Vector2 Position)> spawnList;
+        private static List<Enemy> EnemiesSpawned = new List<Enemy>();
 
         #endregion
 
@@ -48,16 +49,7 @@ namespace Mortens_Komeback_3.Environment
             Doors = new List<Door>();
             //scale = 1.5F;
             layer = 0.1f;
-
-        }
-
-        public Room(RoomType type, Vector2 spawnPos, List<(EnemyType Type, Vector2 Position)> spawnThese) : base(type, spawnPos)
-        {
-            RoomType = type;
-            Doors = new List<Door>();
-            //scale = 1.5F;
-            layer = 0.1f;
-            spawnList = spawnThese;
+            spawnList = GetEnemies();
 
         }
 
@@ -65,16 +57,108 @@ namespace Mortens_Komeback_3.Environment
 
         #region Method
 
+
+        public override void Update(GameTime gameTime)
+        {
+
+            base.Update(gameTime);
+
+        }
+
+
         public override void Load()
         {
 
             enemiesSpawned = false;
+            EnemiesSpawned.Clear();
 
             base.Load();
         }
 
 
-        public override void Update(GameTime gameTime)
+        public void AddDoor(Door door)
+        {
+            Doors.Add(door);
+            door.room = this;
+        }
+
+
+        /// <summary>
+        /// Adds a grid of tiles to the room, used by AStar algorithm. 
+        /// Philip
+        /// </summary>
+        public void AddTiles()
+        {
+            int tilesX = CollisionBox.Width / 150;
+            int tilesY = CollisionBox.Height / 150;
+            if (LeftSideOfBigRoom || RightSideOfBigRoom)
+            {
+                tilesX = (CollisionBox.Width * 2) / 150;
+            }
+            if (TopSideOfBigRoom || ButtomSideOfBigRoom)
+            {
+                tilesY = (CollisionBox.Height * 2) / 150;
+            }
+            for (int i = 1; i < tilesX - 1; i++)
+            {
+                for (int j = 1; j < tilesY; j++)
+                {
+                    Tile t = new Tile(TileEnum.Tile, new Vector2(CollisionBox.Left + (i * 150), CollisionBox.Top + (j * 150)));
+                    Tiles.Add(t.Position, t);
+                }
+            }
+            foreach (var tile in tiles)
+            {
+                tile.Value.SetWalkable();
+            }
+        }
+
+
+        private List<(EnemyType, Vector2)> GetEnemies()
+        {
+
+            List<(EnemyType, Vector2)> enemies = new List<(EnemyType, Vector2)>();
+
+            switch (RoomType)
+            {
+                case RoomType.CatacombesA:
+                case RoomType.CatacombesA1:
+                    enemies.Add((EnemyType.WalkingGoose, new Vector2(900, 3540)));
+                    enemies.Add((EnemyType.WalkingGoose, new Vector2(450, 4440)));
+                    enemies.Add((EnemyType.WalkingGoose, new Vector2(3300, 3690)));
+                    break;
+                case RoomType.CatacombesC:
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(-210, 8375)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(0, 7630)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(850, 7575)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(850, 8420)));
+                    break;
+                case RoomType.CatacombesD:
+                case RoomType.CatacombesD1:
+                    enemies.Add((EnemyType.WalkingGoose, new Vector2(-300, 9700)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(-260, 10550)));
+                    enemies.Add((EnemyType.WalkingGoose, new Vector2(350, 10400)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(330, 9580)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(430, 11000)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(-800, 11330)));
+                    enemies.Add((EnemyType.AggroGoose, new Vector2(670, 11825)));
+                    break;
+                case RoomType.CatacombesH:
+                    enemies.Add((EnemyType.Goosifer, new Vector2(0, 20200)));
+                    break;
+                default:
+                    break;
+            }
+
+            if (enemies.Count == 0)
+                return null;
+
+            return enemies;
+
+        }
+
+
+        public void SpawnEnemies()
         {
 
             if (GameWorld.Instance.CurrentRoom == this && !enemiesSpawned && spawnList != null)
@@ -84,11 +168,13 @@ namespace Mortens_Komeback_3.Environment
                 foreach (var enemy in spawnList)
                 {
                     Enemy spawnThis = (Enemy)EnemyPool.Instance.GetObject(enemy.Type, enemy.Position);
+                    EnemiesSpawned.Add(spawnThis);
                     GameWorld.Instance.SpawnObject(spawnThis);
                     PatrolState waypoint;
                     switch (RoomType)
                     {
                         case RoomType.CatacombesA:
+                        case RoomType.CatacombesA1:
                             switch (i)
                             {
                                 case 0:
@@ -152,6 +238,7 @@ namespace Mortens_Komeback_3.Environment
                             }
                             break;
                         case RoomType.CatacombesD:
+                        case RoomType.CatacombesD1:
                             switch (i)
                             {
                                 case 4:
@@ -199,46 +286,25 @@ namespace Mortens_Komeback_3.Environment
                     i++;
                 }
             }
-
-            base.Update(gameTime);
-
-        }
-
-        public void AddDoor(Door door)
-        {
-            Doors.Add(door);
-            door.room = this;
         }
 
 
-        /// <summary>
-        /// Adds a grid of tiles to the room, used by AStar algorithm. 
-        /// Philip
-        /// </summary>
-        public void AddTiles()
+        public void DespawnEnemies()
         {
-            int tilesX = CollisionBox.Width / 150;
-            int tilesY = CollisionBox.Height / 150;
-            if (LeftSideOfBigRoom || RightSideOfBigRoom)
+
+            GameWorld.Instance.IgnoreSoundEffect = true;
+
+            foreach (Enemy enemy in EnemiesSpawned)
             {
-                tilesX = (CollisionBox.Width * 2) / 150;
+                enemy.IsAlive = false;
+                EnemyPool.Instance.ReleaseObject(enemy);
             }
-            if (TopSideOfBigRoom || ButtomSideOfBigRoom)
-            {
-                tilesY = (CollisionBox.Height * 2) / 150;
-            }
-            for (int i = 1; i < tilesX - 1; i++)
-            {
-                for (int j = 1; j < tilesY; j++)
-                {
-                    Tile t = new Tile(TileEnum.Tile, new Vector2(CollisionBox.Left + (i * 150), CollisionBox.Top + (j * 150)));
-                    Tiles.Add(t.Position, t);
-                }
-            }
-            foreach (var tile in tiles)
-            {
-                tile.Value.SetWalkable();
-            }
+
+            GameWorld.Instance.IgnoreSoundEffect = false;
+
+            EnemiesSpawned.Clear();
+            enemiesSpawned = false;
+
         }
         #endregion
     }

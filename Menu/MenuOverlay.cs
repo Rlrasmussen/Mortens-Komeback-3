@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Media;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Mortens_Komeback_3.Menu
     {
         #region Fields
         private MenuType menuScreen;
-        
+
         #endregion
         #region Constructor
         public MenuOverlay(MenuType type)
@@ -24,7 +25,7 @@ namespace Mortens_Komeback_3.Menu
             switch (menuScreen)
             {
                 case MenuType.MainMenu:
-                    
+
                     break;
                 case MenuType.GameOver:
                     break;
@@ -33,7 +34,6 @@ namespace Mortens_Komeback_3.Menu
                 case MenuType.Win:
                     break;
                 case MenuType.Playing:
-                    
                     break;
                 default:
                     break;
@@ -41,7 +41,7 @@ namespace Mortens_Komeback_3.Menu
         }
 
 
-        
+
         #endregion
     }
 }

@@ -77,6 +77,7 @@ namespace Mortens_Komeback_3.Observer
                     break;
                 case StatusType.PlayerDead:
                     //Kald dead screan
+                    //MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Death]);
                     GameWorld.Instance.MenuManager.OpenMenu(MenuType.GameOver);
                     break;
                 case StatusType.Bible:
@@ -100,7 +101,7 @@ namespace Mortens_Komeback_3.Observer
                     break;
                 case StatusType.Win:
                     GameWorld.Instance.MenuManager.OpenMenu(MenuType.Win);
-
+                    //MediaPlayer.Play(GameWorld.Instance.Music[MusicTrack.Win]);
                     break;
                 default:
                     break;

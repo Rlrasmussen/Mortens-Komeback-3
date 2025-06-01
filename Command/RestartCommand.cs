@@ -11,6 +11,7 @@ namespace Mortens_Komeback_3.Command
         public void Execute()
         {
             GameWorld.Instance.RestartGame = true;
+            GameWorld.Instance.Reload = true;
         }
     }
 }

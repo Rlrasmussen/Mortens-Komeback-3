@@ -32,16 +32,16 @@ namespace Mortens_Komeback_3
         public static bool LoadSave()
         {
 
-            try
-            {
+            //try
+            //{
 
-                using (GameWorld.Instance.Connection)
-                {
-                    GameWorld.Instance.Connection.Open();
+            //    using (GameWorld.Instance.Connection)
+            //    {
+            //        GameWorld.Instance.Connection.Open();
 
                     string commandText = "SELECT * FROM Player WHERE ID = @ID"; //Retrieves the row where the ID matches the players ID (currently only one)
                     SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
-                    command.Parameters.AddWithValue("@ID", Player.Instance.Type);
+                    command.Parameters.AddWithValue("@ID", 0);
                     SqliteDataReader playerReader = command.ExecuteReader();
 
                     if (playerReader.Read())
@@ -65,7 +65,7 @@ namespace Mortens_Komeback_3
 
                     commandText = "SELECT Inventory.* FROM Inventory INNER JOIN Player ON Player.ID = @ID WHERE Player.Equipped_Item IS NULL OR Inventory.Type != Player.Equipped_Item"; //Retrieves all items from Inventory table and adds them to players List of the same name unless it's the equipped weapon (which was added earlier - method adds any weapon as equipped if it's null)
                     command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
-                    command.Parameters.AddWithValue("@ID", Player.Instance.Type);
+                    command.Parameters.AddWithValue("@ID", 0);
                     SqliteDataReader inventoryReader = command.ExecuteReader();
 
                     int type = inventoryReader.GetOrdinal("Type");
@@ -81,17 +81,17 @@ namespace Mortens_Komeback_3
 
                     }
 
-                }
+            //}
 
-                return true;
+            return true;
 
-            }
-            catch
-            {
+            //}
+            //catch
+            //{
 
-                throw new Exception("Method SavePoint.LoadSave didn't execute properly");
+            //    throw new Exception("Method SavePoint.LoadSave didn't execute properly");
 
-            }
+            //}
 
         }
 
@@ -104,13 +104,13 @@ namespace Mortens_Komeback_3
         public static bool SaveGame(Location location)
         {
 
-            try
-            {
+            //try
+            //{
 
-                using (GameWorld.Instance.Connection)
-                {
+            //    using (GameWorld.Instance.Connection)
+            //    {
 
-                    GameWorld.Instance.Connection.Open();
+            //        GameWorld.Instance.Connection.Open();
 
                     string commandText = "DELETE FROM Inventory WHERE Type NOT IN (SELECT Equipped_Item FROM Player WHERE Equipped_Item IS NOT NULL)"; //"Clears" the Inventory in the database except the equipped weapon (which is a foreign key)
                     SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
@@ -138,7 +138,7 @@ namespace Mortens_Komeback_3
 
                     commandText = "INSERT INTO Player (ID, RespawnPosition, CurrentHP, Equipped_Item) VALUES (@ID, @POSITION, @HP, @EQUIPPED) ON CONFLICT(ID) DO UPDATE SET RespawnPosition = excluded.RespawnPosition, CurrentHP = excluded.CurrentHP, Equipped_Item = excluded.Equipped_Item"; //INSERTs or UPDATEs data relevant to player including the currently equipped weapon
                     command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
-                    command.Parameters.AddWithValue("@ID", Player.Instance.Type);
+                    command.Parameters.AddWithValue("@ID", 0);
                     command.Parameters.AddWithValue("@HP", Player.Instance.Health);
                     command.Parameters.AddWithValue("@POSITION", location);
 
@@ -151,15 +151,15 @@ namespace Mortens_Komeback_3
 
                     return check != null;
 
-                }
+                //}
 
-            }
-            catch
-            {
+            //}
+            //catch
+            //{
 
-                throw new Exception("Method SavePoint.SaveGame didn't execute properly");
+            //    throw new Exception("Method SavePoint.SaveGame didn't execute properly");
 
-            }
+            //}
 
         }
 
@@ -171,28 +171,28 @@ namespace Mortens_Komeback_3
         public static bool ClearSave()
         {
 
-            try
-            {
+            //try
+            //{
 
-                using (GameWorld.Instance.Connection)
-                {
+            //    using (GameWorld.Instance.Connection)
+            //    {
 
-                    GameWorld.Instance.Connection.Open();
+            //        GameWorld.Instance.Connection.Open();
                     string commandText = "DELETE FROM Player; DELETE FROM Inventory; UPDATE Puzzles SET Solved = 0 WHERE Solved = 1"; //Deletes all rows from Player and Inventory tables and sets all Solved values in Puzzles to false
                     SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
                     var check = command.ExecuteScalar();
 
                     return check != null;
 
-                }
+            //        }
 
-            }
-            catch
-            {
+            //    }
+            //    catch
+            //    {
 
-                throw new Exception("Method SavePoint.ClearSave didn't execute properly");
+            //        throw new Exception("Method SavePoint.ClearSave didn't execute properly");
 
-            }
+            //    }
 
         }
 
