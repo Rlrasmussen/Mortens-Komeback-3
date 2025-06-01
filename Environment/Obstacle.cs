@@ -50,10 +50,10 @@ namespace Mortens_Komeback_3.Environment
         public void Move()
         {
             //Only moves, new position isn't out of room
-            if (!((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > obstacleRoom.CollisionBox.Right)
-                && !((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < obstacleRoom.CollisionBox.Left)
-                && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < obstacleRoom.CollisionBox.Top)
-                && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > obstacleRoom.CollisionBox.Bottom))
+            if (!((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > obstacleRoom.CollisionBox.Right-240)
+                && !((Position.X + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < obstacleRoom.CollisionBox.Left+240)
+                && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < obstacleRoom.CollisionBox.Top+240)
+                && !((Position.Y + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > obstacleRoom.CollisionBox.Bottom-240))
 
             {
                 Position += velocity * speed * GameWorld.Instance.DeltaTime;
@@ -88,10 +88,6 @@ namespace Mortens_Komeback_3.Environment
                         velocity.Normalize();
                     }
 
-                }
-                else if (other is Door)
-                {
-                    Position -= velocity * speed * GameWorld.Instance.DeltaTime;
                 }
                 if (other is Obstacle)
                 {

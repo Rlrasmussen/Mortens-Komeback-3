@@ -279,29 +279,29 @@ namespace Mortens_Komeback_3
             //Player only moves if it doens't leave a rooms collisonbox, unless it's a double room. - Philip
             if (
                    (GameWorld.Instance.CurrentRoom.LeftSideOfBigRoom //If room is leftside, player is stopped from leaving, unless it's through right side
-                   && !((Position.X - Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left)
-                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top)
-                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom))
+                   && !((Position.X - Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left + 220)
+                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top + 100)
+                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom - 220))
                    ||
                    (GameWorld.Instance.CurrentRoom.RightSideOfBigRoom //If room is rightside, player is stopped from leaving, unless it's through left side
-                   && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right)
-                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top)
-                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom))
+                   && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right - 220)
+                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top + 100)
+                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom-220))
                    ||
                    (GameWorld.Instance.CurrentRoom.TopSideOfBigRoom //If room is topside, player is stopped from leaving, unless it's through buttom
-                   && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right)
-                   && !((Position.X - Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left)
-                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top)
+                   && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right - 220)
+                   && !((Position.X - Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left + 220)
+                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top + 100)
                    ||
                    (GameWorld.Instance.CurrentRoom.ButtomSideOfBigRoom //If room is buttom, player is stopped from leaving, unless it's through top
-                   && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right)
-                   && !((Position.X - Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left)
-                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom))
+                   && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right - 220)
+                   && !((Position.X - Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left + 220)
+                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom - 220))
                    || //Else player can't move out of rooms collisonbox
-                   (!((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right)
-                   && !((Position.X - Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left)
-                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top)
-                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom)))
+                   (!((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right - 220)
+                   && !((Position.X - Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Left + 220)
+                   && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top + 100)
+                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom - 220)))
                    )
             {
                 Position += velocity * Speed * GameWorld.Instance.DeltaTime;
