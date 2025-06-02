@@ -427,15 +427,7 @@ namespace Mortens_Komeback_3
                 npcs.Add(ghost);
             }
 
-            //Player stans still i Cutscene room
-            if (CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.Cutscene))
-            {
-                Player.Instance.Speed = 0f;
-            }
-            else
-            {
-                Player.Instance.Speed = 500f;
-            }
+
 
             //if (win)
             //{
@@ -458,6 +450,12 @@ namespace Mortens_Komeback_3
             {
                 regularChecks = 0f;
                 CurrentRoom = DoorManager.Rooms.Find(x => Player.Instance.CollisionBox.Intersects(x.CollisionBox));
+            }
+
+            //Player stans still i Cutscene room
+            if (CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.Cutscene))
+            {
+                Player.Instance.Speed = 0f;
             }
 
             status.Update(gameTime);
