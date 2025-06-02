@@ -60,7 +60,6 @@ namespace Mortens_Komeback_3.Environment
 
         public override void Update(GameTime gameTime)
         {
-
             base.Update(gameTime);
 
         }
@@ -306,6 +305,8 @@ namespace Mortens_Komeback_3.Environment
             enemiesSpawned = false;
 
         }
+
+    
         #endregion
     }
 }

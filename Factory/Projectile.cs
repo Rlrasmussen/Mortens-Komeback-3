@@ -72,10 +72,10 @@ namespace Mortens_Komeback_3.Factory
         {
             if (other is AvSurface)
             {
-                // Skift til spejlegg-sprite (hvis SurfaceType.Spejlegg er korrekt navngivet)
+                // Skift til spejlegg-sprite
                 Sprite = GameWorld.Instance.Sprites[SurfaceType.Spejlegg][0];
-                ProjectilePool.Instance.ReleaseObject(this);
-                IsAlive = false;
+                //ProjectilePool.Instance.ReleaseObject(this);
+                //IsAlive = false;
             }
             else
             {

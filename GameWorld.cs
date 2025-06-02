@@ -459,6 +459,8 @@ namespace Mortens_Komeback_3
                 CurrentRoom = DoorManager.Rooms.Find(x => Player.Instance.CollisionBox.Intersects(x.CollisionBox));
             }
 
+            CurrentRoom?.Update(gameTime);
+
             status.Update(gameTime);
 
             CleanUp();

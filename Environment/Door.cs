@@ -135,6 +135,22 @@ namespace Mortens_Komeback_3.Environment
 
             if (other == Player.Instance && (DoorStatus == DoorType.Closed || DoorStatus == DoorType.Open || DoorStatus == DoorType.Stairs || DoorStatus == DoorType.StairsUp))
             {
+
+
+                // Tjek om fjender stadig er i live i det nuværende rum
+                bool enemiesAlive = GameWorld.Instance.GameObjects
+                    .OfType<Enemy>()
+                    .Any(enemy => enemy.Position.Y > room.Position.Y && enemy.Position.Y < room.Position.Y + 2000 && enemy.IsAlive); // Tilpas evt. grænser
+
+                if (enemiesAlive && DoorStatus == DoorType.Locked)
+                {
+#if DEBUG
+                    Debug.WriteLine("Du kan ikke gå igennem døren. Fjender tilbage i rummet.");
+#endif
+                    return; // Stop spillerens teleportering
+                }
+
+
                 GameWorld.Instance.CurrentRoom = DestinationRoom;
 
                 switch (Direction)
