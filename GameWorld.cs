@@ -406,7 +406,7 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.Background];
                 MediaPlayer.Play(backgroundMusic);
             }
-            else if (Player.Instance.IsAlive == false && backgroundMusic != Music[MusicTrack.Death])
+            else if (Player.Instance.IsAlive == false && backgroundMusic != Music[MusicTrack.Death] && CurrentMenu == MenuType.GameOver)
             {
                 backgroundMusic = Music[MusicTrack.Death];
                 MediaPlayer.Play(backgroundMusic);
