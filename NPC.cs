@@ -208,7 +208,8 @@ namespace Mortens_Komeback_3
             else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponMelee) == null)
             {
                 StartConversation();
-                npcText = "Here take this sword and fight those satanic geese and bring back the holy grail";
+                npcText = "It's dangerous to go alone! Take this" +
+                    "\nand bring back the holy grail";
                 Sprite = giveSwordPope;
                 reply++;
                 GameWorld.Instance.SpawnObject(new WeaponMelee(WeaponType.Melee, Player.Instance.Position - new Vector2(0, 150)));
