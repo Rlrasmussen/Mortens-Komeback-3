@@ -70,20 +70,20 @@ namespace Mortens_Komeback_3.Factory
         /// <param name="other">Other object that was collided with</param>
         public void OnCollision(ICollidable other)
         {
-            if (other is AvSurface)
-            {
-                // Skift til spejlegg-sprite
+            //if (other is AvSurface)
+            //{
+            //    // Skift til spejlegg-sprite
                 
-                Sprite = GameWorld.Instance.Sprites[DecorationType.Spejlegg][0];
-                //ProjectilePool.Instance.ReleaseObject(this);
-                //IsAlive = false;
-            }
-            else
-            {
-                // Hvis det ikke er en AvSurface, dø som normalt
+            //    Sprite = GameWorld.Instance.Sprites[DecorationType.Spejlegg][0];
+            //    //ProjectilePool.Instance.ReleaseObject(this);
+            //    //IsAlive = false;
+            //}
+            //else
+            //{
+            //    // Hvis det ikke er en AvSurface, dø som normalt
                 ProjectilePool.Instance.ReleaseObject(this);
                 IsAlive = false;
-            }
+            //}
 
         }
 

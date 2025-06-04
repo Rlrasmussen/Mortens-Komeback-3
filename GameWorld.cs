@@ -1099,7 +1099,10 @@ namespace Mortens_Komeback_3
         }
 
         #endregion
-
+        /// <summary>
+        /// Irene
+        /// </summary>
+        /// <param name="action"></param>
         #region menu metoder
         public void HandleButtonAction(ButtonAction action)
         {
@@ -1126,17 +1129,13 @@ namespace Mortens_Komeback_3
                     break;
 
                 case ButtonAction.Reload:
-                    GameWorld.Instance.RestartGame = true;
-                    GameWorld.Instance.Reload = true;
+                    RestartGame = true;
+                    Reload = true;
+                    GameWorld.Instance.ResumeGame();
+
                     break;
 
-                    //case ButtonAction.ToggleMusic:
-                    //    AudioManager.Instance.ToggleMusic();
-                    //    break;
-
-                    //case ButtonAction.ToggleSound:
-                    //    AudioManager.Instance.ToggleSound();
-                    //    break;
+                   
             }
         }
 

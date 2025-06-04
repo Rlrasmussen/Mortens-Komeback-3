@@ -55,7 +55,7 @@ namespace Mortens_Komeback_3.Menu
             // Flyt knapper relativt til menuens Position
             for (int i = 0; i < buttonList.Count; i++)
             {
-                Vector2 offset = new Vector2(0, i * (buttonList[i].Sprite.Height + 10)); // placér dem vertikalt
+                Vector2 offset = new Vector2(-83, i * (buttonList[i].Sprite.Height + 30)); // placér dem vertikalt
                 buttonList[i].Position = Position + offset;
                 buttonList[i].Update(mousePos, isClicking);
             }
