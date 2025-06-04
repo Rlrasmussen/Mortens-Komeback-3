@@ -407,7 +407,7 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.Background];
                 MediaPlayer.Play(backgroundMusic);
             }
-            else if (Player.Instance.IsAlive == false && backgroundMusic != Music[MusicTrack.Death])
+            else if (Player.Instance.IsAlive == false && backgroundMusic != Music[MusicTrack.Death] && CurrentMenu == MenuType.GameOver)
             {
                 backgroundMusic = Music[MusicTrack.Death];
                 MediaPlayer.Play(backgroundMusic);
@@ -428,15 +428,7 @@ namespace Mortens_Komeback_3
                 npcs.Add(ghost);
             }
 
-            //Player stans still i Cutscene room
-            if (CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.Cutscene))
-            {
-                Player.Instance.Speed = 0f;
-            }
-            else
-            {
-                Player.Instance.Speed = 500f;
-            }
+
 
             //if (win)
             //{
@@ -462,7 +454,11 @@ namespace Mortens_Komeback_3
                 //CurrentRoom?.UpdateDoorsLockedState(); //test
             }
 
-            CurrentRoom?.Update(gameTime);
+            //Player stans still i Cutscene room
+            if (CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.Cutscene))
+            {
+                Player.Instance.Speed = 0f;
+            }
 
             status.Update(gameTime);
 

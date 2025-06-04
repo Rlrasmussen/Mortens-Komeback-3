@@ -173,10 +173,10 @@ namespace Mortens_Komeback_3
                     NunDialogue();
                     break;
                 case NPCType.Coffin:
-                    //Player.Instance.Position = Position - new Vector2(125, 0);
                     CoffinDialogue();
                     break;
                 case NPCType.Hole0:
+                    Player.Instance.Position += new Vector2(0, 30);
                     Holo0Dialogue();
                     break;
                 case NPCType.Empty:
@@ -208,7 +208,8 @@ namespace Mortens_Komeback_3
             else if (reply == 0 && Player.Instance.Inventory.Find(x => x is WeaponMelee) == null)
             {
                 StartConversation();
-                npcText = "Here take this sword and fight those satanic geese and bring back the holy grail";
+                npcText = "It's dangerous to go alone! Take this" +
+                    "\nand bring back the holy grail";
                 Sprite = giveSwordPope;
                 reply++;
                 GameWorld.Instance.SpawnObject(new WeaponMelee(WeaponType.Melee, Player.Instance.Position - new Vector2(0, 150)));
@@ -435,6 +436,7 @@ namespace Mortens_Komeback_3
             StartConversation();
             npcText = "";
             Player.Instance.Position = new Vector2(-250, -100);
+            GameWorld.Instance.CurrentRoom = DoorManager.Rooms.Find(x => Player.Instance.CollisionBox.Intersects(x.CollisionBox));
             EndConversation();
 
         }
