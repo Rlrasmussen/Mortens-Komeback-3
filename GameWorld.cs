@@ -276,6 +276,7 @@ namespace Mortens_Komeback_3
                 DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF)); //Room
             gameObjects.Add(pathfindingPuzzle);
             gamePuzzles.Add(pathfindingPuzzle);
+            gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(DoorManager.Rooms.Find(x => (RoomType)x.RoomType == RoomType.Stairs).Position.X, DoorManager.Rooms.Find(x => (RoomType)x.RoomType == RoomType.Stairs).CollisionBox.Top +100),0));
 
 
             #endregion
@@ -797,6 +798,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(TileEnum.Tile, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\Light2") });
             Sprites.Add(DecorationType.Pentagram, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\pentagram") });
             Sprites.Add(DecorationType.Barrel, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\barrel") });
+            Sprites.Add(DecorationType.Painting, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\painting") });
 
             #endregion
             #region VFX

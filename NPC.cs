@@ -51,6 +51,7 @@ namespace Mortens_Komeback_3
         public Texture2D[] Sprites { get; set; }
         public float ElapsedTime { get; set; }
         public int CurrentIndex { get; set; }
+        public bool Talk { get => talk; set => talk = value; }
 
         #endregion
 
@@ -133,14 +134,14 @@ namespace Mortens_Komeback_3
                 spriteBatch.Draw(Sprites[CurrentIndex], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             }
 
-            //If there is a collision between Player and NPC there will spawn an talk textbubble
-            if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox) && interact == true)
+            //If there is a collision between Player and NPC, or player is within 150 pixels, there will spawn an talk textbubble
+            if (((Vector2.Distance(Player.Instance.Position, Position) < 150) || (this as ICollidable).CheckCollision(Player.Instance)) && interact == true)
             {
                 spriteBatch.Draw(textBubble, Position - new Vector2(0, 90), null, drawColor, Rotation, origin, 1, spriteEffect, layer);
             }
 
             //DialogueBox 
-            if (talk == true && (this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
+            if (Talk == true )
             {
                 spriteBatch.Draw(dialogueBox, Player.Instance.Position + new Vector2(-dialogueBox.Width / 2 + 72.5f, dialogueBox.Height * 0.5f + 35), null, drawColor, Rotation, origin, 1, spriteEffect, layer);
                 spriteBatch.DrawString(GameWorld.Instance.GameFont, npcText, Player.Instance.Position - new Vector2(dialogueBox.Width / 2 - 70, -dialogueBox.Height + 120), Color.LightGray, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.2f);
@@ -154,15 +155,15 @@ namespace Mortens_Komeback_3
         public void Speak()
         {
             Player.Instance.Speed = 0f;
-            Player.Instance.Position = Position - new Vector2(50, 0);
-
+            Player.Instance.Position = Position - new Vector2(Sprite.Width/2 + Player.Instance.Sprite.Width, 0);
+             
             switch (type)
             {
                 case NPCType.CanadaGoose:
                     CanadaGooseDialogue();
                     break;
                 case NPCType.Pope:
-                    Player.Instance.Position = Position + new Vector2(75, 0);
+                    Player.Instance.Position = Position + new Vector2(Sprite.Width / 2 + Player.Instance.Sprite.Width, 0);//new Vector2(75, 0);
                     PopeDialogue();
                     break;
                 case NPCType.Monk:
@@ -172,7 +173,7 @@ namespace Mortens_Komeback_3
                     NunDialogue();
                     break;
                 case NPCType.Coffin:
-                    Player.Instance.Position = Position - new Vector2(125, 0);
+                    //Player.Instance.Position = Position - new Vector2(125, 0);
                     CoffinDialogue();
                     break;
                 case NPCType.Hole0:
@@ -460,7 +461,7 @@ namespace Mortens_Komeback_3
         /// </summary>
         public void StartConversation()
         {
-            talk = true;
+            Talk = true;
             interact = false;
         }
 
@@ -471,7 +472,7 @@ namespace Mortens_Komeback_3
         /// </summary>
         public void EndConversation()
         {
-            talk = false;
+            Talk = false;
             interact = true;
             Player.Instance.Speed = 500f;
             reply = 0;

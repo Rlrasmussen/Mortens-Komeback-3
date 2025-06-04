@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Mortens_Komeback_3.Collider;
 
 namespace Mortens_Komeback_3.Command
@@ -40,12 +41,11 @@ namespace Mortens_Komeback_3.Command
 
             foreach (GameObject npc in GameWorld.Instance.npcs)
             {
-                if ((npc as ICollidable).CheckCollision(Player.Instance))
-                    if ((Player.Instance as IPPCollidable).DoHybridCheck(npc.CollisionBox))
-                    {
-                        Player.Instance.Interact(npc);
-                        break;
-                    }
+                if (Vector2.Distance(Player.Instance.Position, npc.Position) < 160 || (npc as NPC).Talk)
+                {
+                    Player.Instance.Interact(npc);
+                    break;
+                }
             }
         }
     }

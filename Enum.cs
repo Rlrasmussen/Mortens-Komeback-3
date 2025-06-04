@@ -259,6 +259,7 @@ namespace Mortens_Komeback_3
         Hole2,
         Tomb,
         Barrel,
+        Painting,
         Pentagram
 
     }
