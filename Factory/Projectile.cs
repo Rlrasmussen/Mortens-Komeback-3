@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mortens_Komeback_3.State;
 
 namespace Mortens_Komeback_3.Factory
 {
@@ -70,20 +71,18 @@ namespace Mortens_Komeback_3.Factory
         /// <param name="other">Other object that was collided with</param>
         public void OnCollision(ICollidable other)
         {
-            //if (other is AvSurface)
-            //{
-            //    // Skift til spejlegg-sprite
-                
-            //    Sprite = GameWorld.Instance.Sprites[DecorationType.Spejlegg][0];
-            //    //ProjectilePool.Instance.ReleaseObject(this);
-            //    //IsAlive = false;
-            //}
-            //else
-            //{
-            //    // Hvis det ikke er en AvSurface, dø som normalt
+            if (other is GoosiferFire fire)
+            {
+                // Skift til spejlegg-sprite
+                GameWorld.Instance.SpawnObject(new Decoration(DecorationType.Spejlegg, Position, 0f));
+                IsAlive = false;
+
+            }
+            else if (!(other is AvSurface))
+            {
                 ProjectilePool.Instance.ReleaseObject(this);
                 IsAlive = false;
-            //}
+            }
 
         }
 
