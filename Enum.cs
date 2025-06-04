@@ -75,8 +75,8 @@ namespace Mortens_Komeback_3
         AvSurface,
         Fireball,
         Spikes,
-        BigSpikes,
-        Spejlegg
+        BigSpikes
+        
     }
 
     /// <summary>
@@ -99,7 +99,8 @@ namespace Mortens_Komeback_3
         TryAgain,
         ResumeGame,
         ToggleMusic,
-        ToggleSound
+        ToggleSound,
+        Reload
     }
 
     public enum ButtonSpriteType
@@ -260,7 +261,8 @@ namespace Mortens_Komeback_3
         Tomb,
         Barrel,
         Painting,
-        Pentagram
+        Pentagram,
+        Spejlegg
 
     }
 

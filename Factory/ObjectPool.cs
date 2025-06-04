@@ -51,6 +51,8 @@ namespace Mortens_Komeback_3.Factory
             }
 
             gameObject.Type = type;
+            gameObject.IsAlive = true;
+
 
             //Adding the GameObject to the active List
             active.Add(gameObject);

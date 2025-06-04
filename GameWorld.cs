@@ -146,6 +146,7 @@ namespace Mortens_Komeback_3
                             break;
                         default:
                             currentRoom.DespawnEnemies();
+
                             foreach (GameObject egg in gameObjects)
                             {
                                 if (egg is Projectile)
@@ -458,6 +459,7 @@ namespace Mortens_Komeback_3
             {
                 regularChecks = 0f;
                 CurrentRoom = DoorManager.Rooms.Find(x => Player.Instance.CollisionBox.Intersects(x.CollisionBox));
+                //CurrentRoom?.UpdateDoorsLockedState(); //test
             }
 
             CurrentRoom?.Update(gameTime);
@@ -811,7 +813,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(AttackType.Swing, swordSwoosh);
 
             Sprites.Add(SurfaceType.Fireball, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\VFX\\Fireball") });
-            Sprites.Add(SurfaceType.Spejlegg, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\VFX\\groundegg0") });
+            Sprites.Add(DecorationType.Spejlegg, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\VFX\\groundegg0") });
 
             #endregion
             #region Debug
@@ -1114,7 +1116,6 @@ namespace Mortens_Komeback_3
                 case ButtonAction.QuitGame:
                     gameRunning = false;
                     GameWorld.Instance.ExitGame();
-
                     break;
 
                 case ButtonAction.TryAgain:
@@ -1122,12 +1123,15 @@ namespace Mortens_Komeback_3
                     GameWorld.Instance.ResumeGame();
                     WinGame = false;
                     RestartGame = true;
-
-
                     break;
 
                 case ButtonAction.ResumeGame:
                     GameWorld.Instance.ResumeGame();
+                    break;
+
+                case ButtonAction.Reload:
+                    GameWorld.Instance.RestartGame = true;
+                    GameWorld.Instance.Reload = true;
                     break;
 
                     //case ButtonAction.ToggleMusic:
@@ -1191,6 +1195,8 @@ namespace Mortens_Komeback_3
             foreach (Room room in DoorManager.Rooms)
             {
                 room.DespawnEnemies();
+                //room?.UpdateDoorsLockedState();//test
+
             }
             EnemyPool.Instance.DeepClear();
             ProjectilePool.Instance.DeepClear();

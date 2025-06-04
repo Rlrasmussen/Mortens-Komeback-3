@@ -47,7 +47,7 @@ namespace Mortens_Komeback_3.Environment
         #endregion
 
         #region Constructor
-        public Door(Vector2 spawnPos, DoorDirection direction, DoorType initialType = DoorType.Closed) : base(initialType, spawnPos)
+        public Door(Vector2 spawnPos, DoorDirection direction, DoorType initialType = DoorType.Locked) : base(initialType, spawnPos)
         {
 
             DoorStatus = initialType;
@@ -145,19 +145,24 @@ namespace Mortens_Komeback_3.Environment
                     }
                 }
 
-
-                // Tjek om fjender stadig er i live i det nuværende rum
-                bool enemiesAlive = GameWorld.Instance.GameObjects
-                    .OfType<Enemy>()
-                    .Any(enemy => enemy.Position.Y > room.Position.Y && enemy.Position.Y < room.Position.Y + 2000 && enemy.IsAlive); // Tilpas evt. grænser
-
-                if (enemiesAlive && DoorStatus == DoorType.Locked)
+                if (DoorStatus == DoorType.Locked || DoorStatus == DoorType.StairsLocked)
                 {
-#if DEBUG
-                    Debug.WriteLine("Du kan ikke gå igennem døren. Fjender tilbage i rummet.");
-#endif
-                    return; // Stop spillerens teleportering
+                    return; // Stop passage
                 }
+                //// Tjek om fjender stadig er i live i det nuværende rum
+                //bool enemiesAlive = GameWorld.Instance.GameObjects
+                //    .OfType<Enemy>()
+                //    .Any(enemy => enemy.Position.Y > room.Position.Y && enemy.Position.Y < room.Position.Y + 2000 && enemy.IsAlive); // Tilpas evt. grænser
+
+                //if (enemiesAlive /*&& DoorStatus == DoorType.Locked*/)
+                //{
+                //    DoorStatus = DoorType.Locked;
+                //    return; // Stop spillerens teleportering
+                //}
+                //else
+                //{
+                //    DoorStatus = DoorType.Closed;
+                //}
 
 
                 GameWorld.Instance.CurrentRoom = DestinationRoom;

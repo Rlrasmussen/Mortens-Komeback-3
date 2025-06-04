@@ -15,7 +15,7 @@ namespace Mortens_Komeback_3.Environment
     {
         #region Fields
         private Room currentRoom;
-        private RoomType roomType;
+        //private RoomType roomType;
         private Dictionary<Vector2, Tile> tiles = new Dictionary<Vector2, Tile>();
         private bool leftSideOfBigRoom = false;
         private bool rightSideOfBigRoom = false;
@@ -60,6 +60,7 @@ namespace Mortens_Komeback_3.Environment
 
         public override void Update(GameTime gameTime)
         {
+            UnlockRooms();
             base.Update(gameTime);
 
         }
@@ -67,6 +68,14 @@ namespace Mortens_Komeback_3.Environment
 
         public override void Load()
         {
+            foreach (Door doors in Doors)
+            {
+                if (doors.DoorStatus == DoorType.Closed)
+                {
+                    doors.DoorStatus = DoorType.Locked;
+
+                }
+            }
 
             enemiesSpawned = false;
             EnemiesSpawned.Clear();
@@ -306,7 +315,47 @@ namespace Mortens_Komeback_3.Environment
 
         }
 
-    
+        public void UnlockRooms()
+        {
+            if (EnemiesSpawned.Count > 0)
+            {
+                foreach (Enemy enemy in EnemiesSpawned)
+                {
+                    if (enemy.IsAlive)
+                        return;
+                }
+            }
+
+            foreach (Door doors in Doors)
+            {
+                if (doors.DoorStatus == DoorType.Locked && RoomType != RoomType.CatacombesF)
+                {
+                   doors.UnlockDoor();
+
+                }
+            }
+            //else
+            //{
+            //    foreach (Door doors in Doors)
+            //    {
+            //        doors.DoorStatus = DoorType.Locked;
+            //    }
+            //}
+
+        }
+
+        //public void UpdateDoorsLockedState() //test
+        //{
+        //    bool anyAlive = GameWorld.Instance.GameObjects
+        //        .OfType<Enemy>()
+        //        .Where(e => e.InRoom == this)
+        //        .Any(e => e.IsAlive);
+
+        //    foreach (Door door in this.Doors)
+        //    {
+        //        door.DoorStatus = anyAlive ? DoorType.Locked : DoorType.Closed;
+        //    }
+        //}
         #endregion
     }
 }
