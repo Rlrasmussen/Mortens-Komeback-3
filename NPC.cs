@@ -180,7 +180,7 @@ namespace Mortens_Komeback_3
                     Holo0Dialogue();
                     break;
                 case NPCType.Empty:
-                    EmptyDialogoue();
+                    EmptyDialogue();
                     break;
                 case NPCType.Ghost:
                     GhostDialogue();
@@ -367,7 +367,7 @@ namespace Mortens_Komeback_3
         /// NPCType Coffin dialogue
         /// Rikke
         /// </summary>
-        private void CoffinDialogue()
+        public void CoffinDialogue()
         {
             if (coffinHint == true && reply == 0)
             {
@@ -389,8 +389,11 @@ namespace Mortens_Komeback_3
             }
         }
 
-
-        private void ChestDialogue()
+        /// <summary>
+        /// NPCType Chest dialogue
+        /// Rikke
+        /// </summary>
+        public void ChestDialogue()
         {
             if (reply == 0)
             {
@@ -414,7 +417,7 @@ namespace Mortens_Komeback_3
         /// NPCType Holo0 dialogue
         /// Rikke
         /// </summary>
-        private void Holo0Dialogue()
+        public void Holo0Dialogue()
         {
             if (reply == 0)
             {
@@ -430,8 +433,11 @@ namespace Mortens_Komeback_3
             }
         }
 
-
-        private void EmptyDialogoue()
+        /// <summary>
+        /// NPCType Empty dialogue - used to end the cutscene and move Player to Poperoom
+        /// Rikke
+        /// </summary>
+        public void EmptyDialogue()
         {
             StartConversation();
             npcText = "";
@@ -441,8 +447,11 @@ namespace Mortens_Komeback_3
 
         }
 
-
-        private void GhostDialogue()
+        /// <summary>
+        /// NPCType Ghost dialogue
+        /// Rikke
+        /// </summary>
+        public void GhostDialogue()
         {
             if (reply == 0)
             {
