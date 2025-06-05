@@ -192,9 +192,7 @@ namespace Mortens_Komeback_3
             float distance = 151;
             foreach (Tile t in tiles.Values)
             {
-                if (Vector2.Distance(go.Position, t.Position) < 150
-                    //go.Position.X > t.CollisionBox.Left && go.Position.X < t.CollisionBox.Right && go.Position.Y > t.CollisionBox.Top && go.Position.Y < t.CollisionBox.Bottom
-                    )
+                if (Vector2.Distance(go.Position, t.Position) < 150)
                 {
                     float tempDistance = Vector2.Distance(go.Position, t.Position);
                     if (tempDistance < distance)
