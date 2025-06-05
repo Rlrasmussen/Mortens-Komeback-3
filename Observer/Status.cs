@@ -109,11 +109,6 @@ namespace Mortens_Komeback_3.Observer
         }
 
 
-        public void Update(GameTime gameTime)
-        {
-
-        }
-
         public void Draw(SpriteBatch spriteBatch)
         {
             #region Player health/hearts
