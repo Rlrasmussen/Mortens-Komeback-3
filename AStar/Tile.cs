@@ -17,7 +17,6 @@ namespace Mortens_Komeback_3
     public class Tile : GameObject
     {
         private bool walkable = true;
-        private bool discovered = false;
         private Tile parent;
 
 
@@ -25,7 +24,6 @@ namespace Mortens_Komeback_3
         public int H { get; set; }
         public int F => G + H;
 
-        public bool Discovered { get => discovered; set => discovered = value; }
         public Tile Parent { get => parent; set => parent = value; }
         public bool Walkable
         {
