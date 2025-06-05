@@ -17,7 +17,6 @@ namespace Mortens_Komeback_3
     public class Tile : GameObject
     {
         private bool walkable = true;
-        private bool discovered = false;
         private Tile parent;
 
 
@@ -25,7 +24,6 @@ namespace Mortens_Komeback_3
         public int H { get; set; }
         public int F => G + H;
 
-        public bool Discovered { get => discovered; set => discovered = value; }
         public Tile Parent { get => parent; set => parent = value; }
         public bool Walkable
         {
@@ -39,7 +37,6 @@ namespace Mortens_Komeback_3
             }
         }
 
-        public bool ShowTile { get; set; } = false;
 
         public Tile(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
@@ -59,6 +56,10 @@ namespace Mortens_Komeback_3
             }
 
         }
+        /// <summary>
+        /// Sets the tile as walkable, except when it overlaps with an obstacle or AvSurface. Then it is not walkable. 
+        /// Philip
+        /// </summary>
         public void SetWalkable()
         {
             walkable = true;

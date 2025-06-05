@@ -11,8 +11,13 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.Puzzles
 {
+    /// <summary>
+    /// Pathfinding puzzle, where the player has to convert a path to overlap a certain point
+    /// Philip
+    /// </summary>
     class PathfindingPuzzle : Puzzle
     {
+        #region Fields
         private Room puzzleRoom;
         private Obstacle pathfindingObstacle1;
         private Obstacle pathfindingObstacle2;
@@ -31,8 +36,27 @@ namespace Mortens_Komeback_3.Puzzles
         private bool startAStar = false;
         private bool keepAlive = true;
 
+        #endregion
+
+        #region Properties
         internal Obstacle[] PuzzleObstacles { get => puzzleObstacles; set => puzzleObstacles = value; }
 
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Pathfinding puzzle, where the player has to convert a path to overlap a certain point
+        /// Philip
+        /// </summary>
+        /// <param name="type">The type of the puzzle</param>
+        /// <param name="spawnPos">The spawn position of the trigger, ie. the lever that is pulled to solve the puzzle </param>
+        /// <param name="puzzleDoor">The door locked by the puzzle</param>
+        /// <param name="id">id of puzzles, used by database</param>
+        /// <param name="pathStartPos">The start position of the path in the puzzle</param>
+        /// <param name="pathEndPos">The end position of the path in the puzzle</param>
+        /// <param name="pathGoalPoint">The position of the point that the path should overlap for the puzzle to be olved </param>
+        /// <param name="puzzleRoom">The room where the puzzle os</param>
         public PathfindingPuzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id, Vector2 pathStartPos, Vector2 pathEndPos, Vector2 pathGoalPoint, Room puzzleRoom) : base(type, spawnPos, puzzleDoor, id)
         {
             this.pathEnd = new Decoration(DecorationType.Splash, pathEndPos, 0);
@@ -46,9 +70,14 @@ namespace Mortens_Komeback_3.Puzzles
             pathGoal = new Decoration(DecorationType.Cross, pathGoalPoint, 0);
             pathGoal.Rotation = (float)Math.PI * 0.5f;
         }
+        #endregion
+
+
+        #region Methods
 
         public override void Update(GameTime gameTime)
         {
+            //The pathfinding algorithm only runs at a certain time interval, and only of the current room is where the puzzle is
             if (this.CollisionBox.Intersects(GameWorld.Instance.CurrentRoom.CollisionBox))
             {
                 pathUpdateTimer += GameWorld.Instance.DeltaTime;
@@ -57,11 +86,11 @@ namespace Mortens_Komeback_3.Puzzles
                     aStarPaused = false;
                 }
             }
-
+            //Starts the a star thread, when the room is first entered.
             if (GameWorld.Instance.CurrentRoom == puzzleRoom && !startAStar)
             {
                 startAStar = true;
-                Thread aStarThread = new Thread(() => AStarPath(pathStart, pathEnd, puzzleRoom.Tiles)); //TODO: change to current room when availble!
+                Thread aStarThread = new Thread(() => AStarPath(pathStart, pathEnd, puzzleRoom.Tiles)); 
                 aStarThread.IsBackground = true;
                 aStarThread.Start();
             }
@@ -84,7 +113,9 @@ namespace Mortens_Komeback_3.Puzzles
 
         }
 
-
+        /// <summary>
+        /// Sees if the path has reached through the goal point. If so calls SolvePuzzle. 
+        /// </summary>
         public void TrySolve()
         {
             foreach (Tile step in puzzlePath)
@@ -105,21 +136,28 @@ namespace Mortens_Komeback_3.Puzzles
             Sprite = GameWorld.Instance.Sprites[PuzzleType.PathfindingPuzzle][2];
         }
 
+        /// <summary>
+        /// Method that runs the a star algoritm, finding a path between to objects. Should be run i a seperate thread.
+        /// Philip
+        /// </summary>
+        /// <param name="startObject">The object where the path should start from </param>
+        /// <param name="endObject">The object at the end of the path</param>
+        /// <param name="tiles">A dictionary of tiles, that is the grid where the path is found</param>
         public void AStarPath(GameObject startObject, GameObject endObject, Dictionary<Vector2, Tile> tiles)
         {
-            while (keepAlive && !Solved)
+            while (keepAlive && !Solved) //The thread run when the puzzle is alive, and not solved. 
             {
-                if (aStarPaused == false)
+                if (aStarPaused == false) //The a star algoritm is paused, as set in Update()
                 {
-                    foreach (var tile in tiles)
+                    foreach (var tile in tiles) //Sets the tiles walkability: It is blocked by the obstacles the player pushes around
                     {
                         tile.Value.SetWalkable();
                     }
-                    List<Tile> path = puzzleAStar.AStarFindPath(startObject, endObject, tiles);
+                    List<Tile> path = puzzleAStar.AStarFindPath(startObject, endObject, tiles); //Finds the shortes path between start and end object
                     if (path != null)
                     {
-                        puzzlePath.Clear();
-                        foreach (Tile step in path)
+                        puzzlePath.Clear(); 
+                        foreach (Tile step in path) //The new path is adde to puzzlePath
                         {
                             puzzlePath.Add(step);
                         }
@@ -134,11 +172,11 @@ namespace Mortens_Komeback_3.Puzzles
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-            foreach (Tile tile in puzzlePath)
+            foreach (Tile tile in puzzlePath) //Draws the sprite of each tile in the puzzlePath. 
             {
                 tile.Draw(spriteBatch);
             }
         }
-
+        #endregion
     }
 }

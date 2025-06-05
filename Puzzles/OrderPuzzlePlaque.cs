@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.Puzzles
 {
+    /// <summary>
+    /// The Plaque used by order Puzzles
+    /// Philip
+    /// </summary>
     class OrderPuzzlePlaque : GameObject , ICollidable
     {
         private int spriteIndex;

@@ -19,7 +19,8 @@ namespace Mortens_Komeback_3
         }
 
         /// <summary>
-        /// Claculates the shortest path, in the form of list of tiles, between start and end object.  
+        /// Calculates the shortest path, in the form of a list of tiles, between start and end object. 
+        /// Philip
         /// </summary>
         /// <param name="start">The object where the path should start</param>
         /// <param name="end">The object where the path should end</param>
@@ -99,6 +100,7 @@ namespace Mortens_Komeback_3
         /// <summary>
         /// Returns a path, in the form of list of tiles between start and end tile. 
         /// Path is found by looking at parents, already set by astar algorithm. 
+        /// Philip
         /// </summary>
         /// <param name="startTile">The tile at the start of path</param>
         /// <param name="endTile">The tile at end of path</param>
@@ -148,7 +150,6 @@ namespace Mortens_Komeback_3
         public static List<Tile> AStarGetNeighbours(Tile curTile, Dictionary<Vector2, Tile> tiles)
         {
             List<Tile> neighbours = new List<Tile>(8);
-            //var wallSprite = TileTypes.Stone;
             for (int i = -1; i <= 1; i++)
             {
                 for (int j = -1; j <= 1; j++)
@@ -168,9 +169,9 @@ namespace Mortens_Komeback_3
                         continue;
                     }
 
-                    if (!curNeighbour.Walkable)  // Hvis en tile ikke længere er walkable
+                    if (!curNeighbour.Walkable)  // If a tile is no longer walkable, it is skipped.
                     {
-                        continue; // Spring den over
+                        continue;
                     }
                     neighbours.Add(curNeighbour);
                 }
@@ -191,9 +192,7 @@ namespace Mortens_Komeback_3
             float distance = 151;
             foreach (Tile t in tiles.Values)
             {
-                if (Vector2.Distance(go.Position, t.Position) < 150
-                    //go.Position.X > t.CollisionBox.Left && go.Position.X < t.CollisionBox.Right && go.Position.Y > t.CollisionBox.Top && go.Position.Y < t.CollisionBox.Bottom
-                    )
+                if (Vector2.Distance(go.Position, t.Position) < 150)
                 {
                     float tempDistance = Vector2.Distance(go.Position, t.Position);
                     if (tempDistance < distance)
