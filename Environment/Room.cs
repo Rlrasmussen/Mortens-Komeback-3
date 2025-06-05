@@ -328,10 +328,9 @@ namespace Mortens_Komeback_3.Environment
 
             foreach (Door doors in Doors)
             {
-                if (doors.DoorStatus == DoorType.Locked && RoomType != RoomType.CatacombesF)
+                if (doors.DoorStatus == DoorType.Locked && !(doors == DoorManager.doorList["doorI1"]))
                 {
                    doors.UnlockDoor();
-
                 }
             }
             //else
