@@ -10,17 +10,25 @@ namespace Mortens_Komeback_3.Environment
 {
     public class DoorManager : GameObject
     {
-
+        #region Field
         public static List<Room> Rooms = new();
         public static List<Door> Doors = new();
 
         public static Dictionary<string, Door> doorList = new Dictionary<string, Door>();
+        #endregion
 
+        #region Properties
+
+        #endregion
+
+        #region Constructor
         public DoorManager(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
 
         }
+        #endregion
 
+        #region Method
         public static void Initialize()
         {
             // Create Rooms
@@ -177,6 +185,6 @@ namespace Mortens_Komeback_3.Environment
 
 
         }
-
+        #endregion
     }
 }
