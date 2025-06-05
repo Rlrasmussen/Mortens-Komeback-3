@@ -13,6 +13,10 @@ using Mortens_Komeback_3.Factory;
 
 namespace Mortens_Komeback_3.Puzzles
 {
+    /// <summary>
+    /// Superclass for the games Puzzles
+    /// Philip
+    /// </summary>
     public abstract class Puzzle : GameObject, ICollidable
     {
         #region Fields
@@ -95,7 +99,7 @@ namespace Mortens_Komeback_3.Puzzles
         /// </summary>
         public override void Load()
         {
-            LockDoor();
+            LockDoor(); //Locks the doors of the puzzle. Philip
             if (solved)
                 SolvePuzzle();
 
@@ -140,6 +144,7 @@ namespace Mortens_Komeback_3.Puzzles
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+            //Draws textbubble when player collides with puzzle - Philip
             if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
             {
                 spriteBatch.Draw(textBubble, new Vector2(Position.X, Position.Y - Sprite.Height / 2), null, drawColor, Rotation, origin, scale, spriteEffect, layer);

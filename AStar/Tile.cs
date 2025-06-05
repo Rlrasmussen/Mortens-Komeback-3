@@ -59,6 +59,10 @@ namespace Mortens_Komeback_3
             }
 
         }
+        /// <summary>
+        /// Sets the tile as walkable, except when it overlaps with an obstacle or AvSurface. Then it is not walkable. 
+        /// Philip
+        /// </summary>
         public void SetWalkable()
         {
             walkable = true;

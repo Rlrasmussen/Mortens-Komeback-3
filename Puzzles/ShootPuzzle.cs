@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.Puzzles
 {
+    /// <summary>
+    /// Shoot puzzle, where player must hit a trigger with a projectile to unlock a door
+    /// Philip
+    /// </summary>
     class ShootPuzzle : Puzzle
     {
         #region Fields
