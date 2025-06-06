@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3.Command
 {
+    /// <summary>
+    /// Unused
+    /// </summary>
     class AccessInventoryCommand
     {
         #region Fields

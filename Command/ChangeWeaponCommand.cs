@@ -21,7 +21,10 @@ namespace Mortens_Komeback_3.Command
 
         }
 
-
+        /// <summary>
+        /// Changes players weapon
+        /// Simon
+        /// </summary>
         public void Execute()
         {
 

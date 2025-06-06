@@ -72,7 +72,7 @@ namespace Mortens_Komeback_3.Collider
 
         /// <summary>
         /// Updates position for collision rectangles, must be run regularly at minimum
-        /// Simon (code from teacher, expanded with help from ChatGPT)
+        /// Simon (code from teacher, expanded with help from ChatGPT to take spriteeffect into account)
         /// </summary>
         /// <param name="flipHorizontally">Transmits if sprite is flipped or not</param>
         public void UpdateRectangles(bool flipHorizontally = false)
@@ -103,7 +103,7 @@ namespace Mortens_Komeback_3.Collider
 
         /// <summary>
         /// Creates a List of Rectangles for collision checks (is automatically run on UpdateRectangles if Rectangles count is 0 or it's null)
-        /// Simon (code from teacher)
+        /// Simon (most of code from teacher)
         /// </summary>
         /// <returns>List used to instantiate "Rectangles"</returns>
         /// <exception cref="Exception">Throws exception if no sprite was found</exception>

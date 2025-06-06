@@ -24,14 +24,16 @@ namespace Mortens_Komeback_3
             layer = 0.6f;
         }
 
-        public void OnCollision(ICollidable other)
-        {
-            //throw new NotImplementedException();
-        }
 
         #endregion
 
         #region Method
+
+
+        public void OnCollision(ICollidable other)
+        {
+            //throw new NotImplementedException();
+        }
 
         #endregion
     }

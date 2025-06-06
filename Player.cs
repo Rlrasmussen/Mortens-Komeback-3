@@ -182,6 +182,7 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// (Re)sets health and alive-status
+        /// Simon
         /// </summary>
         public override void Load()
         {
@@ -447,7 +448,7 @@ namespace Mortens_Komeback_3
             if (IsAlive && !GameWorld.Instance.GamePaused)
                 if (!GameWorld.Instance.GamePaused && equippedWeapon != null && !(swordAttacking || slingAttacking))
                 {
-                    if ((WeaponType)equippedWeapon.Type == WeaponType.Melee && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) //Skal rykkes ind i samme loop som equippedWeapon.Attack();
+                    if ((WeaponType)equippedWeapon.Type == WeaponType.Melee && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) 
                     {
                         Sprites = sprites;
                         swordAttacking = true;
@@ -548,7 +549,11 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Determines what to do when interaction is possible
+        /// Philip, Rikke
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void Interact(GameObject gameObject)
         {
             switch (gameObject.Type)

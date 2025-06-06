@@ -44,7 +44,6 @@ namespace Mortens_Komeback_3.Environment
         {
             this.scale = 0.4f;
             FPS = 6;
-            //Sprites = GameWorld.Instance.Sprites[SurfaceType.AvSurface];
 
             if (GameWorld.Instance.Sprites.TryGetValue(type, out var sprites))
                 Sprites = sprites;

@@ -63,8 +63,6 @@ namespace Mortens_Komeback_3.Environment
             Door doorG1 = new Door(new Vector2(600, 13400), DoorDirection.Top);     //catacombesE til traproom
             Door doorH1 = new Door(new Vector2(1190, 14000), DoorDirection.Right);  //catacombesE til catacombesF //////
             Door doorH2 = new Door(new Vector2(-1190, 16000), DoorDirection.Left);  //pathfinding
-            //Door doorG3 = new Door(new Vector2(-800, 16600), DoorDirection.Bottom);  //videsre
-            //Door doorG2 = new Door(new Vector2(600, 16000), DoorDirection.Top);  //traproom
             Door doorG3 = new Door(new Vector2(-800, 22600), DoorDirection.Bottom);  //videre
             Door doorG2 = new Door(new Vector2(600, 22600), DoorDirection.Bottom);  //traproom
             Door doorI1 = new Door(new Vector2(1190, 16000), DoorDirection.Right); //ud af pathfinding I1
@@ -127,15 +125,11 @@ namespace Mortens_Komeback_3.Environment
             doorD1.LinkTo(doorD2);
             doorE1.LinkTo(doorE2);
             doorF1.LinkTo(doorF2);
-            doorG1.LinkTo(doorG2); // husk at blokér at man kan gå tilbage!!
-            doorG3.LinkTo(doorG1); // husk !!
-            //doorH2.LinkTo(doorI1); Seems a mistake
-            //doorI2.LinkTo(doorJ1); Seems a mistake
-            //doorJ2.LinkTo(doorH2);Seems a mistake
+            doorG1.LinkTo(doorG2); 
+            doorG3.LinkTo(doorG1); 
             doorH1.LinkTo(doorH2);
             doorI1.LinkTo(doorI2);
             doorJ1.LinkTo(doorJ2);
-            //mangler stadig lidt links pga traproom
 
             // Store for gameworld or rendering
             Rooms.Add(popeRoom);
@@ -166,7 +160,6 @@ namespace Mortens_Komeback_3.Environment
             Doors.Add(doorF1);
             Doors.Add(doorF2);
             Doors.Add(doorG1);
-            //Doors.Add(doorG2);
             Doors.Add(doorG3);
             Doors.Add(doorH1);
             Doors.Add(doorH2);
@@ -174,7 +167,6 @@ namespace Mortens_Komeback_3.Environment
             Doors.Add(doorI2);
             Doors.Add(doorJ1);
             Doors.Add(doorJ2);
-
 
         }
 

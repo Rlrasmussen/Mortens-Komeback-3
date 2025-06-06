@@ -36,6 +36,7 @@ namespace Mortens_Komeback_3.State
 
         /// <summary>
         /// Overload for giving a premade set of waypoints to patrol
+        /// Simon
         /// </summary>
         /// <param name="waypoints"></param>
         public PatrolState(List<Vector2> waypoints)
@@ -124,7 +125,6 @@ namespace Mortens_Komeback_3.State
         public void Exit()
         {
 
-            //waypoints.Clear();
             chasePlayer.Enter(parent);
 
         }

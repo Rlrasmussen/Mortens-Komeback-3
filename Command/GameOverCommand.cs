@@ -9,6 +9,9 @@ using Mortens_Komeback_3.Command;
 
 namespace Mortens_Komeback_3.Command
 {
+    /// <summary>
+    /// Unused?
+    /// </summary>
     class GameOverCommand : ICommand
     {
         public void Execute()

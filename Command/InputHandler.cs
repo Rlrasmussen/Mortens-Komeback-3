@@ -136,7 +136,12 @@ namespace Mortens_Komeback_3.Command
 
         #region Method
 
-
+        /// <summary>
+        /// Adds keybinding
+        /// Philip
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="command"></param>
         public void AddUpdateCommand(Keys key, ICommand command)
         {
 
@@ -147,7 +152,12 @@ namespace Mortens_Komeback_3.Command
 
         }
 
-
+        /// <summary>
+        /// Adds on-tap keybinding
+        /// Philip
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="command"></param>
         public void AddButtonDownCommand(Keys key, ICommand command)
         {
 
@@ -158,7 +168,11 @@ namespace Mortens_Komeback_3.Command
 
         }
 
-
+        /// <summary>
+        /// Draws custom mouse cursor
+        /// Simon
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
 
@@ -173,7 +187,8 @@ namespace Mortens_Komeback_3.Command
         }
 
         /// <summary>
-        /// Method to run when left mouse is clicked
+        /// Method to run when left mouse is clicked - unused
+        /// Simon
         /// </summary>
         private void LeftClickAction()
         {
@@ -183,7 +198,8 @@ namespace Mortens_Komeback_3.Command
         }
 
         /// <summary>
-        /// Method to run when right mouse is clicked
+        /// Method to run when right mouse is clicked - unused
+        /// Simon
         /// </summary>
         private void RightClickAction()
         {
@@ -194,6 +210,7 @@ namespace Mortens_Komeback_3.Command
 
         /// <summary>
         /// Thread function to continuously loop HandleInput which translates player input
+        /// Simon
         /// </summary>
         private void HandleInput()
         {
@@ -210,31 +227,15 @@ namespace Mortens_Komeback_3.Command
         }
 
         /// <summary>
-        /// Checks if mouse is on top of GameObject
+        /// Executes commands of tapped keys
+        /// Philip
         /// </summary>
-        /// <param name="other">GameObject to be checked with</param>
-        /// <returns>true if yes</returns>
-        private bool CheckCollision(Rectangle collisionBox, Rectangle other) => collisionBox.Intersects(other);
-
-        /// <summary>
-        /// Method to interact with "collided" object
-        /// </summary>
-        /// <param name="other">GameObject to manipulate</param>
-        private void OnCollision(GameObject other)
-        {
-
-
-
-        }
-
-
-
         private void Execute()
         {
 
             KeyboardState keyboardState = Keyboard.GetState();
 
-            lock (syncLock)
+            lock (syncLock) //Simon - found what gave exception this was used to prevent so shouldn't be necessary
                 foreach (var pressedKey in keyboardState.GetPressedKeys())
                 {
                     if (keybindsUpdate.TryGetValue(pressedKey, out ICommand command))

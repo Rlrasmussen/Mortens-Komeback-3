@@ -24,9 +24,10 @@ namespace Mortens_Komeback_3.Command
 
         #region Method
 
-
-
-        #endregion
+        /// <summary>
+        /// Interacts with NPCs or puzzles
+        /// Philip, Rikke
+        /// </summary>
         public void Execute()
         {
             foreach (GameObject puzzle in GameWorld.Instance.gamePuzzles)
@@ -48,5 +49,7 @@ namespace Mortens_Komeback_3.Command
                 }
             }
         }
+
+        #endregion
     }
 }

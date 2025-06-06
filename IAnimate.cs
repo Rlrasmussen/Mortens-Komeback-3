@@ -18,6 +18,10 @@ namespace Mortens_Komeback_3
 
         public int CurrentIndex { get; set; }
 
+        /// <summary>
+        /// Handles animation calculations
+        /// Simon
+        /// </summary>
         public void Animate()
         {
 

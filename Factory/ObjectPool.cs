@@ -109,6 +109,10 @@ namespace Mortens_Komeback_3.Factory
 
         }
 
+        /// <summary>
+        /// Method to ensure no accidental overflow of date from old playthough passes through
+        /// Simon
+        /// </summary>
         public void DeepClear()
         {
             active.Clear();

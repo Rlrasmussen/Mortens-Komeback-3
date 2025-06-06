@@ -126,8 +126,9 @@ namespace Mortens_Komeback_3.State
 
         /// <summary>
         /// Gets radians for rotation of object to simulate the direction of the fireball (Old bit from another issue ChatGPT helped with)
+        /// Simon
         /// </summary>
-        /// <returns>Radians - Pi</returns>
+        /// <returns>Radians</returns>
         private float GetAngle()
         {
             Vector2 direction = parent.Position - Player.Instance.Position;

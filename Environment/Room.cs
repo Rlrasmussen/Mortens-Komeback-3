@@ -65,7 +65,10 @@ namespace Mortens_Komeback_3.Environment
 
         }
 
-
+        /// <summary>
+        /// Resets data for room
+        /// Irene, Simon
+        /// </summary>
         public override void Load()
         {
             foreach (Door doors in Doors)
@@ -83,7 +86,11 @@ namespace Mortens_Komeback_3.Environment
             base.Load();
         }
 
-
+        /// <summary>
+        /// "Connects" a door to the room
+        /// Irene
+        /// </summary>
+        /// <param name="door"></param>
         public void AddDoor(Door door)
         {
             Doors.Add(door);
@@ -121,7 +128,11 @@ namespace Mortens_Komeback_3.Environment
             }
         }
 
-
+        /// <summary>
+        /// Predetermined lists of enemies dependent on which RoomType the room is
+        /// Simon
+        /// </summary>
+        /// <returns>A list of enemies to be spawned in the room</returns>
         private List<(EnemyType, Vector2)> GetEnemies()
         {
 
@@ -165,7 +176,10 @@ namespace Mortens_Komeback_3.Environment
 
         }
 
-
+        /// <summary>
+        /// Spawns enemies set to be spawned from data list and in specific cases gives a predefined list of "waypoints" to patrol
+        /// Simon
+        /// </summary>
         public void SpawnEnemies()
         {
 
@@ -296,7 +310,10 @@ namespace Mortens_Komeback_3.Environment
             }
         }
 
-
+        /// <summary>
+        /// Removes spawned enemies (to conserve processingpower since some run seperate threads)
+        /// Simon
+        /// </summary>
         public void DespawnEnemies()
         {
 
@@ -315,6 +332,10 @@ namespace Mortens_Komeback_3.Environment
 
         }
 
+        /// <summary>
+        /// Unlocks the doors in room if all enemies are killed
+        /// Irene
+        /// </summary>
         public void UnlockRooms()
         {
             if (EnemiesSpawned.Count > 0)
@@ -333,28 +354,9 @@ namespace Mortens_Komeback_3.Environment
                    doors.UnlockDoor();
                 }
             }
-            //else
-            //{
-            //    foreach (Door doors in Doors)
-            //    {
-            //        doors.DoorStatus = DoorType.Locked;
-            //    }
-            //}
 
         }
 
-        //public void UpdateDoorsLockedState() //test
-        //{
-        //    bool anyAlive = GameWorld.Instance.GameObjects
-        //        .OfType<Enemy>()
-        //        .Where(e => e.InRoom == this)
-        //        .Any(e => e.IsAlive);
-
-        //    foreach (Door door in this.Doors)
-        //    {
-        //        door.DoorStatus = anyAlive ? DoorType.Locked : DoorType.Closed;
-        //    }
-        //}
         #endregion
     }
 }

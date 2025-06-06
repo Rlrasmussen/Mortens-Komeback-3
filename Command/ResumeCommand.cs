@@ -7,6 +7,9 @@ using Mortens_Komeback_3.Command;
 
 namespace Mortens_Komeback_3.Command
 {
+    /// <summary>
+    /// Unused?
+    /// </summary>
     class ResumeCommand : ICommand
     {
         public void Execute()
