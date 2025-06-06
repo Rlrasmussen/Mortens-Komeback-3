@@ -13,17 +13,24 @@ namespace Mortens_Komeback_3.Menu
 {
     public class MenuManager
     {
-
+        #region Field
         private string text;
-
-        public bool Hovering { get; set; }
-
-
         private Menu currentMenu;
 
         private Dictionary<MenuType, Menu> menus = new Dictionary<MenuType, Menu>();
 
-      
+        #endregion
+
+        #region Properties
+        public bool Hovering { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Method
 
         public void CreateMenus()
         {
@@ -84,8 +91,8 @@ namespace Mortens_Komeback_3.Menu
             currentMenu = null;
         }
 
-  
 
-      
+        #endregion
+
     }
 }

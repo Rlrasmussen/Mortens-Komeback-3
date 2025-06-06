@@ -13,10 +13,12 @@ namespace Mortens_Komeback_3.State
 
     public class GoosiferFire : AvSurface
     {
-
+        #region Field
         private IState<GoosiferFire> movement;
         private Enemy shooter;
+        #endregion
 
+        #region Constructor
         /// <summary>
         /// Constructor based of AvSurface
         /// Simon
@@ -37,7 +39,9 @@ namespace Mortens_Komeback_3.State
             this.scale = 0.8f;
 
         }
+        #endregion
 
+        #region Method
         /// <summary>
         /// Handles movement and (if applicable, animation of sprites)
         /// Simon
@@ -68,20 +72,37 @@ namespace Mortens_Komeback_3.State
             base.OnCollision(other);
             movement.Exit();
         }
-
+        #endregion
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public class FireState : IState<GoosiferFire>
     {
-
+        #region Field
         private GoosiferFire parent;
         private Vector2 direction;
         private float lifetime = -5f;
         private float speed = 700f;
+        #endregion
 
-
+        #region Properties
         public bool OverridesPathfinding { get; set; }
+        #endregion
 
+        #region Method
         /// <summary>
         /// Handles starting logic of the State
         /// Simon
@@ -135,7 +156,7 @@ namespace Mortens_Komeback_3.State
             float angleRadians = (float)Math.Atan2(direction.Y, direction.X);
             return angleRadians;
         }
-
+        #endregion
     }
 
 }

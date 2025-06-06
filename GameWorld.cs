@@ -35,21 +35,17 @@ namespace Mortens_Komeback_3
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
-        public Dictionary<EnemyType, (int health, int damage, float speed)> EnemyStats = new Dictionary<EnemyType, (int health, int damage, float speed)>();
-        public Dictionary<Enum, List<RectangleData>> RectangleDatas = new Dictionary<Enum, List<RectangleData>>();
         public SpriteFont GameFont;
         private float deltaTime;
-        private bool gamePaused = false;
         private bool gameRunning = true;
+        private bool gamePaused = false;
         public List<GameObject> gamePuzzles = new List<GameObject>();
         public List<GameObject> npcs = new List<GameObject>();
-
+        private List<IObserver> listeners = new List<IObserver>();
         private string dbBasePath = AppDomain.CurrentDomain.BaseDirectory;
         public SqliteConnection Connection;
-
-        private float spawnCutsceneTime = 5f;
-        private float lastSpawnCutscene = 0f;
-        private List<IObserver> listeners = new List<IObserver>();
+        public Dictionary<EnemyType, (int health, int damage, float speed)> EnemyStats = new Dictionary<EnemyType, (int health, int damage, float speed)>();
+        public Dictionary<Enum, List<RectangleData>> RectangleDatas = new Dictionary<Enum, List<RectangleData>>();
         private Status status;
         private Room currentRoom;
 
@@ -58,10 +54,9 @@ namespace Mortens_Komeback_3
         private float rotationRight = (float)(Math.PI / 2);
         private float rotationBottom = (float)(Math.PI);
         private float rotationLeft = (float)(-Math.PI / 2);
-
         private Button myButton;
         public List<Button> buttonList = new List<Button>();
-        public MenuType CurrentMenu { get; set; }
+
         private bool musicOn = true;
         private bool soundOn = true;
 
@@ -74,8 +69,6 @@ namespace Mortens_Komeback_3
         #endregion
 
         #region Properties
-        public MenuManager MenuManager { get; set; }
-        public Vector2 ScreenSize { get; private set; }
 
         /// <summary>
         /// Singleton for GameWorld
@@ -128,6 +121,9 @@ namespace Mortens_Komeback_3
         public bool RestartGame { get; set; } = false;
         public bool WinGame { get; set; } = false;
         public bool IgnoreSoundEffect { get; set; }
+        public MenuType CurrentMenu { get; set; }
+        public MenuManager MenuManager { get; set; }
+        public Vector2 ScreenSize { get; private set; }
 
         public Room CurrentRoom
         {

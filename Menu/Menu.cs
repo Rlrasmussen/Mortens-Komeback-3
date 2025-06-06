@@ -17,17 +17,15 @@ namespace Mortens_Komeback_3.Menu
         public List<Button> buttonList = new List<Button>();
         //public MenuType background { get; set; }
         //public Vector2 Position { get; set; } = Player.Instance.Position; 
-        public Vector2 Position { get; set; }
-        public Enum Type { get; set; }
-        public Texture2D Sprite { get; set; }
+
         //public bool MenuActive { get => menuActive; set => menuActive = value; } 
-
-
 
         #endregion
 
         #region Properties
-
+        public Vector2 Position { get; set; }
+        public Enum Type { get; set; }
+        public Texture2D Sprite { get; set; }
         #endregion
 
         #region Constructor
@@ -46,7 +44,7 @@ namespace Mortens_Komeback_3.Menu
         {
             foreach (var button in buttonList)
             {
-                button.Update(mousePos, isClicking); 
+                button.Update(mousePos, isClicking);
             }
 
             // Opdater menuens center hver frame
@@ -104,7 +102,7 @@ namespace Mortens_Komeback_3.Menu
         {
             buttonList.Add(button);
         }
-       
+
         #endregion
     }
 }
