@@ -185,6 +185,7 @@ namespace Mortens_Komeback_3
         public override void Load()
         {
             CurrentIndex = 0;
+            FPS = 8;
             base.Load();
 
             switch (equippedWeapon)
