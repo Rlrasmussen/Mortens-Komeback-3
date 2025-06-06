@@ -40,6 +40,9 @@ namespace Mortens_Komeback_3
             layer = 0.8f;
         }
 
+        #endregion
+
+        #region Method
         public override void Update(GameTime gameTime)
         {
             (this as IAnimate).Animate();
@@ -70,9 +73,6 @@ namespace Mortens_Komeback_3
                 spriteBatch.DrawString(GameWorld.Instance.GameFont, end, new Vector2(0, -2000) + new Vector2(-700, 400), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.05f);
             }
         }
-        #endregion
-
-        #region Method
 
         #endregion
     }

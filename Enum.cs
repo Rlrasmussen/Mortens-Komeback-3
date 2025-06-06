@@ -255,7 +255,6 @@ namespace Mortens_Komeback_3
         Cross,
         Coffin,
         Splash,
-        //Hole0,
         Hole1,
         Hole2,
         Tomb,

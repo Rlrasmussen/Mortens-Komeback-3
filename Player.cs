@@ -19,7 +19,6 @@ namespace Mortens_Komeback_3
     public class Player : GameObject, ICollidable, IPPCollidable, IAnimate
     {
         #region Fields
-
         private static Player instance;
         private SoundEffect currentWalkSound;
         private Weapon equippedWeapon;
@@ -33,10 +32,10 @@ namespace Mortens_Komeback_3
         private bool swordAttacking = false;
         private bool slingAttacking = false;
         private float colorTimer = 2f;
-
         private float damageTimer = 2f;
         private float damageGracePeriode = 2f;
-        private int portionHelath = 2;
+        private int portionHealth = 2;
+
         #endregion
 
         #region Properties
@@ -150,7 +149,7 @@ namespace Mortens_Komeback_3
         /// </summary>
         public int CurrentIndex { get; set; }
         public float Speed { get => speed; set => speed = value; }
-        public int MaxHealth { get => maxHealth; set => maxHealth = value; }
+        //public int MaxHealth { get => maxHealth; set => maxHealth = value; }
 
         #endregion
 
@@ -215,7 +214,7 @@ namespace Mortens_Komeback_3
 
             swordAttacking = false;
             speed = 500f;
-            Health = MaxHealth;
+            Health = maxHealth;
             colorTimer = 2f;
 
         }
@@ -286,7 +285,7 @@ namespace Mortens_Komeback_3
                    (GameWorld.Instance.CurrentRoom.RightSideOfBigRoom //If room is rightside, player is stopped from leaving, unless it's through left side
                    && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right - 220)
                    && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top + 100)
-                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom-220))
+                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom - 220))
                    ||
                    (GameWorld.Instance.CurrentRoom.TopSideOfBigRoom //If room is topside, player is stopped from leaving, unless it's through buttom
                    && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right - 220)
@@ -427,7 +426,7 @@ namespace Mortens_Komeback_3
                         break;
                     case ItemType.GeesusBlood:
                         (other as Item).IsAlive = false;
-                        Health += portionHelath;
+                        Health += portionHealth;
                         break;
                     case ItemType.Grail:
                         GameWorld.Instance.WinGame = true;
@@ -548,7 +547,10 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Switch case for interacting between Player and a Puzzle or NPC
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void Interact(GameObject gameObject)
         {
             switch (gameObject.Type)
