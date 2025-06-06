@@ -1,8 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System;
+using System.Collections.Generic;
 
 namespace Mortens_Komeback_3.Collider
 {

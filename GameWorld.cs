@@ -1,22 +1,21 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System.Collections.Generic;
-using System.IO;
-using System;
-using System.Diagnostics;
-using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Collider;
-using Mortens_Komeback_3.Factory;
-using Mortens_Komeback_3.Puzzles;
+using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Environment;
+using Mortens_Komeback_3.Factory;
 using Mortens_Komeback_3.Menu;
-using Mortens_Komeback_3.State;
-using Microsoft.Data.Sqlite;
 using Mortens_Komeback_3.Observer;
-using System.Threading;
+using Mortens_Komeback_3.Puzzles;
+using Mortens_Komeback_3.State;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 
 namespace Mortens_Komeback_3
 {

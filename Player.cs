@@ -1,18 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Collider;
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Audio;
-using Mortens_Komeback_3.Puzzles;
+using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Factory;
-using Microsoft.Xna.Framework.Media;
+using Mortens_Komeback_3.Puzzles;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Mortens_Komeback_3
 {

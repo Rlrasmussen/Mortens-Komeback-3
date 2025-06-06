@@ -1,13 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
 using Mortens_Komeback_3.Factory;
 using Mortens_Komeback_3.State;
-using System.IO;
+using System.Collections.Generic;
 
 namespace Mortens_Komeback_3.Environment
 {

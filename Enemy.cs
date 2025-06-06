@@ -1,17 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Mortens_Komeback_3.Collider;
+using Mortens_Komeback_3.Environment;
+using Mortens_Komeback_3.Factory;
+using Mortens_Komeback_3.State;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mortens_Komeback_3.Collider;
-using Mortens_Komeback_3.Factory;
 using System.Threading;
-using Mortens_Komeback_3.Environment;
-using Mortens_Komeback_3.State;
-using SharpDX.Direct3D9;
 
 namespace Mortens_Komeback_3
 {

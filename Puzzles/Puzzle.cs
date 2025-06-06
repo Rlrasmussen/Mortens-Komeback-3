@@ -1,15 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Data.Sqlite;
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mortens_Komeback_3.Environment;
-using Mortens_Komeback_3.Collider;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Mortens_Komeback_3.Factory;
+using Mortens_Komeback_3.Collider;
+using Mortens_Komeback_3.Environment;
+using System;
+using System.Collections.Generic;
 
 namespace Mortens_Komeback_3.Puzzles
 {

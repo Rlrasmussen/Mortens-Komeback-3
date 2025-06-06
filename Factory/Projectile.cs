@@ -1,13 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Collider;
+using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Environment;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Mortens_Komeback_3.State;
+using System;
 
 namespace Mortens_Komeback_3.Factory
 {

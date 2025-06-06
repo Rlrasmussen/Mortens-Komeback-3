@@ -1,13 +1,7 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Mortens_Komeback_3.Command;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpDX.Direct3D9;
-using Microsoft.Xna.Framework.Media;
 
 namespace Mortens_Komeback_3.Menu
 {
