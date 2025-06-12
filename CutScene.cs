@@ -35,7 +35,8 @@ namespace Mortens_Komeback_3
 
             layer = 0.8f;
 
-            scale = (float)(GameWorld.Instance.ScreenSize.Y / 1080);
+            if (Sprite != null)
+                scale = (float)(GameWorld.Instance.ScreenSize.Y / Sprite.Height);
 
         }
 

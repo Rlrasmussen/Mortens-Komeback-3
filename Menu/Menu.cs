@@ -11,6 +11,8 @@ namespace Mortens_Komeback_3.Menu
         #region Fields
         //private bool menuActive = false;
         public List<Button> buttonList = new List<Button>();
+        private float scale = 1f;
+        private Texture2D sprite;
         //public MenuType background { get; set; }
         //public Vector2 Position { get; set; } = Player.Instance.Position; 
 
@@ -21,7 +23,15 @@ namespace Mortens_Komeback_3.Menu
         #region Properties
         public Vector2 Position { get; set; }
         public Enum Type { get; set; }
-        public Texture2D Sprite { get; set; }
+        public Texture2D Sprite
+        {
+            get => sprite;
+            set
+            {
+                sprite = value;
+                scale = (float)(GameWorld.Instance.ScreenSize.Y / sprite.Height);
+            }
+        }
         #endregion
 
         #region Constructor
@@ -63,7 +73,7 @@ namespace Mortens_Komeback_3.Menu
                 Vector2 Position = Camera.Instance.Position;
                 Vector2 origin = new Vector2(Sprite.Width / 2f, Sprite.Height / 2f);
 
-                spriteBatch.Draw(Sprite, Position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0.8f);
+                spriteBatch.Draw(Sprite, Position, null, Color.White, 0f, origin, scale, SpriteEffects.None, 0.8f);
             }
 
             //spriteBatch.Draw(Sprite, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.8f);
