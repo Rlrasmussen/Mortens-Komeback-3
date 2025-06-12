@@ -76,6 +76,7 @@ namespace Mortens_Komeback_3
                         EnemyPool.Instance.PlayerDead();
                         ProjectilePool.Instance.PlayerDead();
                         GameWorld.Instance.Notify(StatusType.PlayerDead);
+                        GameWorld.Instance.DeathMusic = true;
                     }
                     health = value;
                     colorTimer = 0f;
@@ -213,7 +214,7 @@ namespace Mortens_Komeback_3
             speed = 500f;
             health = maxHealth;
             colorTimer = 2f;
-
+            //GameWorld.Instance.DeathMusic = false;
         }
 
         /// <summary>

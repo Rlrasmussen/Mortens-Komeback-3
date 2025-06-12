@@ -61,6 +61,7 @@ namespace Mortens_Komeback_3
 
         private Song backgroundMusic;
         private bool trap = false;
+        private bool deathMusic = false;
 
         private bool win = false;
         private float regularChecks = 0f;
@@ -159,6 +160,7 @@ namespace Mortens_Komeback_3
             }
         }
         public bool Reload { get; set; }
+        public bool DeathMusic { get => deathMusic; set => deathMusic = value; }
 
         #endregion
 
@@ -391,19 +393,19 @@ namespace Mortens_Komeback_3
                 backgroundMusic = Music[MusicTrack.Win];
                 MediaPlayer.Play(backgroundMusic);
             }
+            else if (DeathMusic == true && backgroundMusic != Music[MusicTrack.Death] )
+            {
+                backgroundMusic = Music[MusicTrack.Death];
+                MediaPlayer.Play(backgroundMusic);
+            }
             else if (backgroundMusic != Music[MusicTrack.GoosiferFigth] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) && WinGame == false)
             {
                 backgroundMusic = Music[MusicTrack.GoosiferFigth];
                 MediaPlayer.Play(backgroundMusic);
             }
-            else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
+            else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) && DeathMusic == false)
             {
                 backgroundMusic = Music[MusicTrack.Background];
-                MediaPlayer.Play(backgroundMusic);
-            }
-            else if (Player.Instance.IsAlive == false && backgroundMusic != Music[MusicTrack.Death] && CurrentMenu == MenuType.GameOver)
-            {
-                backgroundMusic = Music[MusicTrack.Death];
                 MediaPlayer.Play(backgroundMusic);
             }
 
