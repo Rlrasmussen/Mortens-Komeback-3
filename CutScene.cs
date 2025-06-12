@@ -34,6 +34,9 @@ namespace Mortens_Komeback_3
 #endif
 
             layer = 0.8f;
+
+            scale = (float)(GameWorld.Instance.ScreenSize.X / 1920);
+
         }
 
         #endregion
