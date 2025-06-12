@@ -104,7 +104,8 @@ namespace Mortens_Komeback_3.Menu
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
-            Color color = Hovering ? Color.HotPink : Color.White;
+            Color color = Hovering ? Color.DarkSlateGray : Color.White;
+            Color fontColor = Hovering ? Color.White : Color.Black;
 
             spriteBatch.Draw(Sprite, Position, null, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
 
@@ -113,7 +114,7 @@ namespace Mortens_Komeback_3.Menu
             Vector2 textPos = Position + new Vector2((Sprite.Width - textSize.X) / 2f, (Sprite.Height - textSize.Y) / 2f);
 
             // Tegn teksten centreret over knappen
-            spriteBatch.DrawString(font, ButtonText, textPos, Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.92f);
+            spriteBatch.DrawString(font, ButtonText, textPos, fontColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.92f);
         }
             
 

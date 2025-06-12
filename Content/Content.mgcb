@@ -1856,6 +1856,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Menu/button.png
 
+#begin Sprites/Menu/button1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Menu/button1.png
+
 #begin Sprites/Menu/buttonPressed.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -48,6 +48,7 @@ namespace Mortens_Komeback_3.Menu
 
             pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X - 500, Camera.Instance.Position.Y + 100f), "Resume", ButtonAction.ResumeGame));
             pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(500, 200), "Reload", ButtonAction.Reload));
+            pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X - 500, Camera.Instance.Position.Y + 100f), "Toggle Music", ButtonAction.ToggleMusic));
             pauseMenu.AddButtons(new Button(ButtonSpriteType.Button, new Vector2(Camera.Instance.Position.X - 500, Camera.Instance.Position.Y + 200f), "Quit", ButtonAction.QuitGame));
             //pauseMenu.AddButtons(new Button(ButtonSpriteType.ButtonSquare, new Vector2(Camera.Instance.Position.X - 500, Camera.Instance.Position.Y + 300f), "Music", ButtonAction.ToggleMusic));
             //pauseMenu.AddButtons(new Button(ButtonSpriteType.ButtonSquare, new Vector2(Camera.Instance.Position.X - 500, Camera.Instance.Position.Y + 400f), "Sound", ButtonAction.ToggleSound));

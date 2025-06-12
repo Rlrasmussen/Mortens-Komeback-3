@@ -695,7 +695,7 @@ namespace Mortens_Komeback_3
             Sprites.Add(MenuType.MainMenu, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\start") });
             Sprites.Add(MenuType.Pause, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\pause") });
 
-            Sprites.Add(ButtonSpriteType.Button, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\button") });
+            Sprites.Add(ButtonSpriteType.Button, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\button1") });
             Sprites.Add(ButtonSpriteType.ButtonPressed, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\buttonPressed") });
             Sprites.Add(ButtonSpriteType.ButtonSquare, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Rooms\\Square") });
             Sprites.Add(ButtonSpriteType.ButtonSquareChecked, new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\buttonPressed") });
