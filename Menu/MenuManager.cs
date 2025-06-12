@@ -83,6 +83,7 @@ namespace Mortens_Komeback_3.Menu
         public void CloseMenu()
         {
             currentMenu = null;
+            GameWorld.Instance.GamePaused = false;
         }
 
   

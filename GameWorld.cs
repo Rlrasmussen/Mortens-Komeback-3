@@ -62,8 +62,8 @@ namespace Mortens_Komeback_3
         private Button myButton;
         public List<Button> buttonList = new List<Button>();
         public MenuType CurrentMenu { get; set; }
-        private bool musicOn = true;
-        private bool soundOn = true;
+
+        public bool clicked;
 
         private Song backgroundMusic;
         private bool trap = false;
@@ -76,6 +76,11 @@ namespace Mortens_Komeback_3
         #region Properties
         public MenuManager MenuManager { get; set; }
         public Vector2 ScreenSize { get; private set; }
+
+        /// <summary>
+        /// Handles mouse left-click event and external detection thereof
+        /// </summary>
+
 
         /// <summary>
         /// Singleton for GameWorld
@@ -277,7 +282,7 @@ namespace Mortens_Komeback_3
                 DoorManager.Rooms.Find(x => x.RoomType == RoomType.CatacombesF)); //Room
             gameObjects.Add(pathfindingPuzzle);
             gamePuzzles.Add(pathfindingPuzzle);
-            gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(DoorManager.Rooms.Find(x => (RoomType)x.RoomType == RoomType.Stairs).Position.X, DoorManager.Rooms.Find(x => (RoomType)x.RoomType == RoomType.Stairs).CollisionBox.Top +100),0));
+            gameObjects.Add(new Decoration(DecorationType.Painting, new Vector2(DoorManager.Rooms.Find(x => (RoomType)x.RoomType == RoomType.Stairs).Position.X, DoorManager.Rooms.Find(x => (RoomType)x.RoomType == RoomType.Stairs).CollisionBox.Top + 100), 0));
 
 
             #endregion
@@ -336,7 +341,7 @@ namespace Mortens_Komeback_3
             }
             gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(2800, 4000), rotationTop));
             gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(0, 4000), rotationTop));
-            
+
             #endregion
             #region CatacombC
             gameObjects.Add(new AvSurface(SurfaceType.BigSpikes, new Vector2(0, 8000), 0));
@@ -395,22 +400,34 @@ namespace Mortens_Komeback_3
                 //WinGame = false;
                 status.OnNotify(StatusType.Win);
                 backgroundMusic = Music[MusicTrack.Win];
-                MediaPlayer.Play(backgroundMusic);
+                if (MediaPlayer.IsMuted == false)
+                {
+                    MediaPlayer.Play(backgroundMusic);
+                }
             }
             else if (backgroundMusic != Music[MusicTrack.GoosiferFigth] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) && WinGame == false)
             {
                 backgroundMusic = Music[MusicTrack.GoosiferFigth];
-                MediaPlayer.Play(backgroundMusic);
+                if (MediaPlayer.IsMuted == false)
+                {
+                    MediaPlayer.Play(backgroundMusic);
+                }
             }
             else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
             {
                 backgroundMusic = Music[MusicTrack.Background];
-                MediaPlayer.Play(backgroundMusic);
+                if (MediaPlayer.IsMuted == false)
+                {
+                    MediaPlayer.Play(backgroundMusic);
+                }
             }
             else if (Player.Instance.IsAlive == false && backgroundMusic != Music[MusicTrack.Death] && CurrentMenu == MenuType.GameOver)
             {
                 backgroundMusic = Music[MusicTrack.Death];
-                MediaPlayer.Play(backgroundMusic);
+                if (MediaPlayer.IsMuted == false)
+                {
+                    MediaPlayer.Play(backgroundMusic);
+                }
             }
 
             //Starting Traproom when the player is picking up the Rosary
@@ -466,7 +483,7 @@ namespace Mortens_Komeback_3
 
             base.Update(gameTime);
 
-
+            clicked = InputHandler.Instance.LeftClick;
 
         }
 
@@ -1132,10 +1149,25 @@ namespace Mortens_Komeback_3
                     RestartGame = true;
                     Reload = true;
                     GameWorld.Instance.ResumeGame();
+                    break;
+
+                case ButtonAction.ToggleMusic:
+                    if (gamePaused)
+                        if (MediaPlayer.IsMuted == false /*&& !clicked*/)
+                        {
+                            MediaPlayer.IsMuted = true;
+                        }
+                        else //if (MediaPlayer.IsMuted && !clicked)
+                        {
+                            MediaPlayer.IsMuted = false;
+                        }
+                    GameWorld.Instance.MenuManager.CloseMenu();
+
+
 
                     break;
 
-                   
+
             }
         }
 
@@ -1162,7 +1194,11 @@ namespace Mortens_Komeback_3
         {
             CurrentMenu = MenuType.Playing;
             //MediaPlayer.Resume(); // Fortsætter musikken, hvis den blev pauset
-            MediaPlayer.Play(Music[MusicTrack.Background]);
+            //if (MediaPlayer.IsMuted == false)
+            //{
+            //    MediaPlayer.Play(Music[MusicTrack.Background]);
+            //}
+
             GameWorld.Instance.MenuManager.CloseMenu();
             gamePaused = false;
         }
