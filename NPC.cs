@@ -145,7 +145,7 @@ namespace Mortens_Komeback_3
         public void Speak()
         {
             Player.Instance.Speed = 0f;
-            Player.Instance.Position = Position - new Vector2(Sprite.Width/2 + Player.Instance.Sprite.Width, 0);
+            //Player.Instance.Position = Position - new Vector2(Sprite.Width/2 + Player.Instance.Sprite.Width, 0);
              
             switch (type)
             {
@@ -153,7 +153,7 @@ namespace Mortens_Komeback_3
                     CanadaGooseDialogue();
                     break;
                 case NPCType.Pope:
-                    Player.Instance.Position = Position + new Vector2(Sprite.Width / 2 + Player.Instance.Sprite.Width, 0);//new Vector2(75, 0);
+                    //Player.Instance.Position = Position + new Vector2(Sprite.Width / 2 + Player.Instance.Sprite.Width, 0);//new Vector2(75, 0);
                     PopeDialogue();
                     break;
                 case NPCType.Monk:
@@ -166,7 +166,7 @@ namespace Mortens_Komeback_3
                     CoffinDialogue();
                     break;
                 case NPCType.Hole0:
-                    Player.Instance.Position += new Vector2(0, 30);
+                    //Player.Instance.Position += new Vector2(0, 30);
                     Holo0Dialogue();
                     break;
                 case NPCType.Empty:
