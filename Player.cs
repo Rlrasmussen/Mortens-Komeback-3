@@ -76,7 +76,11 @@ namespace Mortens_Komeback_3
                         EnemyPool.Instance.PlayerDead();
                         ProjectilePool.Instance.PlayerDead();
                         GameWorld.Instance.Notify(StatusType.PlayerDead);
-                        GameWorld.Instance.DeathMusic = true;
+
+                        if (Inventory.Find(x => x.Type is ItemType.Grail) == null)
+                        {
+                            GameWorld.Instance.DeathMusic = true;
+                        }
                     }
                     health = value;
                     colorTimer = 0f;
