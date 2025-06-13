@@ -215,6 +215,8 @@ namespace Mortens_Komeback_3
             health = maxHealth;
             colorTimer = 2f;
             //GameWorld.Instance.DeathMusic = false;
+
+            GameWorld.Instance.Notify(StatusType.Health);
         }
 
         /// <summary>
