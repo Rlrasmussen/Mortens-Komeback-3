@@ -1193,7 +1193,7 @@ namespace Mortens_Komeback_3
                 Player.Instance.Position = Locations[Location.Spawn];
                 SavePoint.ClearSave();
             }
-
+            trap = false;
             LoadContent();
             RestartGame = false;
             Reload = false;
