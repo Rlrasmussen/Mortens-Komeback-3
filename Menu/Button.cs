@@ -105,7 +105,7 @@ namespace Mortens_Komeback_3.Menu
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             Color color = Hovering ? Color.DarkSlateGray : Color.White;
-            Color fontColor = Hovering ? Color.White : Color.Black;
+            Color fontColor = Hovering ? Color.AntiqueWhite : Color.Black;
 
             spriteBatch.Draw(Sprite, Position, null, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
 
