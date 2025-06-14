@@ -249,8 +249,8 @@ namespace Mortens_Komeback_3
             #region Decorations
             gameObjects.Add(new Decoration(DecorationType.Hole1, new Vector2(600, 9750), rotationTop));
             gameObjects.Add(new Decoration(DecorationType.Cobweb, new Vector2(-1160, 16500), rotationTop));
-            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-447, -430), rotationTop)); //Under the painting in PopeRoom
-            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-132, -430), rotationTop)); //Under the painting in PopeRoom
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(-211, 1460), rotationTop)); //Under the painting 
+            gameObjects.Add(new Decoration(DecorationType.Candle, new Vector2(211, 1460), rotationTop)); //Under the painting 
             gameObjects.Add(new Decoration(DecorationType.Tomb, new Vector2(-823 + 84, 21648 + 100), rotationTop)); //Traproom
             gameObjects.Add(new Decoration(DecorationType.Pentagram, new Vector2(0, 20000), rotationTop));
             #endregion
