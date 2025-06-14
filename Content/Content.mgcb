@@ -1508,6 +1508,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/pentagram.png
 
+#begin Sprites/Environment/pentagram1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Environment/pentagram1.png
+
 #begin Sprites/Environment/plaqueAnchor.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2587,6 +2599,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Rooms/baggrundDobbelt_right.png
+
+#begin Sprites/Rooms/poperoom_nopainting.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Rooms/poperoom_nopainting.png
 
 #begin Sprites/Rooms/poperoom1.png
 /importer:TextureImporter
