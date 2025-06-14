@@ -66,6 +66,8 @@ namespace Mortens_Komeback_3
         public bool clicked;
 
         private Song backgroundMusic;
+        private Song songPlaying;
+
         private bool trap = false;
 
         private bool win = false;
@@ -1155,11 +1157,14 @@ namespace Mortens_Komeback_3
                     if (gamePaused)
                         if (MediaPlayer.IsMuted == false /*&& !clicked*/)
                         {
+                            songPlaying = backgroundMusic;
                             MediaPlayer.IsMuted = true;
                         }
                         else //if (MediaPlayer.IsMuted && !clicked)
                         {
                             MediaPlayer.IsMuted = false;
+                            if (songPlaying != backgroundMusic)
+                                MediaPlayer.Play(backgroundMusic);
                         }
                     GameWorld.Instance.MenuManager.CloseMenu();
 
