@@ -90,28 +90,28 @@ namespace Mortens_Komeback_3.Environment
                     float distanceThrown = 150f; //"Throws" Player away from the fire
                     if (player.Position.X > CollisionBox.Right - 5)
                     {
-                        if (!(player.Position.X + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Right))
+                        if (!(player.Position.X + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Right - 220))
                         {
                             player.Position = new Vector2(player.Position.X + distanceThrown, player.Position.Y);
                         }
                     }
                     else if (player.Position.X < CollisionBox.Left - 5)
                     {
-                        if (!(player.Position.X + distanceThrown < GameWorld.Instance.CurrentRoom.CollisionBox.Left))
+                        if (!(player.Position.X - distanceThrown < GameWorld.Instance.CurrentRoom.CollisionBox.Left + 220))
                         {
                             player.Position = new Vector2(player.Position.X - distanceThrown, player.Position.Y);
                         }
                     }
                     if (player.Position.Y > CollisionBox.Bottom+5)
                     {
-                        if (!(player.Position.Y + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom))
+                        if (!(player.Position.Y + distanceThrown > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom - 220))
                         {
                             player.Position = new Vector2(player.Position.X, player.Position.Y + distanceThrown);
                         }
                     }
                     else if (player.Position.Y < CollisionBox.Top-5)
                     {
-                        if (!(player.Position.Y - distanceThrown < GameWorld.Instance.CurrentRoom.CollisionBox.Top))
+                        if (!(player.Position.Y - distanceThrown < GameWorld.Instance.CurrentRoom.CollisionBox.Top + 100))
                         {
                             player.Position = new Vector2(player.Position.X, player.Position.Y - distanceThrown);
                         }
