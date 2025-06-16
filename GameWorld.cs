@@ -55,7 +55,7 @@ namespace Mortens_Komeback_3
         private float rotationLeft = (float)(-Math.PI / 2);
         private Button myButton;
         public List<Button> buttonList = new List<Button>();
-        public MenuType CurrentMenu { get; set; }
+        //public MenuType CurrentMenu { get; set; }
 
         public bool clicked;
 
@@ -403,8 +403,6 @@ namespace Mortens_Komeback_3
                     MediaPlayer.Play(backgroundMusic);
                 }
             }
-                MediaPlayer.Play(backgroundMusic);
-            }
             else if (DeathMusic == true && backgroundMusic != Music[MusicTrack.Death] )
             {
                 backgroundMusic = Music[MusicTrack.Death];
@@ -417,9 +415,6 @@ namespace Mortens_Komeback_3
                 {
                     MediaPlayer.Play(backgroundMusic);
                 }
-            }
-            else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
-                MediaPlayer.Play(backgroundMusic);
             }
             else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) && DeathMusic == false)
             {
