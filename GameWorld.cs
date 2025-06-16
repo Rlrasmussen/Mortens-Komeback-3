@@ -363,6 +363,8 @@ namespace Mortens_Komeback_3
             if (!Reload)
                 gameObjects.Add(new CutScene(CutSceneRoom.CutsceneMovie, new Vector2(0, -2000)));
 
+            Player.Instance.Health = Player.Instance.MaxHealth;
+
             bool result = SavePoint.LoadSave();
 
             foreach (GameObject gameObject in gameObjects)

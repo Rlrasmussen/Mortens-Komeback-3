@@ -151,6 +151,8 @@ namespace Mortens_Komeback_3
         public int CurrentIndex { get; set; }
         public float Speed { get => speed; set => speed = value; }
 
+        public int MaxHealth { get => maxHealth; }
+
         #endregion
 
         #region Constructor
@@ -216,7 +218,7 @@ namespace Mortens_Komeback_3
 
             swordAttacking = false;
             speed = 500f;
-            health = maxHealth;
+            //health = maxHealth;
             colorTimer = 2f;
             //GameWorld.Instance.DeathMusic = false;
 
