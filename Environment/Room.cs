@@ -343,7 +343,7 @@ namespace Mortens_Komeback_3.Environment
 
             foreach (Door doors in Doors)
             {
-                if (doors.DoorStatus == DoorType.Locked && !(doors == DoorManager.doorList["doorI1"]))
+                if (doors.DoorStatus == DoorType.Locked && !(doors == DoorManager.doorList["doorI1"]) && !(doors == DoorManager.doorList["doorJ2"]))
                 {
                    doors.UnlockDoor();
                 }

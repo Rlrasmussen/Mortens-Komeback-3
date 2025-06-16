@@ -31,6 +31,7 @@ namespace Mortens_Komeback_3.Puzzles
 
         private bool startAStar = false;
         private bool keepAlive = true;
+        private readonly object raceLock = new object();
 
         #endregion
 
@@ -86,7 +87,7 @@ namespace Mortens_Komeback_3.Puzzles
             if (GameWorld.Instance.CurrentRoom == puzzleRoom && !startAStar)
             {
                 startAStar = true;
-                Thread aStarThread = new Thread(() => AStarPath(pathStart, pathEnd, puzzleRoom.Tiles)); 
+                Thread aStarThread = new Thread(() => AStarPath(pathStart, pathEnd, puzzleRoom.Tiles));
                 aStarThread.IsBackground = true;
                 aStarThread.Start();
             }
@@ -149,13 +150,20 @@ namespace Mortens_Komeback_3.Puzzles
                     {
                         tile.Value.SetWalkable();
                     }
-                    List<Tile> path = puzzleAStar.AStarFindPath(startObject, endObject, tiles); //Finds the shortes path between start and end object
+                    List<Tile> path;
+                    lock (raceLock)
+                    {
+                        path = puzzleAStar.AStarFindPath(startObject, endObject, tiles); //Finds the shortes path between start and end object
+                    }
                     if (path != null)
                     {
-                        puzzlePath.Clear(); 
-                        foreach (Tile step in path) //The new path is adde to puzzlePath
+                        lock (raceLock)
                         {
-                            puzzlePath.Add(step);
+                            puzzlePath.Clear();
+                            foreach (Tile step in path) //The new path is adde to puzzlePath
+                            {
+                                puzzlePath.Add(step);
+                            }
                         }
                     }
                     aStarPaused = true;
@@ -168,10 +176,11 @@ namespace Mortens_Komeback_3.Puzzles
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-            foreach (Tile tile in puzzlePath) //Draws the sprite of each tile in the puzzlePath. 
-            {
-                tile.Draw(spriteBatch);
-            }
+            lock (raceLock)
+                foreach (Tile tile in puzzlePath) //Draws the sprite of each tile in the puzzlePath. 
+                {
+                    tile.Draw(spriteBatch);
+                }
         }
         #endregion
     }

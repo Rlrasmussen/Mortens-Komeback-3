@@ -17,6 +17,7 @@ namespace Mortens_Komeback_3.Environment
         public Decoration(Enum type, Vector2 spawnPos, float rotation) : base(type, spawnPos)
         {
             Rotation = rotation;
+            layer = 0.2f;
         }
 
         #endregion

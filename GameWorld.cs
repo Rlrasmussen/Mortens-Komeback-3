@@ -359,6 +359,7 @@ namespace Mortens_Komeback_3
             //backgroundMusic = Music[MusicTrack.Background];
             MediaPlayer.Play(Music[MusicTrack.Background]);
             MediaPlayer.IsRepeating = true;
+            DeathMusic = false;
 
             if (!Reload)
                 gameObjects.Add(new CutScene(CutSceneRoom.CutsceneMovie, new Vector2(0, -2000)));
@@ -426,14 +427,14 @@ namespace Mortens_Komeback_3
                     MediaPlayer.Play(backgroundMusic);
                 }
             }
-            else if (Player.Instance.IsAlive == false && backgroundMusic != Music[MusicTrack.Death] && CurrentMenu == MenuType.GameOver)
-            {
-                backgroundMusic = Music[MusicTrack.Death];
-                if (MediaPlayer.IsMuted == false)
-                {
-                    MediaPlayer.Play(backgroundMusic);
-                }
-            }
+            //else if (Player.Instance.IsAlive == false && backgroundMusic != Music[MusicTrack.Death] && CurrentMenu == MenuType.GameOver)
+            //{
+            //    backgroundMusic = Music[MusicTrack.Death];
+            //    if (MediaPlayer.IsMuted == false)
+            //    {
+            //        MediaPlayer.Play(backgroundMusic);
+            //    }
+            //}
 
             //Starting Traproom when the player is picking up the Rosary
             if (Player.Instance.Inventory.Find(x => x.Type is ItemType.Rosary) != null && trap == false && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.TrapRoom))
