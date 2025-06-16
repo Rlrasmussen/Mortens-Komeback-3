@@ -283,7 +283,7 @@ namespace Mortens_Komeback_3
                 if (reply == 0)
                 {
                     StartConversation();
-                    npcText = "No stop I'm not with the other geese \nI'm the Canada goose friend";
+                    npcText = "No stop! I'm not with the other geese \nI'm Canada goose, friend";
                     GameWorld.Instance.Sounds[Sound.CanadaGoose].Play();
                     reply++;
                 }
@@ -294,7 +294,7 @@ namespace Mortens_Komeback_3
                 }
                 else if (reply == 2)
                 {
-                    npcText = "The goose ran through the door to the rigth";
+                    npcText = "The goose ran through the door to the right";
                     reply++;
                 }
                 else
@@ -313,7 +313,7 @@ namespace Mortens_Komeback_3
                 }
                 else if (reply == 1)
                 {
-                    npcText = "It just went through here! No need to be afraid ...";
+                    npcText = "It just went through here! No need to be afraid ... Pal";
                     reply++;
                 }
                 else
