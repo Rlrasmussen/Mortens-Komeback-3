@@ -1,17 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Mortens_Komeback_3.Collider;
+using Mortens_Komeback_3.Environment;
+using Mortens_Komeback_3.Factory;
+using Mortens_Komeback_3.State;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mortens_Komeback_3.Collider;
-using Mortens_Komeback_3.Factory;
 using System.Threading;
-using Mortens_Komeback_3.Environment;
-using Mortens_Komeback_3.State;
-using SharpDX.Direct3D9;
 
 namespace Mortens_Komeback_3
 {
@@ -87,6 +83,12 @@ namespace Mortens_Komeback_3
         #endregion
 
         #region Method
+
+        /// <summary>
+        /// Update logic
+        /// Simon
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
 
@@ -96,7 +98,7 @@ namespace Mortens_Komeback_3
                 drawColor = Color.White;
 
             float maxDistance = 1600f;
-            foreach (Room room in DoorManager.Rooms) //Simon - checks for closest room
+            foreach (Room room in DoorManager.Rooms) //Checks for closest room
             {
                 float distance = Vector2.Distance(Position, room.Position);
                 if (distance < maxDistance)
@@ -115,10 +117,10 @@ namespace Mortens_Komeback_3
                     (this as IPPCollidable).UpdateRectangles(spriteEffect != SpriteEffects.None);
             }
 
-            if (state != null) //Simon - movement logic
+            if (state != null) //Movement logic
                 state.Execute();
 
-            switch (Direction.X) //Simon - flips sprite according to movement
+            switch (Direction.X) //Flips sprite according to movement
             {
                 case > 0:
                     spriteEffect = SpriteEffects.FlipHorizontally;
@@ -131,8 +133,13 @@ namespace Mortens_Komeback_3
             }
 
             base.Update(gameTime);
+
         }
 
+        /// <summary>
+        /// Draw logic
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (Sprites != null)
@@ -150,7 +157,7 @@ namespace Mortens_Komeback_3
 
             spriteEffect = SpriteEffects.None;
 
-            if (Sprites == null || Sprites != GameWorld.Instance.Sprites[type])
+            if (Sprites == null || Sprites != GameWorld.Instance.Sprites[type]) //Simon - Changes Sprites and Sprite if they're not what they're supposed to be (after being retrieved from objectpool)
             {
                 if (GameWorld.Instance.Sprites.TryGetValue(type, out var sprites))
                     Sprites = sprites;
@@ -175,7 +182,7 @@ namespace Mortens_Komeback_3
 
             damageTaken = 0.5f;
 
-            if (!IgnoreState) //Simon - for setting a default State
+            if (!IgnoreState) //For setting a default State
             {
                 PatrolState patrol = new PatrolState();
                 patrol.Enter(this);

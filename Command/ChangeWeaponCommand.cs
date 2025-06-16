@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mortens_Komeback_3.Command
+﻿namespace Mortens_Komeback_3.Command
 {
     public class ChangeWeaponCommand : ICommand
     {
@@ -21,7 +15,10 @@ namespace Mortens_Komeback_3.Command
 
         }
 
-
+        /// <summary>
+        /// Changes players weapon
+        /// Simon
+        /// </summary>
         public void Execute()
         {
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace Mortens_Komeback_3.Command
 {
@@ -34,7 +29,10 @@ namespace Mortens_Komeback_3.Command
 
         #region Method
 
-
+        /// <summary>
+        /// Sets Players Velocity on a specific axis according to input (for later normalization)
+        /// Simon
+        /// </summary>
         public void Execute()
         {
 

@@ -1,12 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using System.Collections.Generic;
 using System;
-using System.Diagnostics;
-using Mortens_Komeback_3.Command;
 
 namespace Mortens_Komeback_3.Factory
 {

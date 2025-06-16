@@ -1,32 +1,25 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Mortens_Komeback_3.Factory;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpDX.Direct3D9;
 
 namespace Mortens_Komeback_3
 {
     public abstract class GameObject
     {
         #region Fields
-
-        protected SpriteEffects spriteEffect = SpriteEffects.None;
-        protected Color drawColor = Color.White;
-        protected Vector2 origin = Vector2.Zero;
         protected Enum type;
-        protected float scale = 1f;
-        protected float layer = 0.5f;
-        private float rotation = 0f;
+        private Vector2 position;
+        protected Vector2 origin = Vector2.Zero;
         private bool isAlive = true;
         private Texture2D sprite;
-        private Vector2 position;
-
+        protected float layer = 0.5f;
+        private float rotation = 0f;
+        protected float scale = 1f;
+        protected SpriteEffects spriteEffect = SpriteEffects.None;
+        protected Color drawColor = Color.White;
         protected int damage; //The damage the object 
+        
 
         #endregion
         #region Propertitties

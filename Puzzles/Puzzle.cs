@@ -1,18 +1,17 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Data.Sqlite;
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mortens_Komeback_3.Environment;
-using Mortens_Komeback_3.Collider;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Mortens_Komeback_3.Factory;
+using Mortens_Komeback_3.Collider;
+using Mortens_Komeback_3.Environment;
+using System;
+using System.Collections.Generic;
 
 namespace Mortens_Komeback_3.Puzzles
 {
+    /// <summary>
+    /// Superclass for the games Puzzles
+    /// Philip
+    /// </summary>
     public abstract class Puzzle : GameObject, ICollidable
     {
         #region Fields
@@ -59,7 +58,7 @@ namespace Mortens_Komeback_3.Puzzles
         /// <param name="id">Puzzles ID (for database) - Simon</param>
         public Puzzle(PuzzleType type, Vector2 spawnPos, Door puzzleDoor, int id) : base(type, spawnPos)
         {
-            this.puzzleDoor = puzzleDoor; 
+            this.puzzleDoor = puzzleDoor;
             this.id = id;
             GetStatusFromDB(); //Simon
 
@@ -95,7 +94,7 @@ namespace Mortens_Komeback_3.Puzzles
         /// </summary>
         public override void Load()
         {
-            LockDoor();
+            LockDoor(); //Locks the doors of the puzzle. Philip
             if (solved)
                 SolvePuzzle();
 
@@ -140,6 +139,7 @@ namespace Mortens_Komeback_3.Puzzles
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+            //Draws textbubble when player collides with puzzle - Philip
             if ((this as ICollidable).CheckCollision(Player.Instance) && (Player.Instance as IPPCollidable).DoHybridCheck(CollisionBox))
             {
                 spriteBatch.Draw(textBubble, new Vector2(Position.X, Position.Y - Sprite.Height / 2), null, drawColor, Rotation, origin, scale, spriteEffect, layer);
@@ -150,70 +150,33 @@ namespace Mortens_Komeback_3.Puzzles
         /// Method for updating database when a puzzle has been solved
         /// Simon
         /// </summary>
-        /// <exception cref="Exception">Exception to be thrown upon database error</exception>
         public virtual void DatabaseUpdate()
         {
 
-            //try
-            //{
-
-            //    using (GameWorld.Instance.Connection)
-            //    {
-
-            //        GameWorld.Instance.Connection.Open();
-
-                    string commandText = "INSERT INTO Puzzles (ID, Solved) VALUES (@ID, @SOLVED) ON CONFLICT(ID) DO UPDATE SET Solved = excluded.Solved";
-                    SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
-                    command.Parameters.AddWithValue("@ID", id);
-                    command.Parameters.AddWithValue("@SOLVED", solved);
-                    command.ExecuteScalar();
-
-            //    }
-
-            //}
-            //catch
-            //{
-
-            //    throw new Exception("Couldn't execute Puzzle.DatabaseUpdate correctly");
-
-            //}
+            string commandText = "INSERT INTO Puzzles (ID, Solved) VALUES (@ID, @SOLVED) ON CONFLICT(ID) DO UPDATE SET Solved = excluded.Solved";
+            SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
+            command.Parameters.AddWithValue("@ID", id);
+            command.Parameters.AddWithValue("@SOLVED", solved);
+            command.ExecuteScalar();
 
         }
 
         /// <summary>
         /// Method to retrieve data from database upon construction to see if the puzzle has already been solved (if loading a savepoint)
+        /// Simon
         /// </summary>
-        /// <exception cref="Exception">Exception to be thrown upon database error</exception>
         public virtual void GetStatusFromDB()
         {
 
-            //try
-            //{
+            string commandText = "SELECT * FROM Puzzles WHERE ID = @ID"; //Retrieves all data from the row where ID matches the puzzles id, could also just have been "SELECT Solved"
+            SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
+            command.Parameters.AddWithValue("@ID", id);
+            SqliteDataReader reader = command.ExecuteReader();
 
-            //    using (GameWorld.Instance.Connection)
-            //    {
-
-            //        GameWorld.Instance.Connection.Open();
-
-                    string commandText = "SELECT * FROM Puzzles WHERE ID = @ID"; //Retrieves all data from the row where ID matches the puzzles id, could also just have been "SELECT Solved"
-                    SqliteCommand command = new SqliteCommand(commandText, GameWorld.Instance.Connection);
-                    command.Parameters.AddWithValue("@ID", id);
-                    SqliteDataReader reader = command.ExecuteReader();
-
-                    if (reader.Read()) //If any data retrieved, does following
-                    {
-                        solved = reader.GetBoolean(reader.GetOrdinal("Solved")); //Sets "solved" to what data from database is
-                    }
-
-            //    }
-
-            //}
-            //catch
-            //{
-
-            //    throw new Exception("Couldn't execute Puzzle.GetStatusFromDB correctly");
-
-            //}
+            if (reader.Read()) //If any data retrieved, does following
+            {
+                solved = reader.GetBoolean(reader.GetOrdinal("Solved")); //Sets "solved" to what data from database is
+            }
 
         }
 

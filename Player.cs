@@ -1,25 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Collider;
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Audio;
-using Mortens_Komeback_3.Puzzles;
+using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Factory;
-using Microsoft.Xna.Framework.Media;
+using Mortens_Komeback_3.Puzzles;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Mortens_Komeback_3
 {
     public class Player : GameObject, ICollidable, IPPCollidable, IAnimate
     {
         #region Fields
-
         private static Player instance;
         private SoundEffect currentWalkSound;
         private Weapon equippedWeapon;
@@ -33,10 +28,10 @@ namespace Mortens_Komeback_3
         private bool swordAttacking = false;
         private bool slingAttacking = false;
         private float colorTimer = 2f;
-
         private float damageTimer = 2f;
         private float damageGracePeriode = 2f;
-        private int portionHelath = 2;
+        private int portionHealth = 2;
+
         #endregion
 
         #region Properties
@@ -81,6 +76,11 @@ namespace Mortens_Komeback_3
                         EnemyPool.Instance.PlayerDead();
                         ProjectilePool.Instance.PlayerDead();
                         GameWorld.Instance.Notify(StatusType.PlayerDead);
+
+                        if (Inventory.Find(x => x.Type is ItemType.Grail) == null)
+                        {
+                            GameWorld.Instance.DeathMusic = true;
+                        }
                     }
                     health = value;
                     colorTimer = 0f;
@@ -150,7 +150,6 @@ namespace Mortens_Komeback_3
         /// </summary>
         public int CurrentIndex { get; set; }
         public float Speed { get => speed; set => speed = value; }
-        public int MaxHealth { get => maxHealth; set => maxHealth = value; }
 
         #endregion
 
@@ -182,10 +181,12 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// (Re)sets health and alive-status
+        /// Simon
         /// </summary>
         public override void Load()
         {
-
+            CurrentIndex = 0;
+            FPS = 8;
             base.Load();
 
             switch (equippedWeapon)
@@ -215,9 +216,11 @@ namespace Mortens_Komeback_3
 
             swordAttacking = false;
             speed = 500f;
-            Health = MaxHealth;
+            health = maxHealth;
             colorTimer = 2f;
+            //GameWorld.Instance.DeathMusic = false;
 
+            GameWorld.Instance.Notify(StatusType.Health);
         }
 
         /// <summary>
@@ -286,7 +289,7 @@ namespace Mortens_Komeback_3
                    (GameWorld.Instance.CurrentRoom.RightSideOfBigRoom //If room is rightside, player is stopped from leaving, unless it's through left side
                    && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right - 220)
                    && !((Position.Y - Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) < GameWorld.Instance.CurrentRoom.CollisionBox.Top + 100)
-                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom-220))
+                   && !((Position.Y + Sprite.Height / 2 + (velocity.Y * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Bottom - 220))
                    ||
                    (GameWorld.Instance.CurrentRoom.TopSideOfBigRoom //If room is topside, player is stopped from leaving, unless it's through buttom
                    && !((Position.X + Sprite.Width / 2 + (velocity.X * speed * GameWorld.Instance.DeltaTime)) > GameWorld.Instance.CurrentRoom.CollisionBox.Right - 220)
@@ -427,7 +430,7 @@ namespace Mortens_Komeback_3
                         break;
                     case ItemType.GeesusBlood:
                         (other as Item).IsAlive = false;
-                        Health += portionHelath;
+                        Health += portionHealth;
                         break;
                     case ItemType.Grail:
                         GameWorld.Instance.WinGame = true;
@@ -447,7 +450,7 @@ namespace Mortens_Komeback_3
             if (IsAlive && !GameWorld.Instance.GamePaused)
                 if (!GameWorld.Instance.GamePaused && equippedWeapon != null && !(swordAttacking || slingAttacking))
                 {
-                    if ((WeaponType)equippedWeapon.Type == WeaponType.Melee && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) //Skal rykkes ind i samme loop som equippedWeapon.Attack();
+                    if ((WeaponType)equippedWeapon.Type == WeaponType.Melee && GameWorld.Instance.Sprites.TryGetValue(PlayerType.MortenAngriber, out var sprites)) 
                     {
                         Sprites = sprites;
                         swordAttacking = true;
@@ -548,7 +551,11 @@ namespace Mortens_Komeback_3
 
         }
 
-
+        /// <summary>
+        /// Determines what to do when interaction is possible
+        /// Philip, Rikke
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void Interact(GameObject gameObject)
         {
             switch (gameObject.Type)

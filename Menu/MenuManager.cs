@@ -1,29 +1,30 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Mortens_Komeback_3.Command;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpDX.Direct3D9;
-using Microsoft.Xna.Framework.Media;
 
 namespace Mortens_Komeback_3.Menu
 {
     public class MenuManager
     {
-
+        #region Field
         private string text;
-
-        public bool Hovering { get; set; }
-
-
         private Menu currentMenu;
 
         private Dictionary<MenuType, Menu> menus = new Dictionary<MenuType, Menu>();
 
-      
+        #endregion
+
+        #region Properties
+        public bool Hovering { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Method
 
         public void CreateMenus()
         {
@@ -86,8 +87,8 @@ namespace Mortens_Komeback_3.Menu
             GameWorld.Instance.GamePaused = false;
         }
 
-  
 
-      
+        #endregion
+
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace Mortens_Komeback_3
 {
@@ -18,6 +13,10 @@ namespace Mortens_Komeback_3
 
         public int CurrentIndex { get; set; }
 
+        /// <summary>
+        /// Handles animation calculations
+        /// Simon
+        /// </summary>
         public void Animate()
         {
 

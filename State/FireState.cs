@@ -2,21 +2,18 @@
 using Mortens_Komeback_3.Collider;
 using Mortens_Komeback_3.Environment;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Mortens_Komeback_3.State
 {
 
     public class GoosiferFire : AvSurface
     {
-
+        #region Field
         private IState<GoosiferFire> movement;
         private Enemy shooter;
+        #endregion
 
+        #region Constructor
         /// <summary>
         /// Constructor based of AvSurface
         /// Simon
@@ -37,7 +34,9 @@ namespace Mortens_Komeback_3.State
             this.scale = 0.8f;
 
         }
+        #endregion
 
+        #region Method
         /// <summary>
         /// Handles movement and (if applicable, animation of sprites)
         /// Simon
@@ -68,20 +67,37 @@ namespace Mortens_Komeback_3.State
             base.OnCollision(other);
             movement.Exit();
         }
-
+        #endregion
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public class FireState : IState<GoosiferFire>
     {
-
+        #region Field
         private GoosiferFire parent;
         private Vector2 direction;
         private float lifetime = -5f;
         private float speed = 700f;
+        #endregion
 
-
+        #region Properties
         public bool OverridesPathfinding { get; set; }
+        #endregion
 
+        #region Method
         /// <summary>
         /// Handles starting logic of the State
         /// Simon
@@ -126,15 +142,16 @@ namespace Mortens_Komeback_3.State
 
         /// <summary>
         /// Gets radians for rotation of object to simulate the direction of the fireball (Old bit from another issue ChatGPT helped with)
+        /// Simon
         /// </summary>
-        /// <returns>Radians - Pi</returns>
+        /// <returns>Radians</returns>
         private float GetAngle()
         {
             Vector2 direction = parent.Position - Player.Instance.Position;
             float angleRadians = (float)Math.Atan2(direction.Y, direction.X);
             return angleRadians;
         }
-
+        #endregion
     }
 
 }

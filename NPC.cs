@@ -1,19 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using System.Collections.Generic;
-using System.IO;
+using Mortens_Komeback_3.Collider;
+using Mortens_Komeback_3.Environment;
 using System;
 using System.Diagnostics;
-using Mortens_Komeback_3.Command;
-using Mortens_Komeback_3.Collider;
-using Mortens_Komeback_3.Factory;
-using Mortens_Komeback_3.Puzzles;
-using Mortens_Komeback_3.Environment;
-using Mortens_Komeback_3.Menu;
-using Microsoft.Data.Sqlite;
 
 namespace Mortens_Komeback_3
 {
@@ -155,7 +145,7 @@ namespace Mortens_Komeback_3
         public void Speak()
         {
             Player.Instance.Speed = 0f;
-            Player.Instance.Position = Position - new Vector2(Sprite.Width/2 + Player.Instance.Sprite.Width, 0);
+            //Player.Instance.Position = Position - new Vector2(Sprite.Width/2 + Player.Instance.Sprite.Width, 0);
              
             switch (type)
             {
@@ -163,7 +153,7 @@ namespace Mortens_Komeback_3
                     CanadaGooseDialogue();
                     break;
                 case NPCType.Pope:
-                    Player.Instance.Position = Position + new Vector2(Sprite.Width / 2 + Player.Instance.Sprite.Width, 0);//new Vector2(75, 0);
+                    //Player.Instance.Position = Position + new Vector2(Sprite.Width / 2 + Player.Instance.Sprite.Width, 0);//new Vector2(75, 0);
                     PopeDialogue();
                     break;
                 case NPCType.Monk:
@@ -176,11 +166,11 @@ namespace Mortens_Komeback_3
                     CoffinDialogue();
                     break;
                 case NPCType.Hole0:
-                    Player.Instance.Position += new Vector2(0, 30);
+                    //Player.Instance.Position += new Vector2(0, 30);
                     Holo0Dialogue();
                     break;
                 case NPCType.Empty:
-                    EmptyDialogoue();
+                    EmptyDialogue();
                     break;
                 case NPCType.Ghost:
                     GhostDialogue();
@@ -367,7 +357,7 @@ namespace Mortens_Komeback_3
         /// NPCType Coffin dialogue
         /// Rikke
         /// </summary>
-        private void CoffinDialogue()
+        public void CoffinDialogue()
         {
             if (coffinHint == true && reply == 0)
             {
@@ -389,8 +379,11 @@ namespace Mortens_Komeback_3
             }
         }
 
-
-        private void ChestDialogue()
+        /// <summary>
+        /// NPCType Chest dialogue
+        /// Rikke
+        /// </summary>
+        public void ChestDialogue()
         {
             if (reply == 0)
             {
@@ -414,7 +407,7 @@ namespace Mortens_Komeback_3
         /// NPCType Holo0 dialogue
         /// Rikke
         /// </summary>
-        private void Holo0Dialogue()
+        public void Holo0Dialogue()
         {
             if (reply == 0)
             {
@@ -430,8 +423,11 @@ namespace Mortens_Komeback_3
             }
         }
 
-
-        private void EmptyDialogoue()
+        /// <summary>
+        /// NPCType Empty dialogue - used to end the cutscene and move Player to Poperoom
+        /// Rikke
+        /// </summary>
+        public void EmptyDialogue()
         {
             StartConversation();
             npcText = "";
@@ -441,8 +437,11 @@ namespace Mortens_Komeback_3
 
         }
 
-
-        private void GhostDialogue()
+        /// <summary>
+        /// NPCType Ghost dialogue
+        /// Rikke
+        /// </summary>
+        public void GhostDialogue()
         {
             if (reply == 0)
             {

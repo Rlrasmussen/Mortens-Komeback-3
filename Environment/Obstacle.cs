@@ -1,25 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Mortens_Komeback_3.Collider;
+using System;
 
 namespace Mortens_Komeback_3.Environment
 {
     class Obstacle : GameObject, ICollidable
     {
+        #region Field
         private bool movable;
         private Vector2 velocity;
         private int speed = 500;
         private Room obstacleRoom;
         private Vector2 originalPosition;
+        #endregion
 
+        #region Properties
         public bool Movable { get => movable; set => movable = value; }
         public Vector2 OriginalPosition { get => originalPosition; set => originalPosition = value; }
+        #endregion
 
+        #region Constructor
         /// <summary>
         /// An obstacle that can be collided with, and potentialy moved.
         /// </summary>
@@ -32,6 +32,10 @@ namespace Mortens_Komeback_3.Environment
             this.obstacleRoom = room;
             OriginalPosition = spawnPos;
         }
+
+        #endregion
+
+        #region Method
 
         public override void Update(GameTime gameTime)
         {
@@ -116,5 +120,7 @@ namespace Mortens_Komeback_3.Environment
                 }
             }
         }
+        
+        #endregion
     }
 }

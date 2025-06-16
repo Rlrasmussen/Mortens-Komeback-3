@@ -1,22 +1,21 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System.Collections.Generic;
-using System.IO;
-using System;
-using System.Diagnostics;
-using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Collider;
-using Mortens_Komeback_3.Factory;
-using Mortens_Komeback_3.Puzzles;
+using Mortens_Komeback_3.Command;
 using Mortens_Komeback_3.Environment;
+using Mortens_Komeback_3.Factory;
 using Mortens_Komeback_3.Menu;
-using Mortens_Komeback_3.State;
-using Microsoft.Data.Sqlite;
 using Mortens_Komeback_3.Observer;
-using System.Threading;
+using Mortens_Komeback_3.Puzzles;
+using Mortens_Komeback_3.State;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 
 namespace Mortens_Komeback_3
 {
@@ -35,21 +34,17 @@ namespace Mortens_Komeback_3
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
-        public Dictionary<EnemyType, (int health, int damage, float speed)> EnemyStats = new Dictionary<EnemyType, (int health, int damage, float speed)>();
-        public Dictionary<Enum, List<RectangleData>> RectangleDatas = new Dictionary<Enum, List<RectangleData>>();
         public SpriteFont GameFont;
         private float deltaTime;
-        private bool gamePaused = false;
         private bool gameRunning = true;
+        private bool gamePaused = false;
         public List<GameObject> gamePuzzles = new List<GameObject>();
         public List<GameObject> npcs = new List<GameObject>();
-
+        private List<IObserver> listeners = new List<IObserver>();
         private string dbBasePath = AppDomain.CurrentDomain.BaseDirectory;
         public SqliteConnection Connection;
-
-        private float spawnCutsceneTime = 5f;
-        private float lastSpawnCutscene = 0f;
-        private List<IObserver> listeners = new List<IObserver>();
+        public Dictionary<EnemyType, (int health, int damage, float speed)> EnemyStats = new Dictionary<EnemyType, (int health, int damage, float speed)>();
+        public Dictionary<Enum, List<RectangleData>> RectangleDatas = new Dictionary<Enum, List<RectangleData>>();
         private Status status;
         private Room currentRoom;
 
@@ -58,7 +53,6 @@ namespace Mortens_Komeback_3
         private float rotationRight = (float)(Math.PI / 2);
         private float rotationBottom = (float)(Math.PI);
         private float rotationLeft = (float)(-Math.PI / 2);
-
         private Button myButton;
         public List<Button> buttonList = new List<Button>();
         public MenuType CurrentMenu { get; set; }
@@ -69,6 +63,7 @@ namespace Mortens_Komeback_3
         private Song songPlaying;
 
         private bool trap = false;
+        private bool deathMusic = false;
 
         private bool win = false;
         private float regularChecks = 0f;
@@ -76,8 +71,6 @@ namespace Mortens_Komeback_3
         #endregion
 
         #region Properties
-        public MenuManager MenuManager { get; set; }
-        public Vector2 ScreenSize { get; private set; }
 
         /// <summary>
         /// Handles mouse left-click event and external detection thereof
@@ -135,6 +128,9 @@ namespace Mortens_Komeback_3
         public bool RestartGame { get; set; } = false;
         public bool WinGame { get; set; } = false;
         public bool IgnoreSoundEffect { get; set; }
+        public MenuType CurrentMenu { get; set; }
+        public MenuManager MenuManager { get; set; }
+        public Vector2 ScreenSize { get; private set; }
 
         public Room CurrentRoom
         {
@@ -171,6 +167,7 @@ namespace Mortens_Komeback_3
             }
         }
         public bool Reload { get; set; }
+        public bool DeathMusic { get => deathMusic; set => deathMusic = value; }
 
         #endregion
 
@@ -399,13 +396,19 @@ namespace Mortens_Komeback_3
             #region Chances of background music in some rooms
             if (WinGame == true && backgroundMusic != Music[MusicTrack.Win])
             {
-                //WinGame = false;
                 status.OnNotify(StatusType.Win);
                 backgroundMusic = Music[MusicTrack.Win];
                 if (MediaPlayer.IsMuted == false)
                 {
                     MediaPlayer.Play(backgroundMusic);
                 }
+            }
+                MediaPlayer.Play(backgroundMusic);
+            }
+            else if (DeathMusic == true && backgroundMusic != Music[MusicTrack.Death] )
+            {
+                backgroundMusic = Music[MusicTrack.Death];
+                MediaPlayer.Play(backgroundMusic);
             }
             else if (backgroundMusic != Music[MusicTrack.GoosiferFigth] && CurrentRoom == DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) && WinGame == false)
             {
@@ -416,6 +419,9 @@ namespace Mortens_Komeback_3
                 }
             }
             else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH))
+                MediaPlayer.Play(backgroundMusic);
+            }
+            else if (backgroundMusic != Music[MusicTrack.Background] && CurrentRoom != DoorManager.Rooms.Find(x => x.RoomType is RoomType.CatacombesH) && DeathMusic == false)
             {
                 backgroundMusic = Music[MusicTrack.Background];
                 if (MediaPlayer.IsMuted == false)
@@ -447,13 +453,6 @@ namespace Mortens_Komeback_3
                 npcs.Add(ghost);
             }
 
-
-
-            //if (win)
-            //{
-            //    GameWorld.Instance.Notify(StatusType.Win);
-            //}
-
             if (RestartGame)
                 Restart(Reload);
 
@@ -470,7 +469,6 @@ namespace Mortens_Komeback_3
             {
                 regularChecks = 0f;
                 CurrentRoom = DoorManager.Rooms.Find(x => Player.Instance.CollisionBox.Intersects(x.CollisionBox));
-                //CurrentRoom?.UpdateDoorsLockedState(); //test
             }
 
             //Player stans still i Cutscene room
@@ -504,7 +502,7 @@ namespace Mortens_Komeback_3
             foreach (GameObject gameObject in gameObjects)
             {
 
-                if ((float)Math.Abs(gameObject.Position.Y - Camera.Instance.Position.Y) > 1700)
+                if ((float)Math.Abs(gameObject.Position.Y - Camera.Instance.Position.Y) > 1700) // only objects within 1700 pixels on the Y-axis is drawn
                     continue;
 
                 gameObject.Draw(_spriteBatch);
@@ -559,12 +557,12 @@ namespace Mortens_Komeback_3
 
         /// <summary>
         /// Bruges eksternt som "GameWorld.Instance.SpawnObject(obj)" til at tilføje nye aktive objekter, og udskriver til Debugkonsollen hvad der er blevet tilføjet ud fra enum'et der er anvendt i konstruktøren
+        /// Simon
         /// </summary>
         /// <param name="gameObject"></param>
         public void SpawnObject(GameObject gameObject)
         {
 
-            //if (!gameObjects.Contains(gameObject) && !newGameObjects.Contains(gameObject))
             newGameObjects.Add(gameObject);
 #if DEBUG
             Debug.WriteLine(gameObject.ToString() + " added to spawnlist");
@@ -914,11 +912,12 @@ namespace Mortens_Komeback_3
         }
 
         /// <summary>
-        /// Adds locations to a dictionary
+        /// Adds locations to a dictionary, used for saving a set position for player when loading a save
         /// Simon
         /// </summary>
         private void AddLocations()
         {
+
             Locations.Add(Location.Spawn, new Vector2(0, -2000));
             Locations.Add(Location.Test, new Vector2(500, 0));
             Locations.Add(Location.PuzzleOne, new Vector2(530, 2000));
@@ -1023,6 +1022,7 @@ namespace Mortens_Komeback_3
                     nearbyEnemies.Add((Enemy)gameObject);
 
             return nearbyEnemies;
+
         }
 
 #if DEBUG
@@ -1061,14 +1061,6 @@ namespace Mortens_Komeback_3
         private void GetEnemyStats()
         {
 
-            //try
-            //{
-
-            //    using (Connection)
-            //    {
-
-            //        Connection.Open();
-
             string commandText = "SELECT * FROM EnemyTypes"; //Retrieves all data from all rows in the table EnemyTypes
             SqliteCommand command = new SqliteCommand(commandText, Connection);
             SqliteDataReader reader = command.ExecuteReader();
@@ -1080,16 +1072,6 @@ namespace Mortens_Komeback_3
 
             while (reader.Read())
                 EnemyStats.Add((EnemyType)reader.GetInt32(id), (reader.GetInt32(health), reader.GetInt32(damage), reader.GetFloat(speed))); //Puts all the data into a Dictionary with EnemyType as its key and a named tuple with all the values retrieved
-
-            //    }
-
-            //}
-            //catch
-            //{
-
-            //    throw new Exception("Method GameWorld.GetEnemyStats didn't execute properly");
-
-            //}
 
         }
 
@@ -1118,11 +1100,13 @@ namespace Mortens_Komeback_3
         }
 
         #endregion
+        #region menu metoder
+
         /// <summary>
+        /// Determines an course of action dependant on parameter given
         /// Irene
         /// </summary>
-        /// <param name="action"></param>
-        #region menu metoder
+        /// <param name="action">Desired action of given button</param>
         public void HandleButtonAction(ButtonAction action)
         {
             switch (action)
@@ -1176,6 +1160,10 @@ namespace Mortens_Komeback_3
             }
         }
 
+        /// <summary>
+        /// Initializes game
+        /// Irene
+        /// </summary>
         public void StartGame()
         {
             // Sætter spillet i gang – fx ved at skifte til spilverden
@@ -1183,33 +1171,43 @@ namespace Mortens_Komeback_3
             MediaPlayer.Play(Music[MusicTrack.Background]); // Eksempel på baggrundsmusik
         }
 
+        /// <summary>
+        /// Shuts down game
+        /// Irene
+        /// </summary>
         public void ExitGame()
         {
             GameWorld.Instance.Exit(); // Lukker spillet
         }
 
+        /// <summary>
+        /// Currently only runs StartGame()
+        /// Irene
+        /// </summary>
         public void ClearSaveAndRestart()
         {
-            // Sletter evt. gemt data (hvis relevant)
-            //new ClearSaveCommand(); // Hvis du har en save manager
             StartGame(); // Genstarter spillet
         }
 
+        /// <summary>
+        /// Unpauses game
+        /// Irene
+        /// </summary>
         public void ResumeGame()
         {
             CurrentMenu = MenuType.Playing;
-            //MediaPlayer.Resume(); // Fortsætter musikken, hvis den blev pauset
-            //if (MediaPlayer.IsMuted == false)
-            //{
-            //    MediaPlayer.Play(Music[MusicTrack.Background]);
-            //}
-
+            
             GameWorld.Instance.MenuManager.CloseMenu();
             gamePaused = false;
         }
 
         #endregion
 
+        /// <summary>
+        /// Clears relevant Lists, Fields and Properties for new data input
+        /// Simon
+        /// </summary>
+        /// <param name="reload"></param>
         public void Restart(bool reload = false)
         {
 
@@ -1231,20 +1229,18 @@ namespace Mortens_Komeback_3
             foreach (Room room in DoorManager.Rooms)
             {
                 room.DespawnEnemies();
-                //room?.UpdateDoorsLockedState();//test
-
             }
             EnemyPool.Instance.DeepClear();
             ProjectilePool.Instance.DeepClear();
             Player.Instance.Inventory.Clear();
             Player.Instance.EquippedWeapon = null;
 
-            if (!reload)
+            if (!reload) //Only runs if a full restart is desired
             {
                 Player.Instance.Position = Locations[Location.Spawn];
                 SavePoint.ClearSave();
             }
-
+            trap = false;
             LoadContent();
             RestartGame = false;
             Reload = false;

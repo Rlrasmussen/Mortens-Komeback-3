@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mortens_Komeback_3
 {
@@ -38,8 +34,15 @@ namespace Mortens_Komeback_3
 #endif
 
             layer = 0.8f;
+
+            if (Sprite != null)
+                scale = (float)(GameWorld.Instance.ScreenSize.Y / Sprite.Height);
+
         }
 
+        #endregion
+
+        #region Method
         public override void Update(GameTime gameTime)
         {
             (this as IAnimate).Animate();
@@ -70,9 +73,6 @@ namespace Mortens_Komeback_3
                 spriteBatch.DrawString(GameWorld.Instance.GameFont, end, new Vector2(0, -2000) + new Vector2(-700, 400), Color.Black, 0f, Vector2.Zero, 1.9f, SpriteEffects.None, layer + 0.05f);
             }
         }
-        #endregion
-
-        #region Method
 
         #endregion
     }

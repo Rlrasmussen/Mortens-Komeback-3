@@ -1,12 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using System.Collections.Generic;
 using System;
-using System.Diagnostics;
-using Mortens_Komeback_3.Command;
+using System.Collections.Generic;
 
 namespace Mortens_Komeback_3.Factory
 {
@@ -109,6 +103,10 @@ namespace Mortens_Komeback_3.Factory
 
         }
 
+        /// <summary>
+        /// Method to ensure no accidental overflow of date from old playthough passes through
+        /// Simon
+        /// </summary>
         public void DeepClear()
         {
             active.Clear();
